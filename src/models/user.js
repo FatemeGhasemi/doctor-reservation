@@ -5,15 +5,17 @@ const userSchema = async () => {
 //
     const User = await sequelize.define('user', {
         firstName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+
         },
         lastName: {
             type: Sequelize.STRING
         }
     });
     await User.sync({force: true})
+
 }
 module.exports={userSchema}
