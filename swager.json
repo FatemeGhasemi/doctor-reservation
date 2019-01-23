@@ -1,0 +1,677 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample Petstore server.  You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n",
+    "version": "v1",
+    "title": "doctor-reservation"
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "Operations about user"
+    },
+    {
+      "name": "doctors",
+      "description": "Operations about doctor"
+    },
+    {
+      "name": "secretaries",
+      "description": "Operations about secretary"
+    },
+    {
+      "name": "categories",
+      "description": "Operations about category"
+    },
+    {
+      "name": "reservations",
+      "description": "Operations about reservation"
+    },
+    {
+      "name": "offices",
+      "description": "Operations about office"
+    }
+  ],
+  "paths": {
+    "/offices": {
+      "post": {
+        "tags": [
+          "offices"
+        ],
+        "summary": "Create office",
+        "operationId": "createOffice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created office object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "offices"
+        ],
+        "summary": "Update office",
+        "operationId": "updateOffice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Update office object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "offices"
+        ],
+        "summary": "Get offices list",
+        "operationId": "getUserList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "officeInfo",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/OfficeResult"
+            }
+          }
+        }
+      }
+    },
+
+    "/doctors": {
+      "post": {
+        "tags": [
+          "doctors"
+        ],
+        "summary": "Create doctor",
+        "operationId": "createDoctor",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created doctor object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "doctors"
+        ],
+        "summary": "Update doctor",
+        "operationId": "updateDoctor",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Update doctor object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "doctors"
+        ],
+        "summary": "Get doctors list",
+        "operationId": "getUserList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "doctorInfo",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DoctorResult"
+            }
+          }
+        }
+      }
+    },
+
+    "/secretaries": {
+      "post": {
+        "tags": [
+          "secretaries"
+        ],
+        "summary": "Create secretary",
+        "operationId": "createSecretary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created secretary object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Secretary"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "secretaries"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Update office object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Secretary"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "offices"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "secretaryInfo",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/SecretaryResult"
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "post": {
+        "tags": [
+          "categories"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created category object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "categories"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Update category object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "parent",
+            "required": true,
+            "schema": {
+              "default": null
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CategoryResult"
+            }
+          }
+        }
+      }
+    },
+
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": ""
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "403": {
+            "description": "unAuthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get users list",
+        "operationId": "getUserList",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "default": "admin-token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/User"
+                  }
+                }
+
+              }
+
+
+            }
+          },
+          "403": {
+            "description": "unAuthorized"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "SecretaryResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "secretaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Secretary"
+          }
+        }
+      }
+    },
+    "Secretary": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "flag": {
+          "type": "boolean"
+        }
+
+      },
+      "Doctor": {
+        "type": "object",
+        "properties": {
+          "officeId": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+          "userId": {
+            "type": "integer"
+          },
+          "flag": {
+            "type": "boolean"
+          }
+        },
+          "SecretaryResult": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "secretaries": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Secretary"
+                }
+              }
+            }
+          },
+
+
+
+
+
+
+
+
+
+
+
+      "xml": {
+        "name": "Tag"
+      }
+    }
+  },
+  "basePath": "/api/v1/",
+  "schemes": [
+    "http"
+  ]
+}
+
+

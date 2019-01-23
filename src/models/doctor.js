@@ -9,6 +9,9 @@ const doctorSchema = async () => {
         },
         userId: {
             type: Sequelize.INTEGER
+        },
+        flag:{
+            type:Sequelize.BOOLEAN
         }
 
     });
