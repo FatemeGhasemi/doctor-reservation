@@ -3,7 +3,7 @@ const db = require('../db/sequelize-connection');
 const officeSchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
-    const Office = await sequelize.define('user', {
+    const Office = await sequelize.define('office', {
 
         phoneNumber: {
             type: Sequelize.STRING

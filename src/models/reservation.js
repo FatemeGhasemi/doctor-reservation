@@ -3,7 +3,7 @@ const db = require('../db/sequelize-connection');
 const reservationSchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
-    const Reservation = await sequelize.define('user', {
+    const Reservation = await sequelize.define('reservation', {
 
         start: {
             type: Sequelize.DATE,

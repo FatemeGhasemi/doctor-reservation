@@ -3,7 +3,7 @@ const db = require('../db/sequelize-connection');
 const doctorSchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
-    const Doctor = await sequelize.define('user', {
+    const Doctor = await sequelize.define('doctor', {
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER)
         },
