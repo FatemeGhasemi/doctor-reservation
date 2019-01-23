@@ -4,7 +4,7 @@ const init = async (Sequelize)=> {
         host: process.env.SEQUELIZE_HOST,
         port: process.env.POSTGRES_PORT,
     });
-    sequelize
+    await sequelize
     .authenticate()
         .then(() => {
             console.log('Connection has been established successfully.'+process.env.DATABASE_NAME);
