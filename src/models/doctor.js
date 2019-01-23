@@ -7,10 +7,9 @@ const doctorSchema = async () => {
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER)
         },
-        name: {
-            type: Sequelize.STRING
+        userId: {
+            type: Sequelize.INTEGER
         }
-
 
     });
     await Doctor.sync({force: true})
