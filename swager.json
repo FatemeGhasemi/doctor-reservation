@@ -146,7 +146,6 @@
         }
       }
     },
-
     "/doctors": {
       "post": {
         "tags": [
@@ -261,7 +260,6 @@
         }
       }
     },
-
     "/secretaries": {
       "post": {
         "tags": [
@@ -450,7 +448,7 @@
             "name": "parent",
             "required": true,
             "schema": {
-              "default": null
+              "type": "string"
             }
           },
           {
@@ -458,7 +456,7 @@
             "name": "name",
             "required": false,
             "schema": {
-              "default": ""
+              "type": "string"
             }
           },
           {
@@ -466,7 +464,7 @@
             "name": "begin",
             "required": false,
             "schema": {
-              "default": 0
+              "type": "string"
             }
           },
           {
@@ -474,7 +472,7 @@
             "name": "total",
             "required": false,
             "schema": {
-              "default": 10
+              "type": "string"
             }
           }
         ],
@@ -488,7 +486,6 @@
         }
       }
     },
-
     "/users": {
       "post": {
         "tags": [
@@ -498,8 +495,7 @@
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "parameters": [
           {
@@ -516,11 +512,10 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": ""
+              "type": "string"
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "successful operation",
@@ -540,8 +535,7 @@
         "summary": "Get users list",
         "operationId": "getUserList",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "parameters": [
           {
@@ -549,7 +543,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+              "type": "string"
             }
           }
         ],
@@ -567,10 +561,7 @@
                     "$ref": "#/definitions/User"
                   }
                 }
-
               }
-
-
             }
           },
           "403": {
@@ -581,8 +572,31 @@
     }
   },
   "definitions": {
+    "CategoryResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        }
+      }
+    },
+    "Category": {
+      "type": "string"
+    },
+    "OfficeResult": {
+      "type": "string"
+    },
     "User": {
       "type": "object",
+      "required": [
+        "phoneNumber"
+      ],
       "properties": {
         "firstName": {
           "type": "string"
@@ -601,7 +615,7 @@
         "message": {
           "type": "string"
         },
-        "secretaries": {
+        "result": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Secretary"
@@ -621,53 +635,72 @@
         "flag": {
           "type": "boolean"
         }
-
-      },
+      }
+    }
+  ,
       "Doctor": {
         "type": "object",
+        "required": [
+          "phoneNumber","firstName","lastName","category"
+        ],
         "properties": {
-          "officeId": {
+          "phoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "description":{
+            "type": "string",
+            "default": "توضیحات ممکن است مثلا متخصص قبل و عروق باشد که از category متفاوت است"
+          },
+          "categoryId":{
+            "type": "integer"
+          },
+          "officeIds": {
             "type": "array",
             "items": {
               "type": "integer"
-            },
-          "userId": {
-            "type": "integer"
-          },
-          "flag": {
-            "type": "boolean"
-          }
-        },
-          "SecretaryResult": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string"
-              },
-              "secretaries": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Secretary"
-                }
-              }
             }
           },
-
-
-
-
-
-
-
-
-
-
-
-      "xml": {
-        "name": "Tag"
-      }
-    }
-  },
+          "isApproved": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        }
+      },
+      "DoctorResult": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      },
+      "Office": {
+        "type": "object",
+        "required": [
+          "phoneNumber"
+        ],
+        "properties": {
+          "phoneNumber": {
+            "type": "string"
+          },
+            "flag": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
   "basePath": "/api/v1/",
   "schemes": [
     "http"
