@@ -12,16 +12,26 @@ const deactivateDoctor = async (userId) => {
 //    TODO return deactivated user
 };
 
-const searchDoctorFullText = async (filter)=>{
+
+const searchDoctorFullText = async (filter) => {
 //    TODO return doctor list
 };
 
-const searchDoctorByCategory=(categoryId,begin=0,total=10)=>{
+
+const searchDoctorByCategory = (categoryId, begin = 0, total = 10) => {
 //    TODO return doctor list
 }
 
-const createDoctorUser = async (phoneNumber,firstName,lastName,categoryId,description = "",officeIds=[])=>{
+
+const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
 //    TODO return doctor data
 }
 
-module.exports={activateAsDoctor,updateDoctorData,deactivateDoctor}
+module.exports = {
+    activateAsDoctor,
+    updateDoctorData,
+    deactivateDoctor,
+    searchDoctorByCategory,
+    createDoctorUser,
+    searchDoctorFullText
+}
