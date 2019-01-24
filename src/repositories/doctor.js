@@ -1,5 +1,5 @@
 const activateAsDoctor = async (id, officeId,) => {
-//TODO should return created new doctor
+//TODO should return activate doctor data
 };
 
 
