@@ -13,7 +13,7 @@ const deactivateDoctor = async (id) => {
 };
 
 
-const searchDoctorFullText = async (filter) => {
+const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
 //    TODO return doctor list
 };
 
