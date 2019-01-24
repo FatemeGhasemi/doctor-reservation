@@ -4,20 +4,29 @@ const reservationSchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
     const Reservation = await sequelize.define('reservation', {
-
-        start: {
+        doctorId: {
+            type: Sequelize.INTEGER,
+            required: true
+        },
+        startTime: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        finish: {
+        finishTime: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
         counter: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            required: true
+        },
+        flag:{
+            type:Sequelize.BOOLEAN,
+            readOnly:true,
+            default:true
         }
 
     });
     await Reservation.sync({force: true})
 }
-module.exports={reservationSchema}
+module.exports = {reservationSchema}
