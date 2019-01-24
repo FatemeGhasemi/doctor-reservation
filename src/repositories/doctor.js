@@ -12,3 +12,4 @@ const deactivateDoctor = async (userId) => {
 //    TODO return deactivated user
 };
 
+module.exports={activateAsDoctor,updateDoctorData,deactivateDoctor}

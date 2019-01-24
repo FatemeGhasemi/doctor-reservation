@@ -868,7 +868,7 @@
         "lastName": {
           "type": "string"
         },
-        "flag": {
+        "isApproved": {
           "type": "boolean",
           "readOnly": "true"
         }
