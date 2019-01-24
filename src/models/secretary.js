@@ -4,14 +4,23 @@ const secretarySchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
     const Secretary = await sequelize.define('secretary', {
-        mobile: {
-            type: Sequelize.STRING
+        firstName: {
+            type: Sequelize.STRING,
+            required:true
+
         },
-        userId: {
-            type: Sequelize.INTEGER
+        lastName: {
+            type: Sequelize.STRING,
+            required:true
         },
-        flag: {
-            type: Sequelize.BOOLEAN
+        phoneNumber: {
+            type: Sequelize.STRING,
+            required:true
+        },
+        isApproved: {
+            type: Sequelize.BOOLEAN,
+            readOnly:true,
+            default:false,
         }
 
 
