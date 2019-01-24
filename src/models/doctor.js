@@ -7,10 +7,22 @@ const doctorSchema = async () => {
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER)
         },
-        userId: {
-            type: Sequelize.INTEGER
+        firstName: {
+            type: Sequelize.STRING
         },
-        flag:{
+        lastName: {
+            type: Sequelize.STRING
+        },
+        categoryId: {
+            type: Sequelize.STRING
+        },
+        phoneNumber: {
+            type: Sequelize.STRING
+        },
+        description: {
+            type: Sequelize.STRING
+        },
+        isApproved:{
             type:Sequelize.BOOLEAN
         }
 
