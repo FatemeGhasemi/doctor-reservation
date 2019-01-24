@@ -8,8 +8,8 @@ const updateUser = async (phoneNumber, data) => {
 };
 
 
-const findUserByPhoneNumber = async (phoneNumber) => {
-//    TODO return found user
+const searchUserFullText = async (filter) => {
+//    TODO return  user list
 };
 
 
@@ -23,18 +23,23 @@ const deactivateUser = async (phoneNumber) => {
 };
 
 
-const addFavorite = (phoneNumber,data) => {
+const addFavorite = (phoneNumber, data) => {
 //    TODO return favorite data
 };
 
 
-const removeFavorite = (phoneNumber,data) => {
+const removeFavorite = (phoneNumber, data) => {
 //    TODO return favorite data
 };
 
 
-const finddFavorites = (phoneNumber,data) => {
-//    TODO return favorite data
-};
-
+module.exports = {
+    activateUser,
+    createUser,
+    updateUser,
+    searchUserFullText,
+    deactivateUser,
+    addFavorite,
+    removeFavorite,
+}
 
