@@ -8,10 +8,11 @@ const officeSchema = async () => {
         phoneNumber: {
             type: Sequelize.STRING
         },
-        location: {
-            type: Sequelize.ARRAY(Sequelize.DECIMAL)
-            // type:Sequelize.GEOMETRY
-
+        lat: {
+            type: Sequelize.DECIMAL
+        },
+        long: {
+            type: Sequelize.DECIMAL
         },
         type: {
             type: Sequelize.STRING

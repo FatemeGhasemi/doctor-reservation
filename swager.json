@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a sample Petstore server.  You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n",
+    "description": "This is API of reservation doctor",
     "version": "v1",
     "title": "doctor-reservation"
   },
@@ -57,7 +57,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+            "type": "string"
             }
           }
         ],
@@ -91,7 +91,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+            "type": "string"
             }
           }
         ],
@@ -113,7 +113,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "officeInfo",
+            "name": "filter",
             "required": false,
             "schema": {
               "default": ""
@@ -171,7 +171,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+              "type": "string"
             }
           }
         ],
@@ -205,7 +205,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+            "type": "string"
             }
           }
         ],
@@ -227,7 +227,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "doctorInfo",
+            "name": "filter",
             "required": false,
             "schema": {
               "default": ""
@@ -285,7 +285,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+            "type": "string"
             }
           }
         ],
@@ -317,7 +317,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+            "type": "string"
             }
           }
         ],
@@ -329,7 +329,7 @@
       },
       "get": {
         "tags": [
-          "offices"
+          "secretaries"
         ],
         "produces": [
           "application/json"
@@ -337,7 +337,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "secretaryInfo",
+            "name": "filter",
             "required": false,
             "schema": {
               "default": ""
@@ -393,7 +393,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+              "type": "string"
             }
           }
         ],
@@ -425,7 +425,7 @@
             "name": "admin-token",
             "required": true,
             "schema": {
-              "default": "admin-token"
+              "type": "string"
             }
           }
         ],
@@ -464,7 +464,7 @@
             "name": "begin",
             "required": false,
             "schema": {
-              "type": "string"
+              "default": 0
             }
           },
           {
@@ -472,7 +472,7 @@
             "name": "total",
             "required": false,
             "schema": {
-              "type": "string"
+              "default": 10
             }
           }
         ],
@@ -482,6 +482,141 @@
             "schema": {
               "$ref": "#/definitions/CategoryResult"
             }
+          }
+        }
+      }
+    },
+    "/reservations": {
+      "post": {
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Create reservations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "reservation",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "403": {
+            "description": "unAuthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "reservations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          {
+            "in": "header",
+            "name": "json-token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "reservations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          },
+          {
+            "in": "header",
+            "name": "admin-token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Reservation"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "unAuthorized"
           }
         }
       }
@@ -509,7 +644,7 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "json-token",
             "required": true,
             "schema": {
               "type": "string"
@@ -528,6 +663,37 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "in": "header",
+            "name": "json-token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
       "get": {
         "tags": [
           "users"
@@ -538,6 +704,30 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "required": false,
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "total",
+            "required": false,
+            "schema": {
+              "default": 10
+            }
+          },
           {
             "in": "header",
             "name": "admin-token",
@@ -587,10 +777,33 @@
       }
     },
     "Category": {
-      "type": "string"
+      "type": "object",
+      "required": [
+        "parent","name"
+      ],
+      "properties": {
+        "parent": {
+          "type": "string",
+          "default": null
+        },
+        "name": {
+          "type": "string"
+        }
+      }
     },
     "OfficeResult": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Office"
+          }
+        }
+      }
     },
     "User": {
       "type": "object",
@@ -606,6 +819,23 @@
         },
         "phoneNumber": {
           "type": "string"
+        }
+      }
+    },
+    "Reservation": {
+      "type": "object",
+      "required": [
+        "startTime","finishTime","counter"
+      ],
+      "properties": {
+        "startTime": {
+          "type": "date"
+        },
+        "finishTime": {
+          "type": "date"
+        },
+        "counter": {
+          "type": "integer"
         }
       }
     },
@@ -625,15 +855,22 @@
     },
     "Secretary": {
       "type": "object",
+      "required": [
+        "phoneNumber","firstName","lastName"
+      ],
       "properties": {
-        "mobile": {
+        "phoneNumber": {
           "type": "string"
         },
-        "userId": {
-          "type": "integer"
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
         },
         "flag": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": "true"
         }
       }
     }
@@ -689,14 +926,24 @@
       "Office": {
         "type": "object",
         "required": [
-          "phoneNumber"
+          "phoneNumber","address","location"
         ],
         "properties": {
           "phoneNumber": {
             "type": "string"
           },
+          "address": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "string"
+          },  "long": {
+            "type": "string"
+          },
+
             "flag": {
-              "type": "boolean"
+              "type": "boolean",
+              "readOnly": true
             }
           }
         }
