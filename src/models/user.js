@@ -9,6 +9,7 @@ const userSchema = async () => {
         },
         phoneNumber: {
             type: Sequelize.STRING,
+            required:true
 
         },
         lastName: {
