@@ -230,7 +230,15 @@
             "name": "filter",
             "required": false,
             "schema": {
-              "default": ""
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
