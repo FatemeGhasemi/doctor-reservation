@@ -1,14 +1,14 @@
-const activateAsDoctor = async (userId, officeId,) => {
+const activateAsDoctor = async (id, officeId,) => {
 //TODO should return created new doctor
 };
 
 
-const updateDoctorData = async (userId, data) => {
+const updateDoctorData = async (id, data) => {
 //    TODO return updated data
 };
 
 
-const deactivateDoctor = async (userId) => {
+const deactivateDoctor = async (id) => {
 //    TODO return deactivated user
 };
 
