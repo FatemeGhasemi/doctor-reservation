@@ -5,25 +5,36 @@ const doctorSchema = async () => {
 //
     const Doctor = await sequelize.define('doctor', {
         officeId: {
-            type: Sequelize.ARRAY(Sequelize.INTEGER)
+            type: Sequelize.ARRAY(Sequelize.INTEGER),
+            required:true
         },
         firstName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            required:true
+
         },
         lastName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            required:true
+
         },
         categoryId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            required:true
+
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            required:true
+
         },
         description: {
             type: Sequelize.STRING
         },
         isApproved:{
-            type:Sequelize.BOOLEAN
+            type:Sequelize.BOOLEAN,
+            default:false,
+            readOnly:true
         }
 
     });
