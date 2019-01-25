@@ -19,4 +19,4 @@ const userSchema = async () => {
     await User.sync({force: true})
 
 }
-module.exports={userSchema}
+module.exports={userSchema};

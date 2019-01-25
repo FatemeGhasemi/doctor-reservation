@@ -4,6 +4,11 @@ const doctorSchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
     const Doctor = await sequelize.define('doctor', {
+        userId:{
+            type:Sequelize.INTEGER,
+            required:true,
+            primaryKey:true
+        },
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
             required:true

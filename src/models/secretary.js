@@ -4,6 +4,11 @@ const secretarySchema = async () => {
     const sequelize = await db.init(Sequelize);
 //
     const Secretary = await sequelize.define('secretary', {
+        userId:{
+            type:Sequelize.INTEGER,
+            required:true,
+            primaryKey:true
+        },
         firstName: {
             type: Sequelize.STRING,
             required:true
