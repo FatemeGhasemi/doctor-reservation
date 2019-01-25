@@ -8,12 +8,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const router = express.Router();
 
-const loginRegisterUser = async (req, res) => {
+const activationAndLogin = async (req, res) => {
     try {
         if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
-            if (!userRepository.searchUserByPhoneNumber(req.body.phoneNumber)) {
-                await userRepository.createUser(req.body.phoneNumber)
-            }
             otpService.deleteOtpCode(req.body.phoneNumber);
             const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
             res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
@@ -38,5 +35,5 @@ const getOtp = async (req, res) => {
 };
 
 router.get('/', getOtp);
-router.post('/',loginRegisterUser);
+router.post('/',activationAndLogin);
 
