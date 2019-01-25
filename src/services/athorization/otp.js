@@ -1,10 +1,14 @@
+const redis = require('../../db/redis');
+
 const sendOtpMessage = async (phoneNumber, message) => {
 //    TODO call a function that send sms
 };
 
 
 const isOtpValid = async (otp, phoneNumber) => {
-    // TODO return true or false
+    const redisOtp = await redis.getFromRedis(phoneNumber);
+    if (redisOtp == otp){return true}
+    else return false
 };
 
 
@@ -14,16 +18,26 @@ const generateOtp = async (payload, expireTimeSecond) => {
 
 
 //this function integrate generateOtp function and sendOtpMessage function and handling otp service
-const sendOtpHandler = async (payload) => {
-    // TODO return otpCode
+const sendOtpHandler = async (phoneNumber) => {
+    try {
+        const otpCode = await generateOtp(phoneNumber, 15 * 60 * 60)
+        saveOtpCode(phoneNumber, otpCode);
+        await sendOtpMessage(phoneNumber, otpCode);
+        return otpCode
+    } catch (e) {
+        console.log("sendOtpHandler ERROR: ", e.message)
+    }
 };
 
 
 const saveOtpCode = (phoneNumber, otpCode) => {
-//    TODO save otp in key value pair by phone number key
+    redis.setInRedis(phoneNumber, otpCode, 15 * 60 * 60)
 };
 
 
 const deletOtpcode = (phoneNumber) => {
-//    TODO delete otp code and phone number key value pair after use code
+    redis.removeFromRedis(phoneNumber)
 };
+
+
+module.exports = {sendOtpHandler}

@@ -2,6 +2,9 @@ const express = require('express');
 app = express();
 const userRepository = require("../../repositories/user");
 const checkAdminRole = require('../../middlewares/authentication');
+const otpService = require('../../services/athorization/otp');
+const redis = require('../../db/redis');
+
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -10,9 +13,9 @@ const router = express.Router();
 const getOtp = async (req, res) => {
     try {
         console.log("req: ", req);
-        const otpCode = // TODO call a function that return otpCode
+        const otpCode = otpService.sendOtpHandler
 
-            res.status(200).json({message: otpCode})
+        res.status(200).json({message: otpCode})
     } catch (e) {
         console.log("getOtp ERROR: ", e.message);
         res.status(500).json({message: e.message})
@@ -47,7 +50,7 @@ const loginDoctor = async (req, res) => {
 const getListOfDoctors = async (req, res) => {
     try {
         const result = //TODO return doctorList
-        res.json({message: result})
+            res.json({message: result})
     } catch (e) {
         res.status(500).json({message: e.message})
     }
