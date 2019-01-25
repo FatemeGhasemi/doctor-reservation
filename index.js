@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const swaggerUi = require('swagger-ui-express');
 
-const swaggerDocument = require('./swager');
+const swaggerDocument = require('./src/swager');
 // Because production environment support ssl we should scheme of swaggerData to https to can load that in production
 if (process.env.NODE_ENVIRONMENT === 'production') {
     swaggerDocument.schemes = ['https'];
