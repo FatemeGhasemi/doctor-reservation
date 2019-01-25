@@ -3,7 +3,6 @@ app = express();
 const userRepository = require("../../repositories/user");
 const otpService = require('../../services/athorization/otp');
 const jwtService = require('../../services/athorization/jwt');
-const redis = require('../../db/redis');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -30,9 +29,7 @@ const loginRegisterUser = async (req, res) => {
 
 const getOtp = async (req, res) => {
     try {
-        console.log("req: ", req);
         const otpCode = otpService.sendOtpHandler(req.query.phoneNumber)
-
         res.status(200).json({message: otpCode})
     } catch (e) {
         console.log("getOtp ERROR: ", e.message);
