@@ -22,13 +22,10 @@ const loginRegisterUser = async (req, res) => {
         else {
             res.status(403).json({message: "un authorize"})
         }
-
     } catch (e) {
         console.log("loginRegisterUser ERROR: ", e.message)
     }
-
-
-}
+};
 
 
 const getOtp = async (req, res) => {
