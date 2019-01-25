@@ -16,7 +16,7 @@ else app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 console.log('swaggerDocument.schemes ', swaggerDocument.schemes);
 
-initializeDb.tablesCreator().then();
+// initializeDb.tablesCreator().then();
 
 
 //
