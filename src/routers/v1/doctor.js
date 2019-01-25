@@ -11,22 +11,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const router = express.Router();
 
-const getOtp = async (req, res) => {
-    try {
-        console.log("req: ", req);
-        const otpCode = otpService.sendOtpHandler
-
-        res.status(200).json({message: otpCode})
-    } catch (e) {
-        console.log("getOtp ERROR: ", e.message);
-        res.status(500).json({message: e.message})
-    }
-};
-
-
 const createNewDoctor = async (req, res) => {
     try {
-        if (await otpService.isOtpValid(req.query.otp, req.body.phoneNumber)) {
+        if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
             const doctorData = await doctorRepository.createDoctorUser(
                 req.body.phoneNumber,
                 req.body.firstName,
@@ -48,7 +35,7 @@ const createNewDoctor = async (req, res) => {
 const loginDoctor = async (req, res) => {
     try {
         if (doctorRepository.searchDoctorByPhoneNumber(req.body.phoneNumber)) {
-            if (await otpService.isOtpValid(req.query.otp, req.body.phoneNumber)) {
+            if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
                 redis.removeFromRedis(req.body.phoneNumber);
                 const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
                 res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
@@ -81,9 +68,7 @@ const getListOfDoctorsFullTextSearch = async (req, res) => {
 
 const getDoctorListController = async (req, res) => {
     try {
-        if (req.query.otp){
-            await loginDoctor(req,res)
-        }
+       
         if(req.query.categoryId){
             await getListOfDoctorsByCategory(req,res)
         }
@@ -93,6 +78,17 @@ const getDoctorListController = async (req, res) => {
         console.log("getDoctorListController ERROR: ", e.message)
     }
 };
+
+const loginRegisterController = async (req,res)=>{
+    try {
+        if ()
+        
+    }catch (e) {
+        console.log("loginRegisterController ERROR: ",e.message)
+    }
+    
+    
+}
 
 
 router.post('/', createNewDoctor);

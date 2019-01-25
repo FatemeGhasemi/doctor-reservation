@@ -1,4 +1,4 @@
-const createUser = async (phoneNumber, firstName, lastName) => {
+const createUser = async (phoneNumber) => {
 //TODO should return created user
 };
 
@@ -10,6 +10,11 @@ const updateUser = async (phoneNumber, data) => {
 
 const searchUserFullText = async (filter) => {
 //    TODO return  user list
+};
+
+
+const searchUserByPhoneNumber = async (phoneNumber) => {
+//    TODO return  user data
 };
 
 
@@ -41,5 +46,6 @@ module.exports = {
     deactivateUser,
     addFavorite,
     removeFavorite,
+    searchUserByPhoneNumber
 }
 

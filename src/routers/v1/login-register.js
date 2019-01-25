@@ -1,12 +1,40 @@
 const express = require('express');
 app = express();
+const userRepository = require("../../repositories/user");
 const otpService = require('../../services/athorization/otp');
+const jwtService = require('../../services/athorization/jwt');
+const redis = require('../../db/redis');
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 const router = express.Router();
+
+const loginRegisterUser = async (req, res) => {
+    try {
+        if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
+            if (!userRepository.searchUserByPhoneNumber(req.body.phoneNumber)) {
+                await userRepository.createUser(req.body.phoneNumber)
+            }
+            redis.removeFromRedis(req.body.phoneNumber);
+            const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
+            res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
+        }
+        else {
+            res.status(403).json({message: "un authorize"})
+        }
+
+    } catch (e) {
+        console.log("loginRegisterUser ERROR: ", e.message)
+    }
+
+
+}
+
 
 const getOtp = async (req, res) => {
     try {
         console.log("req: ", req);
-        const otpCode = otpService.sendOtpHandler
+        const otpCode = otpService.sendOtpHandler(req.query.phoneNumber)
 
         res.status(200).json({message: otpCode})
     } catch (e) {
@@ -16,4 +44,5 @@ const getOtp = async (req, res) => {
 };
 
 router.get('/', getOtp);
+router.post('/',loginRegisterUser);
 
