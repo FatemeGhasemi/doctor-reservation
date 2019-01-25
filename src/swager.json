@@ -691,7 +691,7 @@
             "name": "user",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoginRegisterRequest"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -862,7 +862,10 @@
           "type": "string"
         },
         "phoneNumber": {
-          "type": "string"
+          "type": "string",
+          "required": [
+            true
+          ]
         }
       }
     },
@@ -970,17 +973,6 @@
           "items": {
             "$ref": "#/definitions/Doctor"
           }
-        }
-      }
-    },
-    "LoginRegisterRequest": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/User"
-        },
-        "otp": {
-          "type": "string"
         }
       }
     },
