@@ -1,5 +1,5 @@
 require('dotenv').config();
-const initializeDb = require('./db/initialize-db');
+// const initializeDb = require('./db/initialize-db');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
