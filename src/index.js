@@ -10,7 +10,7 @@ const swaggerDocument = require('./swager');
 // Because production environment support ssl we should scheme of swaggerData to https to can load that in production
 if (process.env.NODE_ENVIRONMENT === 'production') {
     swaggerDocument.schemes = ['https'];
-    app.use(process.env.SWAGGER_LINK_HEROKU, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use('/api-docsdjflhdjshflsjhnsjljcmslncksncscmmcasmka', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 else app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
