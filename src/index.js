@@ -19,11 +19,11 @@ console.log('swaggerDocument.schemes ', swaggerDocument.schemes);
 initializeDb.tablesCreator().then();
 
 
-
-app.use('/api/v1/login', require('./routers/v1/login-register'));
-app.use('/api/v1/users', require('./routers/v1/user'));
-app.use('/api/v1/login', require('./routers/v1/user'));
-app.use('/api/v1/get-otp', require('./routers/v1/user'));
+//
+// app.use('/api/v1/login', require('./routers/v1/login-register'));
+// app.use('/api/v1/users', require('./routers/v1/user'));
+// app.use('/api/v1/login', require('./routers/v1/user'));
+// app.use('/api/v1/get-otp', require('./routers/v1/user'));
 
 app.listen(process.env.PORT, () => {
     console.log("Example app listening at http://%s:%s", process.env.PORT)
