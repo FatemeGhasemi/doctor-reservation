@@ -15,7 +15,7 @@ const loginRegisterUser = async (req, res) => {
             if (!userRepository.searchUserByPhoneNumber(req.body.phoneNumber)) {
                 await userRepository.createUser(req.body.phoneNumber)
             }
-            redis.removeFromRedis(req.body.phoneNumber);
+            otpService.deleteOtpCode(req.body.phoneNumber);
             const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
             res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
         }
