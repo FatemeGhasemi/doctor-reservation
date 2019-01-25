@@ -1001,7 +1001,7 @@
         "message": {
           "type": "string"
         },
-        "jwtCode": {
+        "accessToken": {
           "type": "string"
         }
       }
