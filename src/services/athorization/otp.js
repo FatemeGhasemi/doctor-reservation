@@ -40,4 +40,4 @@ const deletOtpcode = (phoneNumber) => {
 };
 
 
-module.exports = {sendOtpHandler}
+module.exports = {sendOtpHandler,isOtpValid}

@@ -1,8 +1,9 @@
 const express = require('express');
 app = express();
-const userRepository = require("../../repositories/user");
+const doctorRepository = require("../../repositories/doctor");
 const checkAdminRole = require('../../middlewares/authentication');
 const otpService = require('../../services/athorization/otp');
+const jwtService = require('../../services/athorization/jwt');
 const redis = require('../../db/redis');
 
 
@@ -24,21 +25,35 @@ const getOtp = async (req, res) => {
 
 
 const createNewDoctor = async (req, res) => {
-        try {
-            //TODO validate otpCode and then create new doctor
-
-        } catch
-            (e) {
-            res.status(500).json({message: e.message})
-        }
+    try {
+        if (await otpService.isOtpValid(req.query.otp, req.body.phoneNumber)) {
+            const doctorData = await doctorRepository.createDoctorUser(
+                req.body.phoneNumber,
+                req.body.firstName,
+                req.body.lastName,
+                req.body.categoryId,
+                req.body.officeId
+            );
+            const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
+            redis.removeFromRedis(req.body.phoneNumber);
+            res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
+        } else res.status(403).json({message: "un authorize"})
+    } catch
+        (e) {
+        res.status(500).json({message: e.message})
     }
-;
+};
 
 
 const loginDoctor = async (req, res) => {
     try {
-        // TODO check if user registered and generate jwtToken if he/she registered
-        res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtToken})
+        if (doctorRepository.searchDoctorByPhoneNumber(req.body.phoneNumber)) {
+            if (await otpService.isOtpValid(req.query.otp, req.body.phoneNumber)) {
+                redis.removeFromRedis(req.body.phoneNumber);
+                const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
+                res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
+            } else res.status(401).json({message: "un authorize"})
+        } else res.status(403).json({message: "un authorize"})
 
     } catch (e) {
         console.log("loginDoctor ERROR: ", e.message);
@@ -46,18 +61,41 @@ const loginDoctor = async (req, res) => {
     }
 };
 
-
-const getListOfDoctors = async (req, res) => {
+const getListOfDoctorsByCategory = async (req, res) => {
     try {
-        const result = //TODO return doctorList
-            res.json({message: result})
+        const result = doctorRepository.searchDoctorByCategory(req.query.categoryId)
+        res.json({message: result})
     } catch (e) {
         res.status(500).json({message: e.message})
     }
 };
 
-router.get('/', getOtp);
+const getListOfDoctorsFullTextSearch = async (req, res) => {
+    try {
+        const result = doctorRepository.searchDoctorFullText(req.query);
+        res.json({message: result})
+    } catch (e) {
+        res.status(500).json({message: e.message})
+    }
+};
+
+const getDoctorListController = async (req, res) => {
+    try {
+        if (req.query.otp){
+            await loginDoctor(req,res)
+        }
+        if(req.query.categoryId){
+            await getListOfDoctorsByCategory(req,res)
+        }
+        else await getListOfDoctorsFullTextSearch(req,res)
+
+    }catch (e) {
+        console.log("getDoctorListController ERROR: ", e.message)
+    }
+};
+
+
 router.post('/', createNewDoctor);
 router.get('/', loginDoctor);
-router.get('/', checkAdminRole.checkRolesAccess, getListOfDoctors);
+router.get('/', getDoctorListController);
 module.exports = router;

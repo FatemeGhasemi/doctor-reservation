@@ -23,6 +23,11 @@ const searchDoctorByCategory = (categoryId, begin = 0, total = 10) => {
 }
 
 
+const searchDoctorByPhoneNumber = (phoneNumber)=>{
+//    TODO return doctor data
+}
+
+
 const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
 //    TODO return doctor data
 }
@@ -33,5 +38,6 @@ module.exports = {
     deactivateDoctor,
     searchDoctorByCategory,
     createDoctorUser,
-    searchDoctorFullText
+    searchDoctorFullText,
+    searchDoctorByPhoneNumber
 }
