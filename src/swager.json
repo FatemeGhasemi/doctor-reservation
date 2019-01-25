@@ -37,8 +37,6 @@
         "tags": [
           "offices"
         ],
-        "summary": "Create office",
-        "operationId": "createOffice",
         "produces": [
           "application/json"
         ],
@@ -46,7 +44,6 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Created office object",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Office"
@@ -54,10 +51,11 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just create by approve doctor or secretary",
             "required": true,
             "schema": {
-            "type": "string"
+              "type": "string"
             }
           }
         ],
@@ -71,8 +69,6 @@
         "tags": [
           "offices"
         ],
-        "summary": "Update office",
-        "operationId": "updateOffice",
         "produces": [
           "application/json"
         ],
@@ -88,10 +84,11 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just create by approve doctor or secretary",
             "required": true,
             "schema": {
-            "type": "string"
+              "type": "string"
             }
           }
         ],
@@ -105,8 +102,6 @@
         "tags": [
           "offices"
         ],
-        "summary": "Get offices list",
-        "operationId": "getUserList",
         "produces": [
           "application/json"
         ],
@@ -151,8 +146,6 @@
         "tags": [
           "doctors"
         ],
-        "summary": "Create doctor",
-        "operationId": "createDoctor",
         "produces": [
           "application/json"
         ],
@@ -160,7 +153,6 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Created doctor object",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Doctor"
@@ -170,6 +162,7 @@
             "in": "header",
             "name": "admin-token",
             "required": true,
+            "description": "admin should approve user as a doctor",
             "schema": {
               "type": "string"
             }
@@ -185,8 +178,6 @@
         "tags": [
           "doctors"
         ],
-        "summary": "Update doctor",
-        "operationId": "updateDoctor",
         "produces": [
           "application/json"
         ],
@@ -194,7 +185,6 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Update doctor object",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Doctor"
@@ -202,10 +192,11 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just update by approve doctor or secretary",
             "required": true,
             "schema": {
-            "type": "string"
+              "type": "string"
             }
           }
         ],
@@ -219,8 +210,6 @@
         "tags": [
           "doctors"
         ],
-        "summary": "Get doctors list",
-        "operationId": "getUserList",
         "produces": [
           "application/json"
         ],
@@ -273,8 +262,6 @@
         "tags": [
           "secretaries"
         ],
-        "summary": "Create secretary",
-        "operationId": "createSecretary",
         "produces": [
           "application/json"
         ],
@@ -292,8 +279,9 @@
             "in": "header",
             "name": "admin-token",
             "required": true,
+            "description": "it should approve as a secretary by admin",
             "schema": {
-            "type": "string"
+              "type": "string"
             }
           }
         ],
@@ -322,10 +310,11 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just update by approved doctor or secretary",
             "required": true,
             "schema": {
-            "type": "string"
+              "type": "string"
             }
           }
         ],
@@ -499,7 +488,6 @@
         "tags": [
           "reservations"
         ],
-        "summary": "Create reservations",
         "produces": [
           "application/json"
         ],
@@ -515,7 +503,8 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just create by registered user, doctor or secretary",
             "required": true,
             "schema": {
               "type": "string"
@@ -552,7 +541,8 @@
           },
           {
             "in": "header",
-            "name": "json-token",
+            "name": "Authorization",
+            "description": "it can just update by who create it or doctor or secretary that related to this job",
             "required": true,
             "schema": {
               "type": "string"
@@ -599,7 +589,8 @@
           },
           {
             "in": "header",
-            "name": "admin-token",
+            "name": "Authorization",
+            "description": "it can just get list by who create it or doctor or secretary that related to this job",
             "required": true,
             "schema": {
               "type": "string"
@@ -634,28 +625,17 @@
         "tags": [
           "users"
         ],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
         "produces": [
           "application/json"
         ],
         "parameters": [
+
           {
             "in": "body",
             "name": "user",
-            "description": "Created user object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          {
-            "in": "header",
-            "name": "json-token",
-            "required": true,
-            "schema": {
-              "type": "string"
+              "$ref": "#/definitions/LoginRegisterRequest"
             }
           }
         ],
@@ -689,8 +669,9 @@
           },
           {
             "in": "header",
-            "name": "json-token",
+            "name": "Authorization",
             "required": true,
+            "description": "it should update by owner",
             "schema": {
               "type": "string"
             }
@@ -706,8 +687,6 @@
         "tags": [
           "users"
         ],
-        "summary": "Get users list",
-        "operationId": "getUserList",
         "produces": [
           "application/json"
         ],
@@ -787,7 +766,8 @@
     "Category": {
       "type": "object",
       "required": [
-        "parent","name"
+        "parent",
+        "name"
       ],
       "properties": {
         "parent": {
@@ -833,7 +813,9 @@
     "Reservation": {
       "type": "object",
       "required": [
-        "startTime","finishTime","counter"
+        "startTime",
+        "finishTime",
+        "counter"
       ],
       "properties": {
         "startTime": {
@@ -864,7 +846,9 @@
     "Secretary": {
       "type": "object",
       "required": [
-        "phoneNumber","firstName","lastName"
+        "phoneNumber",
+        "firstName",
+        "lastName"
       ],
       "properties": {
         "phoneNumber": {
@@ -881,81 +865,96 @@
           "readOnly": "true"
         }
       }
-    }
-  ,
-      "Doctor": {
-        "type": "object",
-        "required": [
-          "phoneNumber","firstName","lastName","category"
-        ],
-        "properties": {
-          "phoneNumber": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "description":{
-            "type": "string",
-            "default": "توضیحات ممکن است مثلا متخصص قبل و عروق باشد که از category متفاوت است"
-          },
-          "categoryId":{
+    },
+    "Doctor": {
+      "type": "object",
+      "required": [
+        "phoneNumber",
+        "firstName",
+        "lastName",
+        "category"
+      ],
+      "properties": {
+        "phoneNumber": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "default": "توضیحات ممکن است مثلا متخصص قبل و عروق باشد که از category متفاوت است"
+        },
+        "categoryId": {
+          "type": "integer"
+        },
+        "officeIds": {
+          "type": "array",
+          "items": {
             "type": "integer"
-          },
-          "officeIds": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
-          },
-          "isApproved": {
-            "type": "boolean",
-            "readOnly": true
+          }
+        },
+        "isApproved": {
+          "type": "boolean",
+          "readOnly": true
+        }
+      }
+    },
+    "DoctorResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Doctor"
           }
         }
-      },
-      "DoctorResult": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          },
-          "result": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Doctor"
-            }
-          }
+      }
+    },
+    "LoginRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "otp": {
+          "type": "string"
         }
-      },
-      "Office": {
-        "type": "object",
-        "required": [
-          "phoneNumber","address","location"
-        ],
-        "properties": {
-          "phoneNumber": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "lat": {
-            "type": "string"
-          },  "long": {
-            "type": "string"
-          },
-
-            "flag": {
-              "type": "boolean",
-              "readOnly": true
-            }
-          }
+      }
+    },
+    "Office": {
+      "type": "object",
+      "required": [
+        "phoneNumber",
+        "address",
+        "location"
+      ],
+      "properties": {
+        "phoneNumber": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "string"
+        },
+        "long": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "boolean",
+          "readOnly": true
         }
-      },
+      }
+    }
+  },
   "basePath": "/api/v1/",
   "schemes": [
     "http"

@@ -24,7 +24,6 @@ const officeSchema = async () => {
         address: {
             type: Sequelize.STRING
         }
-
     });
     await Office.sync({force: true})
 }
