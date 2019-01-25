@@ -32,6 +32,35 @@
     }
   ],
   "paths": {
+    "/getOtp": {
+      "get": {
+        "tags": [
+          "getOtp"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "phoneNumber",
+            "required": true,
+            "schema": {
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/GetOtpResult"
+            }
+          }
+        }
+      }
+
+    },
     "/offices": {
       "post": {
         "tags": [
@@ -922,6 +951,17 @@
       "properties": {
         "user": {
           "$ref": "#/definitions/User"
+        },
+        "otp": {
+          "type": "string"
+        }
+      }
+    },
+    "GetOtpResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+         "type": "string"
         },
         "otp": {
           "type": "string"
