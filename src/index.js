@@ -32,7 +32,7 @@ app.listen(process.env.PORT, () => {
 // const userModel = require("./models/user")
 const db = require("./db/db")
 const userRepository = require('./repositories/user')
- userRepository.createUser('09360475919').
+ userRepository.findUserByPhoneNumber('09360475919').
  then((result) =>{console.log("################ result of create user ", result)} )
      .catch((e) => {
          console.log("#################### error of saving  user ", e)

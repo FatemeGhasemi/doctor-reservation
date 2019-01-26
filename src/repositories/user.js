@@ -1,13 +1,15 @@
 const db = require('../db/db')
 
-
-const createUser = async (phoneNumber) => {
+const getUserSchema = async ()=>{
     const sequilize = await db.getInstance()
     const userSchema = require('../models/user')(sequilize);
-    const userSchema2 = await userSchema.initUserSchema()
-    const user =  userSchema2.build({phoneNumber})
+    return userSchema.initUserSchema()
+}
 
-    return user.save({phoneNumber: phoneNumber})
+const createUser = async (phoneNumber) => {
+
+    const userSchema =  await  getUserSchema()
+    return userSchema.create({phoneNumber: phoneNumber})
 };
 
 
@@ -21,8 +23,9 @@ const searchUserFullText = async (filter) => {
 };
 
 
-const searchUserByPhoneNumber = async (phoneNumber) => {
-//    TODO return  user data
+const findUserByPhoneNumber = async (phoneNumber) => {
+    const userSchema =  await  getUserSchema()
+    return userSchema.findOne({ where: {phoneNumber: phoneNumber} })
 };
 
 
@@ -54,6 +57,6 @@ module.exports = {
     deactivateUser,
     addFavorite,
     removeFavorite,
-    searchUserByPhoneNumber
+    findUserByPhoneNumber
 }
 
