@@ -1,5 +1,13 @@
+const db = require('../db/db')
+
+
 const createUser = async (phoneNumber) => {
-//TODO should return created user
+    const sequilize = await db.getInstance()
+    const userSchema = require('../models/user')(sequilize);
+    const userSchema2 = await userSchema.initUserSchema()
+    const user =  userSchema2.build({phoneNumber})
+
+    return user.save({phoneNumber: phoneNumber})
 };
 
 

@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
-const db = require('../db/sequelize-connection');
+let sequelize;
 const secretarySchema = async () => {
-    const sequelize = await db.init(Sequelize);
-//
     const Secretary = await sequelize.define('secretary', {
         userId:{
             type:Sequelize.INTEGER,
@@ -32,4 +30,10 @@ const secretarySchema = async () => {
     });
     await Secretary.sync({force: true})
 }
-module.exports={secretarySchema}
+
+module.exports=(injectedSequelize) =>{
+    sequelize = injectedSequelize
+    return {
+        secretarySchema
+    }
+};

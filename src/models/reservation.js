@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db/sequelize-connection');
+const db = require('../db/db');
 const reservationSchema = async () => {
-    const sequelize = await db.init(Sequelize);
+    const sequelize = await db.getInstance(Sequelize);
 //
     const Reservation = await sequelize.define('reservation', {
         doctorId: {

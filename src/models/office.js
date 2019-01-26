@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db/sequelize-connection');
+const db = require('../db/db');
 const officeSchema = async () => {
-    const sequelize = await db.init(Sequelize);
+    const sequelize = await db.getInstance(Sequelize);
 //
     const Office = await sequelize.define('office', {
 

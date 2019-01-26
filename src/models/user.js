@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db/sequelize-connection');
-const userSchema = async () => {
-    const sequelize = await db.init(Sequelize);
-//
-    const User = await sequelize.define('user', {
+let sequelize;
+const initUserSchema =  () => {
+    const User =  sequelize.define('user', {
         firstName: {
             type: Sequelize.STRING,
         },
@@ -16,7 +14,13 @@ const userSchema = async () => {
             type: Sequelize.STRING
         }
     });
-    await User.sync({force: true})
+    // await User.sync({force: true})
+    return User
 
 }
-module.exports={userSchema};
+module.exports=(injectedSequelize) =>{
+    sequelize = injectedSequelize
+    return {
+        initUserSchema
+    }
+};
