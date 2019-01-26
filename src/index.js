@@ -27,22 +27,3 @@ console.log('swaggerDocument.schemes ', swaggerDocument.schemes);
 app.listen(process.env.PORT, () => {
     console.log("Example app listening at http://%s:%s", process.env.PORT)
 });
-
-
-// const userModel = require("./models/user")
-const db = require("./db/db")
-const userRepository = require('./repositories/user')
- userRepository.findUserByPhoneNumber('09360475919').
- then((result) =>{console.log("################ result of create user ", result)} )
-     .catch((e) => {
-         console.log("#################### error of saving  user ", e)
-     })
-
-
-
-
-
-
-
-
-
