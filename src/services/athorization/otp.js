@@ -18,7 +18,6 @@ const isOtpValid = async (otp, phoneNumber) => {
 const generateOtp = async (phoneNumber) => {
     const otpCode =await utils.getRandomFourDigitNumber();
     await saveOtpCode(phoneNumber, otpCode);
-    await sendOtpMessage(phoneNumber, otpCode);
     return otpCode
 };
 
@@ -35,7 +34,7 @@ const sendOtpHandler = async (phoneNumber) => {
 
 
 const saveOtpCode = async (phoneNumber, otpCode) => {
-    redis.setInRedis(phoneNumber, otpCode, 15 * 60 * 60)
+    await redis.setInRedis(phoneNumber, otpCode, 15 * 60 * 60)
 };
 
 

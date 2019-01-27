@@ -23,7 +23,6 @@ const closeRedisConnection = () => {
 
 
 const getFromRedis = (key) => {
-    console.log("getFrom redis called")
     return new Promise((resolve, reject) => {
         getRedisClient().get(key, function (err, result) {
             if (err) {
