@@ -7,11 +7,17 @@ const initUserSchema =  () => {
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required:true
+            required:true,
+            unique:true
 
         },
         lastName: {
             type: Sequelize.STRING
+        },
+        activeStatus:{
+            type:Sequelize.BOOLEAN,
+            readOnly:true,
+            default:false
         }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
