@@ -16,6 +16,7 @@ console.log('swaggerDocument.schemes ', swaggerDocument.schemes);
 
 
 app.use('/api/v1/users', require('./routers/v1/user'));
+app.use('/api/v1/getOtp', require('./routers/v1/login-register'));
 
 app.listen(process.env.PORT, () => {
     console.log("Example app listening at http://%s:%s", process.env.PORT)

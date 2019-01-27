@@ -1,5 +1,5 @@
 // this function generate four digit number by node math library for generateOtp function
-const getRandomFourDigitNumber= ()=> {
+const getRandomFourDigitNumber= async ()=> {
     return Math.floor(1000 + Math.random() * 9000);
 };
 
