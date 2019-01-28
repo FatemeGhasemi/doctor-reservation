@@ -13,7 +13,7 @@ const createTables = async (sequelize) => {
 
     try {
         await userSchema.initUserSchema().sync()
-        // await secretary.secretarySchema()
+        await secretary.initSecretarySchema().sync()
         // await doctor.doctorSchema()
         // await reservation.reservationSchema()
         // await office.officeSchema()

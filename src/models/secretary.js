@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 let sequelize;
-const secretarySchema = async () => {
-    const Secretary = await sequelize.define('secretary', {
+const initSecretarySchema =  () => {
+    const Secretary =  sequelize.define('secretary', {
         userId:{
             type:Sequelize.INTEGER,
             required:true,
@@ -27,12 +27,14 @@ const secretarySchema = async () => {
 
 
     });
-    await Secretary.sync({force: true})
+    //TODO Secretary.sync just needed once to create tables, so if tables created dont need call it any more
+    // await Secretary.sync({force: true})
+    return Secretary
 }
 
 module.exports=(injectedSequelize) =>{
-    sequelize = injectedSequelize
+    sequelize = injectedSequelize;
     return {
-        secretarySchema
+        initSecretarySchema
     }
 };
