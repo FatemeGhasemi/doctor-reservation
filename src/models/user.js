@@ -1,24 +1,29 @@
 const Sequelize = require('sequelize');
 let sequelize;
-const initUserSchema =  () => {
-    const User =  sequelize.define('user', {
+const initUserSchema = () => {
+    const User = sequelize.define('user', {
         firstName: {
             type: Sequelize.STRING,
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required:true,
-            unique:true
+            required: true,
+            unique: true
         },
         lastName: {
             type: Sequelize.STRING
         },
-        activeStatus:{
-            type:Sequelize.BOOLEAN,
-            default:false
+        username: {
+            type: Sequelize.STRING
         },
-        roll:{
-            type:Sequelize.STRING
+        activeStatus: {
+            type: Sequelize.BOOLEAN,
+            default: false
+        },
+        roll: {
+            type: Sequelize.STRING,
+            required: true,
+            default: "user"
         }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
@@ -26,7 +31,7 @@ const initUserSchema =  () => {
     return User
 
 }
-module.exports=(injectedSequelize) =>{
+module.exports = (injectedSequelize) => {
     sequelize = injectedSequelize
     return {
         initUserSchema
