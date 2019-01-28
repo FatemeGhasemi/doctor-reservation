@@ -1,21 +1,16 @@
 require('dotenv').config();
-
 const Sequelize = require('sequelize');
-const category = require('./models/category');
-const office = require('./models/office');
-const reservation = require('./models/reservation');
-const doctor = require('./models/doctor');
-
 const createTables = async (sequelize) => {
     const userSchema = require('./models/user')(sequelize);
-    const secretary = require('./models/secretary')(sequelize);
+    const secretarySchema = require('./models/secretary')(sequelize);
+    const reservationSchema = require('./models/reservation')(sequelize);
 
 
     try {
-        await userSchema.initUserSchema().sync()
-        await secretary.initSecretarySchema().sync()
+        await userSchema.initUserSchema().sync();
+        await secretarySchema.initSecretarySchema().sync();
         // await doctor.doctorSchema()
-        // await reservation.reservationSchema()
+        await reservationSchema.initReservationSchema().sync();
         // await office.officeSchema()
         // await category.categorySchema()
     }catch (e) {
