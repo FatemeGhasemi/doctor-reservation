@@ -32,7 +32,7 @@ const initUserSchema = () => {
 
 }
 module.exports = (injectedSequelize) => {
-    sequelize = injectedSequelize
+    sequelize = injectedSequelize;
     return {
         initUserSchema
     }
