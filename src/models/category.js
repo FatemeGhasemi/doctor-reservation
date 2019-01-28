@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db/db');
-const categorySchema = async () => {
-    const sequelize = await db.getInstance(Sequelize);
-//
-    const Category = await sequelize.define('category', {
+let sequelize;
+const initCategorySchema =  () => {
+    const Category =  sequelize.define('category', {
         parent: {
             type: Sequelize.STRING
         },
@@ -11,6 +9,13 @@ const categorySchema = async () => {
             type: Sequelize.STRING
         }
     });
-    await Category.sync({force: true})
+    //TODO Category.sync just needed once to create tables, so if tables created dont need call it any more
+    // await Category.sync({force: true})
+    return Category
 }
-module.exports={categorySchema};
+module.exports = (injectedSequelize) => {
+    sequelize = injectedSequelize;
+    return {
+        initCategorySchema
+    }
+};
