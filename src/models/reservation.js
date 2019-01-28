@@ -4,7 +4,7 @@ const reservationSchema = async () => {
     const sequelize = await db.getInstance(Sequelize);
 //
     const Reservation = await sequelize.define('reservation', {
-        doctorId: {
+        officeId: {
             type: Sequelize.INTEGER,
             required: true
         },
