@@ -9,7 +9,6 @@ const initUserSchema =  () => {
             type: Sequelize.STRING,
             required:true,
             unique:true
-
         },
         lastName: {
             type: Sequelize.STRING
@@ -17,6 +16,9 @@ const initUserSchema =  () => {
         activeStatus:{
             type:Sequelize.BOOLEAN,
             default:false
+        },
+        roll:{
+            type:Sequelize.STRING
         }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more

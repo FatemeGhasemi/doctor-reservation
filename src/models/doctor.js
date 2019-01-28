@@ -39,7 +39,6 @@ const doctorSchema = async () => {
         isApproved:{
             type:Sequelize.BOOLEAN,
             default:false,
-            readOnly:true
         }
 
     });

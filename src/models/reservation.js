@@ -22,7 +22,6 @@ const reservationSchema = async () => {
         },
         flag:{
             type:Sequelize.BOOLEAN,
-            readOnly:true,
             default:true
         }
 

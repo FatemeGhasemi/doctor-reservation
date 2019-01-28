@@ -22,7 +22,6 @@ const secretarySchema = async () => {
         },
         isApproved: {
             type: Sequelize.BOOLEAN,
-            readOnly:true,
             default:false,
         }
 
