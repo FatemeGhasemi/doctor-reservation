@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 let sequelize;
 const initCategorySchema =  () => {
     const Category =  sequelize.define('category', {
-        parent: {
-            type: Sequelize.STRING
+        parentId: {
+            type: Sequelize.INTEGER
         },
         name: {
             type: Sequelize.STRING
