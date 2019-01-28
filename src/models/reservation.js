@@ -20,7 +20,7 @@ const reservationSchema = async () => {
             type: Sequelize.INTEGER,
             required: true
         },
-        flag:{
+        status:{
             type:Sequelize.BOOLEAN,
             default:true
         }
