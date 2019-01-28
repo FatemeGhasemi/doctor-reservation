@@ -4,15 +4,15 @@
 //
 // const userRepository = require('../../src/repositories/user')
 // describe('createUserTest()', function () {
-//     const phoneNumber ='09198731093'
+//     const phoneNumber ='091987310932'
 //     it('createUserTest(), should create user repository successfully', async  () => {
 //         const user  = await userRepository.createUser(phoneNumber)
 //         assert.equal(user.phoneNumber, phoneNumber)
 //     });
 // });
 // describe('findUserByPhoneNumberTest()', function () {
-//     const phoneNumber ='09198731093'
-//     const fakePhoneNumber ='0983712033'
+//     const phoneNumber ='091987310931'
+//     const fakePhoneNumber ='09837120333'
 //
 //     it('should create user and find it by phone number', async  ()=> {
 //         await userRepository.createUser(phoneNumber)

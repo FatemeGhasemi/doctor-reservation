@@ -16,7 +16,6 @@ const initUserSchema =  () => {
         },
         activeStatus:{
             type:Sequelize.BOOLEAN,
-            readOnly:true,
             default:false
         }
     });

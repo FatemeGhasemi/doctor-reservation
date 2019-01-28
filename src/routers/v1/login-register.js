@@ -1,10 +1,6 @@
 const express = require('express');
-app = express();
 const otpService = require('../../services/athorization/otp');
 const jwtService = require('../../services/athorization/jwt');
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
 const router = express.Router();
 
 const activationAndLogin = async (req, res) => {
