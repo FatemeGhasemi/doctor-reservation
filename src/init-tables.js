@@ -5,12 +5,13 @@ const createTables = async (sequelize) => {
     const secretarySchema = require('./models/secretary')(sequelize);
     const reservationSchema = require('./models/reservation')(sequelize);
     const officeSchema = require('./models/office')(sequelize);
+    const doctorSchema = require('./models/doctor')(sequelize);
 
 
     try {
         await userSchema.initUserSchema().sync();
         await secretarySchema.initSecretarySchema().sync();
-        // await doctor.doctorSchema()
+        await doctorSchema.initDoctorSchema().sync();
         await reservationSchema.initReservationSchema().sync();
         await officeSchema.initOfficeSchema().sync()
         // await category.categorySchema()

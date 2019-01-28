@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../db/db');
-const doctorSchema = async () => {
-    const sequelize = await db.getInstance(Sequelize);
-//
-    const Doctor = await sequelize.define('doctor', {
+let sequelize;
+const initDoctorSchema =  () => {
+    const Doctor =  sequelize.define('doctor', {
         userId:{
             type:Sequelize.INTEGER,
             required:true,
@@ -42,6 +40,13 @@ const doctorSchema = async () => {
         }
 
     });
-    await Doctor.sync({force: true})
+    //TODO Doctor.sync just needed once to create tables, so if tables created dont need call it any more
+    // await Doctor.sync({force: true})
+    return Doctor
 }
-module.exports={doctorSchema}
+module.exports = (injectedSequelize) => {
+    sequelize = injectedSequelize;
+    return {
+        initDoctorSchema
+    }
+};
