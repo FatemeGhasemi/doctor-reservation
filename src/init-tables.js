@@ -4,6 +4,7 @@ const createTables = async (sequelize) => {
     const userSchema = require('./models/user')(sequelize);
     const secretarySchema = require('./models/secretary')(sequelize);
     const reservationSchema = require('./models/reservation')(sequelize);
+    const officeSchema = require('./models/office')(sequelize);
 
 
     try {
@@ -11,7 +12,7 @@ const createTables = async (sequelize) => {
         await secretarySchema.initSecretarySchema().sync();
         // await doctor.doctorSchema()
         await reservationSchema.initReservationSchema().sync();
-        // await office.officeSchema()
+        await officeSchema.initOfficeSchema().sync()
         // await category.categorySchema()
     }catch (e) {
         console.log("createTables ERROR:",e)

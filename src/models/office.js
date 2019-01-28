@@ -1,9 +1,8 @@
 const Sequelize = require('sequelize');
-const db = require('../db/db');
-const officeSchema = async () => {
-    const sequelize = await db.getInstance(Sequelize);
-//
-    const Office = await sequelize.define('office', {
+let sequelize;
+
+const initOfficeSchema =  () => {
+    const Office =  sequelize.define('office', {
 
         phoneNumber: {
             type: Sequelize.STRING
@@ -25,6 +24,14 @@ const officeSchema = async () => {
             type: Sequelize.STRING
         }
     });
-    await Office.sync({force: true})
+
+    //TODO Office.sync just needed once to create tables, so if tables created dont need call it any more
+    // await Office.sync({force: true})
+    return Office
 }
-module.exports={officeSchema}
+module.exports = (injectedSequelize) => {
+    sequelize = injectedSequelize
+    return {
+        initOfficeSchema
+    }
+};
