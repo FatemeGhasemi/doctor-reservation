@@ -2,6 +2,7 @@ const express = require('express');
 const otpService = require('../../services/athorization/otp');
 const jwtService = require('../../services/athorization/jwt');
 const userRepository = require('../../repositories/user');
+const otpSendLimiter = require('../../middlewares/limiter')
 const router = express.Router();
 
 const activationAndLogin = async (req, res) => {
@@ -30,7 +31,7 @@ const getOtp = async (req, res) => {
     }
 };
 
-router.get('/', getOtp);
+router.get('/',otpSendLimiter.otpRateLimiter, getOtp);
 router.post('/', activationAndLogin);
 
 module.exports = router;
