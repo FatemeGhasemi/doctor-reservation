@@ -30,7 +30,6 @@ const initUserSchema = () => {
     // await User.sync({force: true})
     return User
 }
-
 module.exports = (injectedSequelize) => {
     sequelize = injectedSequelize;
     return {

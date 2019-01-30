@@ -1,6 +1,6 @@
-require('dotenv').config();
+// require('dotenv').config();
 
-const db = require('../db/db')
+const db = require('../db/db');
 let userSchemaInstance;
 
 const getUserSchema = async () => {
