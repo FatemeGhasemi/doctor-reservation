@@ -1,7 +1,8 @@
 const express = require('express');
 const otpService = require('../../services/athorization/otp');
 const jwtService = require('../../services/athorization/jwt');
-const userRepository = require('../../repositories/user')
+const userRepository = require('../../repositories/user');
+const redis = require('../../db/redis');
 const router = express.Router();
 
 const activationAndLogin = async (req, res) => {
@@ -10,6 +11,7 @@ const activationAndLogin = async (req, res) => {
             await userRepository.activateUser(req.body.phoneNumber);
             await otpService.deleteOtpCode(req.body.phoneNumber);
             const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
+            redis.setJwtInRedis(req.body.phoneNumber,jwtCode)
             res.json({message: 'success', result: jwtCode})
         } else {
             res.status(403).json({message: "un authorize"})

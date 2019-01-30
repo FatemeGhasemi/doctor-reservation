@@ -45,6 +45,22 @@ const setInRedis = (key, data, expirationSecond) => {
         })
     })
 };
+//XX -- Only set the key if it already exist.
+
+const setJwtInRedis = (key, data) => {
+    return new Promise((resolve, reject) => {
+        getRedisClient().set(key, JSON.stringify(data), function (err, result) {
+            if (err) {
+                return reject(err)
+            }
+            resolve(result)
+        })
+    })
+};
+
+
+
+
 
 
 const removeFromRedis = (key) => {
@@ -62,4 +78,5 @@ module.exports = {
     removeFromRedis,
     setInRedis,
     getFromRedis,
+    setJwtInRedis
 }

@@ -12,5 +12,17 @@ const createNewUser = async (req, res) => {
     }
 };
 
+const updateUserData = async (req, res) => {
+    try {
+        const user = await userRepository.updateUser(req.body.phoneNumber,req.body)
+        res.json({message: "success operation", result: user})
+
+    }catch (e) {
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 router.post('/', createNewUser);
+router.put('/',updateUserData);
 module.exports = router;
