@@ -5,21 +5,23 @@ const reservation = require('../models/reservation');
 const doctor = require('../models/doctor');
 
 const createTables = async (sequelize) => {
-    const userSchema = require('../models/user')(sequelize);
-    const secretary = require('../models/secretary')(sequelize);
-
-
+    const userSchema = require('./models/user')(sequelize);
+    const secretarySchema = require('./models/secretary')(sequelize);
+    const reservationSchema = require('./models/reservation')(sequelize);
+    const officeSchema = require('./models/office')(sequelize);
+    const doctorSchema = require('./models/doctor')(sequelize);
+    const categorySchema = require('./models/category')(sequelize);
     try {
-        await userSchema.initUserSchema()
-        // await secretary.secretarySchema()
-        // await doctor.doctorSchema()
-        // await reservation.reservationSchema()
-        // await office.officeSchema()
-        // await category.categorySchema()
+        await userSchema.initUserSchema();
+        await secretarySchema.initSecretarySchema();
+        await doctorSchema.initDoctorSchema();
+        await reservationSchema.initReservationSchema();
+        await officeSchema.initOfficeSchema();
+        await categorySchema.initCategorySchema();
     }catch (e) {
         console.log("createTables ERROR:",e)
     }
-}
+};
 
 
 let sequelize;
@@ -43,10 +45,10 @@ const init = async ()=> {
 
 const getInstance =async () =>{
     if (!sequelize){
-        await  init()
+        await  init();
         await createTables(sequelize)
     }
     return sequelize
-}
+};
 
 module.exports={getInstance};

@@ -1,5 +1,6 @@
-const findCategoryByParents = async (parent) => {
-//TODO return category array
+const findCategoryByParentId = async (parentId) => {
+    const categorySchema = await getUserSchema();
+    return userSchema.findOne({where: {phoneNumber: phoneNumber}})
 };
 
 const findCategoryByName = async ()=>{

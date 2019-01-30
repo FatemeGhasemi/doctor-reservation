@@ -29,8 +29,8 @@ const initUserSchema = () => {
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
     // await User.sync({force: true})
     return User
-
 }
+
 module.exports = (injectedSequelize) => {
     sequelize = injectedSequelize;
     return {

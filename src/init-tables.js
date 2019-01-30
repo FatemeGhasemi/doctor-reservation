@@ -41,3 +41,6 @@ const init = async ()=> {
 
 let sequelize;
 init().then(()=>createTables(sequelize))
+
+
+module.exports = {init,createTables}

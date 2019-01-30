@@ -3,7 +3,7 @@ const utils = require('../../utils/utils');
 const sms = require('../../services/sms');
 
 const sendOtpMessage = async (phoneNumber, message) => {
-    await sms.send(phoneNumber, message)
+    return await sms.send(phoneNumber, message)
 };
 
 
@@ -15,18 +15,19 @@ const isOtpValid = async (otp, phoneNumber) => {
 };
 
 
-const generateOtp = async (phoneNumber) => {
-    const otpCode =await utils.getRandomFourDigitNumber();
-    await saveOtpCode(phoneNumber, otpCode);
-    return otpCode
+const generateOtp = async () => {
+    return await utils.getRandomFourDigitNumber();
+
 };
 
 
 //this function integrate generateOtp function and sendOtpMessage function and handling otp service
 const sendOtpHandler = async (phoneNumber) => {
     try {
-        const otpCode = await generateOtp(phoneNumber)
+        const otpCode = await generateOtp();
+        await saveOtpCode(phoneNumber,otpCode)
         await sendOtpMessage(phoneNumber,otpCode)
+        return otpCode
     } catch (e) {
         console.log("sendOtpHandler ERROR: ", e.message)
     }

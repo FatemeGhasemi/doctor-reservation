@@ -6,7 +6,7 @@ const router = express.Router();
 const activationAndLogin = async (req, res) => {
     try {
         if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
-            otpService.deleteOtpCode(req.body.phoneNumber);
+            await otpService.deleteOtpCode(req.body.phoneNumber);
             const jwtCode = jwtService.jwtGenerator({phoneNumber: req.body.phoneNumber});
             res.json({message: 'success', tokenType: 'Bearer', accessToken: jwtCode})
         }
@@ -21,10 +21,10 @@ const activationAndLogin = async (req, res) => {
 
 const getOtp = async (req, res) => {
     try {
-        // const otpCode = otpService.sendOtpHandler(req.query.phoneNumber)
+        const otpCode = await otpService.sendOtpHandler(req.query.phoneNumber)
 
         //TODO remove this line and replace it with above code after get kave negar api key
-        const otpCode = await otpService.generateOtp(req.query.phoneNumber);
+        // const otpCode = await otpService.generateOtp(req.query.phoneNumber);
         res.status(200).json({message: "success operation",result:otpCode})
     } catch (e) {
         console.log("getOtp ERROR: ", e.message);
