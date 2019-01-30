@@ -1,12 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 
-const jwtGenerator = ({payload}) => {
+const jwtGenerator = (phoneNumber) => {
     return jwt.sign(
-        {
-            ...payload,
-            algorithm: process.env.JWT_ALGORITHM
-        },
+        phoneNumber,
         process.env.JWT_SECRET
     );
 };
@@ -22,7 +19,6 @@ const verifyJwt = (jwtToken) => {
 
 const removeBearer = (jwtToken) => {
     return jwtToken.split(' ')[1]
-
 };
 
 module.exports = {

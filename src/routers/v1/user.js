@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-userRepository = require('../../repositories/user');
+const userRepository = require('../../repositories/user');
+const checkAccess = require('../../middlewares/authentication');
 
 const createNewUser = async (req, res) => {
     try {
@@ -14,6 +15,7 @@ const createNewUser = async (req, res) => {
 
 const updateUserData = async (req, res) => {
     try {
+        console.log("updateUserData:  ")
         const user = await userRepository.updateUser(req.body.phoneNumber,req.body)
         res.json({message: "success operation", result: user})
 
@@ -24,5 +26,5 @@ const updateUserData = async (req, res) => {
 
 
 router.post('/', createNewUser);
-router.put('/',updateUserData);
+router.put('/',checkAccess.checkAccess, updateUserData);
 module.exports = router;
