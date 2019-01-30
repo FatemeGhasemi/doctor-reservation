@@ -59,10 +59,6 @@ const setInRedisWithoutExpiration = (key, data) => {
 };
 
 
-
-
-
-
 const removeFromRedis = (key) => {
     return new Promise((resolve, reject) => {
         getRedisClient().del(key, function (err, result) {
