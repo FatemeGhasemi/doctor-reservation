@@ -1,10 +1,10 @@
 const casbin = require('casbin');
-const jwt = require('./jwt');
+const jwtHelper = require('./jwt');
 
 const checkRoleAccess = async (jwtToken, object, act) => {
     try {
         const enforcer = await casbin.newEnforcer('./configs/model.conf', './configs/policy.csv');
-        let phoneNumber = jwt.verifyJwt(jwtToken).phoneNumber;
+        let phoneNumber = jwtHelper.verifyJwt(jwtToken).phoneNumber;
         return enforcer.enforce(phoneNumber, object, act)
 
     } catch (e) {
