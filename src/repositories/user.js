@@ -1,10 +1,11 @@
+const userSchema = require('../models/user')();
+
 const db = require('../db/db');
 let userSchemaInstance;
 
 const getUserSchema = async () => {
     if (userSchemaInstance) return userSchemaInstance;
     const sequelize = await db.getInstance();
-    const userSchema = require('../models/user')(sequelize);
     userSchemaInstance = userSchema.initUserSchema();
     return userSchemaInstance
 };

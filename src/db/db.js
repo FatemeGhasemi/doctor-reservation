@@ -4,7 +4,7 @@ const office = require('../models/office');
 const reservation = require('../models/reservation');
 const doctor = require('../models/doctor');
 
-const createTables = async (sequelize) => {
+const defineSchemas = async (sequelize) => {
     const userSchema = require('./models/user')(sequelize);
     const secretarySchema = require('./models/secretary')(sequelize);
     const reservationSchema = require('./models/reservation')(sequelize);
@@ -19,13 +19,13 @@ const createTables = async (sequelize) => {
         await officeSchema.initOfficeSchema();
         await categorySchema.initCategorySchema();
     }catch (e) {
-        console.log("createTables ERROR:",e)
+        console.log("defineSchemas ERROR:",e)
     }
 };
 
 
 let sequelize;
-const init = async ()=> {
+const createDbConnection = async ()=> {
      sequelize = await new Sequelize(process.env.DATABASE_NAME, process.env.POSTGRES_USERNAME, process.env.POSTGRES_PASSWORD, {
         dialect:process.env.SEQUELIZE_DIALECT,
         host: process.env.SEQUELIZE_HOST,
@@ -39,16 +39,23 @@ const init = async ()=> {
         .catch(err => {
             console.error('Unable to connect to the database:', err);
         });
+    await defineSchemas(sequelize)
     return sequelize
 };
 
 
 const getInstance =async () =>{
     if (!sequelize){
-        await  init();
-        await createTables(sequelize)
+        await  createDbConnection();
+        await defineSchemas(sequelize)
     }
     return sequelize
 };
 
-module.exports={getInstance};
+const initDb = async ()=>{
+    await getInstance()
+}
+
+
+
+module.exports={getInstance, initDb};
