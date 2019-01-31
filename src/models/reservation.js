@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 let sequelize;
+let Reservation;
 const initReservationSchema =  () => {
-    const Reservation =  sequelize.define('reservation', {
+     Reservation =  sequelize.define('reservation', {
         officeId: {
             type: Sequelize.INTEGER,
             required: true
@@ -30,6 +31,10 @@ const initReservationSchema =  () => {
 };
 
 module.exports = (injectedSequelize) => {
+    if (!injectedSequelize){
+        if (!Reservation) throw new Error('Plz define schemas by calling db.initDb(')
+        return Reservation
+    }
     sequelize = injectedSequelize;
     return {
         initReservationSchema
