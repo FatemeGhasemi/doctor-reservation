@@ -17,7 +17,7 @@ const initCategorySchema =  () => {
 
 module.exports = (injectedSequelize) => {
     if (!injectedSequelize){
-        if (!Category) throw new Error('Plz define schemas by calling db.initDb(')
+        if (!Category) throw new Error('Plz define schemas by calling db.initDb(');
         return Category
     }
     sequelize = injectedSequelize;
