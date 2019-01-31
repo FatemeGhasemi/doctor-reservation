@@ -11,6 +11,9 @@ db.initDb().then(()=> {
     app.listen(process.env.PORT, () => {
         console.log("Example app listening at http://%s:%s", process.env.PORT)
     });
+}).catch(e =>{
+    console.log("Error init db ", e.message)
+    throw e
 })
 
 function initSwagger() {

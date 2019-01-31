@@ -1,31 +1,29 @@
 const userSchema = require('../models/user')();
+// const db = require('../db/db');
 
-const db = require('../db/db');
-let userSchemaInstance;
-
-const getUserSchema = async () => {
-    if (userSchemaInstance) return userSchemaInstance;
-    const sequelize = await db.getInstance();
-    userSchemaInstance = userSchema.initUserSchema();
-    return userSchemaInstance
-};
+// const getUserSchema = async () => {
+//     if (userSchemaInstance) return userSchemaInstance;
+//     const sequelize = await db.getInstance();
+//     userSchemaInstance = userSchema.initUserSchema();
+//     return userSchemaInstance
+// };
 
 
 const findUserByPhoneNumber = async (phoneNumber) => {
-    const userSchema = await getUserSchema();
+    // const userSchema = await getUserSchema();
     return userSchema.findOne({where: {phoneNumber: phoneNumber}})
 };
 
 
 const createUser = async (phoneNumber) => {
-    const userSchema = await getUserSchema();
+    // const userSchema = await getUserSchema();
     return userSchema.create({phoneNumber: phoneNumber})
 
 };
 
 
 const updateUser = async (phoneNumber, data) => {
-    const userSchema = await getUserSchema();
+    // const userSchema = await getUserSchema();
     return userSchema.update(
         {firstName: data.firstName, lastName: data.lastName},
         {returning: true, where: {phoneNumber: phoneNumber}}
@@ -34,7 +32,7 @@ const updateUser = async (phoneNumber, data) => {
 
 
 const activateUser = async (phoneNumber) => {
-    const userSchema = await getUserSchema();
+    // const userSchema = await getUserSchema();
     return userSchema.update(
         {activeStatus: true},
         {returning: true, where: {phoneNumber: phoneNumber}}
@@ -43,7 +41,7 @@ const activateUser = async (phoneNumber) => {
 
 
 const deactivateUser = async (phoneNumber) => {
-    const userSchema = await getUserSchema();
+    // const userSchema = await getUserSchema();
     return userSchema.update(
         {activeStatus: false},
         {returning: true, where: {phoneNumber: phoneNumber}}

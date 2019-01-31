@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 let sequelize;
+let Doctor
 const initDoctorSchema =  () => {
-    const Doctor =  sequelize.define('doctor', {
+     Doctor =  sequelize.define('doctor', {
         userId:{
             type:Sequelize.INTEGER,
             required:true,
@@ -45,6 +46,10 @@ const initDoctorSchema =  () => {
     return Doctor
 }
 module.exports = (injectedSequelize) => {
+    if (!injectedSequelize){
+        if (!Doctor) throw new Error('Plz define schemas by calling db.initDb(')
+        return Doctor
+    }
     sequelize = injectedSequelize;
     return {
         initDoctorSchema

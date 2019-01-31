@@ -3,14 +3,16 @@ const category = require('../models/category');
 const office = require('../models/office');
 const reservation = require('../models/reservation');
 const doctor = require('../models/doctor');
+const relationCoordinator = require('./relation-coordinator')
+
 
 const defineSchemas = async (sequelize) => {
-    const userSchema = require('./models/user')(sequelize);
-    const secretarySchema = require('./models/secretary')(sequelize);
-    const reservationSchema = require('./models/reservation')(sequelize);
-    const officeSchema = require('./models/office')(sequelize);
-    const doctorSchema = require('./models/doctor')(sequelize);
-    const categorySchema = require('./models/category')(sequelize);
+    const userSchema = require('../models/user')(sequelize);
+    const secretarySchema = require('../models/secretary')(sequelize);
+    const reservationSchema = require('../models/reservation')(sequelize);
+    const officeSchema = require('../models/office')(sequelize);
+    const doctorSchema = require('../models/doctor')(sequelize);
+    const categorySchema = require('../models/category')(sequelize);
     try {
         await userSchema.initUserSchema();
         await secretarySchema.initSecretarySchema();
@@ -54,6 +56,7 @@ const getInstance =async () =>{
 
 const initDb = async ()=>{
     await getInstance()
+    relationCoordinator.initRelations()
 }
 
 
