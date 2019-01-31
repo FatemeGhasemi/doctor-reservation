@@ -33,7 +33,7 @@ const initOfficeSchema =  () => {
 
 module.exports = (injectedSequelize) => {
     if (!injectedSequelize){
-        if (!Office) throw new Error('Plz define schemas by calling db.initDb(')
+        if (!Office) throw new Error('Plz define schemas by calling db.initDb(');
         return Office
     }
     sequelize = injectedSequelize;
