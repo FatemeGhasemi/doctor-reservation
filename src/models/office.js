@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 let sequelize;
+let Office;
 
 const initOfficeSchema =  () => {
-    const Office =  sequelize.define('office', {
+     Office =  sequelize.define('office', {
 
         phoneNumber: {
             type: Sequelize.STRING
@@ -28,9 +29,14 @@ const initOfficeSchema =  () => {
     //TODO Office.sync just needed once to create tables, so if tables created dont need call it any more
     // await Office.sync({force: true})
     return Office
-}
+};
+
 module.exports = (injectedSequelize) => {
-    sequelize = injectedSequelize
+    if (!injectedSequelize){
+        if (!Office) throw new Error('Plz define schemas by calling db.initDb(')
+        return Office
+    }
+    sequelize = injectedSequelize;
     return {
         initOfficeSchema
     }

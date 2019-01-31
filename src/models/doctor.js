@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 let sequelize;
-let Doctor
+let Doctor;
 const initDoctorSchema =  () => {
      Doctor =  sequelize.define('doctor', {
         userId:{
@@ -44,7 +44,7 @@ const initDoctorSchema =  () => {
     //TODO Doctor.sync just needed once to create tables, so if tables created dont need call it any more
     // await Doctor.sync({force: true})
     return Doctor
-}
+};
 module.exports = (injectedSequelize) => {
     if (!injectedSequelize){
         if (!Doctor) throw new Error('Plz define schemas by calling db.initDb(')
