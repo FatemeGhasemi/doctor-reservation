@@ -12,6 +12,13 @@ const createUser = async (phoneNumber) => {
 };
 
 
+const updateUserByAdmin = async (phoneNumber, data) => {
+    return userSchema.update(
+        {firstName: data.firstName, lastName: data.lastName,roll:data.roll,avatarUrl: data.avatarUrl},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+};
+
 const updateUser = async (phoneNumber, data) => {
     return userSchema.update(
         {firstName: data.firstName, lastName: data.lastName},
@@ -22,7 +29,7 @@ const updateUser = async (phoneNumber, data) => {
 
 const activateUser = async (phoneNumber) => {
     return userSchema.update(
-        {activeStatus: true},
+        {activeStatus: true, roll: "user"},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
@@ -56,7 +63,8 @@ module.exports = {
     createUser,
     updateUser,
     deactivateUser,
-    findUserByPhoneNumber
+    findUserByPhoneNumber,
+    updateUserByAdmin
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,

@@ -7,7 +7,7 @@ const checkAccess = async (req, res, next) => {
         const allowedPhoneNumber = jwtHelper.verifyJwt(authorizationHeader).phoneNumber;
         console.log("req.body.phoneNumber: ", req.body.phoneNumber);
         console.log("allowedPhoneNumber: ", allowedPhoneNumber);
-        if (allowedPhoneNumber === req.params.phoneNumber) {
+        if (allowedPhoneNumber === req.body.phoneNumber) {
             next()
         } else {
             throw new Error("unAuthorize")

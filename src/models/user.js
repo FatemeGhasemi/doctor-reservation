@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 let sequelize;
 let User;
+const keyWord = require('../configs/keyWord');
 const initUserSchema = () => {
      User = sequelize.define('user', {
         firstName: {
@@ -23,8 +24,6 @@ const initUserSchema = () => {
         },
         roll: {
             type: Sequelize.STRING,
-            required: true,
-            defaultValue: "user"
         },
         avatarUrl:{
             type:Sequelize.STRING

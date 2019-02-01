@@ -14,6 +14,6 @@ const createNewCategory = async (req, res) => {
 };
 
 
-router.post('/', checkAccess.checkRolesAccess,createNewCategory());
-router.put('/:name',checkAccess.checkRolesAccess(), updateUserData);
+router.post('/', checkAccess.checkRolesAccess,createNewCategory);
+// router.put('/:name',checkAccess.checkRolesAccess(), updateUserData);
 module.exports = router;

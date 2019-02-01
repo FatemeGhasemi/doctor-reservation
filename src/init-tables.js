@@ -14,12 +14,12 @@ const createTables = async (sequelize) => {
         await secretarySchema.initSecretarySchema().sync();
         await doctorSchema.initDoctorSchema().sync();
         await reservationSchema.initReservationSchema().sync();
-        await officeSchema.initOfficeSchema().sync()
+        await officeSchema.initOfficeSchema().sync();
         await categorySchema.initCategorySchema().sync();
     }catch (e) {
         console.log("createTables ERROR:",e)
     }
-}
+};
 
 
 const init = async ()=> {
