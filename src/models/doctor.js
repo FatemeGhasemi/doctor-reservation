@@ -1,43 +1,43 @@
 const Sequelize = require('sequelize');
 let sequelize;
 let Doctor;
-const initDoctorSchema =  () => {
-     Doctor =  sequelize.define('doctor', {
-        userId:{
-            type:Sequelize.INTEGER,
-            required:true,
-            primaryKey:true
+const initDoctorSchema = () => {
+    Doctor = sequelize.define('doctor', {
+        userId: {
+            type: Sequelize.INTEGER,
+            required: true,
+            primaryKey: true
         },
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
-            required:true
+            required: true
         },
         firstName: {
             type: Sequelize.STRING,
-            required:true
+            required: true
 
         },
         lastName: {
             type: Sequelize.STRING,
-            required:true
+            required: true
 
         },
         categoryId: {
             type: Sequelize.STRING,
-            required:true
+            required: true
 
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required:true
+            required: true
 
         },
         description: {
             type: Sequelize.STRING
         },
-        isApproved:{
-            type:Sequelize.BOOLEAN,
-            default:false,
+        isApproved: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
         }
 
     });
@@ -46,7 +46,7 @@ const initDoctorSchema =  () => {
     return Doctor
 };
 module.exports = (injectedSequelize) => {
-    if (!injectedSequelize){
+    if (!injectedSequelize) {
         if (!Doctor) throw new Error('Plz define schemas by calling db.initDb(')
         return Doctor
     }

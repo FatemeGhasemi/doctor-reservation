@@ -21,7 +21,7 @@ const initReservationSchema =  () => {
         },
         status:{
             type:Sequelize.BOOLEAN,
-            default:true
+            defaultValue:true
         }
 
     });

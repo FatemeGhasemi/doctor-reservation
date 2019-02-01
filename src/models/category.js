@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
 let sequelize;
 let Category;
-const initCategorySchema =  () => {
-     Category =  sequelize.define('category', {
+const initCategorySchema = () => {
+    Category = sequelize.define('category', {
         parentId: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            defaultValue: null
         },
         name: {
             type: Sequelize.STRING
@@ -16,7 +17,7 @@ const initCategorySchema =  () => {
 };
 
 module.exports = (injectedSequelize) => {
-    if (!injectedSequelize){
+    if (!injectedSequelize) {
         if (!Category) throw new Error('Plz define schemas by calling db.initDb(');
         return Category
     }

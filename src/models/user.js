@@ -19,7 +19,7 @@ const initUserSchema = () => {
         },
         activeStatus: {
             type: Sequelize.BOOLEAN,
-            default: false
+            defaultValue: false
         },
         roll: {
             type: Sequelize.STRING,

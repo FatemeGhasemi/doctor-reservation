@@ -23,7 +23,7 @@ const initSecretarySchema =  () => {
         },
         isApproved: {
             type: Sequelize.BOOLEAN,
-            default:false,
+            defaultValue:false,
         }
 
 
