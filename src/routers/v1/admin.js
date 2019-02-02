@@ -15,5 +15,8 @@ const updateUserData = async (req, res) => {
 };
 
 
+
+
+
 router.put('/',checkAccess.checkAccess, updateUserData);
 module.exports = router;

@@ -2,48 +2,23 @@ const doctorSchema = require('../models/doctor')();
 const userSchema = require('../models/user')();
 
 
-const findUserByPhoneNumber = async (phoneNumber) => {
-    return userSchema.findOne({where: {phoneNumber: phoneNumber}})
+const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
+    return doctorSchema.create({
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        lastName: lastName,
+        categoryId: categoryId,
+        description: description,
+        officeIds: officeIds
+    })
 };
-
-
-const updateUserByAdmin = async (phoneNumber, data) => {
-    return userSchema.update(
-        {firstName: data.firstName, lastName: data.lastName, roll: data.roll, avatarUrl: data.avatarUrl},
-        {returning: true, where: {phoneNumber: phoneNumber}}
-    )
-};
-
-const updateUser = async (phoneNumber, data) => {
-    return userSchema.update(
-        {firstName: data.firstName, lastName: data.lastName},
-        {returning: true, where: {phoneNumber: phoneNumber}}
-    )
-};
-
-
-const activateUser = async (phoneNumber) => {
-    return userSchema.update(
-        {activeStatus: true, roll: "user"},
-        {returning: true, where: {phoneNumber: phoneNumber}}
-    )
-};
-
-
-const deactivateUser = async (phoneNumber) => {
-    return userSchema.update(
-        {activeStatus: false},
-        {returning: true, where: {phoneNumber: phoneNumber}}
-    )
-};
-
 
 const activateAsDoctor = async (id) => {
     userSchema.update({roll: "doctor"},
         {returning: true, where: {id: id}}
     );
     return doctorSchema.update(
-        {isApproved: true},
+        {status: "isApproved"},
         {returning: true, where: {id: id}}
     )
 };
@@ -64,7 +39,10 @@ const updateDoctorData = async (id, data) => {
 
 
 const deactivateDoctor = async (id) => {
-//    TODO return deactivated user
+    return doctorSchema.update(
+        {status: "deactivate"},
+        {returning: true, where: {id: id}}
+    )
 };
 
 
@@ -73,26 +51,19 @@ const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
 };
 
 
-const searchDoctorByCategory = (categoryId, begin = 0, total = 10) => {
-//    TODO return doctor list
-}
+const searchDoctorByCategory = (categoryId, offset = 0, limit = 10) => {
+    return userSchema.findAll(
+        {offset:offset, limit: limit},
+        {where: {categoryId: categoryId, status:"isApproved"}})
+};
 
 
 const searchDoctorByPhoneNumber = (phoneNumber) => {
-//    TODO return doctor data
-}
-
-
-const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
-    return doctorSchema.create({
-        phoneNumber: phoneNumber,
-        firstName: firstName,
-        lastName: lastName,
-        categoryId: categoryId,
-        description: description,
-        officeIds: officeIds
-    })
+    return doctorSchema.findOne({where: {phoneNumber: phoneNumber}})
 };
+
+
+
 
 module.exports = {
     activateAsDoctor,

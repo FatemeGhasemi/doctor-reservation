@@ -35,9 +35,9 @@ const initDoctorSchema = () => {
         description: {
             type: Sequelize.STRING
         },
-        isApproved: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: false,
+        status:{
+            type:Sequelize.STRING,
+            defaultValue: "pending"
         }
 
     });
