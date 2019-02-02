@@ -2,14 +2,14 @@ const doctorSchema = require('../models/doctor')();
 const userSchema = require('../models/user')();
 
 
-const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
+const createDoctorUser = async (data) => {
     return doctorSchema.create({
-        phoneNumber: phoneNumber,
-        firstName: firstName,
-        lastName: lastName,
-        categoryId: categoryId,
-        description: description,
-        officeIds: officeIds
+        phoneNumber: data.phoneNumber,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        categoryId: data.categoryId,
+        description: data.description,
+        officeIds: data.officeIds
     })
 };
 

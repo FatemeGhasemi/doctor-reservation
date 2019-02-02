@@ -10,7 +10,8 @@ const initDoctorSchema = () => {
         },
         officeIds: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
-            required: true
+            required: true,
+            defaultValue:[]
         },
         firstName: {
             type: Sequelize.STRING,
@@ -33,7 +34,8 @@ const initDoctorSchema = () => {
 
         },
         description: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue: ""
         },
         status:{
             type:Sequelize.STRING,
