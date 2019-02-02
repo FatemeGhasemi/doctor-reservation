@@ -17,16 +17,16 @@ const initUserSchema = () => {
         username: {
             type: Sequelize.STRING
         },
-        activeStatus: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: false
-        },
         roll: {
             type: Sequelize.STRING,
         },
         avatarUrl:{
             type:Sequelize.STRING
-        }
+        },
+         status:{
+            type:Sequelize.STRING,
+             defaultValue: "pending"
+         }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
     // await User.sync({force: true})

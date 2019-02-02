@@ -1,4 +1,5 @@
 const doctorSchema = require('../models/doctor')();
+const userSchema = require('../models/user')();
 
 
 const findUserByPhoneNumber = async (phoneNumber) => {
@@ -37,8 +38,14 @@ const deactivateUser = async (phoneNumber) => {
 };
 
 
-const activateAsDoctor = async (id, officeId,) => {
-//TODO should return activate doctor data
+const activateAsDoctor = async (id) => {
+    userSchema.update({roll: "doctor"},
+        {returning: true, where: {id: id}}
+    );
+    return doctorSchema.update(
+        {isApproved: true},
+        {returning: true, where: {id: id}}
+    )
 };
 
 

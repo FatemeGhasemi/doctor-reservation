@@ -14,14 +14,25 @@ const createUser = async (phoneNumber) => {
 
 const updateUserByAdmin = async (phoneNumber, data) => {
     return userSchema.update(
-        {firstName: data.firstName, lastName: data.lastName,roll:data.roll,avatarUrl: data.avatarUrl},
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            roll: data.roll,
+            avatarUrl: data.avatarUrl,
+            status: data.status
+        },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
 
 const updateUser = async (phoneNumber, data) => {
     return userSchema.update(
-        {firstName: data.firstName, lastName: data.lastName},
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            avatarUrl: data.avatarUrl,
+            status: data.status
+        },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
@@ -29,7 +40,7 @@ const updateUser = async (phoneNumber, data) => {
 
 const activateUser = async (phoneNumber) => {
     return userSchema.update(
-        {activeStatus: true, roll: "user"},
+        {status: "activate", roll: "user"},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
@@ -37,7 +48,7 @@ const activateUser = async (phoneNumber) => {
 
 const deactivateUser = async (phoneNumber) => {
     return userSchema.update(
-        {activeStatus: false},
+        {status: "deactivate"},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
