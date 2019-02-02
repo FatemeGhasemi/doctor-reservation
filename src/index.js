@@ -32,6 +32,7 @@ function addRoutes() {
     app.use('/api/v1/users', require('./routers/v1/user'));
     app.use('/api/v1/getOtp', require('./routers/v1/login-register'));
     app.use('/api/v1/activation', require('./routers/v1/login-register'));
+    app.use('/api/v1/admin-update-users',require('./routers/v1/admin'));
 
 }
 

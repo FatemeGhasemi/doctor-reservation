@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 let sequelize;
 let User;
-const keyWord = require('../configs/keyWord');
 const initUserSchema = () => {
      User = sequelize.define('user', {
         firstName: {
