@@ -1,10 +1,58 @@
+const doctorSchema = require('../models/doctor')();
+
+
+const findUserByPhoneNumber = async (phoneNumber) => {
+    return userSchema.findOne({where: {phoneNumber: phoneNumber}})
+};
+
+
+const updateUserByAdmin = async (phoneNumber, data) => {
+    return userSchema.update(
+        {firstName: data.firstName, lastName: data.lastName, roll: data.roll, avatarUrl: data.avatarUrl},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+};
+
+const updateUser = async (phoneNumber, data) => {
+    return userSchema.update(
+        {firstName: data.firstName, lastName: data.lastName},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+};
+
+
+const activateUser = async (phoneNumber) => {
+    return userSchema.update(
+        {activeStatus: true, roll: "user"},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+};
+
+
+const deactivateUser = async (phoneNumber) => {
+    return userSchema.update(
+        {activeStatus: false},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+};
+
+
 const activateAsDoctor = async (id, officeId,) => {
 //TODO should return activate doctor data
 };
 
 
 const updateDoctorData = async (id, data) => {
-//    TODO return updated data
+    return doctorSchema.update(
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            categoryId: data.categoryId,
+            description: data.description,
+            officeIds: data.officeIds
+        },
+        {returning: true, where: {id: id}}
+    )
 };
 
 
@@ -23,14 +71,21 @@ const searchDoctorByCategory = (categoryId, begin = 0, total = 10) => {
 }
 
 
-const searchDoctorByPhoneNumber = (phoneNumber)=>{
+const searchDoctorByPhoneNumber = (phoneNumber) => {
 //    TODO return doctor data
 }
 
 
 const createDoctorUser = async (phoneNumber, firstName, lastName, categoryId, description = "", officeIds = []) => {
-//    TODO return doctor data
-}
+    return doctorSchema.create({
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        lastName: lastName,
+        categoryId: categoryId,
+        description: description,
+        officeIds: officeIds
+    })
+};
 
 module.exports = {
     activateAsDoctor,
