@@ -17,8 +17,9 @@ const initUserSchema = () => {
         username: {
             type: Sequelize.STRING
         },
-        roll: {
+        role: {
             type: Sequelize.STRING,
+            defaultValue: 'user'
         },
         avatarUrl:{
             type:Sequelize.STRING

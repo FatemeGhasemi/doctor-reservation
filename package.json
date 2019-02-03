@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "mocha ./test/**/*.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "pg-hstore": "^2.3.2",
     "redis": "^2.8.0",
     "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
     "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {

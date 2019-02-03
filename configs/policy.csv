@@ -1,6 +1,6 @@
-p, admin, category, put
-p, admin, category, post
-p, user, category, get
+p, admin, categories, put
+p, admin, categories, post
+p, user, categories, get
 
 p, user, users, post
 p, user, users, put

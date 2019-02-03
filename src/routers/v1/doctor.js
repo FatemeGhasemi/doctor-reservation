@@ -36,14 +36,14 @@ const getListOfDoctorsFullTextSearch = async (req, res) => {
 };
 
 
-const getDoctorListController = async (req, res) => {
+const getDoctorListControleer = async (req, res) => {
     try {
         if (req.query.categoryId) {
             await getListOfDoctorsByCategory(req, res)
         } else await getListOfDoctorsFullTextSearch(req, res)
 
     } catch (e) {
-        console.log("getDoctorListController ERROR: ", e.message)
+        console.log("getDoctorListControleer ERROR: ", e.message)
     }
 };
 
@@ -60,7 +60,7 @@ const updateDoctorData = async (req, res) => {
 
 
 
-router.get('/', getDoctorListController);
+router.get('/', getDoctorListControleer);
 router.post('/',createUserAsDoctor);
 router.put('/',updateDoctorData);
 module.exports = router;

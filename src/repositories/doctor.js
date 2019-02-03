@@ -14,7 +14,7 @@ const createDoctorUser = async (data) => {
 };
 
 const activateAsDoctor = async (id) => {
-    userSchema.update({roll: "doctor"},
+    userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
     );
     return doctorSchema.update(
@@ -46,7 +46,7 @@ const updateDoctorDataByAdmin = async (id, data) => {
             categoryId: data.categoryId,
             description: data.description,
             officeIds: data.officeIds,
-            status:data.status
+            status: data.status
         },
         {returning: true, where: {id: id}}
     )
@@ -62,22 +62,30 @@ const deactivateDoctor = async (id) => {
 
 
 const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
-//    TODO return doctor list
+    return doctorSchema.findAll({
+        where: {
+            firstName: {[Op.iLike]: filter}, [Op.or]: [
+                {lastName: {[Op.iLike]: filter}},
+                {id: {[Op.gt]: 10}}
+            ]
+
+
+
+        }
+    })
 };
 
 
 const searchDoctorByCategory = (categoryId, offset = 0, limit = 10) => {
     return userSchema.findAll(
-        {offset:offset, limit: limit},
-        {where: {categoryId: categoryId, status:"isApproved"}})
+        {offset: offset, limit: limit},
+        {where: {categoryId: categoryId, status: "isApproved"}})
 };
 
 
 const searchDoctorByPhoneNumber = (phoneNumber) => {
     return doctorSchema.findOne({where: {phoneNumber: phoneNumber}})
 };
-
-
 
 
 module.exports = {

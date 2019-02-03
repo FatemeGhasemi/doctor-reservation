@@ -1,13 +1,26 @@
 const jwtHelper = require('../services/athorization/jwt');
 const authorization = require('../services/athorization/acl');
+const userRepository = require('../repositories/user')
 
-const checkAccess = async (req, res, next) => {
+const validateJwt = async (req, res, next) =>{
     try {
         const authorizationHeader = jwtHelper.removeBearer(req.header('Authorization'));
-        const allowedPhoneNumber = jwtHelper.verifyJwt(authorizationHeader).phoneNumber;
-        console.log("req.body.phoneNumber: ", req.body.phoneNumber);
-        console.log("allowedPhoneNumber: ", allowedPhoneNumber);
-        if (allowedPhoneNumber === req.body.phoneNumber) {
+        const userData = jwtHelper.verifyJwt(authorizationHeader)
+        res.locals.user = await userRepository.findUserByPhoneNumber(userData.phoneNumber)
+        if ( res.locals.user) {
+            next()
+        } else {
+            throw new Error("unAuthorize")
+        }
+    } catch (e) {
+        res.status(403).json({"message": e.message})
+    }
+}
+
+const checkAccessWithPhoneNumber = async (req, res, next) => {
+    try {
+        console.log("req.body.phoneNumber: ", req.params.phoneNumber);
+        if (res.locals.user.phoneNumber === req.params.phoneNumber) {
             next()
         } else {
             throw new Error("unAuthorize")
@@ -19,10 +32,9 @@ const checkAccess = async (req, res, next) => {
 
 
 const checkRolesAccess = async (req, res, next) => {
-    const authorizationHeader = jwtHelper.removeBearer(req.header('Authorization'));
     const act = req.method.toLowerCase();
     const obj = req.baseUrl.split('/')[3];
-    const checkRoleAccess = await authorization.checkRoleAccess(authorizationHeader, obj, act);
+    const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
     if (checkRoleAccess) {
         next()
     } else {
@@ -31,4 +43,4 @@ const checkRolesAccess = async (req, res, next) => {
 };
 
 
-module.exports = {checkAccess,checkRolesAccess}
+module.exports = {checkAccess: checkAccessWithPhoneNumber,checkRolesAccess, validateJwt}

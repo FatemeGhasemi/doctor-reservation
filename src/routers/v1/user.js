@@ -16,7 +16,9 @@ const createNewUser = async (req, res) => {
 const updateUserData = async (req, res) => {
     try {
         console.log("updateUserData:  ")
-        const user = await userRepository.updateUser(req.body.phoneNumber,req.body)
+        const data = req.body
+        delete data['phoneNumber']
+        const user = await userRepository.updateUser(req.params.phoneNumber,data)
         res.json({message: "success operation", result: user})
 
     }catch (e) {
@@ -26,5 +28,5 @@ const updateUserData = async (req, res) => {
 
 
 router.post('/', createNewUser);
-router.put('/',checkAccess.checkAccess, updateUserData);
+router.put('/:phoneNumber',checkAccess.validateJwt, checkAccess.checkAccess, updateUserData);
 module.exports = router;

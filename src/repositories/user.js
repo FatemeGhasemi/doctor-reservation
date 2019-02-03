@@ -21,7 +21,7 @@ const updateUserByAdmin = async (phoneNumber, data) => {
         {
             firstName: data.firstName,
             lastName: data.lastName,
-            roll: data.roll,
+            role: data.role,
             avatarUrl: data.avatarUrl,
             status: data.status
         },
@@ -35,7 +35,7 @@ const updateUser = async (phoneNumber, data) => {
             firstName: data.firstName,
             lastName: data.lastName,
             avatarUrl: data.avatarUrl,
-            status: data.status
+            role:data.role
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
@@ -44,7 +44,7 @@ const updateUser = async (phoneNumber, data) => {
 
 const activateUser = async (phoneNumber) => {
     return userSchema.update(
-        {status: "activate", roll: "user"},
+        {status: "activate", role: "user"},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };

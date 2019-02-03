@@ -33,6 +33,7 @@ function addRoutes() {
     app.use('/api/v1/getOtp', require('./routers/v1/login-register'));
     app.use('/api/v1/activation', require('./routers/v1/login-register'));
     app.use('/api/v1/doctors',require('./routers/v1/doctor'));
+    app.use('/api/v1/categories',require('./routers/v1/category'));
 
 }
 
