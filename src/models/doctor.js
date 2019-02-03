@@ -16,22 +16,18 @@ const initDoctorSchema = () => {
         firstName: {
             type: Sequelize.STRING,
             required: true
-
         },
         lastName: {
             type: Sequelize.STRING,
             required: true
-
         },
         categoryId: {
             type: Sequelize.STRING,
             required: true
-
         },
         phoneNumber: {
             type: Sequelize.STRING,
             required: true
-
         },
         description: {
             type: Sequelize.STRING,
@@ -49,7 +45,7 @@ const initDoctorSchema = () => {
 };
 module.exports = (injectedSequelize) => {
     if (!injectedSequelize) {
-        if (!Doctor) throw new Error('Plz define schemas by calling db.initDb(')
+        if (!Doctor) throw new Error('Plz define schemas by calling db.initDb(');
         return Doctor
     }
     sequelize = injectedSequelize;
