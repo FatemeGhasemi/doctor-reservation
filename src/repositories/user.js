@@ -6,9 +6,13 @@ const findUserByPhoneNumber = async (phoneNumber) => {
 };
 
 
+const findUserById = async (id) => {
+    return userSchema.findOne({where: {id: id}})
+};
+
+
 const createUser = async (phoneNumber) => {
     return userSchema.create({phoneNumber: phoneNumber})
-
 };
 
 
@@ -75,7 +79,8 @@ module.exports = {
     updateUser,
     deactivateUser,
     findUserByPhoneNumber,
-    updateUserByAdmin
+    updateUserByAdmin,
+    findUserById
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,

@@ -22,7 +22,7 @@ const updateUserData = async (req, res) => {
     }catch (e) {
         res.status(500).json({message: e.message})
     }
-}
+};
 
 
 router.post('/', createNewUser);

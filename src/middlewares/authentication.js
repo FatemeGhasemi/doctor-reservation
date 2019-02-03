@@ -27,8 +27,8 @@ const checkRolesAccess = async (req, res, next) => {
         next()
     } else {
         res.status(403).json({"message": "unAuthorize"})
-    }
+}
 };
 
 
-module.exports = {checkAccess,checkRolesAccess};
+module.exports = {checkAccess,checkRolesAccess}

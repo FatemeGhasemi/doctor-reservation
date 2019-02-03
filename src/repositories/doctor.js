@@ -38,6 +38,21 @@ const updateDoctorData = async (id, data) => {
 };
 
 
+const updateDoctorDataByAdmin = async (id, data) => {
+    return doctorSchema.update(
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            categoryId: data.categoryId,
+            description: data.description,
+            officeIds: data.officeIds,
+            status:data.status
+        },
+        {returning: true, where: {id: id}}
+    )
+};
+
+
 const deactivateDoctor = async (id) => {
     return doctorSchema.update(
         {status: "deactivate"},
@@ -72,5 +87,6 @@ module.exports = {
     searchDoctorByCategory,
     createDoctorUser,
     searchDoctorFullText,
-    searchDoctorByPhoneNumber
+    searchDoctorByPhoneNumber,
+    updateDoctorDataByAdmin
 }

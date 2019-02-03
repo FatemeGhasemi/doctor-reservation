@@ -2,10 +2,10 @@ p, admin, category, put
 p, admin, category, post
 p, user, category, get
 
-p, user, user, post
-p, user, user, put
-p, admin, user, get
-p, admin, user, post
-p, admin, user, put
+p, user, users, post
+p, user, users, put
+p, admin, users, get
+p, admin, users, post
+p, admin, users, put
 
 
