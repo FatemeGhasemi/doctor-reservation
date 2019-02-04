@@ -27,15 +27,13 @@ const updateCategoryData = async (id, data) => {
 };
 
 const changeCategoryStatus = async (id) => {
-    const category = await findCategoryById(id)
+    const category = await findCategoryById(id);
     if (category.isAvailable) {
         return categorySchema.update({isAvailable: false}, {returning: true, where: {id: id}})
     } else {
         return categorySchema.update({isAvailable: true}, {returning: true, where: {id: id}})
     }
-}
-
-
+};
 
 
 module.exports = {
