@@ -3,6 +3,7 @@ let sequelize;
 let User;
 const initUserSchema = () => {
      User = sequelize.define('user', {
+
         firstName: {
             type: Sequelize.STRING,
         },
