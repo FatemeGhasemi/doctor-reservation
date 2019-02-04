@@ -11,7 +11,6 @@ const initCategorySchema = () => {
             type: Sequelize.STRING,
             primaryKey:true,
             defaultValue:""
-
         },
         name: {
             type: Sequelize.STRING,
@@ -19,7 +18,10 @@ const initCategorySchema = () => {
             required: true,
             allowNull: false,
             primaryKey:true
-
+        },
+        isAvailable:{
+            type:Sequelize.BOOLEAN,
+            defaultValue: true
         }
     });
     //TODO Category.sync just needed once to create tables, so if tables created dont need call it any more

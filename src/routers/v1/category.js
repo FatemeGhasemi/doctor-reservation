@@ -20,7 +20,6 @@ const createNewCategory = async (req, res) => {
 
 const updateCategoryData = async (req, res) => {
     try {
-
         const category = await categoryRepository.updateCategoryData(req.params.id, req.body);
         res.json({message: "success operation", result: category})
     } catch (e) {
@@ -29,6 +28,30 @@ const updateCategoryData = async (req, res) => {
 };
 
 
+const changeCategoryStatus = async (req, res) => {
+    try {
+        const category = await categoryRepository.changeCategoryStatus(req.params.id);
+        res.json({message: "success operation", result: category})
+    } catch (e) {
+        res.status(500).json({message: e.message})
+    }
+};
+
+
+const changeInCategoryHandler = async (req, res) => {
+    try {
+        const data = req.body
+        if (data.name || data.parentName) {
+            await updateCategoryData(req, res)
+        } else {
+            await changeCategoryStatus(req, res)
+        }
+    } catch (e) {
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewCategory);
-router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateCategoryData);
+router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, changeInCategoryHandler);
 module.exports = router;
