@@ -5,7 +5,7 @@ const checkAccess = require('../../middlewares/authentication');
 
 const createNewUser = async (req, res) => {
     try {
-        const user = await userRepository.createUser(req.body.phoneNumber)
+        const user = await userRepository.createUser(req.body.phoneNumber);
         res.json({message: "success operation", result: user})
 
     } catch (e) {
@@ -15,10 +15,10 @@ const createNewUser = async (req, res) => {
 
 const updateUserData = async (req, res) => {
     try {
-        console.log("updateUserData:  ")
-        const data = req.body
-        delete data['phoneNumber']
-        const user = await userRepository.updateUser(req.params.phoneNumber,data)
+        console.log("updateUserData:  ");
+        const data = req.body;
+        delete data['phoneNumber'];
+        const user = await userRepository.updateUser(req.params.phoneNumber,data);
         res.json({message: "success operation", result: user})
 
     }catch (e) {
