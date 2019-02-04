@@ -3,6 +3,10 @@ let sequelize;
 let Category;
 const initCategorySchema = () => {
     Category = sequelize.define('category', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+        },
         parentName: {
             type: Sequelize.STRING,
             primaryKey:true,

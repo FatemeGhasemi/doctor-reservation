@@ -1,7 +1,7 @@
 let categorySchema = require('../models/category')();
 
 
-const findCategoryByParentName= async (parentName) => {
+const findCategoryByParentName = async (parentName) => {
     return categorySchema.findOne({where: {parentName: parentName}})
 };
 
@@ -16,13 +16,13 @@ const crateNewCategory = async (parentName, name) => {
 };
 
 
-const updateCategoryData = async (name,data) => {
+const updateCategoryData = async (id, data) => {
     return categorySchema.update({name: data.name, parentId: data.parentId},
-        {returning: true, where: {name: name}}
+        {returning: true, where: {id:id}}
     )
 };
 
 
 module.exports = {
     findCategoryByParentName, findCategoryByName, crateNewCategory, updateCategoryData
-}
+};
