@@ -11,13 +11,13 @@ const findCategoryByName = async (name) => {
 };
 
 
-const crateNewCategory = async (parentId, name) => {
-    categorySchema.create({parentId: parentId, name: name})
+const crateNewCategory = async (parentName, name) => {
+    return categorySchema.create({parentName: parentName, name: name})
 };
 
 
 const updateCategoryData = async (id) => {
-    categorySchema.update({name: data.name, parentId: data.parentId},
+    return categorySchema.update({name: data.name, parentId: data.parentId},
         {returning: true, where: {id: id}}
     )
 };

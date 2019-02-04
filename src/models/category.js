@@ -3,12 +3,19 @@ let sequelize;
 let Category;
 const initCategorySchema = () => {
     Category = sequelize.define('category', {
-        parentId: {
-            type: Sequelize.INTEGER,
-            defaultValue: null
+        parentName: {
+            type: Sequelize.STRING,
+            primaryKey:true,
+            defaultValue:""
+
         },
         name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true,
+            required: true,
+            allowNull: false,
+            primaryKey:true
+
         }
     });
     //TODO Category.sync just needed once to create tables, so if tables created dont need call it any more
