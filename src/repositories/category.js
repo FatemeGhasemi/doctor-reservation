@@ -1,14 +1,22 @@
 let categorySchema = require('../models/category')();
+// const op = Sequelize.Op;
 
 
 const findCategoryByParentName = async (parentName) => {
-    return categorySchema.findOne({where: {parentName: parentName}})
+    return categorySchema.findAll({
+        where: {
+            parentName:  parentName}
+    })
 };
 
 
 const findCategoryByName = async (name) => {
-    return categorySchema.findOne({where: {name: name}})
+    return categorySchema.findOne({
+        where: {name: name}
+    })
 };
+
+
 
 const findCategoryById = async (id) => {
     return categorySchema.findOne({where: {id: id}})
@@ -26,6 +34,7 @@ const updateCategoryData = async (id, data) => {
     )
 };
 
+
 const changeCategoryStatus = async (id) => {
     const category = await findCategoryById(id);
     if (category.isAvailable) {
@@ -35,11 +44,19 @@ const changeCategoryStatus = async (id) => {
     }
 };
 
+const returnAllCategories = async (offset = 0, limit = 10) => {
+    return categorySchema.findAll(
+        {offset: offset, limit: limit},
+    )
+};
+
 
 module.exports = {
     findCategoryByParentName,
     findCategoryByName,
     crateNewCategory,
     updateCategoryData,
-    changeCategoryStatus
+    changeCategoryStatus,
+    findCategoryById,
+    returnAllCategories
 };

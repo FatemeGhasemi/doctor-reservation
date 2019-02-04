@@ -14,7 +14,7 @@ db.initDb().then(()=> {
 }).catch(e =>{
     console.log("Error init db ", e.message)
     throw e
-})
+});
 
 function initSwagger() {
     const swaggerUi = require('swagger-ui-express');

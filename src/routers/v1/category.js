@@ -18,6 +18,27 @@ const createNewCategory = async (req, res) => {
     }
 };
 
+
+const searchCategory = async (req, res) => {
+    try {
+        let category;
+        const data = req.query;
+        if (data.parentName) {
+            category = await categoryRepository.findCategoryByParentName(data.parentName)
+        }
+        if (data.id) {
+            category = await categoryRepository.findCategoryById(data.id)
+        } else {
+            category = await categoryRepository.returnAllCategories()
+        }
+        res.json({message: "success operation", result: category})
+
+    } catch (e) {
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 const updateCategoryData = async (req, res) => {
     try {
         const category = await categoryRepository.updateCategoryData(req.params.id, req.body);
@@ -54,4 +75,5 @@ const changeInCategoryHandler = async (req, res) => {
 
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewCategory);
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, changeInCategoryHandler);
+router.get('/', checkAccess.validateJwt, searchCategory)
 module.exports = router;

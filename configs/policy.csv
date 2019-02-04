@@ -8,4 +8,11 @@ p, admin, users, get
 p, admin, users, post
 p, admin, users, put
 
+p, user, doctors, post
+p, doctor, doctors, put
+p, admin, doctors, put
+
+
+
+
 
