@@ -6,7 +6,7 @@ function initRelations() {
     const officeSchema = require('../models/office')();
     const reservationSchema = require('../models/reservation')();
     doctorSchema.belongsTo(userSchema,{as:'User',foreignKey:{name:'userId'}})
-    secretarySchema.belongsTo(userSchema)
+    secretarySchema.belongsTo(userSchema,{as:'User',foreignKey:{name:'userId'}})
 
 }
 
