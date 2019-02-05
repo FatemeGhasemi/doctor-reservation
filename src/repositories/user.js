@@ -16,29 +16,22 @@ const createUser = async (phoneNumber) => {
 };
 
 
-const updateUserByAdmin = async (phoneNumber, data) => {
-    return userSchema.update(
-        {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            role: data.role,
-            avatarUrl: data.avatarUrl,
-            status: data.status
-        },
-        {returning: true, where: {phoneNumber: phoneNumber}}
-    )
-};
-
 const updateUser = async (phoneNumber, data) => {
     return userSchema.update(
         {
             firstName: data.firstName,
             lastName: data.lastName,
             avatarUrl: data.avatarUrl,
-            role:data.role
+            role: data.role,
+            status:data.status
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
+};
+
+
+const getUserRoleByPhoneNumber = async (phoneNumber) => {
+    return await findUserByPhoneNumber(phoneNumber).role
 };
 
 
@@ -79,8 +72,8 @@ module.exports = {
     updateUser,
     deactivateUser,
     findUserByPhoneNumber,
-    updateUserByAdmin,
-    findUserById
+    findUserById,
+    getUserRoleByPhoneNumber
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,
