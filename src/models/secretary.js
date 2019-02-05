@@ -21,9 +21,9 @@ const initSecretarySchema =  () => {
             type: Sequelize.STRING,
             required:true
         },
-        isApproved: {
-            type: Sequelize.BOOLEAN,
-            defaultValue:false,
+        status: {
+            type: Sequelize.STRING,
+            defaultValue:"pending",
         }
 
 
