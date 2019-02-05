@@ -34,6 +34,7 @@ function addRoutes() {
     app.use('/api/v1/activation', require('./routers/v1/login-register'));
     app.use('/api/v1/doctors',require('./routers/v1/doctor'));
     app.use('/api/v1/categories',require('./routers/v1/category'));
+    app.use('/api/v1/secretaries',require('./routers/v1/secretary'));
 
 }
 
