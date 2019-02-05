@@ -1,9 +1,7 @@
 const express = require('express');
-app = express();
 const doctorRepository = require("../../repositories/doctor");
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+const userRepository = require("../../repositories/user");
+const checkAccess = require('../../middlewares/authentication');
 const router = express.Router();
 
 
@@ -19,7 +17,7 @@ const createUserAsDoctor = async (req, res) => {
 const getListOfDoctorsByCategory = async (req, res) => {
     try {
         const result = doctorRepository.searchDoctorByCategory(req.query.categoryId, req.query.offset, req.query.limit)
-        res.json({message: "success operation",result: result})
+        res.json({message: "success operation", result: result})
     } catch (e) {
         res.status(500).json({message: e.message})
     }
@@ -29,38 +27,43 @@ const getListOfDoctorsByCategory = async (req, res) => {
 const getListOfDoctorsFullTextSearch = async (req, res) => {
     try {
         const result = doctorRepository.searchDoctorFullText(req.query.filter, req.query.offset, req.query.limit);
-        res.json({message: "success operation",result: result})
+        res.json({message: "success operation", result: result})
     } catch (e) {
         res.status(500).json({message: e.message})
     }
 };
 
 
-const getDoctorListControleer = async (req, res) => {
+const getDoctorListController = async (req, res) => {
     try {
         if (req.query.categoryId) {
             await getListOfDoctorsByCategory(req, res)
         } else await getListOfDoctorsFullTextSearch(req, res)
 
     } catch (e) {
-        console.log("getDoctorListControleer ERROR: ", e.message)
+        console.log("getDoctorListController ERROR: ", e.message)
     }
 };
 
 
 const updateDoctorData = async (req, res) => {
     try {
-        const user = await doctorRepository.updateDoctorData(req.params.id,req.body);
+        const data = req.body;
+        const role = await userRepository.getUserRoleByPhoneNumber(req.params.phoneNumber);
+        if (role === "doctor") {
+            delete data['status']
+        }
+        const user = await doctorRepository.updateDoctorData(req.params.id, data);
         res.json({message: "success operation", result: user})
 
-    }catch (e) {
+    } catch (e) {
         res.status(500).json({message: e.message})
     }
 };
 
 
+router.get('/', getDoctorListController);
+router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
+router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
 
-router.get('/', getDoctorListControleer);
-router.post('/',createUserAsDoctor);
-router.put('/',updateDoctorData);
 module.exports = router;

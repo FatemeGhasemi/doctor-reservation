@@ -13,6 +13,7 @@ const createDoctorUser = async (data) => {
     })
 };
 
+
 const activateAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
@@ -25,20 +26,6 @@ const activateAsDoctor = async (id) => {
 
 
 const updateDoctorData = async (id, data) => {
-    return doctorSchema.update(
-        {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            categoryId: data.categoryId,
-            description: data.description,
-            officeIds: data.officeIds
-        },
-        {returning: true, where: {id: id}}
-    )
-};
-
-
-const updateDoctorDataByAdmin = async (id, data) => {
     return doctorSchema.update(
         {
             firstName: data.firstName,
@@ -62,17 +49,17 @@ const deactivateDoctor = async (id) => {
 
 
 const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
-    return doctorSchema.findAll({
-        where: {
-            firstName: {[Op.iLike]: filter}, [Op.or]: [
-                {lastName: {[Op.iLike]: filter}},
-                {id: {[Op.gt]: 10}}
-            ]
-
-
-
-        }
-    })
+    // return doctorSchema.findAll({
+    //     where: {
+    //         firstName: {[Op.iLike]: filter}, [Op.or]: [
+    //             {lastName: {[Op.iLike]: filter}},
+    //             {id: {[Op.gt]: 10}}
+    //         ]
+    //
+    //
+    //
+    //     }
+    // })
 };
 
 
@@ -96,5 +83,4 @@ module.exports = {
     createDoctorUser,
     searchDoctorFullText,
     searchDoctorByPhoneNumber,
-    updateDoctorDataByAdmin
 }
