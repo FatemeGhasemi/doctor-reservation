@@ -1,5 +1,3 @@
-p,user,secretaries,post
-
 p, admin, categories, put
 p, admin, categories, post
 p, user, categories, get
@@ -14,6 +12,7 @@ p, user, doctors, post
 p, doctor, doctors, put
 p, admin, doctors, put
 
+p,user,secretaries,post
 p,secretary, secretaries,put
 p,admin, secretaries,put
 
