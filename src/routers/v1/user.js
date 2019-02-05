@@ -18,7 +18,7 @@ const updateUserData = async (req, res) => {
     try {
         const data = req.body;
         const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
-        const phone = jwtHelper.verifyJwt(accessToken);
+        const phone = jwtHelper.verifyJwt(accessToken).phoneNumber;
         const role = await userRepository.getUserRoleByPhoneNumber(phone);
         if (role === "user" || role === "doctor" || role === "secretary") {
             delete data['role'];

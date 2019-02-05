@@ -52,8 +52,8 @@ const updateDoctorData = async (req, res) => {
         console.log("hi to update")
         const data = req.body;
         const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
-        const phone = jwtHelper.verifyJwt(accessToken);
-        const role = userRepository.getUserRoleByPhoneNumber(phone);
+        const phone = jwtHelper.verifyJwt(accessToken).phoneNumber;
+        const role = await userRepository.getUserRoleByPhoneNumber(phone);
         if (role === "doctor") {
             delete data['status']
 
