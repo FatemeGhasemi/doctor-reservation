@@ -6,7 +6,7 @@ const initDoctorSchema = () => {
         userId: {
             type: Sequelize.INTEGER,
             required: true,
-            foreignKey :true
+            foreignKey :true,
         },
         officeIds: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
@@ -27,7 +27,8 @@ const initDoctorSchema = () => {
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required: true
+            required: true,
+            unique:true
         },
         description: {
             type: Sequelize.STRING,

@@ -1,9 +1,13 @@
 const doctorSchema = require('../models/doctor')();
 const userSchema = require('../models/user')();
+const userRepository = require('../repositories/user');
 
 
 const createDoctorUser = async (data) => {
+    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
+    const userId = user.id;
     return doctorSchema.create({
+        userId: userId,
         phoneNumber: data.phoneNumber,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -12,7 +16,6 @@ const createDoctorUser = async (data) => {
         officeIds: data.officeIds
     })
 };
-
 
 const activateAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
