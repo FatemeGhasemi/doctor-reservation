@@ -16,9 +16,9 @@ const createNewUser = async (req, res) => {
 const updateUserData = async (req, res) => {
     try {
         const data = req.body;
-        const role = await userRepository.getUserRoleByPhoneNumber(data.phoneNumber);
+        const role = await userRepository.getUserRoleByPhoneNumber(req.params.phoneNumber);
         if (role === "user" || role === "doctor" || role === "secretary") {
-            delete data['role']
+            delete data['role'];
             delete data['status']
         }
         console.log("updateUserData:  ");

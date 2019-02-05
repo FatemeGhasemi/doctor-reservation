@@ -31,7 +31,8 @@ const updateUser = async (phoneNumber, data) => {
 
 
 const getUserRoleByPhoneNumber = async (phoneNumber) => {
-    return await findUserByPhoneNumber(phoneNumber).role
+    const user = await findUserByPhoneNumber(phoneNumber)
+    return user.role
 };
 
 
