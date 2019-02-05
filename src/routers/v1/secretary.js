@@ -68,7 +68,7 @@ const updateSecretaryData = async (req, res) => {
 
 
 router.get('/', getSecretaryListController);
-router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsSecretary);
+router.post('/', checkAccess.validateJwt, createUserAsSecretary);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateSecretaryData);
 
 module.exports = router;

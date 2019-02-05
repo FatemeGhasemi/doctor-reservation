@@ -1,20 +1,22 @@
-p, admin, categories, put
-p, admin, categories, post
-p, user, categories, get
+p,admin    ,categories ,put
+p,admin    ,categories ,post
+p,user     ,categories ,get
 
-p, user, users, post
-p, user, users, put
-p, admin, users, get
-p, admin, users, post
-p, admin, users, put
+p,user     ,users      ,post
+p,user     ,users      ,put
+p,admin    ,users      ,get
+p,admin    ,users      ,post
+p,admin    ,users      ,put
 
-p, user, doctors, post
-p, doctor, doctors, put
-p, admin, doctors, put
+p,user     ,doctors    ,post
+p,admin     ,doctors    ,post
+p,doctor   ,doctors    ,put
+p,admin    ,doctors    ,put
 
-p,user,secretaries,post
-p,secretary, secretaries,put
-p,admin, secretaries,put
+p,user     ,secretaries,post
+p,admin     ,secretaries,post
+p,admin    ,secretaries,put
+
 
 
 
