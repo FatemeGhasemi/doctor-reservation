@@ -28,7 +28,7 @@ const activateAsDoctor = async (id) => {
 };
 
 
-const updateDoctorData = async (id, data) => {
+const updateDoctorData = async (phoneNumber, data) => {
     return doctorSchema.update(
         {
             firstName: data.firstName,
@@ -38,7 +38,7 @@ const updateDoctorData = async (id, data) => {
             officeIds: data.officeIds,
             status: data.status
         },
-        {returning: true, where: {id: id}}
+        {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
 

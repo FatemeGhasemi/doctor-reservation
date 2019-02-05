@@ -2,6 +2,7 @@ const express = require('express');
 const doctorRepository = require("../../repositories/doctor");
 const userRepository = require("../../repositories/user");
 const checkAccess = require('../../middlewares/authentication');
+const jwtHelper = require('../../services/athorization/jwt');
 const router = express.Router();
 
 
@@ -48,12 +49,16 @@ const getDoctorListController = async (req, res) => {
 
 const updateDoctorData = async (req, res) => {
     try {
+        console.log("hi to update")
         const data = req.body;
-        const role = await userRepository.getUserRoleByPhoneNumber(req.params.phoneNumber);
+        const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
+        const phone = jwtHelper.verifyJwt(accessToken);
+        const role = userRepository.getUserRoleByPhoneNumber(phone);
         if (role === "doctor") {
             delete data['status']
+
         }
-        const user = await doctorRepository.updateDoctorData(req.params.id, data);
+        const user = await doctorRepository.updateDoctorData(req.params.phoneNumber, data);
         res.json({message: "success operation", result: user})
 
     } catch (e) {
@@ -64,6 +69,6 @@ const updateDoctorData = async (req, res) => {
 
 router.get('/', getDoctorListController);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
-router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
+router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
 
 module.exports = router;
