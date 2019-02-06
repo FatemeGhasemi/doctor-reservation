@@ -6,7 +6,7 @@ const initOfficeSchema =  () => {
      Office =  sequelize.define('office', {
 
         phoneNumber: {
-            type: Sequelize.STRING
+            type: Sequelize.ARRAY(Sequelize.STRING)
         },
         lat: {
             type: Sequelize.DECIMAL
