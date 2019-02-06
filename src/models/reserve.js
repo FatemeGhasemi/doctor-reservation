@@ -1,27 +1,33 @@
 const Sequelize = require('sequelize');
 let sequelize;
-let Reservation;
-const initReservationSchema =  () => {
-     Reservation =  sequelize.define('reservation', {
-        officeId: {
+let Reserve;
+const initReserveSchema =  () => {
+    Reserve =  sequelize.define('reservation', {
+        userId: {
             type: Sequelize.INTEGER,
             required: true
         },
-        startTime: {
+        doctorId: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        finishTime: {
+        secretaryId: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        counter: {
+        reservationId: {
             type: Sequelize.INTEGER,
             required: true
         },
         statusId:{
             type:Sequelize.INTEGER,
             defaultValue:1
+        },
+        price:{
+            type:Sequelize.NUMERIC,
+        },
+        paymentId:{
+            type:Sequelize.INTEGER
         }
 
     });
@@ -37,6 +43,6 @@ module.exports = (injectedSequelize) => {
     }
     sequelize = injectedSequelize;
     return {
-        initReservationSchema
+        initReserveSchema
     }
 };

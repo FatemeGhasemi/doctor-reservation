@@ -2,4 +2,5 @@
 // id: 2  name:"active"
 // id: 3  name:"deactivate"
 // id: 4  name:"deleted"
-// id: 4  name:"isApproved"
+// id: 5  name:"approved"
+// id: 6  name:"canceled"

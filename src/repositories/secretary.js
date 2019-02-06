@@ -43,7 +43,7 @@ const approveAsSecretary = async (id) => {
     userSchema.update({role: "secretary"},
         {returning: true, where: {id: id}}
     );
-    const statusId = await statusRepository.findStatusIdByName("isApproved")
+    const statusId = await statusRepository.findStatusIdByName("approved")
     return secretarySchema.update(
         {statusId: statusId},
         {returning: true, where: {id: id}}
@@ -77,7 +77,7 @@ const searchSecretaryFullText = async (filter, begin = 0, total = 10) => {
 
 
 const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => {
-    const statusId = await statusRepository.findStatusIdByName("isApproved");
+    const statusId = await statusRepository.findStatusIdByName("approved");
     return userSchema.findAll(
         {offset: offset, limit: limit},
         {where: {categoryId: categoryId, statusId: statusId}})
@@ -85,7 +85,7 @@ const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => 
 
 
 const searchSecretaryByPhoneNumber = async (phoneNumber) => {
-    const statusId = await statusRepository.findStatusIdByName("isApproved");
+    const statusId = await statusRepository.findStatusIdByName("approved");
     return secretarySchema.findOne({where: {phoneNumber: phoneNumber, statusId: statusId}})
 };
 

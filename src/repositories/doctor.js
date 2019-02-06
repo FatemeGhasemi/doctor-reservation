@@ -22,7 +22,7 @@ const approveAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
     );
-    const statusId = await statusRepository.findStatusIdByName("isApproved")
+    const statusId = await statusRepository.findStatusIdByName("approve")
     return doctorSchema.update(
         {statusId: statusId},
         {returning: true, where: {id: id}}
@@ -70,7 +70,7 @@ const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
 
 
 const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
-    const statusId = await statusRepository.findStatusIdByName("isApproved")
+    const statusId = await statusRepository.findStatusIdByName("approved")
     return userSchema.findAll(
         {offset: offset, limit: limit},
         {where: {categoryId: categoryId, status: statusId}})
