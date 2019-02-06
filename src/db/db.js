@@ -3,6 +3,7 @@ const category = require('../models/category');
 const office = require('../models/office');
 const reservation = require('../models/reservation');
 const doctor = require('../models/doctor');
+const status = require('../models/status');
 const relationCoordinator = require('./relation-coordinator')
 
 
@@ -13,6 +14,7 @@ const defineSchemas = async (sequelize) => {
     const officeSchema = require('../models/office')(sequelize);
     const doctorSchema = require('../models/doctor')(sequelize);
     const categorySchema = require('../models/category')(sequelize);
+    const statusSchema = require('../models/status')(sequelize);
     try {
         await userSchema.initUserSchema();
         await secretarySchema.initSecretarySchema();
@@ -20,6 +22,7 @@ const defineSchemas = async (sequelize) => {
         await reservationSchema.initReservationSchema();
         await officeSchema.initOfficeSchema();
         await categorySchema.initCategorySchema();
+        await statusSchema.initStatusSchema();
     }catch (e) {
         console.log("defineSchemas ERROR:",e)
     }
