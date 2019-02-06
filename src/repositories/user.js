@@ -1,4 +1,5 @@
 const userSchema = require('../models/user')();
+const statusRepository = require('../repositories/status');
 
 
 const findUserByPhoneNumber = async (phoneNumber) => {
@@ -23,8 +24,8 @@ const updateUser = async (phoneNumber, data) => {
             lastName: data.lastName,
             avatarUrl: data.avatarUrl,
             role: data.role,
-            status:data.status,
-            officeIds:data.officeIds
+            statusId: data.status,
+            officeIds: data.officeIds
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
@@ -38,16 +39,18 @@ const getUserRoleByPhoneNumber = async (phoneNumber) => {
 
 
 const activateUser = async (phoneNumber) => {
+    const statusId = await statusRepository.findStatusIdByName("active")
     return userSchema.update(
-        {status: "activate", role: "user"},
+        {statusId: statusId},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
 
 
 const deactivateUser = async (phoneNumber) => {
+    const statusId = await statusRepository.findStatusIdByName("deactivate")
     return userSchema.update(
-        {status: "deactivate"},
+        {statusId: statusId},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
