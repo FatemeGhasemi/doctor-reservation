@@ -1,10 +1,11 @@
 const secretarySchema = require('../models/secretary')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
+const statusRepository = require('../repositories/status');
 
 
 const createSecretaryUser = async (data) => {
-    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
+    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber);
     const userId = user.id;
     return secretarySchema.create({
         userId: userId,
@@ -38,9 +39,23 @@ const updateSecretaryData = async (phoneNumber, data) => {
 };
 
 
-const deactivateSecretary = async (id) => {
+const approveAsSecretary = async (id) => {
+    userSchema.update({role: "secretary"},
+        {returning: true, where: {id: id}}
+    );
+    const statusId = await statusRepository.findStatusIdByName("isApproved")
     return secretarySchema.update(
-        {status: "deactivate"},
+        {statusId: statusId},
+        {returning: true, where: {id: id}}
+    )
+};
+
+
+
+const deactivateSecretary = async (id) => {
+    const statusId = await statusRepository.findStatusIdByName("deactivate");
+    return secretarySchema.update(
+        {statusId: statusId},
         {returning: true, where: {id: id}}
     )
 };
@@ -61,15 +76,17 @@ const searchSecretaryFullText = async (filter, begin = 0, total = 10) => {
 };
 
 
-const searchSecretaryByCategory = (categoryId, offset = 0, limit = 10) => {
+const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => {
+    const statusId = await statusRepository.findStatusIdByName("isApproved");
     return userSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, status: "isApproved"}})
+        {where: {categoryId: categoryId, statusId: statusId}})
 };
 
 
-const searchSecretaryByPhoneNumber = (phoneNumber) => {
-    return secretarySchema.findOne({where: {phoneNumber: phoneNumber}})
+const searchSecretaryByPhoneNumber = async (phoneNumber) => {
+    const statusId = await statusRepository.findStatusIdByName("isApproved");
+    return secretarySchema.findOne({where: {phoneNumber: phoneNumber, statusId: statusId}})
 };
 
 
@@ -81,4 +98,5 @@ module.exports = {
     createSecretaryUser,
     searchSecretaryFullText,
     searchSecretaryByPhoneNumber,
+    approveAsSecretary
 }
