@@ -34,7 +34,6 @@ const defineSchemas = async (sequelize) => {
 
 let sequelize;
 const createDbConnection = async ()=> {
-    const op = Sequelize.Op;
     sequelize = await new Sequelize(process.env.DATABASE_NAME, process.env.POSTGRES_USERNAME, process.env.POSTGRES_PASSWORD, {
         dialect:process.env.SEQUELIZE_DIALECT,
         host: process.env.SEQUELIZE_HOST,
@@ -62,7 +61,6 @@ const getInstance =async () =>{
 };
 
 const initDb = async ()=>{
-    const op = Sequelize.Op;
     await getInstance()
     relationCoordinator.initRelations()
 }
