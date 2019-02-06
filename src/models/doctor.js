@@ -34,9 +34,9 @@ const initDoctorSchema = () => {
             type: Sequelize.STRING,
             defaultValue: ""
         },
-        status:{
-            type:Sequelize.STRING,
-            defaultValue: "pending"
+        statusId:{
+            type:Sequelize.INTEGER,
+            defaultValue: 1
         }
 
     });

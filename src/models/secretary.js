@@ -21,10 +21,16 @@ const initSecretarySchema =  () => {
             type: Sequelize.STRING,
             required:true
         },
-        status: {
-            type: Sequelize.STRING,
-            defaultValue:"pending",
-        }
+        statusId: {
+            type: Sequelize.INTEGER,
+            defaultValue:1,
+        },
+         active:{
+            type:Sequelize.BOOLEAN,
+             defaultValue: false
+
+         }
+
 
 
     });

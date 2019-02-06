@@ -25,9 +25,9 @@ const initUserSchema = () => {
         avatarUrl:{
             type:Sequelize.STRING
         },
-         status:{
-            type:Sequelize.STRING,
-             defaultValue: "pending"
+         statusId:{
+            type:Sequelize.INTEGER,
+             defaultValue: 1
          }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
