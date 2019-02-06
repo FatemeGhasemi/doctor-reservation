@@ -14,13 +14,13 @@ const createSecretaryUser = async (data) => {
     })
 };
 
-const activateAsSecretary = async (id) => {
-    userSchema.update({role: "secretary"},
-        {returning: true, where: {id: id}}
+const defineSecretaryStatus = async (phoneNumber, status) => {
+    await userSchema.update({role: "secretary"},
+        {returning: true, where: {phoneNumber: phoneNumber}}
     );
     return secretarySchema.update(
-        {status: "isApproved"},
-        {returning: true, where: {id: id}}
+        {status: status},
+        {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
 
@@ -74,7 +74,7 @@ const searchSecretaryByPhoneNumber = (phoneNumber) => {
 
 
 module.exports = {
-    activateAsSecretary,
+    defineSecretaryStatus,
     updateSecretaryData,
     deactivateSecretary,
     searchSecretaryByCategory,

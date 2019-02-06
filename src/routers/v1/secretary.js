@@ -49,17 +49,17 @@ const getSecretaryListController = async (req, res) => {
 
 const updateSecretaryData = async (req, res) => {
     try {
-        console.log("hi to update");
-        const data = req.body;
         const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
         const phone = jwtHelper.verifyJwt(accessToken).phoneNumber;
         const role = await userRepository.getUserRoleByPhoneNumber(phone);
-        if (role === "secretary") {
-            delete data['status']
-
+        if (req.body) {
+            const data = req.body;
+            if (role === "secretary") {
+                delete data['status']
+            }
+            const user = await secretaryRepository.updateSecretaryData(req.params.phoneNumber, data);
+            res.json({message: "success operation", result: user})
         }
-        const user = await secretaryRepository.updateSecretaryData(req.params.phoneNumber, data);
-        res.json({message: "success operation", result: user})
 
     } catch (e) {
         res.status(500).json({message: e.message})
