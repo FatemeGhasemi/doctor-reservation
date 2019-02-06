@@ -1,6 +1,7 @@
 const doctorSchema = require('../models/doctor')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
+const statusRepository = require('../repositories/status');
 
 
 const createDoctorUser = async (data) => {
@@ -17,12 +18,13 @@ const createDoctorUser = async (data) => {
     })
 };
 
-const activateAsDoctor = async (id) => {
+const approveAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
     );
+    const statusId = await statusRepository.findStatusIdByName("isApproved")
     return doctorSchema.update(
-        {status: "isApproved"},
+        {statusId: statusId},
         {returning: true, where: {id: id}}
     )
 };
@@ -36,7 +38,7 @@ const updateDoctorData = async (phoneNumber, data) => {
             categoryId: data.categoryId,
             description: data.description,
             officeIds: data.officeIds,
-            status: data.status
+            statusId: data.statusId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
@@ -44,8 +46,9 @@ const updateDoctorData = async (phoneNumber, data) => {
 
 
 const deactivateDoctor = async (id) => {
+    const statusId = await statusRepository.findStatusIdByName("deactivate")
     return doctorSchema.update(
-        {status: "deactivate"},
+        {status: statusId},
         {returning: true, where: {id: id}}
     )
 };
@@ -66,10 +69,11 @@ const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
 };
 
 
-const searchDoctorByCategory = (categoryId, offset = 0, limit = 10) => {
+const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
+    const statusId = await statusRepository.findStatusIdByName("isApproved")
     return userSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, status: "isApproved"}})
+        {where: {categoryId: categoryId, status: statusId}})
 };
 
 
@@ -79,7 +83,7 @@ const searchDoctorByPhoneNumber = (phoneNumber) => {
 
 
 module.exports = {
-    activateAsDoctor,
+    approveAsDoctor,
     updateDoctorData,
     deactivateDoctor,
     searchDoctorByCategory,
