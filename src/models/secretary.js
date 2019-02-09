@@ -11,7 +11,6 @@ const initSecretarySchema =  () => {
         firstName: {
             type: Sequelize.STRING,
             required:true
-
         },
         lastName: {
             type: Sequelize.STRING,
@@ -28,11 +27,10 @@ const initSecretarySchema =  () => {
          active:{
             type:Sequelize.BOOLEAN,
              defaultValue: false
-
+         },
+         officeId:{
+            type:Sequelize.ARRAY(Sequelize.INTEGER)
          }
-
-
-
     });
     //TODO Secretary.sync just needed once to create tables, so if tables created dont need call it any more
     // await Secretary.sync({force: true})
