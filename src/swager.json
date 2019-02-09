@@ -950,7 +950,7 @@
         "categoryId": {
           "type": "integer"
         },
-        "officeIds": {
+        "officeId": {
           "type": "array",
           "items": {
             "type": "integer"

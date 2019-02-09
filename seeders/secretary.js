@@ -11,7 +11,7 @@ const createSecretary = async () => {
         phoneNumber: "09192506807",
         firstName: "sara",
         lastName: "samavi",
-        officeIds: [1, 2, 3],
+        officeId: [1, 2, 3],
         statusId:status.id
     })
 }

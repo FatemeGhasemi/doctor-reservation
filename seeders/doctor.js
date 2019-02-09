@@ -12,7 +12,7 @@ const createDoctor = async () => {
         firstName: "ali",
         lastName: "alipoor",
         categoryId: 1,
-        officeIds: [1, 2, 3],
+        officeId: [1, 2, 3],
         status:status.id
     })
 }

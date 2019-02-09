@@ -8,7 +8,7 @@ const initDoctorSchema = () => {
             required: true,
             foreignKey :true,
         },
-        officeIds: {
+        officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
             required: true,
             defaultValue:[]

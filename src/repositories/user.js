@@ -25,7 +25,7 @@ const updateUser = async (phoneNumber, data) => {
             avatarUrl: data.avatarUrl,
             role: data.role,
             statusId: data.status,
-            officeIds: data.officeIds
+            officeId: data.officeId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
