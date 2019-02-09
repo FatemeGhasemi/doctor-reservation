@@ -44,10 +44,10 @@ const cancelReserve = async (id) => {
             return reserveSchema.update({status: cancelStatusId},
                 {returning: true, where: {id: id}})
         }
-    }catch (e) {
-        console.log("cancelReserve ERROR: ",e.message)
+    } catch (e) {
+        console.log("cancelReserve ERROR: ", e.message)
     }
-}
+};
 
 
 const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
@@ -79,3 +79,14 @@ const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
         {offset: offset, limit: limit},
         {where: {categoryId: categoryId, status: statusId}})
 };
+
+
+module.exports = {
+    creatReserve,
+    searchDoctorByCategory,
+    getListOfDoctorReserves,
+    getListOfSecretaryReserves,
+    getListOfUserReserves,
+    updateReserveData,
+    cancelReserve
+}
