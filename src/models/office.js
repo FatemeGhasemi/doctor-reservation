@@ -8,10 +8,10 @@ const initOfficeSchema = () => {
             type: Sequelize.ARRAY(Sequelize.STRING)
         },
         lat: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.FLOAT
         },
         long: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.FLOAT
         },
         type: {
             type: Sequelize.STRING
@@ -26,9 +26,9 @@ const initOfficeSchema = () => {
             type: Sequelize.INTEGER,
             required: true
         },
-        active:{
-            type:Boolean,
-            defaultValue:true
+        active: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     });
 

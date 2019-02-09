@@ -2,16 +2,18 @@ const Sequelize = require('sequelize');
 let sequelize;
 let Reserve;
 const initReserveSchema =  () => {
-    Reserve =  sequelize.define('reservation', {
+    Reserve =  sequelize.define('reserve', {
         userId: {
             type: Sequelize.INTEGER,
             required: true
         },
         doctorId: {
             type: Sequelize.INTEGER,
+            required: true
         },
         secretaryId: {
             type: Sequelize.INTEGER,
+            required: true
         },
         reservationId: {
             type: Sequelize.INTEGER,
@@ -22,14 +24,14 @@ const initReserveSchema =  () => {
             defaultValue:1
         },
         price:{
-            type:Sequelize.NUMERIC,
+            type:Sequelize.NUMERIC
         },
         paymentId:{
             type:Sequelize.INTEGER
         }
     });
-    //TODO Reservation.sync just needed once to create tables, so if tables created dont need call it any more
-    // await Reservation.sync({force: true})
+    //TODO Reserve.sync just needed once to create tables, so if tables created dont need call it any more
+    // await Reserve.sync({force: true})
     return Reserve
 };
 

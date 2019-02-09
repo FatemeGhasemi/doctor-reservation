@@ -27,7 +27,7 @@ const defineSchemas = async (sequelize) => {
         await statusSchema.initStatusSchema();
         await reserveSchema.initReserveSchema();
     }catch (e) {
-        console.log("defineSchemas ERROR:",e)
+        console.log("defineSchemas ERROR:",e.message)
     }
 };
 
