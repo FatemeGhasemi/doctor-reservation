@@ -19,7 +19,7 @@ const createTables = async (sequelize) => {
         await officeSchema.initOfficeSchema().sync();
         await categorySchema.initCategorySchema().sync();
         await statusSchema.initStatusSchema().sync();
-        await statusSchema.initReserveSchema().sync();
+        await reserveSchema.initReserveSchema().sync();
     }catch (e) {
         console.log("createTables ERROR:",e)
     }

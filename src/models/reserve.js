@@ -33,13 +33,13 @@ const initReserveSchema =  () => {
     });
     //TODO Reservation.sync just needed once to create tables, so if tables created dont need call it any more
     // await Reservation.sync({force: true})
-    return Reservation
+    return Reserve
 };
 
 module.exports = (injectedSequelize) => {
     if (!injectedSequelize){
-        if (!Reservation) throw new Error('Plz define schemas by calling db.initDb(')
-        return Reservation
+        if (!Reserve) throw new Error('Plz define schemas by calling db.initDb(')
+        return Reserve
     }
     sequelize = injectedSequelize;
     return {
