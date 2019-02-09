@@ -27,7 +27,12 @@ const initOfficeSchema = () => {
         doctorId: {
             type: Sequelize.INTEGER,
             required: true
+        },
+        active:{
+            type:Boolean,
+            defaultValue:true
         }
+
     });
 
     //TODO Office.sync just needed once to create tables, so if tables created dont need call it any more
