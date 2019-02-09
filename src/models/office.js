@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 let sequelize;
 let Office;
 
-const initOfficeSchema =  () => {
-     Office =  sequelize.define('office', {
+const initOfficeSchema = () => {
+    Office = sequelize.define('office', {
 
         phoneNumber: {
             type: Sequelize.ARRAY(Sequelize.STRING)
@@ -23,6 +23,10 @@ const initOfficeSchema =  () => {
         },
         address: {
             type: Sequelize.STRING
+        },
+        doctorId: {
+            type: Sequelize.INTEGER,
+            required: true
         }
     });
 
@@ -32,7 +36,7 @@ const initOfficeSchema =  () => {
 };
 
 module.exports = (injectedSequelize) => {
-    if (!injectedSequelize){
+    if (!injectedSequelize) {
         if (!Office) throw new Error('Plz define schemas by calling db.initDb(');
         return Office
     }
