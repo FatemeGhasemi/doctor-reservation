@@ -26,7 +26,7 @@ const initSecretarySchema =  () => {
         },
          active:{
             type:Sequelize.BOOLEAN,
-             defaultValue: false
+             defaultValue: true
          },
          officeId:{
             type:Sequelize.ARRAY(Sequelize.INTEGER)
