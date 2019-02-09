@@ -4,7 +4,6 @@ let Office;
 
 const initOfficeSchema = () => {
     Office = sequelize.define('office', {
-
         phoneNumber: {
             type: Sequelize.ARRAY(Sequelize.STRING)
         },
@@ -18,8 +17,7 @@ const initOfficeSchema = () => {
             type: Sequelize.STRING
         },
         secretaryId: {
-            type: Sequelize.ARRAY(Sequelize.INTEGER)
-
+            type: Sequelize.INTEGER
         },
         address: {
             type: Sequelize.STRING
@@ -32,7 +30,6 @@ const initOfficeSchema = () => {
             type:Boolean,
             defaultValue:true
         }
-
     });
 
     //TODO Office.sync just needed once to create tables, so if tables created dont need call it any more
