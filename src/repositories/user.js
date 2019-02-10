@@ -14,6 +14,7 @@ const findUserById = async (id) => {
 
 const createUser = async (phoneNumber) => {
     const statusId = statusRepository.findStatusIdByName("pending")
+    console.log("statusId: ",statusId)
     return userSchema.create({phoneNumber: phoneNumber,statusId:statusId})
 };
 
