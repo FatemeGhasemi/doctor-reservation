@@ -3,29 +3,23 @@ let sequelize;
 let Category;
 const initCategorySchema = () => {
     Category = sequelize.define('category', {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-        },
         parentName: {
             type: Sequelize.STRING,
-            primaryKey:true,
-            defaultValue:null
+            defaultValue: null
         },
         name: {
             type: Sequelize.STRING,
             unique: true,
             required: true,
             allowNull: false,
-            primaryKey:true
         },
         displayName: {
             type: Sequelize.STRING,
             required: true,
             allowNull: false,
         },
-        isAvailable:{
-            type:Sequelize.BOOLEAN,
+        isAvailable: {
+            type: Sequelize.BOOLEAN,
             defaultValue: true
         }
     });

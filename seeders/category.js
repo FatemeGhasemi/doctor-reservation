@@ -4,9 +4,9 @@ const db = require('../src/db/db')
 db.initDb().then(() => {
     const categorySchema = require('../src/models/category')()
 
-    categorySchema.create({parentName: "darmangaran",name:"dandan pezeshk"})
-    categorySchema.create({parentName: "",name:"darmangaran"})
-    categorySchema.create({parentName: "marakez darmani",name:"pezeshk motakhases"})
-    categorySchema.create({parentName: "darmangaran",name:"pezeshk omomi"})
+    categorySchema.create({parentName: null,displayName:"درمانگران",name:"darmangaran"})
+    categorySchema.create({parentName: "darmangaran",displayName:"دندانپزشکی",name:"dandanPezeshk"})
+    categorySchema.create({parentName: "dandanPezeshk",displayName:"",name:"pezeshk motakhases"})
+    categorySchema.create({parentName: "darmangaran",displayName:"",name:"pezeshkOmumi"})
 
 });

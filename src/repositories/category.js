@@ -29,7 +29,10 @@ const createNewCategory = async (parentName, name, displayName) => {
 
 
 const updateCategoryData = async (id, data) => {
-    return categorySchema.update({name: data.name, parentName: data.parentName},
+    const options = {name: data.name, parentName: data.parentName}
+    if (!data.name)delete options['name']
+    if (!data.parentName && data.parentName !==null)delete options['parentName']
+    return categorySchema.update(options,
         {returning: true, where: {id: id}}
     )
 };
