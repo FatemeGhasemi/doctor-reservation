@@ -13,7 +13,8 @@ const findUserById = async (id) => {
 
 
 const createUser = async (phoneNumber) => {
-    return userSchema.create({phoneNumber: phoneNumber})
+    const statusId = statusRepository.findStatusIdByName("pending")
+    return userSchema.create({phoneNumber: phoneNumber,statusId:statusId})
 };
 
 

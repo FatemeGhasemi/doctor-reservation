@@ -27,7 +27,6 @@ const initUserSchema = () => {
         },
          statusId:{
             type:Sequelize.INTEGER,
-             defaultValue: 1
          }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
