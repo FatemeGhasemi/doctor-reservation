@@ -18,17 +18,17 @@ const createNewCategory = async (req, res) => {
 
 const searchCategory = async (req, res) => {
     try {
-        let category;
+        let categories;
         const data = req.query;
         if (data.parentName) {
-            category = await categoryRepository.findCategoryByParentName(data.parentName)
+            categories = await categoryRepository.findCategoryByParentName(data.parentName)
         }
-        if (data.id) {
-            category = await categoryRepository.findCategoryById(data.id)
+        else if (data.id) {
+            categories = await categoryRepository.findCategoryById(data.id)
         } else {
-            category = await categoryRepository.returnAllCategories()
+            categories = await categoryRepository.returnAllCategories()
         }
-        res.json({message: "success operation", result: category})
+        res.json({message: "success operation", result: categories})
 
     } catch (e) {
         res.status(500).json({message: e.message})
