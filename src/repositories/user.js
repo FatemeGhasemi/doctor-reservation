@@ -13,8 +13,9 @@ const findUserById = async (id) => {
 
 
 const createUser = async (phoneNumber) => {
-    const statusId = await statusRepository.findStatusIdByName("pending")
-    console.log("statusId: ",statusId)
+    const status = await statusRepository.findStatusByName("pending")
+    const statusId = status.id
+    console.log("statusId: ",status.id)
     return userSchema.create({phoneNumber: phoneNumber,statusId:statusId})
 };
 
@@ -41,7 +42,8 @@ const getUserRoleByPhoneNumber = async (phoneNumber) => {
 
 
 const activateUser = async (phoneNumber) => {
-    const statusId = await statusRepository.findStatusIdByName("active")
+    const status= await statusRepository.findStatusByName("active")
+    const statusId = status.id
     return userSchema.update(
         {statusId: statusId},
         {returning: true, where: {phoneNumber: phoneNumber}}
@@ -50,7 +52,8 @@ const activateUser = async (phoneNumber) => {
 
 
 const deactivateUser = async (phoneNumber) => {
-    const statusId = await statusRepository.findStatusIdByName("deactivate")
+    const status = await statusRepository.findStatusByName("deactivate")
+    const statusId = status.id
     return userSchema.update(
         {statusId: statusId},
         {returning: true, where: {phoneNumber: phoneNumber}}

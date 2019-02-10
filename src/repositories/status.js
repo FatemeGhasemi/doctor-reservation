@@ -2,11 +2,11 @@ const statusSchema = require('../models/status')();
 
 
 const findStatusById = async (id) => {
-    statusSchema.findOne({where: {id: id}})
+    return statusSchema.findOne({where: {id: id}})
 };
 
-const findStatusIdByName = async (name) => {
-    const status = statusSchema.findOne({where: {name: name}})
-    return status.id
+const findStatusByName = async (name) => {
+    return statusSchema.findOne({where: {name: name}})
+
 };
-module.exports = {findStatusById,findStatusIdByName}
+module.exports = {findStatusById,findStatusByName}
