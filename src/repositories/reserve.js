@@ -31,22 +31,9 @@ const findReserveById = async (id) => {
 
 
 const cancelReserve = async (id) => {
-    try {
-        const reserve = await findReserveById(id);
-        const cancelStatusId = await statusRepository.findStatusIdByName("cancel")
-        const reservationId = reserve.reservationId;
-        const reservation = await reservationRepository.findReservationById(reservationId);
-        const reservationTimeStamp = reservation.startTime;
-        const reservationDate = reservationTimeStamp.format('m/d/Y')
-        const dt = datetime.create();
-        const formatted = dt.format('m/d/Y');
-        if (reservationDate > formatted) {
-            return reserveSchema.update({status: cancelStatusId},
-                {returning: true, where: {id: id}})
-        }
-    } catch (e) {
-        console.log("cancelReserve ERROR: ", e.message)
-    }
+    const cancelStatusId = await statusRepository.findStatusIdByName("cancel")
+    return reserveSchema.update({status: cancelStatusId},
+        {returning: true, where: {id: id}})
 };
 
 
@@ -88,5 +75,6 @@ module.exports = {
     getListOfSecretaryReserves,
     getListOfUserReserves,
     updateReserveData,
-    cancelReserve
+    cancelReserve,
+    findReserveById
 }

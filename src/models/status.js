@@ -5,7 +5,8 @@ const initStatusSchema = () => {
     Status = sequelize.define('status', {
         name: {
             type: Sequelize.STRING,
-            required: true
+            required: true,
+            unique:true
         }
 
     });
