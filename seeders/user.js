@@ -13,12 +13,4 @@ db.initDb().then(()=> {
             userSchema.create({phoneNumber: "09192506806", role: "doctor"});
             userSchema.create({phoneNumber: "09192506807", role: "secretary"});
             userSchema.create({phoneNumber: "09192506808", role: "user"});
-
-
-
-
-
-
-
-
 });

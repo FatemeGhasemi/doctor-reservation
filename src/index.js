@@ -10,6 +10,7 @@ db.initDb().then(()=> {
     initSwagger();
     app.listen(process.env.PORT, () => {
         console.log("Example app listening at http://%s:%s", process.env.PORT)
+        if (process.env.IS_MOCK === 'true') console.log('Mock mode ....')
     });
 }).catch(e =>{
     console.log("Error init db ", e.message)

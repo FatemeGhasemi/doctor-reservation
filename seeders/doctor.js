@@ -1,19 +1,31 @@
-const doctorSchema = require('../src/models/doctor')();
-const userSchema = require('../src/models/user')();
-const statusSchema = require('../src/models/status')();
+require('dotenv').config();
+const db = require('../src/db/db')
 
 
-const createDoctor = async () => {
-    const user = await userSchema.findOne({where: {phoneNumber: "09192506806"}});
-    const status = await statusSchema.findOn({where: {name:"approved"}})
-    doctorSchema.create({
-        userId: user.id,
+
+db.initDb().then(()=> {
+    let data = {
         phoneNumber: "09192506806",
         firstName: "ali",
         lastName: "alipoor",
         categoryId: 1,
-        officeId: [1, 2, 3],
-        status:status.id
-    })
-}
-module.exports = {createDoctor}
+        officeId: [1, 2, 3]
+    }
+
+    db.initDb().then(()=> {
+        const doctorRepository = require('../src/repositories/doctor');
+        doctorRepository.createDoctorUser(data).then()
+
+    });
+
+
+});
+
+
+
+
+
+
+
+
+
