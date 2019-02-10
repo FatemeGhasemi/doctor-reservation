@@ -5,11 +5,8 @@ const checkAccess = require('../../middlewares/authentication');
 
 const createNewCategory = async (req, res) => {
     try {
-        let parentName = req.body.parentName;
+        let parentName = req.body.parentName || null;
         const name = req.body.name;
-        if (parentName === "") {
-            parentName = name;
-        }
         const category = await categoryRepository.crateNewCategory(parentName, name)
         res.json({message: "success operation", result: category})
 

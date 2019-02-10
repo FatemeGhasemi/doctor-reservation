@@ -10,7 +10,7 @@ const initCategorySchema = () => {
         parentName: {
             type: Sequelize.STRING,
             primaryKey:true,
-            defaultValue:""
+            defaultValue:null
         },
         name: {
             type: Sequelize.STRING,
@@ -18,6 +18,11 @@ const initCategorySchema = () => {
             required: true,
             allowNull: false,
             primaryKey:true
+        },
+        displayName: {
+            type: Sequelize.STRING,
+            required: true,
+            allowNull: false,
         },
         isAvailable:{
             type:Sequelize.BOOLEAN,

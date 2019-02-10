@@ -35,6 +35,7 @@ const checkRolesAccess = async (req, res, next) => {
     const act = req.method.toLowerCase();
     const obj = req.baseUrl.split('/')[3];
     const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
+    console.log('checkRoleAccess ' , res.locals.user.role, obj, act,  checkRoleAccess)
     if (checkRoleAccess) {
         next()
     } else {

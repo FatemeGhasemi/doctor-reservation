@@ -23,8 +23,8 @@ const findCategoryById = async (id) => {
 };
 
 
-const crateNewCategory = async (parentName, name) => {
-    return categorySchema.create({parentName: parentName, name: name})
+const createNewCategory = async (parentName, name, displayName) => {
+    return categorySchema.create({parentName,  name, displayName})
 };
 
 
@@ -54,7 +54,7 @@ const returnAllCategories = async (offset = 0, limit = 10) => {
 module.exports = {
     findCategoryByParentName,
     findCategoryByName,
-    crateNewCategory,
+    crateNewCategory: createNewCategory,
     updateCategoryData,
     changeCategoryStatus,
     findCategoryById,
