@@ -7,12 +7,26 @@ const creatReservation = async (data) => {
         startTime: data.startTime,
         finishTime: data.finish,
         counter: data.counter,
-        officeId: data.officeId
+        officeId: data.officeId,
+        doctorId: data.doctorId
     })
 };
 
 
+const findReservationByOfficeId = async (officeId) => {
+    return reservationSchema.findOne({where: {officeId: officeId}})
+}
+
+
 const counterGenerator = async (time, officeId) => {
+    const reservation = findReservationById(officeId)
+    let startDate = new Date('"'+reservation.startTime+'"');
+    let startTimeStamp = startDate.getTime();
+
+    let finishDate = new Date('"'+reservation.finishTime+'"');
+    let finishTimeStamp = startDate.getTime();
+
+    const timeDuration = finishTimeStamp - startTimeStamp;
 
 
 
@@ -30,7 +44,8 @@ const updateReservationData = async (id, data) => {
             finishTime: data.finish,
             counter: data.counter,
             officeId: data.officeId,
-            status: data.status
+            status: data.status,
+            doctorId: data.doctorId
         }
         , {returning: true, where: {id: id}}
     )
