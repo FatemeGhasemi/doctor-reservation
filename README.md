@@ -1,6 +1,10 @@
 [Sequilize migration](http://docs.sequelizejs.com/class/lib/query-interface.js~QueryInterface.html)
 
 ## Db
+If tpu want see sequilize queries in log add this line in `.env`
+
+`LOG_QUERIES=true`
+
 ### init
 For create db tables just enter this command 
 

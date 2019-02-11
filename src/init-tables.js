@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
-const createTables = async (sequelize, dropTables=false) => {
+const createTables = async (sequelize, dropTables = false) => {
     const userSchema = require('./models/user')(sequelize);
     const secretarySchema = require('./models/secretary')(sequelize);
     const reservationSchema = require('./models/reservation')(sequelize);
@@ -11,14 +11,14 @@ const createTables = async (sequelize, dropTables=false) => {
     const reserveSchema = require('./models/reserve')(sequelize);
 
     try {
-        await userSchema.initUserSchema().sync({force:dropTables});
-        await secretarySchema.initSecretarySchema().sync({force:dropTables});
-        await doctorSchema.initDoctorSchema().sync({force:dropTables});
-        await reservationSchema.initReservationSchema().sync({force:dropTables});
-        await officeSchema.initOfficeSchema().sync({force:dropTables});
-        await categorySchema.initCategorySchema().sync({force:dropTables});
-        await statusSchema.initStatusSchema().sync({force:dropTables});
-        await reserveSchema.initReserveSchema().sync({force:dropTables});
+        await userSchema.initUserSchema().sync({force: dropTables});
+        await secretarySchema.initSecretarySchema().sync({force: dropTables});
+        await doctorSchema.initDoctorSchema().sync({force: dropTables});
+        await reservationSchema.initReservationSchema().sync({force: dropTables});
+        await officeSchema.initOfficeSchema().sync({force: dropTables});
+        await categorySchema.initCategorySchema().sync({force: dropTables});
+        await statusSchema.initStatusSchema().sync({force: dropTables});
+        await reserveSchema.initReserveSchema().sync({force: dropTables});
     } catch (e) {
         console.log("createTables ERROR:", e)
     }
@@ -30,6 +30,7 @@ const init = async () => {
         dialect: process.env.SEQUELIZE_DIALECT,
         host: process.env.SEQUELIZE_HOST,
         port: process.env.POSTGRES_PORT,
+        logging: process.env.LOG_QUERIES === 'true'
     });
     sequelize.drop().then(res => {
         console.log("success drop", res)
@@ -51,7 +52,9 @@ const init = async () => {
 };
 
 let sequelize;
-init().then(() => createTables(sequelize));
+function initAndCreateTables(){
+    init().then(() => createTables(sequelize));
 
+}
 // tableSeeders.createDatabase().then()
-module.exports = {init, createTables}
+module.exports = {init, createTables, initAndCreateTables}

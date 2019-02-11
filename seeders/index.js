@@ -10,14 +10,22 @@ const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
 
 async function initDbAndSeed() {
-    const sequilize = await db.getInstance()
-    await initTables.createTables(sequilize, process.env.DROP_DB === 'true')
-    // await  secretary.insertSecretaries()
-    await status.insertStatus()
-    await user.insertUsers()
-    await doctor.insertDoctors()
-    await office.insertOffices()
-    await category.insertCategorues()
+    try {
+        const sequilize = await db.getInstance()
+        await initTables.createTables(sequilize, process.env.DROP_DB === 'true')
+        /**
+         * Be aware that order of insert data is important , user should be before than secretary and doctor
+         */
+        await user.insertUsers()
+        await office.insertOffices()
+        await status.insertStatus()
+        await category.insertCategorues()
+        await doctor.insertDoctors()
+        await secretary.insertSecretaries()
+    } catch (e) {
+        console.log('Error init db and seeds ', e)
+
+    }
 
 }
 

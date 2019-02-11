@@ -1,11 +1,11 @@
-function insertCategorues(){
+async function insertCategorues() {
     const categorySchema = require('../src/models/category')()
-
-    categorySchema.create({parentName: null,displayName:"درمانگران",name:"darmangaran"})
-    categorySchema.create({parentName: "darmangaran",displayName:"دندانپزشکی",name:"dandanPezeshk"})
-    categorySchema.create({parentName: "dandanPezeshk",displayName:"",name:"pezeshk motakhases"})
-    categorySchema.create({parentName: "darmangaran",displayName:"",name:"pezeshkOmumi"})
+    const mockData = require('./category.json')
+    for (let index = 0; index < mockData.length; index++) {
+        const item = mockData[index]
+        await categorySchema.create(item)
+    }
 
 }
 
-module.exports ={insertCategorues}
+module.exports = {insertCategorues}
