@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const checkAccess = require('../../middlewares/authentication');
 const reserveRepository = require('../../repositories/reserve');
 const statusRepository = require('../../repositories/status');
 const reservationRepository = require('../../repositories/reservation');
@@ -44,3 +45,25 @@ const updateReserveData = async (req, res) => {
         res.status(500).json({message: "updateReserveData ERROR: " + e.message})
     }
 };
+
+
+const updateHandler = async (req, res) => {
+    try {
+        let result;
+        if (req.query) {
+            result = await updateReserveData(req, res)
+        } else {
+            result = await cancelReserve(req, res)
+        }
+        res.json({message: "success operation", result: result})
+
+    } catch (e) {
+        res.status(500).json({message: "updateReserveData ERROR: " + e.message})
+    }
+};
+
+
+router.post('/', checkAccess.validateJwt, createNewReserve);
+router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, updateHandler);
+
+module.exports = router;

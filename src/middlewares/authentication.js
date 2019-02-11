@@ -3,13 +3,14 @@ const authorization = require('../services/athorization/acl');
 const userRepository = require('../repositories/user')
 const doctorRepository = require("../repositories/doctor");
 const officeRepository = require("../repositories/office");
+const reserveRepository = require('../repositories/reserve')
 
-const validateJwt = async (req, res, next) =>{
+const validateJwt = async (req, res, next) => {
     try {
         const authorizationHeader = jwtHelper.removeBearer(req.header('Authorization'));
         const userData = jwtHelper.verifyJwt(authorizationHeader)
         res.locals.user = await userRepository.findUserByPhoneNumber(userData.phoneNumber)
-        if ( res.locals.user) {
+        if (res.locals.user) {
             next()
         } else {
             throw new Error("unAuthorize")
@@ -35,7 +36,9 @@ const checkAccessWithPhoneNumber = async (req, res, next) => {
 
 const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
     try {
-        const doctor = await officeRepository.findDoctorByOfficeId(req.params.id)
+        const resereve = await reserveRepository.findReserveById(req.params.id)
+        const doctorId = resereve.doctorId
+        const doctor = doctorRepository.findDoctorById(doctorId)
         if (res.locals.user.phoneNumber === doctor.phoneNumber) {
             next()
         } else {
@@ -47,19 +50,38 @@ const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
 };
 
 
+const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
+    try {
+        const doctor = await r.findDoctorByOfficeId(req.params.id)
+        if (res.locals.user.phoneNumber === doctor.phoneNumber) {
+            next()
+        } else {
+            throw new Error("unAuthorize")
+        }
+    } catch (e) {
+        res.status(403).json({"message": e.message})
+    }
+
+}
 
 
 const checkRolesAccess = async (req, res, next) => {
     const act = req.method.toLowerCase();
     const obj = req.baseUrl.split('/')[3];
     const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
-    console.log('checkRoleAccess ' , res.locals.user.role, obj, act,  checkRoleAccess)
+    console.log('checkRoleAccess ', res.locals.user.role, obj, act, checkRoleAccess)
     if (checkRoleAccess) {
         next()
     } else {
         res.status(403).json({"message": "unAuthorize"})
-}
+    }
 };
 
 
-module.exports = {checkAccess: checkAccessWithPhoneNumber,checkRolesAccess, validateJwt,checkAccessWithPhoneNumberInOfficeRouter}
+module.exports = {
+    checkAccess: checkAccessWithPhoneNumber,
+    checkRolesAccess,
+    validateJwt,
+    checkAccessWithPhoneNumberInOfficeRouter,
+    checkAccessWihPhoneNumberReserveRouter
+}

@@ -9,7 +9,7 @@ const creatReserve = async (data) => {
         secretaryId: data.secretaryId,
         doctorId: data.doctorId,
         userId: data.userId,
-        reservationId: data.reservationId
+        reserveTime: data.reserveTime
     })
 };
 
@@ -19,7 +19,7 @@ const updateReserveData = async (id, data) => {
             secretaryId: data.secretaryId,
             doctorId: data.doctorId,
             userId: data.userId,
-            reservationId: data.reservationId
+            reserveTime: data.reserveTime
         }, {returning: true, where: {id: id}}
     )
 };
@@ -62,8 +62,14 @@ const getListOfSecretaryReserves = async (phoneNumber, offset = 0, limit = 10) =
 const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
     return userSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {$and:[{categoryId: categoryId}, {status: "approved"}]}})
+        {where: {$and: [{categoryId: categoryId}, {status: "approved"}]}})
 };
+
+
+// const findDoctorByReserveId = async (reserveId)=>{
+//     const reserve = await findReserveById(reserveId)
+//     return reserve.doctorId
+// }
 
 
 module.exports = {

@@ -37,6 +37,7 @@ function addRoutes() {
     app.use('/api/v1/categories', require('./routers/v1/category'));
     app.use('/api/v1/secretaries', require('./routers/v1/secretary'));
     app.use('/api/v1/offices', require('./routers/v1/office'));
+    app.use('/api/v1/reserves', require('./routers/v1/reserve'));
 
 }
 
