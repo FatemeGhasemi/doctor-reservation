@@ -37,7 +37,9 @@ const getListOfSecretaryFullTextSearch = async (req, res) => {
 
 const getSecretaryListController = async (req, res) => {
     try {
+        let result;
         if (req.query.categoryId) {
+            result = secretaryRepository.searchSecretaryByCategory(req.query.categoryId, req.query.offset, req.query.limit);
             await getListOfSecretaryByCategory(req, res)
         } else await getListOfSecretaryFullTextSearch(req, res)
 

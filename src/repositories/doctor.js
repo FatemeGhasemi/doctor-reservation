@@ -52,20 +52,22 @@ const deactivateDoctor = async (id) => {
 };
 
 
-const getAllDoctors = async (offset = 0, limit = 10)=>{
+const getAllDoctors = async (offset = 0, limit = 10) => {
     return doctorSchema.findAll(
         {offset: offset, limit: limit},
-        )
+    )
 }
 
 
-const searchDoctorByName = async (name)=>{}
+// const searchDoctorByName = async (name) => {
+//     return doctorSchema.findOne({where: {name: name}})
+// }
 
-const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
-    return doctorSchema.findAll(
-        {offset: offset, limit: limit},
-        {where: {$and:[{categoryId: categoryId},{status:"approved"}]}
-        })
+const searchDoctorByCategory = async (categoryId) => {
+    return doctorSchema.findAll({
+        where: {
+            categoryId:  categoryId}
+    })
 };
 
 
@@ -81,5 +83,6 @@ module.exports = {
     searchDoctorByCategory,
     createDoctorUser,
     searchDoctorByPhoneNumber,
-    getAllDoctors
+    getAllDoctors,
+    // searchDoctorByName
 }

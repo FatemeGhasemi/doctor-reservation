@@ -20,12 +20,13 @@ const getDoctorListController = async (req, res) => {
     try {
         let result;
         if (req.query.categoryId) {
-            result = await doctorRepository.searchDoctorByCategory(req.query.categoryId, req.query.offset, req.query.limit)
-        }
-        else if(req.query) {
-            result = await doctorRepository.getAllDoctors()
-        }
-        res.json({message: "success operation", result: result})
+            result = await doctorRepository.searchDoctorByCategory(req.query.categoryId)}
+        else
+            {
+                result = await doctorRepository.getAllDoctors()
+            }
+            res.json({message: "success operation", result: result})
+
     } catch (e) {
         console.log("getDoctorListController ERROR: ", e.message)
         res.status(500).json({message: e.message})
