@@ -5,14 +5,14 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-db.initDb().then(()=> {
+db.initDb().then(() => {
     addRoutes();
     initSwagger();
     app.listen(process.env.PORT, () => {
         console.log("Example app listening at http://%s:%s", process.env.PORT)
         if (process.env.IS_MOCK === 'true') console.log('Mock mode ....')
     });
-}).catch(e =>{
+}).catch(e => {
     console.log("Error init db ", e.message)
     throw e
 });
@@ -33,9 +33,10 @@ function addRoutes() {
     app.use('/api/v1/users', require('./routers/v1/user'));
     app.use('/api/v1/getOtp', require('./routers/v1/login-register'));
     app.use('/api/v1/activation', require('./routers/v1/login-register'));
-    app.use('/api/v1/doctors',require('./routers/v1/doctor'));
-    app.use('/api/v1/categories',require('./routers/v1/category'));
-    app.use('/api/v1/secretaries',require('./routers/v1/secretary'));
+    app.use('/api/v1/doctors', require('./routers/v1/doctor'));
+    app.use('/api/v1/categories', require('./routers/v1/category'));
+    app.use('/api/v1/secretaries', require('./routers/v1/secretary'));
+    app.use('/api/v1/offices', require('./routers/v1/office'));
 
 }
 

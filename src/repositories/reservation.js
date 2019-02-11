@@ -1,4 +1,5 @@
 const reservationSchema = require('../models/reservation')();
+const officeSchema = require('../models/office')();
 
 
 const creatReservation = async (data) => {
@@ -11,8 +12,10 @@ const creatReservation = async (data) => {
 };
 
 
-const counterGenerator = async (time) => {
-//    TODO generate time in a periodic pieces of time
+const counterGenerator = async (time, officeId) => {
+
+
+
 };
 
 

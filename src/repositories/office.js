@@ -8,7 +8,6 @@ const createNewOffice = async (data) => {
         address: data.address,
         doctorId: data.doctorId,
         secretaryId: data.secretaryId,
-        type: data.type
     })
 };
 

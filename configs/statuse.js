@@ -4,4 +4,4 @@ const
         "deactivate",
         "deleted",
         "approved",
-        "canceled"]
+        "canceled","accepted"]
