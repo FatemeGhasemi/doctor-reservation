@@ -24,13 +24,13 @@ const counterGenerator = async (time, officeId) => {
     let startTimeStamp = startDate.getTime();
 
     let finishDate = new Date('"'+reservation.finishTime+'"');
-    let finishTimeStamp = startDate.getTime();
+    let finishTimeStamp = finishDate.getTime();
 
     const timeDuration = finishTimeStamp - startTimeStamp;
 
-
-
 };
+
+
 
 
 const findReservationById = async (id) => {
