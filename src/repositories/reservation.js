@@ -25,7 +25,7 @@ const counterGenerator = async (timeInMinutes, officeId) => {
     console.log(reservation.finishTime.format());
     let datetimeC = reservation.finishTime.diff(reservation.startTime, 'seconds');
     console.log(datetimeC);
-    return datetimeC/(timeInMinutes*60)
+    const reserveNumber =  datetimeC/(timeInMinutes*60)
 };
 
 
