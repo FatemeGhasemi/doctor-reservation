@@ -1,7 +1,4 @@
-require('dotenv').config();
-const db = require('../src/db/db')
-
-db.initDb().then(() => {
+function insertCategorues(){
     const categorySchema = require('../src/models/category')()
 
     categorySchema.create({parentName: null,displayName:"درمانگران",name:"darmangaran"})
@@ -9,4 +6,6 @@ db.initDb().then(() => {
     categorySchema.create({parentName: "dandanPezeshk",displayName:"",name:"pezeshk motakhases"})
     categorySchema.create({parentName: "darmangaran",displayName:"",name:"pezeshkOmumi"})
 
-});
+}
+
+module.exports ={insertCategorues}
