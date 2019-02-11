@@ -71,6 +71,10 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
+const findDoctorById = async (id)=>{
+    return doctorSchema.findOne({where: {id: id}})
+}
+
 const searchDoctorByPhoneNumber = (phoneNumber) => {
     return doctorSchema.findOne({where: {phoneNumber: phoneNumber}})
 };
@@ -84,5 +88,6 @@ module.exports = {
     createDoctorUser,
     searchDoctorByPhoneNumber,
     getAllDoctors,
+    findDoctorById,
     // searchDoctorByName
 }

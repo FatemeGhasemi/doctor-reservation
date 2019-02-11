@@ -1,4 +1,5 @@
 const officeSchema = require('../models/office')();
+const doctorRepositry = require('../repositories/doctor')
 
 const createNewOffice = async (data) => {
     return officeSchema.create({
@@ -49,11 +50,21 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 };
 
 
+const findDoctorByOfficeId = async (officeId)=>{
+    const office = await findOfficeById(officeId)
+    const doctorId = office.doctorId
+    const doctor = doctorRepositry.findDoctorById(doctorId)
+    return doctor
+}
+
+
+
 module.exports={
     createNewOffice,
     updateOfficeData,
     changeOfficeStatus,
-    returnAllOffices
+    returnAllOffices,
+    findDoctorByOfficeId
 };
 
 

@@ -1,6 +1,8 @@
 const jwtHelper = require('../services/athorization/jwt');
 const authorization = require('../services/athorization/acl');
 const userRepository = require('../repositories/user')
+const doctorRepository = require("../repositories/doctor");
+const officeRepository = require("../repositories/office");
 
 const validateJwt = async (req, res, next) =>{
     try {
@@ -31,6 +33,22 @@ const checkAccessWithPhoneNumber = async (req, res, next) => {
 };
 
 
+const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
+    try {
+        const doctor = await officeRepository.findDoctorByOfficeId(req.params.id)
+        if (res.locals.user.phoneNumber === doctor.phoneNumber) {
+            next()
+        } else {
+            throw new Error("unAuthorize")
+        }
+    } catch (e) {
+        res.status(403).json({"message": e.message})
+    }
+};
+
+
+
+
 const checkRolesAccess = async (req, res, next) => {
     const act = req.method.toLowerCase();
     const obj = req.baseUrl.split('/')[3];
@@ -44,4 +62,4 @@ const checkRolesAccess = async (req, res, next) => {
 };
 
 
-module.exports = {checkAccess: checkAccessWithPhoneNumber,checkRolesAccess, validateJwt}
+module.exports = {checkAccess: checkAccessWithPhoneNumber,checkRolesAccess, validateJwt,checkAccessWithPhoneNumberInOfficeRouter}
