@@ -39,9 +39,11 @@ const getDoctorListController = async (req, res) => {
     try {
         if (req.query.categoryId) {
             await getListOfDoctorsByCategory(req, res)
-        } else await getListOfDoctorsFullTextSearch(req, res)
+        }
+        else if (!req.query)
+            {await getListOfDoctorsFullTextSearch(req, res)}
 
-    } catch (e) {
+            } catch (e) {
         console.log("getDoctorListController ERROR: ", e.message)
     }
 };

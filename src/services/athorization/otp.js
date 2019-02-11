@@ -22,11 +22,11 @@ const generateOtp = async () => {
 //this function integrate generateOtp function and sendOtpMessage function and handling otp service
 const sendOtpHandler = async (phoneNumber) => {
     try {
-        if (process.env.IS_MOCK === 'true') {
-            const otpCode = '1234';
-            await saveOtpCode(phoneNumber,otpCode)
-            return otpCode
-        }
+        // if (process.env.IS_MOCK === 'true') {
+        //     const otpCode = '1234';
+        //     await saveOtpCode(phoneNumber,otpCode)
+        //     return otpCode
+        // }
 
         const otpCode = await generateOtp();
         await saveOtpCode(phoneNumber,otpCode)
