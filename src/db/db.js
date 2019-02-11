@@ -38,6 +38,7 @@ const createDbConnection = async ()=> {
         dialect:process.env.SEQUELIZE_DIALECT,
         host: process.env.SEQUELIZE_HOST,
         port: process.env.POSTGRES_PORT,
+        logging: process.env.LOG_QUERIES === 'true'
     });
     await sequelize
     .authenticate()

@@ -1,14 +1,11 @@
 async function insertOffices(){
-    let data = {
-        phoneNumber: "02177317251",
-        lat: 66.0,
-        long: 40.0,
-        address:"تهران امام حسین",
-        secretaryId:1,
-        doctorId:1,
-    }
     const officeRepository = require('../src/repositories/office');
-    await officeRepository.createNewOffice(data)
+    const mockData = require('./office.json')
+    for (let index = 0; index < mockData.length; index++) {
+        const item = mockData[index]
+        await officeRepository.createNewOffice(item)
+    }
+
 }
 
 module.exports = {insertOffices}
