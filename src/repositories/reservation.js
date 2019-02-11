@@ -1,5 +1,6 @@
 const reservationSchema = require('../models/reservation')();
 const officeSchema = require('../models/office')();
+const moment = require('moment')
 
 
 const creatReservation = async (data) => {
@@ -18,19 +19,14 @@ const findReservationByOfficeId = async (officeId) => {
 }
 
 
-const counterGenerator = async (time, officeId) => {
+const counterGenerator = async (timeInMinutes, officeId) => {
     const reservation = findReservationById(officeId)
-    let startDate = new Date('"'+reservation.startTime+'"');
-    let startTimeStamp = startDate.getTime();
-
-    let finishDate = new Date('"'+reservation.finishTime+'"');
-    let finishTimeStamp = finishDate.getTime();
-
-    const timeDuration = finishTimeStamp - startTimeStamp;
-
+    console.log(reservation.startTime.format());
+    console.log(reservation.finishTime.format());
+    let datetimeC = reservation.finishTime.diff(reservation.startTime, 'seconds');
+    console.log(datetimeC);
+    return datetimeC/(timeInMinutes*60)
 };
-
-
 
 
 const findReservationById = async (id) => {
@@ -56,5 +52,6 @@ module.exports = {
     findReservationById,
     creatReservation,
     updateReservationData,
-    counterGenerator
+    counterGenerator,
+    findReservationByOfficeId
 };
