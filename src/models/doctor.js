@@ -23,6 +23,7 @@ const initDoctorSchema = () => {
         },
         categoryId: {
             type: Sequelize.STRING,
+            foreignKey:true,
             required: true
         },
         phoneNumber: {

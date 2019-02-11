@@ -7,6 +7,9 @@ const findStatusById = async (id) => {
 
 const findStatusByName = async (name) => {
     return statusSchema.findOne({where: {name: name}})
-
 };
-module.exports = {findStatusById,findStatusByName}
+
+const createStatus = async (name) => {
+    return statusSchema.create({name: name})
+}
+module.exports = {findStatusById, findStatusByName, createStatus}

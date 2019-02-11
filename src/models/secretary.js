@@ -6,7 +6,6 @@ const initSecretarySchema =  () => {
         userId:{
             type:Sequelize.INTEGER,
             required:true,
-            primaryKey:true
         },
         firstName: {
             type: Sequelize.STRING,
@@ -18,11 +17,11 @@ const initSecretarySchema =  () => {
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required:true
+            required:true,
+            unique:true
         },
         statusId: {
             type: Sequelize.INTEGER,
-            defaultValue:1,
         },
          active:{
             type:Sequelize.BOOLEAN,

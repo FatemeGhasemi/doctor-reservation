@@ -5,7 +5,7 @@ let Office;
 const initOfficeSchema = () => {
     Office = sequelize.define('office', {
         phoneNumber: {
-            type: Sequelize.ARRAY(Sequelize.STRING)
+            type: Sequelize.STRING
         },
         lat: {
             type: Sequelize.FLOAT
