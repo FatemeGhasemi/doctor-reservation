@@ -13,11 +13,7 @@ const initDoctorSchema = () => {
             required: true,
             defaultValue:[]
         },
-        firstName: {
-            type: Sequelize.STRING,
-            required: true
-        },
-        lastName: {
+        name: {
             type: Sequelize.STRING,
             required: true
         },
@@ -33,11 +29,11 @@ const initDoctorSchema = () => {
         },
         description: {
             type: Sequelize.STRING,
-            defaultValue: ""
+            allowNull:true
         },
-        statusId:{
-            type:Sequelize.INTEGER,
-            defaultValue: 1
+        status:{
+            type:Sequelize.STRING,
+            defaultValue: "pending"
         }
 
     });

@@ -31,9 +31,7 @@ const findReserveById = async (id) => {
 
 
 const cancelReserve = async (id) => {
-    const status = await statusRepository.findStatusByName("cancel")
-    const statusId = status.id
-    return reserveSchema.update({status: statusId},
+    return reserveSchema.update({status: "cancel"},
         {returning: true, where: {id: id}})
 };
 
@@ -62,11 +60,9 @@ const getListOfSecretaryReserves = async (phoneNumber, offset = 0, limit = 10) =
 
 
 const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
-    const status= await statusRepository.findStatusByName("approved")
-    const statusId = status.id
     return userSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, status: statusId}})
+        {where: {$and:[{categoryId: categoryId}, {status: "approved"}]}})
 };
 
 

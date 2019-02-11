@@ -27,7 +27,7 @@ const updateReservationData = async (id, data) => {
             finishTime: data.finish,
             counter: data.counter,
             officeId: data.officeId,
-            statusId: data.statusId
+            status: data.status
         }
         , {returning: true, where: {id: id}}
     )

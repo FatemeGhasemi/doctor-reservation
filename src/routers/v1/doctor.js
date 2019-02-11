@@ -15,36 +15,20 @@ const createUserAsDoctor = async (req, res) => {
     }
 };
 
-const getListOfDoctorsByCategory = async (req, res) => {
-    try {
-        const result = doctorRepository.searchDoctorByCategory(req.query.categoryId, req.query.offset, req.query.limit)
-        res.json({message: "success operation", result: result})
-    } catch (e) {
-        res.status(500).json({message: e.message})
-    }
-};
-
-
-const getListOfDoctorsFullTextSearch = async (req, res) => {
-    try {
-        const result = doctorRepository.searchDoctorFullText(req.query.filter, req.query.offset, req.query.limit);
-        res.json({message: "success operation", result: result})
-    } catch (e) {
-        res.status(500).json({message: e.message})
-    }
-};
-
 
 const getDoctorListController = async (req, res) => {
     try {
+        let result;
         if (req.query.categoryId) {
-            await getListOfDoctorsByCategory(req, res)
+            result = await doctorRepository.searchDoctorByCategory(req.query.categoryId, req.query.offset, req.query.limit)
         }
-        else if (!req.query)
-            {await getListOfDoctorsFullTextSearch(req, res)}
-
-            } catch (e) {
+        else if(req.query) {
+            result = await doctorRepository.getAllDoctors()
+        }
+        res.json({message: "success operation", result: result})
+    } catch (e) {
         console.log("getDoctorListController ERROR: ", e.message)
+        res.status(500).json({message: e.message})
     }
 };
 

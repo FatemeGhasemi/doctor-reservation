@@ -6,8 +6,7 @@ async function createDoctors() {
         await db.initDb()
         let data = {
             phoneNumber: "09192506806",
-            firstName: "ali",
-            lastName: "alipoor",
+            name: "ali alipoor",
             categoryId: 1,
             officeId: [1, 2, 3]
         }

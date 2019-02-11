@@ -22,10 +22,8 @@ const approveAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
     );
-    const status = await statusRepository.findStatusByName("approve");
-    const statusId = status.id
     return doctorSchema.update(
-        {statusId: statusId},
+        {status: "approve"},
         {returning: true, where: {id: id}}
     )
 };
@@ -39,7 +37,7 @@ const updateDoctorData = async (phoneNumber, data) => {
             categoryId: data.categoryId,
             description: data.description,
             officeId: data.officeId,
-            statusId: data.statusId
+            status: data.status
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
@@ -47,36 +45,27 @@ const updateDoctorData = async (phoneNumber, data) => {
 
 
 const deactivateDoctor = async (id) => {
-    const status = await statusRepository.findStatusByName("deactivate")
-    const statusId = status.id
     return doctorSchema.update(
-        {status: statusId},
+        {status: "deactivate"},
         {returning: true, where: {id: id}}
     )
 };
 
 
-const searchDoctorFullText = async (filter, begin = 0, total = 10) => {
-    // return doctorSchema.findAll({
-    //     where: {
-    //         firstName: {[Op.iLike]: filter}, [Op.or]: [
-    //             {lastName: {[Op.iLike]: filter}},
-    //             {id: {[Op.gt]: 10}}
-    //         ]
-    //
-    //
-    //
-    //     }
-    // })
-};
+const getAllDoctors = async (offset = 0, limit = 10)=>{
+    return doctorSchema.findAll(
+        {offset: offset, limit: limit},
+        )
+}
 
+
+const searchDoctorByName = async (name)=>{}
 
 const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
-    const status = await statusRepository.findStatusByName("approved")
-    const statusId = status.id
-    return userSchema.findAll(
+    return doctorSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, status: statusId}})
+        {where: {$and:[{categoryId: categoryId},{status:"approved"}]}
+        })
 };
 
 
@@ -91,6 +80,6 @@ module.exports = {
     deactivateDoctor,
     searchDoctorByCategory,
     createDoctorUser,
-    searchDoctorFullText,
     searchDoctorByPhoneNumber,
+    getAllDoctors
 }

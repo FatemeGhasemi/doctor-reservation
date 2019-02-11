@@ -43,10 +43,8 @@ const approveAsSecretary = async (id) => {
     userSchema.update({role: "secretary"},
         {returning: true, where: {id: id}}
     );
-    const status = await statusRepository.findStatusByName("approved")
-    const statusId = status.id
     return secretarySchema.update(
-        {statusId: statusId},
+        {status: "approved"},
         {returning: true, where: {id: id}}
     )
 };
@@ -54,10 +52,8 @@ const approveAsSecretary = async (id) => {
 
 
 const deactivateSecretary = async (id) => {
-    const status = await statusRepository.findStatusByName("deactivate");
-    const statusId = status.id
     return secretarySchema.update(
-        {statusId: statusId},
+        {status: "deactivate"},
         {returning: true, where: {id: id}}
     )
 };
@@ -79,18 +75,14 @@ const searchSecretaryFullText = async (filter, begin = 0, total = 10) => {
 
 
 const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => {
-    const status = await statusRepository.findStatusByName("approved");
-    const statusId = status.id
     return userSchema.findAll(
         {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, statusId: statusId}})
+        {where: {categoryId: categoryId, status: "approved"}})
 };
 
 
 const searchSecretaryByPhoneNumber = async (phoneNumber) => {
-    const status = await statusRepository.findStatusByName("approved");
-    const statusId = status.id
-    return secretarySchema.findOne({where: {phoneNumber: phoneNumber, statusId: statusId}})
+    return secretarySchema.findOne({where: {$and:[{phoneNumber: phoneNumber}, {status: "approved"}]}})
 };
 
 

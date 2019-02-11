@@ -19,9 +19,9 @@ const initReservationSchema =  () => {
             type: Sequelize.INTEGER,
             required: true
         },
-        statusId:{
-            type:Sequelize.INTEGER,
-            defaultValue:1
+        status:{
+            type:Sequelize.STRING,
+            defaultValue:"pending"
         }
 
     });
