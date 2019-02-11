@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
-const createTables = async (sequelize) => {
+const createTables = async (sequelize, dropTables=false) => {
     const userSchema = require('./models/user')(sequelize);
     const secretarySchema = require('./models/secretary')(sequelize);
     const reservationSchema = require('./models/reservation')(sequelize);
@@ -11,14 +11,14 @@ const createTables = async (sequelize) => {
     const reserveSchema = require('./models/reserve')(sequelize);
 
     try {
-        await userSchema.initUserSchema().sync();
-        await secretarySchema.initSecretarySchema().sync();
-        await doctorSchema.initDoctorSchema().sync();
-        await reservationSchema.initReservationSchema().sync();
-        await officeSchema.initOfficeSchema().sync();
-        await categorySchema.initCategorySchema().sync();
-        await statusSchema.initStatusSchema().sync();
-        await reserveSchema.initReserveSchema().sync();
+        await userSchema.initUserSchema().sync({force:dropTables});
+        await secretarySchema.initSecretarySchema().sync({force:dropTables});
+        await doctorSchema.initDoctorSchema().sync({force:dropTables});
+        await reservationSchema.initReservationSchema().sync({force:dropTables});
+        await officeSchema.initOfficeSchema().sync({force:dropTables});
+        await categorySchema.initCategorySchema().sync({force:dropTables});
+        await statusSchema.initStatusSchema().sync({force:dropTables});
+        await reserveSchema.initReserveSchema().sync({force:dropTables});
     } catch (e) {
         console.log("createTables ERROR:", e)
     }

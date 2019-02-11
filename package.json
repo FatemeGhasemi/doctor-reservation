@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha ./test/**/*.js",
     "start": "node ./src/index.js",
+    "db:init": "node ./src/init-tables.js",
+    "db:seed": "node ./seeders/index.js",
+    "db:drop:seed": "DROP_DB=true node ./seeders/index.js",
     "migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "author": "",

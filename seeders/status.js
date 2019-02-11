@@ -1,8 +1,4 @@
-
-require('dotenv').config();
-const db = require('../src/db/db')
-
-db.initDb().then(() => {
+async function insertStatus (){
     const statusSchema = require('../src/models/status')()
 
     statusSchema.create({name: "active"})
@@ -11,8 +7,6 @@ db.initDb().then(() => {
     statusSchema.create({name: "approved"})
     statusSchema.create({name: "canceled"})
     statusSchema.create({name: "pending"})
+}
 
-});
-
-
-// module.exports={createStatus}
+module.exports={insertStatus}
