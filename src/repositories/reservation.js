@@ -1,7 +1,6 @@
 const reservationSchema = require('../models/reservation')();
 const officeSchema = require('../models/office')();
-const moment = require('moment')
-
+const utils = require('../utils/utils')
 
 const creatReservation = async (data) => {
     return reservationSchema.create({
@@ -16,16 +15,15 @@ const creatReservation = async (data) => {
 
 const findReservationByOfficeId = async (officeId) => {
     return reservationSchema.findOne({where: {officeId: officeId}})
-}
+};
 
 
 const counterGenerator = async (timeInMinutes, officeId) => {
-    const reservation = findReservationById(officeId)
-    console.log(reservation.startTime.format());
-    console.log(reservation.finishTime.format());
-    let datetimeC = reservation.finishTime.diff(reservation.startTime, 'seconds');
-    console.log(datetimeC);
-    const reserveNumber =  datetimeC/(timeInMinutes*60)
+    const reservation = await findReservationById(officeId);
+    const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(reservation.finishTime, reservation.startTime);
+    const numberOfVisitTime = durationTimeInMinute / timeInMinutes;
+    reservationSchema.update({counter: numberOfVisitTime},
+        {returning: true, where: {id: id}})
 };
 
 
@@ -35,7 +33,7 @@ const findReservationById = async (id) => {
 
 
 const updateReservationData = async (id, data) => {
-    return reservationSchema.create({
+    return reservationSchema.update({
             startTime: data.startTime,
             finishTime: data.finish,
             counter: data.counter,
