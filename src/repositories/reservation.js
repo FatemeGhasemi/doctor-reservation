@@ -1,6 +1,6 @@
 const reservationSchema = require('../models/reservation')();
 const officeSchema = require('../models/office')();
-const utils = require('../utils/utils')
+const utils = require('../utils/utils');
 
 const creatReservation = async (data) => {
     return reservationSchema.create({
