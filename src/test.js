@@ -3,14 +3,17 @@ const moment = require('moment')
 
 
 const cancelReserve = async () => {
-    let timeString1 = "2019-05-09 21:59:10.634+03:30";
-    let timeString2 = "2019-05-09 23:29:10.634+03:30";
-    let startDate = moment(timeString1);
-    let finishDate = moment(timeString2);
-    let x = []
-    console.log("finishDate: ",finishDate)
+    let timeString1 = "2019-05-09 22:00:00";
+    let timeString2 = "2019-05-09 23:30:00";
+    let startDate;
+    let finishDate;
+    let returnedEndDate
+    let x = [];
+    startDate = moment(timeString1);
+    finishDate = moment(timeString2);
     for (let i = 0; i <= 5; i++) {
-        let returnedEndDate = moment(startDate).add(15, 'minute');
+        returnedEndDate = moment(startDate).add(15, 'minute');
+        startDate = returnedEndDate;
         x.push(returnedEndDate)
     }
 

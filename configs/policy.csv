@@ -3,10 +3,10 @@ p, admin, categories, post
 p, user, categories, get
 
 p, user, users, post
-p, user, users ,put
-p, admin, users ,get
-p, admin, users , post
-p, admin, users ,put
+p, user, users, put
+p, admin, users, get
+p, admin, users, post
+p, admin, users, put
 
 p, user, doctors, post
 p, admin, doctors, post

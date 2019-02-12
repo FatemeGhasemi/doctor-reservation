@@ -18,17 +18,19 @@ const findReservationByOfficeId = async (officeId) => {
 };
 
 
-const counterGenerator = async (timeInMinutes, officeId) => {
+const counterGenerator = async (timePeriodInMinutes, officeId) => {
     const reservation = await findReservationById(officeId);
     const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(reservation.finishTime, reservation.startTime);
-    const numberOfVisitTime = durationTimeInMinute / timeInMinutes;
-    reservationSchema.update({counter: numberOfVisitTime},
-        {returning: true, where: {id: id}})
+    const numberOfReserves = durationTimeInMinute / timePeriodInMinutes;
+    const startString = '"' + reservation.startTime + '"';
+    const listOfReserves = await utils.visitTimeGenerator(startString, numberOfReserves, timePeriodInMinutes)
+    return reservationSchema.update({counter:listOfReserves})
 };
 
 
 const findReservationById = async (id) => {
-    return reservationSchema.findOne({where: {id: id}})
+    return reservationSchema.findOne({where: {id: id}}
+        , {returning: true, where: {id: id}})
 };
 
 

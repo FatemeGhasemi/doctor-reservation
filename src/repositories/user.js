@@ -54,6 +54,10 @@ const deactivateUser = async (phoneNumber) => {
     )
 };
 
+const getAllUsers = async (offset = 0, limit = 10) => {
+    return userSchema.findAll({offset: offset, limit: limit},)
+}
+
 
 // const searchUserFullText = async (filter) => {
 // //    TODO return  user list
@@ -77,7 +81,8 @@ module.exports = {
     deactivateUser,
     findUserByPhoneNumber,
     findUserById,
-    getUserRoleByPhoneNumber
+    getUserRoleByPhoneNumber,
+    getAllUsers
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,

@@ -33,7 +33,20 @@ const updateUserData = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const user = await userRepository.getAllUsers()
+        res.json({message: "success operation", result: user})
+
+
+    } catch (e) {
+        res.status(500).json({message: e.message})
+
+    }
+}
+
 
 router.post('/', createNewUser);
-router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateUserData);
+router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, updateUserData);
+router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
 module.exports = router;
