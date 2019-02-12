@@ -4,8 +4,7 @@ const checkAccess = require('../../middlewares/authentication');
 const reserveRepository = require('../../repositories/reserve');
 const statusRepository = require('../../repositories/status');
 const reservationRepository = require('../../repositories/reservation');
-const datetime = require('node-datetime');
-
+const utils = require('../../utils/utils');
 
 const createNewReserve = async (req, res) => {
     try {
@@ -20,15 +19,12 @@ const createNewReserve = async (req, res) => {
 const cancelReserve = async (req, res) => {
     try {
         const reserve = await reserveRepository.findReserveById(req.params.id);
-        const reservationId = reserve.reservationId;
-        const reservation = await reservationRepository.findReservationById(reservationId);
-        const reservationTimeStamp = reservation.startTime;
-        const reservationDate = reservationTimeStamp.format('m/d/Y')
-        const dt = datetime.create();
-        const formatted = dt.format('m/d/Y');
-        if (reservationDate > formatted) {
+        const reserveTime = reserve.reserveTime;
+        if (utils.ifTodayIsAtleastOneDayBefore(reserveTime)) {
             const reserve = await reserveRepository.cancelReserve(req.params.id)
             res.json({message: "success operation", result: reserve})
+        } else  {
+            res.json({message: "too late to cancel yor reserve", result: reserve})
         }
     } catch (e) {
         res.status(500).json({message: "cancelReserve ERROR: " + e.message})

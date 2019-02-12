@@ -3,10 +3,12 @@ const userRepository = require('../repositories/user');
 const reservationRepository = require('../repositories/reservation');
 const datetime = require('node-datetime');
 const statusRepository = require('../repositories/status');
+const doctorRepository = require('../repositories/doctor')
+const userSchema = require('../models/user')();
+
 
 const creatReserve = async (data) => {
     return reserveSchema.create({
-        secretaryId: data.secretaryId,
         doctorId: data.doctorId,
         userId: data.userId,
         reserveTime: data.reserveTime
@@ -16,7 +18,6 @@ const creatReserve = async (data) => {
 
 const updateReserveData = async (id, data) => {
     return reserveSchema.create({
-            secretaryId: data.secretaryId,
             doctorId: data.doctorId,
             userId: data.userId,
             reserveTime: data.reserveTime
@@ -44,10 +45,10 @@ const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
 };
 
 const getListOfDoctorReserves = async (phoneNumber, offset = 0, limit = 10) => {
-    const user = await userRepository.findUserByPhoneNumber(phoneNumber);
-    const userId = user.id;
+    const doctor = await doctorRepository.searchDoctorByPhoneNumber(phoneNumber);
+    const doctorId = doctor.id;
     return reserveSchema.findAll({offset: offset, limit: limit},
-        {where: {doctorId: userId}})
+        {where: {doctorId: doctorId}})
 };
 
 
@@ -66,10 +67,10 @@ const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
 };
 
 
-// const findDoctorByReserveId = async (reserveId)=>{
-//     const reserve = await findReserveById(reserveId)
-//     return reserve.doctorId
-// }
+const findDoctorByReserveId = async (reserveId)=>{
+    const reserve = await findReserveById(reserveId)
+    return reserve.doctorId
+}
 
 
 module.exports = {
@@ -80,5 +81,6 @@ module.exports = {
     getListOfUserReserves,
     updateReserveData,
     cancelReserve,
-    findReserveById
+    findReserveById,
+    findDoctorByReserveId
 }
