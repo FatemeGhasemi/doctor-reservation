@@ -6,6 +6,8 @@ const doctor = require('./doctor')
 const office = require('./office')
 
 const category = require('./category')
+const reserve = require('./reserve')
+const reservation = require('./reservation')
 const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
 
@@ -22,6 +24,8 @@ async function initDbAndSeed() {
         await category.insertCategorues()
         await doctor.insertDoctors()
         await secretary.insertSecretaries()
+        await reservation.insertReservation()
+        await reserve.insertReserve()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 
