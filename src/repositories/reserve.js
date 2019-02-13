@@ -1,7 +1,6 @@
 const reserveSchema = require('../models/reserve')();
 const userRepository = require('../repositories/user');
 const reservationRepository = require('../repositories/reservation');
-const datetime = require('node-datetime');
 const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
 const userSchema = require('../models/user')();
