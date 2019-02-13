@@ -29,7 +29,6 @@ const deleteTimeAfterChoose = async (reserveId, reservationId) => {
         }
     }
     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
-
 };
 
 
