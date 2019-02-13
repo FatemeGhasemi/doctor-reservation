@@ -24,6 +24,11 @@ const initReserveSchema = () => {
             required:true,
             allowNull:false
         },
+        officeId:{
+            type:Sequelize.INTEGER,
+            required:true,
+            allowNull: false
+        },
         price: {
             type: Sequelize.NUMERIC
         },

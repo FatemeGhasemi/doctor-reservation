@@ -8,3 +8,6 @@ async function insertSecretaries() {
 }
 
 module.exports = {insertSecretaries}
+
+
+

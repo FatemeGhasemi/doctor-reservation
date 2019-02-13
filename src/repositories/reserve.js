@@ -8,6 +8,7 @@ const userSchema = require('../models/user')();
 
 
 const creatReserve = async (data) => {
+    const reserawait reservationRepository.findReservationByOfficeId(data.officeId)
     return reserveSchema.create({
         doctorId: data.doctorId,
         userId: data.userId,

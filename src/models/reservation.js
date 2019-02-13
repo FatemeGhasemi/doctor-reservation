@@ -9,11 +9,12 @@ const initReservationSchema = () => {
         },
         startTime: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
+            unique: true
         },
         finishTime: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
+            unique:true
+
         },
         counter: {
             type: Sequelize.ARRAY(Sequelize.DATE),
