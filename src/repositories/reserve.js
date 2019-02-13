@@ -8,12 +8,18 @@ const userSchema = require('../models/user')();
 
 
 const creatReserve = async (data) => {
-    const reserawait reservationRepository.findReservationByOfficeId(data.officeId)
-    return reserveSchema.create({
-        doctorId: data.doctorId,
-        userId: data.userId,
-        reserveTime: data.reserveTime
-    })
+    const reservation = await reservationRepository.findReservationByOfficeId(data.officeId)
+    const reserveList = reservation.counter;
+    if (data.reserveTime.in(reserveList)) {
+        return reserveSchema.create({
+            doctorId: data.doctorId,
+            userId: data.userId,
+            reserveTime: data.reserveTime
+        })
+    }
+    else{
+        return []
+    }
 };
 
 
@@ -29,7 +35,7 @@ const updateReserveData = async (id, data) => {
 
 const findReserveById = async (id) => {
     return reserveSchema.findOne({where: {id: id}})
-}
+};
 
 
 const cancelReserve = async (id) => {
