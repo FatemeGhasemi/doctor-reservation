@@ -9,14 +9,17 @@ const userSchema = require('../models/user')();
 const creatReserve = async (data) => {
     const reservation = await reservationRepository.findReservationByOfficeId(data.officeId)
     const reserveList = reservation.counter;
-    if (data.reserveTime.in(reserveList)) {
+    const reservationId = reservation.id
+    const reserveTime = data.reserveTime;
+    if (reserveList.includes(reserveTime)) {
         return reserveSchema.create({
             doctorId: data.doctorId,
             userId: data.userId,
-            reserveTime: data.reserveTime
+            reserveTime: data.reserveTime,
+            officeId: data.officeId,
+            reservationId: reservationId
         })
-    }
-    else{
+    } else {
         return []
     }
 };
@@ -34,6 +37,8 @@ const updateReserveData = async (id, data) => {
 
 const findReserveById = async (id) => {
     return reserveSchema.findOne({where: {id: id}})
+    return reservationSchema.findOne({where: {id: id}})
+
 };
 
 
@@ -73,12 +78,10 @@ const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
 };
 
 
-const findDoctorByReserveId = async (reserveId)=>{
+const findDoctorByReserveId = async (reserveId) => {
     const reserve = await findReserveById(reserveId)
     return reserve.doctorId
 }
-
-
 
 
 module.exports = {

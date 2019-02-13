@@ -17,7 +17,7 @@ const initReservationSchema = () => {
 
         },
         counter: {
-            type: Sequelize.ARRAY(Sequelize.DATE),
+            type: Sequelize.ARRAY(Sequelize.STRING),
             required: true
         },
         status: {

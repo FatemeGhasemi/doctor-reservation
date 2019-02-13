@@ -15,15 +15,12 @@ const creatReservation = async (data, timePeriodInMinutes) => {
 };
 
 
-const deleteTimeAfterChoose = async (reserveId, reservationId) => {
+const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    const reserve = await reserveRepository.findReserveById(reserveId)
-    const startTime = reserve.startTime;
     let reserveList = reservation.counter;
-
-    if (startTime.in(reserveList)) {
+    if (reserveList.includes(reserveTime.toString())) {
         for (let i = 0; i < reserveList.length - 1; i++) {
-            if (reserveList[i] === startTime) {
+            if (reserveList[i] === reserveTime) {
                 reserveList = reserveList.splice(i, 1);
             }
         }
@@ -48,8 +45,7 @@ const counterGenerator = async (timePeriodInMinutes, officeId) => {
 
 
 const findReservationById = async (id) => {
-    return reservationSchema.findOne({where: {id: id}}
-        , {returning: true, where: {id: id}})
+    return reservationSchema.findOne({where: {id: id}})
 };
 
 
@@ -72,5 +68,6 @@ module.exports = {
     creatReservation,
     updateReservationData,
     counterGenerator,
-    findReservationByOfficeId
+    findReservationByOfficeId,
+    deleteTimeAfterChoose
 };
