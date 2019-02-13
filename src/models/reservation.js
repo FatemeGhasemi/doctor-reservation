@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 let sequelize;
 let Reservation;
-const initReservationSchema =  () => {
-     Reservation =  sequelize.define('reservation', {
+const initReservationSchema = () => {
+    Reservation = sequelize.define('reservation', {
         officeId: {
             type: Sequelize.INTEGER,
             required: true
@@ -16,17 +16,17 @@ const initReservationSchema =  () => {
             defaultValue: Sequelize.NOW
         },
         counter: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.ARRAY(Sequelize.DATE),
             required: true
         },
-        status:{
-            type:Sequelize.STRING,
-            defaultValue:"pending"
+        status: {
+            type: Sequelize.STRING,
+            defaultValue: "pending"
         },
-         doctorId:{
-            type:Sequelize.INTEGER,
-             required:true
-         }
+        doctorId: {
+            type: Sequelize.INTEGER,
+            required: true
+        }
 
     });
     //TODO Reservation.sync just needed once to create tables, so if tables created dont need call it any more
@@ -35,7 +35,7 @@ const initReservationSchema =  () => {
 };
 
 module.exports = (injectedSequelize) => {
-    if (!injectedSequelize){
+    if (!injectedSequelize) {
         if (!Reservation) throw new Error('Plz define schemas by calling db.initDb(')
         return Reservation
     }
