@@ -4,6 +4,7 @@ const userRepository = require('../repositories/user')
 const doctorRepository = require("../repositories/doctor");
 const officeRepository = require("../repositories/office");
 const reserveRepository = require('../repositories/reserve')
+const secretaryRepository = require('../repositories/secretary')
 
 const validateJwt = async (req, res, next) => {
     try {
@@ -36,8 +37,8 @@ const checkAccessWithPhoneNumber = async (req, res, next) => {
 
 const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
     try {
-        const resereve = await reserveRepository.findReserveById(req.params.id)
-        const doctorId = resereve.doctorId
+        const reserve = await reserveRepository.findReserveById(req.params.id)
+        const doctorId = reserve.doctorId
         const doctor = doctorRepository.findDoctorById(doctorId)
         if (res.locals.user.phoneNumber === doctor.phoneNumber) {
             next()
@@ -52,8 +53,16 @@ const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
 
 const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
     try {
-        const doctor = await r.findDoctorByOfficeId(req.params.id)
-        if (res.locals.user.phoneNumber === doctor.phoneNumber) {
+        const reserve = await reserveRepository.findReserveById(req.params.id);
+        const userId = reserve.userId
+        const doctorId = reserve.doctorId
+        const secretaryId = reserve.secretaryId
+        const doctor = await doctorRepository.findDoctorById(doctorId)
+        const user = await userRepository.findUserById(userId)
+        const secretary = await secretaryRepository.findSecretaryId(secretaryId)
+        if (res.locals.user.phoneNumber === doctor.phoneNumber ||
+            res.locals.user.phoneNumber === secretary.phoneNumber ||
+            res.locals.user.phoneNumber === user.phoneNumber) {
             next()
         } else {
             throw new Error("unAuthorize")

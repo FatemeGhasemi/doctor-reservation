@@ -22,7 +22,7 @@ const initReservationSchema = () => {
         },
         status: {
             type: Sequelize.STRING,
-            defaultValue: "pending"
+            defaultValue: "approved"
         },
         doctorId: {
             type: Sequelize.INTEGER,

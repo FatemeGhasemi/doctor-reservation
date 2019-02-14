@@ -17,7 +17,7 @@ const initReserveSchema = () => {
         },
         status: {
             type: Sequelize.STRING,
-            defaultValue: "pending"
+            defaultValue: "approved"
         },
         reserveTime: {
             type:Sequelize.STRING,

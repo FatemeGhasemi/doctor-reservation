@@ -15,10 +15,25 @@ const creatReservation = async (data, timePeriodInMinutes) => {
 };
 
 
+const addStartTimeToCounter = async (reservationId, startTime) => {
+    let newCounter=[];
+    const reservation = await findReservationById(reservationId);
+    let counter = reservation.counter
+    counter.forEach(item=>{
+        newCounter.push(item)
+    })
+    counter = newCounter.push(startTime)
+    console.log("newCounter: ",newCounter)
+    return reservationSchema.update({counter: newCounter}, {returning: true, where: {id: reservationId}})
+}
+
+
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    console.log("reservation.counter",reservation.counter)
-    let reserveList = reservation.counter.filter(item =>{return item !== reserveTime});
+    console.log("reservation.counter", reservation.counter)
+    let reserveList = reservation.counter.filter(item => {
+        return item !== reserveTime
+    });
     console.log("reserveList", reserveList)
 
     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
@@ -41,7 +56,7 @@ const counterGenerator = async (timePeriodInMinutes, officeId) => {
 
 
 const findReservationById = async (id) => {
-    return reservationSchema.findOne({where: {id: id}})
+    return await reservationSchema.findOne({returning: true, where: {id: id}})
 };
 
 
@@ -65,5 +80,6 @@ module.exports = {
     updateReservationData,
     counterGenerator,
     findReservationByOfficeId,
-    deleteTimeAfterChoose
+    deleteTimeAfterChoose,
+    addStartTimeToCounter
 };

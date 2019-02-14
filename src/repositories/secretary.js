@@ -26,6 +26,11 @@ const defineSecretaryStatus = async (phoneNumber, status) => {
 };
 
 
+const findSecretaryId = async (id) => {
+    return secretarySchema.findOne({where: {id: id}})
+}
+
+
 const updateSecretaryData = async (phoneNumber, data) => {
     return secretarySchema.update(
         {
@@ -48,7 +53,6 @@ const approveAsSecretary = async (id) => {
         {returning: true, where: {id: id}}
     )
 };
-
 
 
 const deactivateSecretary = async (id) => {
@@ -82,7 +86,7 @@ const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => 
 
 
 const searchSecretaryByPhoneNumber = async (phoneNumber) => {
-    return secretarySchema.findOne({where: {$and:[{phoneNumber: phoneNumber}, {status: "approved"}]}})
+    return secretarySchema.findOne({where: {$and: [{phoneNumber: phoneNumber}, {status: "approved"}]}})
 };
 
 
@@ -94,5 +98,6 @@ module.exports = {
     createSecretaryUser,
     searchSecretaryFullText,
     searchSecretaryByPhoneNumber,
-    approveAsSecretary
+    approveAsSecretary,
+    findSecretaryId
 }

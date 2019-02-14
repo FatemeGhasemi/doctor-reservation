@@ -64,7 +64,8 @@ module.exports={
     updateOfficeData,
     changeOfficeStatus,
     returnAllOffices,
-    findDoctorByOfficeId
+    findDoctorByOfficeId,
+    findOfficeById
 };
 
 

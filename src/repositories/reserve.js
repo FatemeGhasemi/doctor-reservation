@@ -3,13 +3,16 @@ const userRepository = require('../repositories/user');
 const reservationRepository = require('../repositories/reservation');
 const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
+const officeRepository = require('../repositories/office')
 const userSchema = require('../models/user')();
 
 
 const creatReserve = async (data) => {
-    const reservation = await reservationRepository.findReservationByOfficeId(data.officeId)
+    const reservation = await reservationRepository.findReservationByOfficeId(data.officeId);
+    const office = await officeRepository.findOfficeById(data.officeId)
+    const secretaryId = office.secretaryId
     const reserveList = reservation.counter;
-    const reservationId = reservation.id
+    const reservationId = reservation.id;
     const reserveTime = data.reserveTime;
     if (reserveList.includes(reserveTime)) {
         return reserveSchema.create({
@@ -17,10 +20,11 @@ const creatReserve = async (data) => {
             userId: data.userId,
             reserveTime: data.reserveTime,
             officeId: data.officeId,
-            reservationId: reservationId
+            reservationId: reservationId,
+            secretaryId:secretaryId
         })
     } else {
-        throw new Error("This time is not availbale")
+        throw new Error("This time is not available")
     }
 };
 
@@ -36,8 +40,7 @@ const updateReserveData = async (id, data) => {
 
 
 const findReserveById = async (id) => {
-    return reserveSchema.findOne({where: {id: id}})
-    return reservationSchema.findOne({where: {id: id}})
+    return await reserveSchema.findOne ({returning: true, where: {id: id}})
 
 };
 

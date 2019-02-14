@@ -11,7 +11,7 @@ const createNewReserve = async (req, res) => {
         const reserve = await reserveRepository.creatReserve(req.body)
         const reservationId = reserve.reservationId
         const reserveTime = reserve.reserveTime
-        await reservationRepository.deleteTimeAfterChoose(reserveTime,reservationId);
+        await reservationRepository.deleteTimeAfterChoose(reserveTime, reservationId);
         res.json({message: "success operation", result: reserve})
     } catch (e) {
         console.log("Error createNewReserve ", e)
@@ -24,13 +24,18 @@ const cancelReserve = async (req, res) => {
     try {
         const reserve = await reserveRepository.findReserveById(req.params.id);
         const reserveTime = reserve.reserveTime;
-        if (await utils.ifTodayIsAtLeastOneDayBefore(reserveTime)) {
+        const reservationId = reserve.reservationId;
+        const ifTodayIsAtLeastOneDayBefore=await utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
+        if (ifTodayIsAtLeastOneDayBefore) {
             const reserve = await reserveRepository.cancelReserve(req.params.id)
+
+            await reservationRepository.addStartTimeToCounter(reservationId, reserveTime)
             res.json({message: "success operation", result: reserve})
-        } else  {
-            res.json({message: "too late to cancel yor reserve", result: reserve})
+        } else if(!ifTodayIsAtLeastOneDayBefore) {
+            res.json({message: "too late to cancel yor reserve"})
         }
     } catch (e) {
+        console.log("cancelReserve ERROR: ", e)
         res.status(500).json({message: "cancelReserve ERROR: " + e.message})
     }
 };
@@ -47,23 +52,23 @@ const updateReserveData = async (req, res) => {
 };
 
 
-const updateHandler = async (req, res) => {
-    try {
-        let result;
-        if (req.query) {
-            result = await updateReserveData(req, res)
-        } else {
-            result = await cancelReserve(req, res)
-        }
-        res.json({message: "success operation", result: result})
-
-    } catch (e) {
-        res.status(500).json({message: "updateReserveData ERROR: " + e.message})
-    }
-};
+// const updateHandler = async (req, res) => {
+//     try {
+//         let result;
+//         if (req.query) {
+//             result = await updateReserveData(req, res)
+//         } else {
+//             result = await cancelReserve(req, res)
+//         }
+//         res.json({message: "success operation", result: result})
+//
+//     } catch (e) {
+//         res.status(500).json({message: "updateReserveData ERROR: " + e.message})
+//     }
+// };
 
 
 router.post('/', checkAccess.validateJwt, createNewReserve);
-router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, updateHandler);
+router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
 
 module.exports = router;
