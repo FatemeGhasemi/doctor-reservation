@@ -20,7 +20,7 @@ const initReserveSchema = () => {
             defaultValue: "pending"
         },
         reserveTime: {
-            type:Sequelize.DATE,
+            type:Sequelize.STRING,
             required:true,
             allowNull:false,
             unique:true

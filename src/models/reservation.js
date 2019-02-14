@@ -8,11 +8,11 @@ const initReservationSchema = () => {
             required: true
         },
         startTime: {
-            type: Sequelize.DATE,
+            type: Sequelize.STRING,
             unique: true
         },
         finishTime: {
-            type: Sequelize.DATE,
+            type: Sequelize.STRING,
             unique:true
 
         },

@@ -1,6 +1,6 @@
 const datetime = require('node-datetime');
-const moment = require('moment')
-
+const moment = require('moment-jalaali')
+const jalaliDateFormat = 'jYYYYjM/jD HH:mm:ss'
 
 const getRandomFourDigitNumber = async () => {
     return Math.floor(1000 + Math.random() * 9000);
@@ -41,11 +41,12 @@ const visitTimeGenerator = async (timeStartString, numberOfReserves, reserveTime
     let startDate;
     let returnedEndDate
     let listOfReserveTime = [];
-    startDate = moment(timeStartString);
+    startDate = moment(timeStartString, jalaliDateFormat);
     for (let i = 0; i <= (numberOfReserves - 1); i++) {
         returnedEndDate = moment(startDate).add(reserveTimePeriodInMinute, 'minute');
         startDate = returnedEndDate;
-        listOfReserveTime.push(returnedEndDate)
+
+        listOfReserveTime.push(returnedEndDate.format(jalaliDateFormat))
     }
     return listOfReserveTime
 }
