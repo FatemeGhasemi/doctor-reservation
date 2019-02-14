@@ -17,14 +17,10 @@ const creatReservation = async (data, timePeriodInMinutes) => {
 
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    let reserveList = reservation.counter;
-    if (reserveList.includes(reserveTime.toString())) {
-        for (let i = 0; i < reserveList.length - 1; i++) {
-            if (reserveList[i] === reserveTime) {
-                reserveList = reserveList.splice(i, 1);
-            }
-        }
-    }
+    console.log("reservation.counter",reservation.counter)
+    let reserveList = reservation.counter.filter(item =>{return item !== reserveTime});
+    console.log("reserveList", reserveList)
+
     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
 };
 

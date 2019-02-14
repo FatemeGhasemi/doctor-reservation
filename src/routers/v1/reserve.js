@@ -14,6 +14,7 @@ const createNewReserve = async (req, res) => {
         await reservationRepository.deleteTimeAfterChoose(reserveTime,reservationId);
         res.json({message: "success operation", result: reserve})
     } catch (e) {
+        console.log("Error createNewReserve ", e)
         res.status(500).json({message: e.message})
     }
 };

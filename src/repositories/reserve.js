@@ -11,7 +11,7 @@ const creatReserve = async (data) => {
     const reserveList = reservation.counter;
     const reservationId = reservation.id
     const reserveTime = data.reserveTime;
-    if (reserveList.includes(reserveTime.toString())) {
+    if (reserveList.includes(reserveTime)) {
         return reserveSchema.create({
             doctorId: data.doctorId,
             userId: data.userId,
@@ -20,7 +20,7 @@ const creatReserve = async (data) => {
             reservationId: reservationId
         })
     } else {
-        return []
+        throw new Error("This time is not availbale")
     }
 };
 
