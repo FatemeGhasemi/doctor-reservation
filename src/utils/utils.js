@@ -30,24 +30,30 @@ const ifTodayIsAtLeastOneDayBefore = async (time) => {
 
 const towTimeDifferenceInMinutes = async (finishTime, startTime) => {
     let startDate = moment(startTime);
-    let finishDate = moment(finishTime)
-    let duration = moment.duration(finishDate.diff(startDate));
-    let minutes = duration.asMinutes();
-    return minutes
+    let finishDate = moment(finishTime);
+    let duration = moment.duration(finishDate.diff(startDate)).asMinutes();
+    return duration
 };
 
 
+const add = async (startDate, reserveTimePeriodInMinute) => {
+    return moment(startDate).add(reserveTimePeriodInMinute, 'minute').format("YYYY-MM-DD HH:mm:ss")
+}
+
 const visitTimeGenerator = async (timeStartString, numberOfReserves, reserveTimePeriodInMinute) => {
+    let timeString1 = timeStartString;
     let startDate;
     let returnedEndDate
-    let listOfReserveTime = [];
-    startDate = moment(timeStartString);
-    for (let i = 0; i <= (numberOfReserves - 1); i++) {
-        returnedEndDate = moment(startDate).add(reserveTimePeriodInMinute, 'minute');
+    let x = [];
+    startDate = moment(timeString1);
+    for (let i = 0; i <= numberOfReserves; i++) {
+        returnedEndDate = await add(startDate,reserveTimePeriodInMinute)
         startDate = returnedEndDate;
-        listOfReserveTime.push(returnedEndDate)
+        x.push(returnedEndDate)
     }
-    return listOfReserveTime
+
+    console.log("x: ", x)
+    return x
 }
 
 
@@ -55,4 +61,5 @@ module.exports = {
     getRandomFourDigitNumber,
     ifTodayIsAtLeastOneDayBefore,
     towTimeDifferenceInMinutes,
-    visitTimeGenerator}
+    visitTimeGenerator
+}

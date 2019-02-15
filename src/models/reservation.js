@@ -27,6 +27,11 @@ const initReservationSchema = () => {
         doctorId: {
             type: Sequelize.INTEGER,
             required: true
+        },
+        secretaryId:{
+            type: Sequelize.INTEGER,
+            required:true,
+            allowNull:false
         }
 
     });

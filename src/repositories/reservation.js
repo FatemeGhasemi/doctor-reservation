@@ -2,28 +2,41 @@ const reservationSchema = require('../models/reservation')();
 const officeSchema = require('../models/office')();
 const utils = require('../utils/utils');
 const reserveRepository = require('../repositories/reserve');
+const officeRepository = require('../repositories/office')
+const secretaryRepository = require('../repositories/secretary')
 
-const creatReservation = async (data, timePeriodInMinutes) => {
-    const counter = await counterGenerator(timePeriodInMinutes, data.officeId);
-    return reservationSchema.create({
-        startTime: data.startTime,
-        finishTime: data.finish,
-        counter: counter,
-        officeId: data.officeId,
-        doctorId: data.doctorId
-    })
+const creatReservation = async (data) => {
+    const counter = await counterGenerator(data.timePeriodInMinutes, data.finishTime, data.startTime);
+    const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
+    const doctorId = doctor.id
+    const doctorOffices = doctor.officeId
+    if (doctorOffices.includes(data.officeId)) {
+        const office = await officeRepository.findOfficeById(data.officeId)
+        let secretaryId = office.secretaryId
+        if (data.secretaryId === secretaryId)
+            return reservationSchema.create({
+                startTime: data.startTime,
+                finishTime: data.finishTime,
+                counter: counter,
+                officeId: data.officeId,
+                doctorId: doctorId,
+                secretaryId: secretaryId
+            })
+    } else {
+        throw new Error("This time is not available")
+    }
 };
 
 
 const addStartTimeToCounter = async (reservationId, startTime) => {
-    let newCounter=[];
+    let newCounter = [];
     const reservation = await findReservationById(reservationId);
     let counter = reservation.counter
-    counter.forEach(item=>{
+    counter.forEach(item => {
         newCounter.push(item)
     })
     counter = newCounter.push(startTime)
-    console.log("newCounter: ",newCounter)
+    console.log("newCounter: ", newCounter)
     return reservationSchema.update({counter: newCounter}, {returning: true, where: {id: reservationId}})
 }
 
@@ -45,12 +58,10 @@ const findReservationByOfficeId = async (officeId) => {
 };
 
 
-const counterGenerator = async (timePeriodInMinutes, officeId) => {
-    const reservation = await findReservationById(officeId);
-    const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(reservation.finishTime, reservation.startTime);
+const counterGenerator = async (timePeriodInMinutes, finishTime, startTime) => {
+    const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(finishTime, startTime);
     const numberOfReserves = durationTimeInMinute / timePeriodInMinutes;
-    const startString = '"' + reservation.startTime + '"';
-    const listOfReserves = await utils.visitTimeGenerator(startString, numberOfReserves, timePeriodInMinutes)
+    const listOfReserves = await utils.visitTimeGenerator(startTime, numberOfReserves, timePeriodInMinutes)
     return listOfReserves;
 };
 

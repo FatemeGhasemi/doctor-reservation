@@ -28,6 +28,9 @@ p, admin, offices, put
 p, user, reserves, post
 p, doctor, reserves, post
 p, admin, reserves, post
+p, admin, reservations, post
+p, secretary, reservations, post
+p, doctor, reservations, post
 
 
 

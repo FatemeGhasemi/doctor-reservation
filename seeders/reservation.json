@@ -10,6 +10,7 @@
       "2019-02-30 16:00:00"
     ],
     "status": "approved",
-    "doctorId": 1
+    "doctorId": 1,
+    "secretaryId": 1
   }
 ]
