@@ -5,15 +5,20 @@ const initReservationSchema = () => {
     Reservation = sequelize.define('reservation', {
         officeId: {
             type: Sequelize.INTEGER,
-            required: true
+            required: true,
+            allowNull: false,
+            unique: 'uniqueTag'
         },
         startTime: {
             type: Sequelize.STRING,
-            unique: true
+            allowNull: false,
+            unique: 'uniqueTag'
         },
         finishTime: {
             type: Sequelize.STRING,
-            unique:true
+            allowNull: false,
+            unique: 'uniqueTag'
+
 
         },
         counter: {
