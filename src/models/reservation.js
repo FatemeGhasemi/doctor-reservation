@@ -18,8 +18,6 @@ const initReservationSchema = () => {
             type: Sequelize.STRING,
             allowNull: false,
             unique: 'uniqueTag'
-
-
         },
         counter: {
             type: Sequelize.ARRAY(Sequelize.STRING),
