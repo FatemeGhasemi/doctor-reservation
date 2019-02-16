@@ -2,13 +2,18 @@ const secretarySchema = require('../models/secretary')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const statusRepository = require('../repositories/status');
+const doctorRepository = require('../repositories/doctor')
 
 
 const createSecretaryUser = async (data,doctorData) => {
-    const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
-    const userId = user.id;
-    if(doctorData.officeId.include(data.officeId)) {
-        return secretarySchema.create({
+    const doctor = await doctorRepository.searchDoctorByPhoneNumber(doctorData.phoneNumber)
+    const officeId = doctor.officeId
+    if(officeId.includes(data.officeId)) {
+        const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
+        const userId = user.id;
+        console.log("userId: ",userId)
+        console.log("data: ",data)
+        return await secretarySchema.create({
             userId: userId,
             phoneNumber: data.phoneNumber,
             firstName: data.firstName,
@@ -16,10 +21,21 @@ const createSecretaryUser = async (data,doctorData) => {
             officeId:data.officeId
         })
     }
-    else {
-        throw new Error("this office is not for "+doctorData.phoneNumber)
-    }
 };
+
+
+const createSecretaryForSeeder = async (data)=>{
+    const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
+    const userId = user.id;
+    return secretarySchema.create({
+        userId: userId,
+        phoneNumber: data.phoneNumber,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        officeId:data.officeId
+    })
+}
+
 
 const defineSecretaryStatus = async (phoneNumber, status) => {
     await userSchema.update({role: "secretary"},
@@ -110,5 +126,6 @@ module.exports = {
     searchSecretaryByPhoneNumber,
     approveAsSecretary,
     findSecretaryId,
-    activateSecretary
+    activateSecretary,
+    createSecretaryForSeeder
 }

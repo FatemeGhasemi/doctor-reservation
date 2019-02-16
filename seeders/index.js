@@ -18,12 +18,12 @@ async function initDbAndSeed() {
         /**
          * Be aware that order of insert data is important , user should be before than secretary and doctor
          */
+        await secretary.insertSecretaries()
         await user.insertUsers()
         await office.insertOffices()
         await status.insertStatus()
         await category.insertCategorues()
         await doctor.insertDoctors()
-        await secretary.insertSecretaries()
         await reservation.insertReservation()
         await reserve.insertReserve()
     } catch (e) {

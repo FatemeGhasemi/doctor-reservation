@@ -9,10 +9,10 @@ const router = express.Router();
 
 const createUserAsSecretary = async (req, res) => {
     try {
-        const doctor = res.locals.user
-        const doctorPhone = doctor.phoneNumber
+        const doctorAsUser = res.locals.user
+        const doctorPhone = doctorAsUser.phoneNumber
         const message ="شما را به عنوان منشی خود انتخاب کرده. در صورت تمایل کد چهار رقمی این پیام را برای ما در اپلیکیشن ارسال کنید" +doctorPhone + "کاربر به شماره تلفن "
-        const user = await secretaryRepository.createSecretaryUser(req.body,doctor);
+        const user = await secretaryRepository.createSecretaryUser(req.body,doctorAsUser);
         await otpHelper.sendOtpHandler(req.body.phoneNumber, message )
         res.json({message: "success operation", result: user})
     } catch (e) {

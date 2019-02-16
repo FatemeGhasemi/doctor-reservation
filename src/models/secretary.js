@@ -17,8 +17,7 @@ const initSecretarySchema =  () => {
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            required:true,
-            unique:true
+            required:true
         },
         status: {
             type: Sequelize.STRING,
@@ -29,7 +28,8 @@ const initSecretarySchema =  () => {
              defaultValue: true
          },
          officeId:{
-            type:Sequelize.INTEGER
+            type:Sequelize.INTEGER,
+             unique: true
          }
     });
     //TODO Secretary.sync just needed once to create tables, so if tables created dont need call it any more

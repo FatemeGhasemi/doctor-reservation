@@ -1,8 +1,8 @@
 [
   {"phoneNumber": "09192506805", "role": "admin","status":"active"},
   {"phoneNumber": "09192506806", "role": "doctor","status":"active"},
-  {"phoneNumber": "09192506807", "role": "secretary","status":"active"},
   {"phoneNumber": "09192506808", "role": "user","status":"active"},
   {"phoneNumber": "09192506809", "role": "user","status":"active"}
   
 ]
+
