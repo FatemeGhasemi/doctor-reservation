@@ -21,10 +21,6 @@ const getDoctorListController = async (req, res) => {
         let result;
         if (req.query.categoryId) {
             result = await doctorRepository.searchDoctorByCategory(req.query.categoryId)}
-        else
-            {
-                result = await doctorRepository.getAllDoctors()
-            }
             res.json({message: "success operation", result: result})
 
     } catch (e) {

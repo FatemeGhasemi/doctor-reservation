@@ -2,6 +2,7 @@ const doctorSchema = require('../models/doctor')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const statusRepository = require('../repositories/status');
+const categoryRepository = require('../repositories/category')
 
 
 const createDoctorUser = async (data) => {
@@ -64,10 +65,19 @@ const getAllDoctors = async (offset = 0, limit = 10) => {
 // }
 
 const searchDoctorByCategory = async (categoryId) => {
-    return doctorSchema.findAll({
-        where: {
-            categoryId:  categoryId}
-    })
+    const category = await categoryRepository.findCategoryById(categoryId)
+    const categoryName = category.name
+    const result = await categoryRepository.findCategoryByParentName(categoryName)
+    if(result.length ===0) {
+        return doctorSchema.findAll({
+            where: {
+                categoryId: categoryId
+            }
+        })
+    }
+    else {
+        throw new Error("this is not available")
+    }
 };
 
 
