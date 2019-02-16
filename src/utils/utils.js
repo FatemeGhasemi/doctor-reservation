@@ -57,6 +57,7 @@ const visitTimeGenerator = async (timeStartString, numberOfReserves, reserveTime
 }
 
 
+
 module.exports = {
     getRandomFourDigitNumber,
     ifTodayIsAtLeastOneDayBefore,

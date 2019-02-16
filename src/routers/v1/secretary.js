@@ -3,17 +3,26 @@ const secretaryRepository = require("../../repositories/secretary");
 const userRepository = require("../../repositories/user");
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
+const otpHelper = require('../../services/athorization/otp')
 const router = express.Router();
 
 
 const createUserAsSecretary = async (req, res) => {
     try {
-        const user = await secretaryRepository.createSecretaryUser(req.body);
+        const doctor = res.locals.user
+        const doctorPhone = doctor.phoneNumber
+        const message ="شما را به عنوان منشی خود انتخاب کرده. در صورت تمایل کد چهار رقمی این پیام را برای ما در اپلیکیشن ارسال کنید" +doctorPhone + "کاربر به شماره تلفن "
+        const user = await secretaryRepository.createSecretaryUser(req.body,doctor);
+        await otpHelper.sendOtpHandler(req.body.phoneNumber, message )
         res.json({message: "success operation", result: user})
     } catch (e) {
         res.status(500).json({message: e.message})
     }
 };
+
+
+
+
 
 const getListOfSecretaryByCategory = async (req, res) => {
     try {
@@ -70,7 +79,7 @@ const updateSecretaryData = async (req, res) => {
 
 
 router.get('/', getSecretaryListController);
-router.post('/', checkAccess.validateJwt, createUserAsSecretary);
+router.post('/', checkAccess.validateJwt,checkAccess.checkRolesAccess, createUserAsSecretary);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateSecretaryData);
 
 module.exports = router;

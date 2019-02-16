@@ -4,15 +4,21 @@ const userRepository = require('../repositories/user');
 const statusRepository = require('../repositories/status');
 
 
-const createSecretaryUser = async (data) => {
-    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber);
+const createSecretaryUser = async (data,doctorData) => {
+    const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
     const userId = user.id;
-    return secretarySchema.create({
-        userId: userId,
-        phoneNumber: data.phoneNumber,
-        firstName: data.firstName,
-        lastName: data.lastName,
-    })
+    if(doctorData.officeId.include(data.officeId)) {
+        return secretarySchema.create({
+            userId: userId,
+            phoneNumber: data.phoneNumber,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            officeId:data.officeId
+        })
+    }
+    else {
+        throw new Error("this office is not for "+doctorData.phoneNumber)
+    }
 };
 
 const defineSecretaryStatus = async (phoneNumber, status) => {
@@ -26,6 +32,11 @@ const defineSecretaryStatus = async (phoneNumber, status) => {
 };
 
 
+const activateSecretary = async (phoneNumber) => {
+    return secretarySchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})
+}
+
+
 const findSecretaryId = async (id) => {
     return secretarySchema.findOne({where: {id: id}})
 }
@@ -34,10 +45,9 @@ const findSecretaryId = async (id) => {
 const updateSecretaryData = async (phoneNumber, data) => {
     return secretarySchema.update(
         {
-            phoneNumber: phoneNumber,
             firstName: data.firstName,
             lastName: data.lastName,
-            status: data.status
+            officeId: data.officeId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
@@ -99,5 +109,6 @@ module.exports = {
     searchSecretaryFullText,
     searchSecretaryByPhoneNumber,
     approveAsSecretary,
-    findSecretaryId
+    findSecretaryId,
+    activateSecretary
 }

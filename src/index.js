@@ -39,6 +39,7 @@ function addRoutes() {
     app.use('/api/v1/offices', require('./routers/v1/office'));
     app.use('/api/v1/reserves', require('./routers/v1/reserve'));
     app.use('/api/v1/reservations', require('./routers/v1/reservation'));
+    app.use('/api/v1/secretaryApproved', require('./routers/v1/active-secretary'));
 
 }
 

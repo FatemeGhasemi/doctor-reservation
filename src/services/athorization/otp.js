@@ -20,7 +20,7 @@ const generateOtp = async () => {
 
 
 //this function integrate generateOtp function and sendOtpMessage function and handling otp service
-const sendOtpHandler = async (phoneNumber) => {
+const sendOtpHandler = async (phoneNumber, message = "") => {
     try {
         // if (process.env.IS_MOCK === 'true') {
         //     const otpCode = '1234';
@@ -29,8 +29,8 @@ const sendOtpHandler = async (phoneNumber) => {
         // }
 
         const otpCode = await generateOtp();
-        await saveOtpCode(phoneNumber,otpCode)
-        const result = await sendOtpMessage(phoneNumber,otpCode)
+        await saveOtpCode(phoneNumber, otpCode)
+        const result = await sendOtpMessage(phoneNumber, message + otpCode)
         console.log('result of sending sms ', result)
         return otpCode
     } catch (e) {
@@ -49,4 +49,4 @@ const deleteOtpCode = (phoneNumber) => {
 };
 
 
-module.exports = {sendOtpHandler, isOtpValid, deleteOtpCode,generateOtp};
+module.exports = {sendOtpHandler, isOtpValid, deleteOtpCode, generateOtp};

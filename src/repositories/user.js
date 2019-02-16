@@ -17,6 +17,11 @@ const createUser = async (phoneNumber) => {
 };
 
 
+const createUserTobeSecretary = async (phoneNumber) => {
+    return userSchema.create({phoneNumber: phoneNumber, role: "secretary", status: "active"})
+};
+
+
 const updateUser = async (phoneNumber, data) => {
     return userSchema.update(
         {
@@ -82,7 +87,8 @@ module.exports = {
     findUserByPhoneNumber,
     findUserById,
     getUserRoleByPhoneNumber,
-    getAllUsers
+    getAllUsers,
+    createUserTobeSecretary
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,
