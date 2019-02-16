@@ -63,11 +63,11 @@ const findReservationByOfficeIdAndTime = async (officeId,reserveTime) => {
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
     console.log("reservations: ",reservations)
     reservations.forEach(item=>{
-        if(item.reserveTime === reserveTime){
+        if(item.counter.includes(reserveTime)){
             reservation.push(item)
         }
     });
-    return reservation
+    return reservation[0]
 };
 
 

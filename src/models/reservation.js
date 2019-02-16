@@ -12,16 +12,16 @@ const initReservationSchema = () => {
         startTime: {
             type: Sequelize.STRING,
             allowNull: false,
-            unique: 'uniqueTag'
         },
         finishTime: {
             type: Sequelize.STRING,
             allowNull: false,
-            unique: 'uniqueTag'
         },
         counter: {
             type: Sequelize.ARRAY(Sequelize.STRING),
-            required: true
+            required: true,
+            allowNull: false,
+            unique: 'uniqueTag'
         },
         status: {
             type: Sequelize.STRING,
