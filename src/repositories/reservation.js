@@ -58,6 +58,19 @@ const findReservationByOfficeId = async (officeId) => {
 };
 
 
+const findReservationByOfficeIdAndTime = async (officeId,reserveTime) => {
+    let reservation = []
+    const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
+    console.log("reservations: ",reservations)
+    reservations.forEach(item=>{
+        if(item.reserveTime === reserveTime){
+            reservation.push(item)
+        }
+    });
+    return reservation
+};
+
+
 const counterGenerator = async (timePeriodInMinutes, finishTime, startTime) => {
     const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(finishTime, startTime);
     const numberOfReserves = durationTimeInMinute / timePeriodInMinutes;
@@ -92,5 +105,6 @@ module.exports = {
     counterGenerator,
     findReservationByOfficeId,
     deleteTimeAfterChoose,
-    addStartTimeToCounter
+    addStartTimeToCounter,
+    findReservationByOfficeIdAndTime
 };

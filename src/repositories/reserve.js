@@ -8,7 +8,7 @@ const userSchema = require('../models/user')();
 
 
 const creatReserve = async (data) => {
-    const reservation = await reservationRepository.findReservationByOfficeId(data.officeId);
+    const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId,data.reserveTime);
     const office = await officeRepository.findOfficeById(data.officeId)
     const secretaryId = office.secretaryId
     const reserveList = reservation.counter;

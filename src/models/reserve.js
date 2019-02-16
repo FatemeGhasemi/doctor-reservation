@@ -5,30 +5,34 @@ const initReserveSchema = () => {
     Reserve = sequelize.define('reserve', {
         userId: {
             type: Sequelize.INTEGER,
-            required: true
+            required: true,
+            allowNull:false
         },
         doctorId: {
             type: Sequelize.INTEGER,
-            required: true
+            required: true,
+            allowNull:false
         },
         secretaryId: {
             type: Sequelize.INTEGER,
-            required: true
+            required: true,
+            allowNull:false
         },
         status: {
             type: Sequelize.STRING,
             defaultValue: "approved"
         },
         reserveTime: {
-            type:Sequelize.STRING,
-            required:true,
-            allowNull:false,
-            unique:true
+            type: Sequelize.STRING,
+            required: true,
+            allowNull: false,
+            unique: 'uniqueTag'
         },
-        officeId:{
-            type:Sequelize.INTEGER,
-            required:true,
-            allowNull: false
+        officeId: {
+            type: Sequelize.INTEGER,
+            required: true,
+            allowNull: false,
+            unique: 'uniqueTag'
         },
         price: {
             type: Sequelize.NUMERIC
@@ -36,12 +40,21 @@ const initReserveSchema = () => {
         paymentId: {
             type: Sequelize.INTEGER
         },
-        reservationId :{
-            type:Sequelize.INTEGER,
-            required:true,
-            allowNull:false
+        reservationId: {
+            type: Sequelize.INTEGER,
+            required: true,
+            allowNull: false
         }
-    });
+    // ,{
+    //     indexes: [
+    //         {
+    //             unique: true,
+    //             fields: ['officeId', 'reserveTime']
+    //         }
+    //     ]
+    // }
+})
+    ;
     //TODO Reserve.sync just needed once to create tables, so if tables created dont need call it any more
     // await Reserve.sync({force: true})
     return Reserve
