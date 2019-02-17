@@ -25,7 +25,6 @@ const initOfficeSchema = () => {
         doctorId: {
             type: Sequelize.INTEGER,
             required: true,
-            unique: true
         },
         active: {
             type: Sequelize.BOOLEAN,

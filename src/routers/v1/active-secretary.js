@@ -9,10 +9,10 @@ const router = express.Router();
 
 const activeSecretaryAccount = async (req,res)=>{
     try {
-        if (await otpHelper.isOtpValid(req.body.otp, req.body.phoneNumber)) {
-            await secretaryRepository.activateSecretary(req.body.phoneNumber);
+        if (await otpHelper.isOtpValid(req.body.otp, req.params.phoneNumber)) {
+            await secretaryRepository.activateSecretary(req.params.phoneNumber);
             await otpHelper.deleteOtpCode(req.body.phoneNumber);
-            const jwtCode = jwtHelper.jwtGenerator({phoneNumber: req.body.phoneNumber});
+            const jwtCode = jwtHelper.jwtGenerator({phoneNumber: req.params.phoneNumber});
             res.json({message: 'success', result: jwtCode})
         } else {
             res.status(403).json({message: "un authorize"})
@@ -25,6 +25,6 @@ const activeSecretaryAccount = async (req,res)=>{
 }
 
 
-router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, activeSecretaryAccount);
+router.put('/:phoneNumber', activeSecretaryAccount);
 
 module.exports = router;

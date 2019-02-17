@@ -5,26 +5,28 @@ const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
 
 
-const createSecretaryUser = async (data,doctorData) => {
+const createSecretaryUser = async (data, doctorData) => {
+    let secretary;
     const doctor = await doctorRepository.searchDoctorByPhoneNumber(doctorData.phoneNumber)
     const officeId = doctor.officeId
-    if(officeId.includes(data.officeId)) {
+    if (officeId.includes(data.officeId)) {
         const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
         const userId = user.id;
-        console.log("userId: ",userId)
-        console.log("data: ",data)
-        return await secretarySchema.create({
+        console.log("userId: ", userId)
+        console.log("data: ", data)
+        secretary = await secretarySchema.create({
             userId: userId,
             phoneNumber: data.phoneNumber,
             firstName: data.firstName,
             lastName: data.lastName,
-            officeId:data.officeId
+            officeId: data.officeId
         })
     }
+    return secretary
 };
 
 
-const createSecretaryForSeeder = async (data)=>{
+const createSecretaryForSeeder = async (data) => {
     const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
     const userId = user.id;
     return secretarySchema.create({
@@ -32,7 +34,7 @@ const createSecretaryForSeeder = async (data)=>{
         phoneNumber: data.phoneNumber,
         firstName: data.firstName,
         lastName: data.lastName,
-        officeId:data.officeId
+        officeId: data.officeId
     })
 }
 

@@ -13,10 +13,11 @@ const createUserAsSecretary = async (req, res) => {
         const doctorPhone = doctorAsUser.phoneNumber
         const message ="شما را به عنوان منشی خود انتخاب کرده. در صورت تمایل کد چهار رقمی این پیام را برای ما در اپلیکیشن ارسال کنید" +doctorPhone + "کاربر به شماره تلفن "
         const user = await secretaryRepository.createSecretaryUser(req.body,doctorAsUser);
-        await otpHelper.sendOtpHandler(req.body.phoneNumber, message )
+        const otpCode = await otpHelper.sendOtpHandler(req.body.phoneNumber, message )
+        console.log("otpCode: ",otpCode);
         res.json({message: "success operation", result: user})
     } catch (e) {
-        res.status(500).json({message: e.message})
+        res.status(500).json({message: e.errors[0]})
     }
 };
 

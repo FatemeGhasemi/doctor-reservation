@@ -6,5 +6,13 @@
     "address":"تهران امام حسین",
     "secretaryId":1,
     "doctorId":1
+  },
+  {
+    "phoneNumber": "02177317268",
+    "lat": 69.0,
+    "long": 50.0,
+    "address":"تهران شریعتی",
+    "secretaryId":1,
+    "doctorId":1
   }
 ]

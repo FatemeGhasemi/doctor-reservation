@@ -26,8 +26,6 @@ const checkAccessWithPhoneNumber = async (req, res, next) => {
         console.log("req.body.phoneNumber: ", req.params.phoneNumber);
         if (res.locals.user.phoneNumber === req.params.phoneNumber) {
             next()
-        } else {
-            throw new Error("unAuthorize")
         }
     } catch (e) {
         res.status(403).json({"message": e.message})
@@ -42,8 +40,6 @@ const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
         const doctor = doctorRepository.findDoctorById(doctorId)
         if (res.locals.user.phoneNumber === doctor.phoneNumber) {
             next()
-        } else {
-            throw new Error("unAuthorize")
         }
     } catch (e) {
         res.status(403).json({"message": e.message})
@@ -64,8 +60,6 @@ const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
             res.locals.user.phoneNumber === secretary.phoneNumber ||
             res.locals.user.phoneNumber === user.phoneNumber) {
             next()
-        } else {
-            throw new Error("unAuthorize")
         }
     } catch (e) {
         res.status(403).json({"message": e.message})
@@ -77,14 +71,18 @@ const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
 
 
 const checkRolesAccess = async (req, res, next) => {
+    try {
+
     const act = req.method.toLowerCase();
     const obj = req.baseUrl.split('/')[3];
     const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
     console.log('checkRoleAccess ', res.locals.user.role, obj, act, checkRoleAccess)
     if (checkRoleAccess) {
         next()
-    } else {
-        res.status(403).json({"message": "unAuthorize"})
+    }
+    }catch (e) {
+        res.status(403).json({"message": e.message})
+
     }
 };
 
