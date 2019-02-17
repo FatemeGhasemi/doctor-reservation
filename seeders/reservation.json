@@ -2,7 +2,7 @@
   {
     "officeId": 1,
     "dates": [{"date": "2019-03-21", "start": "19:00:00", "finish": "19:30:00", "duration": 15}, {
-      "date": "2019-04-30",
+      "counter": "2019-04-30",
       "start": "13:00:00",
       "finish": "15:00:00",
       "duration": 60

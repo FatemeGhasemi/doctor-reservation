@@ -24,8 +24,8 @@ async function initDbAndSeed() {
         await status.insertStatus()
         await category.insertCategorues()
         await doctor.insertDoctors()
-        await reservation.insertReservation()
-        await reserve.insertReserve()
+        // await reservation.insertReservation()
+        // await reserve.insertReserve()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 

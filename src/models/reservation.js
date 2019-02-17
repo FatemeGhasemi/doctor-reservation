@@ -8,7 +8,7 @@ const initReservationSchema = () => {
             required: true,
             allowNull: false
         },
-        dates: {
+        counter: {
             type: Sequelize.ARRAY(Sequelize.JSON(Sequelize.STRING)),
             required: true,
             allowNull: false,

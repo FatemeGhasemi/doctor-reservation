@@ -5,16 +5,17 @@ const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
 const officeRepository = require('../repositories/office')
 const userSchema = require('../models/user')();
+const utils = require('../utils/utils')
 
 
 const creatReserve = async (data) => {
     const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId,data.reserveTime);
     const office = await officeRepository.findOfficeById(data.officeId)
     const secretaryId = office.secretaryId
-    const reserveList = reservation.counter;
+    const reserveList = reservation.dates;
     const reservationId = reservation.id;
     const reserveTime = data.reserveTime;
-    if (reserveList.includes(reserveTime)) {
+    if (utils.isReserveTimeInDates(reserveList,reserveTime)) {
         return reserveSchema.create({
             doctorId: data.doctorId,
             userId: data.userId,

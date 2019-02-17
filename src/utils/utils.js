@@ -67,7 +67,22 @@ const dayHandler = async (dates) => {
 }
 
 
-
+const isReserveTimeInDates =  (dates,reserveTime)=>{
+    let validDate = []
+    dates.forEach(item=>{
+        item.forEach(i=>{
+            if (i === reserveTime){
+                validDate.push(i)
+            }
+        })
+    })
+    if (validDate !== []){
+        return true
+    }
+    if(validDate === []){
+        return false
+    }
+}
 
 
 
@@ -75,5 +90,6 @@ const dayHandler = async (dates) => {
 module.exports = {
     getRandomFourDigitNumber,
     ifTodayIsAtLeastOneDayBefore,
-    dayHandler
+    dayHandler,
+    isReserveTimeInDates
 }

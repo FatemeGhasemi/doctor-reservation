@@ -11,15 +11,15 @@ const creatReservation = async (data) => {
     const doctorId = doctor.id
     const doctorOffices = doctor.officeId
     const reservation = await findReservationByOfficeId(data.officeId)
-    if (reservation){
-        reservationSchema.update({status: "expired"},{returning: true, where: {id: reservation.id}})
+    if (reservation) {
+        reservationSchema.update({status: "expired"}, {returning: true, where: {id: reservation.id}})
     }
     if (doctorOffices.includes(data.officeId)) {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
         if (data.secretaryId === secretaryId)
             return reservationSchema.create({
-                dates: counter,
+                counter: counter,
                 officeId: data.officeId,
                 doctorId: doctorId,
                 secretaryId: secretaryId
@@ -45,13 +45,15 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
 
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    console.log("reservation.counter", reservation.counter)
-    let reserveList = reservation.counter.filter(item => {
-        return item !== reserveTime
+    console.log("reservation.counter", reservation.dates)
+    let reserveList=
+        reservation.dates.forEach(item=>{
+        item.filter(i=>{
+            return i !== reserveTime
+        })
     });
-    console.log("reserveList", reserveList)
-
-    return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
+    console.log("reserveList", reserveList);
+    return reservationSchema.update({dates: reserveList}, {returning: true, where: {id: reservationId}})
 };
 
 
@@ -60,15 +62,19 @@ const findReservationByOfficeId = async (officeId) => {
 };
 
 
-const findReservationByOfficeIdAndTime = async (officeId,reserveTime) => {
+const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
     let reservation = []
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
-    console.log("reservations: ",reservations)
-    reservations.forEach(item=>{
-        if(item.counter.includes(reserveTime)){
-            reservation.push(item)
+    console.log("reservations: ", reservations)
+    reservations.forEach(item => {
+        console.log("reservation: ",item)
+            if (item.status === "valid") {
+                if ( utils.isReserveTimeInDates(item.dates,reserveTime)) {
+                    reservation.push(item)
+                }
+            }
         }
-    });
+    );
     return reservation[0]
 };
 
@@ -85,7 +91,7 @@ const findReservationById = async (id) => {
 
 const updateReservationData = async (id, data) => {
     return reservationSchema.update({
-            dates: data.counter,
+            counter: data.counter,
             officeId: data.officeId,
             status: data.status,
             doctorId: data.doctorId
@@ -103,5 +109,5 @@ module.exports = {
     findReservationByOfficeId,
     deleteTimeAfterChoose,
     addStartTimeToCounter,
-    findReservationByOfficeIdAndTime
+    findReservationByOfficeIdAndTime,
 };
