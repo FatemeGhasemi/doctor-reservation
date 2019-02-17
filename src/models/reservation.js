@@ -6,26 +6,16 @@ const initReservationSchema = () => {
         officeId: {
             type: Sequelize.INTEGER,
             required: true,
-            allowNull: false,
-            unique: 'uniqueTag'
+            allowNull: false
         },
-        startTime: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        finishTime: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        counter: {
-            type: Sequelize.ARRAY(Sequelize.STRING),
+        dates: {
+            type: Sequelize.ARRAY(Sequelize.JSON(Sequelize.STRING)),
             required: true,
             allowNull: false,
-            unique: 'uniqueTag'
         },
         status: {
             type: Sequelize.STRING,
-            defaultValue: "approved"
+            defaultValue: "valid"
         },
         doctorId: {
             type: Sequelize.INTEGER,

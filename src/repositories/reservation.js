@@ -6,18 +6,20 @@ const officeRepository = require('../repositories/office')
 const secretaryRepository = require('../repositories/secretary')
 
 const creatReservation = async (data) => {
-    const counter = await counterGenerator(data.timePeriodInMinutes, data.finishTime, data.startTime);
+    const counter = await counterGenerator(data.dates);
     const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
     const doctorId = doctor.id
     const doctorOffices = doctor.officeId
+    const reservation = await findReservationByOfficeId(data.officeId)
+    if (reservation){
+        reservationSchema.update({status: "expired"},{returning: true, where: {id: reservation.id}})
+    }
     if (doctorOffices.includes(data.officeId)) {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
         if (data.secretaryId === secretaryId)
             return reservationSchema.create({
-                startTime: data.startTime,
-                finishTime: data.finishTime,
-                counter: counter,
+                dates: counter,
                 officeId: data.officeId,
                 doctorId: doctorId,
                 secretaryId: secretaryId
@@ -71,11 +73,8 @@ const findReservationByOfficeIdAndTime = async (officeId,reserveTime) => {
 };
 
 
-const counterGenerator = async (timePeriodInMinutes, finishTime, startTime) => {
-    const durationTimeInMinute = await utils.towTimeDifferenceInMinutes(finishTime, startTime);
-    const numberOfReserves = durationTimeInMinute / timePeriodInMinutes;
-    const listOfReserves = await utils.visitTimeGenerator(startTime, numberOfReserves, timePeriodInMinutes)
-    return listOfReserves;
+const counterGenerator = async (dates) => {
+    return await utils.dayHandler(dates);
 };
 
 
@@ -86,9 +85,7 @@ const findReservationById = async (id) => {
 
 const updateReservationData = async (id, data) => {
     return reservationSchema.update({
-            startTime: data.startTime,
-            finishTime: data.finish,
-            counter: data.counter,
+            dates: data.counter,
             officeId: data.officeId,
             status: data.status,
             doctorId: data.doctorId
