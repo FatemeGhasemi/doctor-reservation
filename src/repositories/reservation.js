@@ -47,7 +47,7 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
     console.log("reservation.counter", reservation.dates)
     let reserveList=
-        reservation.dates.forEach(item=>{
+        reservation.counter.forEach(item=>{
         item.filter(i=>{
             return i !== reserveTime
         })
@@ -69,7 +69,7 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
     reservations.forEach(item => {
         console.log("reservation: ",item)
             if (item.status === "valid") {
-                if ( utils.isReserveTimeInDates(item.dates,reserveTime)) {
+                if ( utils.isReserveTimeInDates(item.counter,reserveTime)) {
                     reservation.push(item)
                 }
             }

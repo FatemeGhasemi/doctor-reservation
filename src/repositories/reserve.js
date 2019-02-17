@@ -12,7 +12,7 @@ const creatReserve = async (data) => {
     const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId,data.reserveTime);
     const office = await officeRepository.findOfficeById(data.officeId)
     const secretaryId = office.secretaryId
-    const reserveList = reservation.dates;
+    const reserveList = reservation.counter;
     const reservationId = reservation.id;
     const reserveTime = data.reserveTime;
     if (utils.isReserveTimeInDates(reserveList,reserveTime)) {

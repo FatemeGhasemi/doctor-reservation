@@ -76,10 +76,10 @@ const isReserveTimeInDates =  (dates,reserveTime)=>{
             }
         })
     })
-    if (validDate !== []){
+    if (validDate.length !== 0){
         return true
     }
-    if(validDate === []){
+    else {
         return false
     }
 }
