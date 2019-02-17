@@ -35,7 +35,9 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
     const reservation = await findReservationById(reservationId);
     let counter = reservation.counter
     counter.forEach(item => {
-        newCounter.push(item)
+        item.forEach(i=>{
+            newCounter.push(i)
+        })
     })
     counter = newCounter.push(startTime)
     console.log("newCounter: ", newCounter)
