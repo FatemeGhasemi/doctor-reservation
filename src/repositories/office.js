@@ -3,25 +3,28 @@ const doctorRepositry = require('../repositories/doctor')
 
 const createNewOffice = async (data) => {
     return officeSchema.create({
-        phoneNumber: data.phoneNumber,
-        lat: data.lat,
-        long: data.long,
-        address: data.address,
+        geom: {type: 'Point', coordinates: [data.lat, data.long]},
         doctorId: data.doctorId,
         secretaryId: data.secretaryId,
+        lat: data.lat,
+        long: data.long,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        type: data.type
     })
 };
 
 
 const updateOfficeData = async (id,data) => {
     return officeSchema.update({
-            phoneNumber: data.phoneNumber,
-            lat: data.lat,
-            long: data.long,
-            address: data.address,
+            geom: {type: 'Point', coordinates: [data.lat, data.long]},
             doctorId: data.doctorId,
             secretaryId: data.secretaryId,
-            type: data.type,
+            lat: data.lat,
+            long: data.long,
+            phoneNumber: data.phoneNumber,
+            address: data.address,
+            type: data.type
         },
         {returning: true, where: {id: id}}
     )
@@ -59,13 +62,50 @@ const findDoctorByOfficeId = async (officeId)=>{
 
 
 
+
+const findNearestsPoints = async (longitude, latitude)=>{
+    const Sequelize = officeSchema.sequelize
+    return officeSchema.findAll({
+        attributes: {
+            include: [
+                [
+                    officeSchema.fn(
+                        'ST_Distance',
+                        Sequelize.col('location'),
+                        Sequelize.fn('ST_MakePoint', longitude, latitude)
+                    ),
+                    'distance'
+                ]
+            ]
+        },
+        where: Sequelize.where(
+            Sequelize.fn(
+                'ST_DWithin',
+                Sequelize.col('location'),
+                Sequelize.fn('ST_MakePoint', longitude, latitude),
+                process.env.REDIUS_DISTANCE
+            ),
+            true
+        ),
+        order: Sequelize.literal('distance ASC')
+    });
+
+
+};
+
+
+
+
+
+
 module.exports={
     createNewOffice,
     updateOfficeData,
     changeOfficeStatus,
     returnAllOffices,
     findDoctorByOfficeId,
-    findOfficeById
+    findOfficeById,
+    findNearestsPoints
 };
 
 

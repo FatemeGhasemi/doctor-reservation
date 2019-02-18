@@ -7,11 +7,15 @@ const initOfficeSchema = () => {
         phoneNumber: {
             type: Sequelize.STRING
         },
-        lat: {
-            type: Sequelize.FLOAT
+        geom: {
+            type: Sequelize.GEOMETRY('POINT'),
+            allowNull: false
         },
-        long: {
-            type: Sequelize.FLOAT
+        lat:{
+            type:Sequelize.FLOAT
+        },
+        long:{
+            type:Sequelize.FLOAT
         },
         type: {
             type: Sequelize.STRING
