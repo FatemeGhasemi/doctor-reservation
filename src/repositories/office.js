@@ -61,25 +61,27 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
-const findClosestPoints = async (lng, latitude) => {
-    try {
-        const sequelize = officeSchema.sequelize
-        return officeSchema
-            .findAll({
-            attributes: [[sequelize.literal("6371 * acos(cos(radians(" + latitude + ")) * cos(radians(lat)) * cos(radians(" + lng + ") - radians(long)) + sin(radians(" + latitude + ")) * sin(radians(lat)))"), 'distance']],
-            order: sequelize.col('distance'),
-            limit: 10
-        });
-
-        //     .findAll({
-        //     attributes: [[sequelize.fn('POW', sequelize.fn('ABS', sequelize.literal("lat-" + lat)), 2), 'x1'],
-        //         [sequelize.fn('POW', sequelize.fn('ABS', sequelize.literal("long-" + lng)), 2), 'x2']],
-        //     order: sequelize.fn('SQRT', sequelize.literal('x2+x1')),
-        //     limit: 10
-        // });
-    } catch (e) {
-        console.log("findClosestPoints ERROR: ", e.stack)
-    }
+const findClosestPoints = async (lng, latitude, distance) => {
+    const sequelize = officeSchema.sequelize
+    /**
+     * @see {https://manuel-rauber.com/2016/01/08/using-geo-based-data-with-sequelizejs-utilizing-postgresql-and-ms-sql-server-in-node-js/}
+     */
+    const query = `
+SELECT
+    *
+FROM
+    offices
+WHERE
+    ST_Distance_Sphere(ST_MakePoint(:latitude, :longitude), "geom") < :maxDistance
+`
+    return sequelize.query(query, {
+        replacements: {
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(lng),
+            maxDistance: distance
+        },
+        type: sequelize.QueryTypes.SELECT
+    });
 };
 
 

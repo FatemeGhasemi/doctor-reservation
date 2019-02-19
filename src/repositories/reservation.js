@@ -60,7 +60,14 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
 
 
 const findReservationByOfficeId = async (officeId) => {
-    return reservationSchema.findOne({where: {officeId: officeId}})
+    let validReservation = [];
+    const resrvation =  await reservationSchema.findAll({where: {officeId: officeId}})
+    resrvation.forEach(item =>{
+        if(item.status === "valid"){
+            validReservation.push(item)
+        }
+    })
+    return validReservation[0]
 };
 
 
