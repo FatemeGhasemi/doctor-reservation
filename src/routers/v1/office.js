@@ -27,16 +27,18 @@ const updateOffice = async (req, res) => {
 
 const searchOfficeByNearest = async (req, res) => {
     try {
-    await officeRepository.findNearestsPoints(req.query.long,req.query.lat)
-    }catch (e) {
-        res.status(500).json({message: "fail operation updateOffice", result: e.message})
+        const offices = await officeRepository.findClosestPoints(req.query.long, req.query.lat)
+        res.json({message: "success operation", result: offices})
+
+    } catch (e) {
+        res.status(500).json({message: "fail operation searchOfficeByNearest", result: e.message})
     }
 }
 
 
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewOffice);
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumberInOfficeRouter, checkAccess.checkRolesAccess, updateOffice);
-router.get('/',searchOfficeByNearest)
+router.get('/', searchOfficeByNearest)
 module.exports = router;
 
 

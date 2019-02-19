@@ -16,6 +16,7 @@ const initOfficeSchema = () => {
         },
         long:{
             type:Sequelize.FLOAT
+
         },
         type: {
             type: Sequelize.STRING
