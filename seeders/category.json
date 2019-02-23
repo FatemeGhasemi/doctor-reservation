@@ -1,6 +1,6 @@
 [
   {"parentName": null,"displayName":"درمانگران","name":"darmangaran"},
   {"parentName": "darmangaran","displayName":"دندانپزشکی","name":"dandanPezeshk"},
-  {"parentName": "dandanPezeshk","displayName":"","name":"pezeshk motakhases"},
-  {"parentName": "darmangaran","displayName":"","name":"pezeshkOmumi"}
+  {"parentName": "dandanPezeshk","displayName":"پزشک متخصص","name":"pezeshk motakhases"},
+  {"parentName": "darmangaran","displayName":"پزشک عمومی","name":"pezeshkOmumi"}
 ]
