@@ -32,6 +32,21 @@ const checkAccessWithPhoneNumber = async (req, res, next) => {
     }
 };
 
+const checkAccessById = async (req, res, next) => {
+    try {
+        const user = await userRepository.findUserById(req.query.id)
+        const phoneNumber = user.phoneNumber
+        if (res.locals.user.phoneNumber === phoneNumber) {
+            next()
+        } else {
+            throw new Error("unAuthorize")
+        }
+
+    } catch (e) {
+        res.status(403).json({"message": e.message})
+    }
+}
+
 
 const checkAccessWithPhoneNumberInOfficeRouter = async (req, res, next) => {
     try {
@@ -68,19 +83,17 @@ const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
 }
 
 
-
-
 const checkRolesAccess = async (req, res, next) => {
     try {
 
-    const act = req.method.toLowerCase();
-    const obj = req.baseUrl.split('/')[3];
-    const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
-    console.log('checkRoleAccess ', res.locals.user.role, obj, act, checkRoleAccess)
-    if (checkRoleAccess) {
-        next()
-    }
-    }catch (e) {
+        const act = req.method.toLowerCase();
+        const obj = req.baseUrl.split('/')[3];
+        const checkRoleAccess = await authorization.checkRoleAccess(res.locals.user.role, obj, act);
+        console.log('checkRoleAccess ', res.locals.user.role, obj, act, checkRoleAccess)
+        if (checkRoleAccess) {
+            next()
+        }
+    } catch (e) {
         res.status(403).json({"message": e.message})
 
     }
@@ -92,5 +105,6 @@ module.exports = {
     checkRolesAccess,
     validateJwt,
     checkAccessWithPhoneNumberInOfficeRouter,
-    checkAccessWihPhoneNumberReserveRouter
+    checkAccessWihPhoneNumberReserveRouter,
+    checkAccessById
 }

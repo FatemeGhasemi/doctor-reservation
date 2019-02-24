@@ -46,7 +46,23 @@ const getAllUsers = async (req, res) => {
 }
 
 
+const getOwnProfile = async (req,res)=>{
+    try {
+        const user = await userRepository.findUserById(req.query.id);
+        res.json({message: "success operation", result: user})
+
+    }catch (e) {
+        res.status(500).json({message:"getOwnProfile fail operation" ,result:e.message})
+
+    }
+}
+
+
+
+
+
 router.post('/', createNewUser);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, updateUserData);
-router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
+// router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
+router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
 module.exports = router;
