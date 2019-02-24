@@ -72,5 +72,5 @@ const changeInCategoryHandler = async (req, res) => {
 
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewCategory);
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkRolesAccess, changeInCategoryHandler);
-router.get('/', checkAccess.validateJwt, searchCategory)
+router.get('/', searchCategory)
 module.exports = router;

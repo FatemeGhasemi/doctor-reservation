@@ -15,5 +15,19 @@ const createReservation = async (req, res) => {
     }
 }
 
+const getListOfAvailableReserveList = async (req, res) => {
+    try {
+        const officeId = req.query.officeId
+        const reservation = await reservationRepository.findReservationByOfficeId(officeId)
+        const reserveList = reservation.counter
+        res.json({message: "success getListOfAvailableReserveList operation", result: reserveList})
+
+    } catch (e) {
+        res.status(500).json({message: "fail getListOfAvailableReserveList operation", result: e})
+    }
+};
+
+
 router.post('/', checkAccess.validateJwt, createReservation);
+router.get('/', getListOfAvailableReserveList);
 module.exports = router;
