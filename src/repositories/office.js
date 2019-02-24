@@ -69,9 +69,9 @@ const findNearestsPoints = async (longitude, latitude)=>{
         attributes: {
             include: [
                 [
-                    officeSchema.fn(
+                    Sequelize.fn(
                         'ST_Distance',
-                        Sequelize.col('location'),
+                        Sequelize.col('geom'),
                         Sequelize.fn('ST_MakePoint', longitude, latitude)
                     ),
                     'distance'
