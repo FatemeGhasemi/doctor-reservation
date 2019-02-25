@@ -23,7 +23,8 @@ const activationAndLogin = async (req, res) => {
 
 const getOtp = async (req, res) => {
     try {
-        const otpCode = await otpService.sendOtpHandler(req.query.phoneNumber)
+        const message = "کاربر گرامی برای فعال سازی کاربری خود در اپ‌‌سفید کد زیر را در اپلیکیشن وارد نمایید";
+        const otpCode = await otpService.sendOtpHandler(req.query.phoneNumber,message)
         res.status(200).json({message: "success operation",result:otpCode})
     } catch (e) {
         console.log("getOtp ERROR: ", e.message);
