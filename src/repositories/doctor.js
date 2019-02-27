@@ -11,11 +11,11 @@ const createDoctorUser = async (data) => {
     return doctorSchema.create({
         userId: userId,
         phoneNumber: data.phoneNumber,
-        firstName: data.firstName,
-        lastName: data.lastName,
+        name: data.name,
         categoryId: data.categoryId,
         description: data.description,
-        officeId: data.officeId
+        officeId: data.officeId,
+        type:data.type
     })
 };
 
@@ -33,12 +33,12 @@ const approveAsDoctor = async (id) => {
 const updateDoctorData = async (phoneNumber, data) => {
     return doctorSchema.update(
         {
-            firstName: data.firstName,
-            lastName: data.lastName,
+            name: data.name,
             categoryId: data.categoryId,
             description: data.description,
             officeId: data.officeId,
-            status: data.status
+            status: data.status,
+            type:data.type
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )

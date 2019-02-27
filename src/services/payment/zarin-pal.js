@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-let process.env    = require('../config/production-consts').Zarinpal;
+// let process.env    = require('../config/production-consts').Zarinpal;
 const MerchantID = process.env.ZARIN_PAL_MERCHANT_ID;
 
 function buy(Amount, Description, CallbackURL, Email, Mobile) {

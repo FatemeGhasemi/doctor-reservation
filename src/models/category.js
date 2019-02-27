@@ -9,7 +9,6 @@ const initCategorySchema = () => {
         },
         name: {
             type: Sequelize.STRING,
-            unique: true,
             required: true,
             allowNull: false,
         },

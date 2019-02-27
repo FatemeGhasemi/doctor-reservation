@@ -1,5 +1,6 @@
 const express = require('express');
 const doctorRepository = require("../../repositories/doctor");
+const officeRepository = require("../../repositories/office");
 const userRepository = require("../../repositories/user");
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
@@ -18,10 +19,29 @@ const createUserAsDoctor = async (req, res) => {
 
 const getDoctorListController = async (req, res) => {
     try {
-        let result;
-        if (req.query.categoryId) {
-            result = await doctorRepository.searchDoctorByCategory(req.query.categoryId)}
-            res.json({message: "success operation", result: result})
+        let result = [];
+        const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
+        doctors.forEach(async doctor=>{
+            const address = []
+            let doctorData = {};
+            doctorData.name = doctor.name
+            doctorData.phoneNumber = doctor.phoneNumber
+            doctorData.type = doctor.type
+            const officeIds =doctor.officeId
+            officeIds.forEach(async item=> {
+                const office = await officeRepository.findOfficeById(item);
+                const officeAddress = office.address
+                console.log(officeAddress)
+                address.push(officeAddress);
+            })
+            console.log("address: ",address)
+            doctorData.address = address
+
+            result.push(doctorData)
+        })
+
+
+        res.json({message: "success operation", result: result})
 
     } catch (e) {
         console.log("getDoctorListController ERROR: ", e.message)

@@ -32,7 +32,7 @@ const updateOfficeData = async (id, data) => {
 
 
 const findOfficeById = async (id) => {
-    return officeSchema.findOne({where: {id: id}})
+    return  officeSchema.findOne({where: {id: id}})
 };
 
 
@@ -61,24 +61,6 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
-<<<<<<< HEAD
-
-
-const findNearestsPoints = async (longitude, latitude)=>{
-    const Sequelize = officeSchema.sequelize
-    return officeSchema.findAll({
-        attributes: {
-            include: [
-                [
-                    Sequelize.fn(
-                        'ST_Distance',
-                        Sequelize.col('geom'),
-                        Sequelize.fn('ST_MakePoint', longitude, latitude)
-                    ),
-                    'distance'
-                ]
-            ]
-=======
 const findClosestPoints = async (lng, latitude, distance) => {
     const sequelize = officeSchema.sequelize
     /**
@@ -97,7 +79,6 @@ WHERE
             latitude: parseFloat(latitude),
             longitude: parseFloat(lng),
             maxDistance: distance
->>>>>>> af40f4c30a4fb9f24a078d893a848e210248be3b
         },
         type: sequelize.QueryTypes.SELECT
     });

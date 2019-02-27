@@ -1,6 +1,81 @@
 [
   {"parentName": null,"displayName":"درمانگران","name":"darmangaran"},
-  {"parentName": "darmangaran","displayName":"دندانپزشکی","name":"dandanPezeshk"},
-  {"parentName": "dandanPezeshk","displayName":"پزشک متخصص","name":"pezeshk motakhases"},
-  {"parentName": "darmangaran","displayName":"پزشک عمومی","name":"pezeshkOmumi"}
+  {"parentName": null,"displayName":"دارو و تجهیزات","name":"darooTajhizat"},
+  {"parentName": null,"displayName":"مراکز درمانی","name":"marakezDarmani"},
+  {"parentName": null,"displayName":"مراکز تشخیص","name":"marakezTashkhis"},
+
+  {"parentName": "darmangaran","displayName":"دندانپزشک فوق تخصص","name":"dandanPezeshkFoghTakhasos"},
+  {"parentName": "darmangaran","displayName":"دندانپزشک متخصص","name":"dandanPezeshkMotakhases"},
+  {"parentName": "darmangaran","displayName":"دندانپزشک عمومی","name":"dandanPezeshkOmomi"},
+  {"parentName": "darmangaran","displayName":"دندانپزشکی","name":"dandanPezeshki"},
+  {"parentName": "darmangaran","displayName":"پزشک عمومی","name":"pezeshkOmumi"},
+  {"parentName": "darmangaran","displayName":"پزشک فوق تخصص","name":"pezeshkFoghTakhasos"},
+  {"parentName": "darmangaran","displayName":"پزشک متخصص","name":"pezeshkMotakhases"},
+  {"parentName": "darmangaran","displayName":"چشم پزشک","name":"cheshmPezeshk"},
+  {"parentName": "darmangaran","displayName":"زیبایی","name":"zibayi"},
+  {"parentName": "darmangaran","displayName":"ژنتیک","name":"zhenetik"},
+  {"parentName": "darmangaran","displayName":" قلب و عروق","name":"ghalbOrogh"},
+  {"parentName": "darmangaran","displayName":" ستون فقرات","name":"sotoonFagharat"},
+  {"parentName": "darmangaran","displayName":" ارتوپد","name":"ortopred"},
+  {"parentName": "darmangaran","displayName":" پوست و مو","name":"poostMoo"},
+  {"parentName": "darmangaran","displayName":" فیزیوتراپ","name":"fiziotorap"},
+  {"parentName": "darmangaran","displayName":" زنان","name":"zanan"},
+  {"parentName": "darmangaran","displayName":" تنفس","name":"tanafos"},
+
+
+
+
+
+  {"parentName": "dandanPezeshki","displayName":"اطفال","name":"atfal"},
+  {"parentName": "dandanPezeshki","displayName":"جراحی عمومی","name":"jarahOmoomi"},
+  {"parentName": "ghalbOrogh","displayName":"جراحی عمومی","name":"jarahOmoomi"},
+  {"parentName": "zanan","displayName":"زنان و زایمان","name":"zananZayeman"},
+  {"parentName": "pezeshkFoghTakhasos","displayName":"اورولوژی","name":"orolozhi"},
+
+
+
+
+  {"parentName": "darooTajhizat","displayName":"داروخانه تک نسخه ای ","name":"darooKaneTakNoskhei"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه شبانه روزی ","name":"darooKaneShabaneRoozi"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه روزانه ","name":"darooKaneRoozane"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه ۱۳آبان ","name":"darooKaneSizdahAban"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه هلال احمر ","name":"darooKaneHelalAhmar"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات بیمارستانی","name":"tajhizatBimarestani"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات ارتوپدی","name":"tajhizatOrtopedi"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات مطب","name":"tajhizatMatab"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات زیبایی","name":"tajhizatZibayi"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات ورزشی","name":"tajhizatVarzeshi"},
+  {"parentName": "darooTajhizat","displayName":"تجهیزات آزمایشگاهی","name":"tajhizatAzmayeshgahi"},
+
+  {"parentName": "tajhizatMatab","displayName":"اتاق جراحی","name":"otagheJarahi"},
+  {"parentName": "tajhizatAzmayeshgahi","displayName":"آزمابشگاه بیمارستان","name":"azmayeshgahBimarestan"},
+
+
+
+  {"parentName": "marakezDarmani","displayName":"کلینبک دولتی","name":"klinikDolati"},
+  {"parentName": "marakezDarmani","displayName":"کلینبک دندان پزشکی خصوصی","name":"klinikDandanPezeshkiKhosoosi"},
+  {"parentName": "marakezDarmani","displayName":"کلینبک دندان پزشکی دولتی","name":"klinikDandanPezeshkiDolati"},
+  {"parentName": "marakezDarmani","displayName":" کلینبک خصوصی","name":"klinikKhosoosi"},
+  {"parentName": "marakezDarmani","displayName":"کلینبک پوست و زیبایی","name":"klinikPoostOzibayi"},
+  {"parentName": "marakezDarmani","displayName":"مرکز فیزیوتراپی","name":"markazFizioTorapi"},
+  {"parentName": "marakezDarmani","displayName":"مرکز مشاوره روانشناسی","name":"markazRavanShenasi"},
+  {"parentName": "marakezDarmani","displayName":"مرکز رادیوتراپی","name":"markazRadioTorapi"},
+  {"parentName": "marakezDarmani","displayName":"مرکز درمان اعتیاد","name":"markazDarmanEtiad"},
+
+  {"parentName": "klinikKhosoosi","displayName":"مرکز مشاوره روانشناسی","name":"markazRavanShenasi"},
+  {"parentName": "klinikDolati","displayName":"مرکز مشاوره روانشناسی","name":"markazRavanShenasi"},
+
+
+  {"parentName": "marakezTashkhis","displayName":"تصویر برداری","name":"tasvirBardari"},
+  {"parentName": "marakezTashkhis","displayName":"ژنتیک","name":"zhenetik"},
+  {"parentName": "marakezTashkhis","displayName":"آزمایشگاه","name":"azmayeshgah"},
+  {"parentName": "marakezTashkhis","displayName":"ام آر آی","name":"MRI"},
+  {"parentName": "marakezTashkhis","displayName":"سونوگرافی","name":"sonoGerafi"},
+  {"parentName": "marakezTashkhis","displayName":"رادیوگرافی","name":"radioGerafi"},
+  {"parentName": "marakezTashkhis","displayName":"پزشکی هسته ای","name":"pezeshiHastei"},
+  {"parentName": "marakezTashkhis","displayName":"اندوسکوپی","name":"andoskopi"},
+  {"parentName": "marakezTashkhis","displayName":"کاردیوگرافی","name":"kardioGerafi"},
+
+  {"parentName": "azmayeshgah","displayName":"آزمابشگاه خون","name":"azmayeshgahKoon"},
+  {"parentName": "zhenetik","displayName":"آزمایشگاه ژنتیک","name":"azmayeshgahZhenetik"}
 ]
