@@ -33,7 +33,10 @@ const getDoctorListController = async (req, res) => {
                 const item = officeIds[i]
                 const office = await officeRepository.findOfficeById(item);
                 const officeAddress = office.address
+                const officePhone = office.phoneNumber
+
                 address.push(officeAddress);
+                address.push(officePhone);
             }
             doctorData.address = address
 
