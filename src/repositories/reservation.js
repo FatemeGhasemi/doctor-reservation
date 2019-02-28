@@ -67,6 +67,7 @@ const findReservationByOfficeId = async (officeId) => {
             validReservation.push(item)
         }
     })
+    console.log("validReservation: ", validReservation )
     return validReservation[0]
 };
 

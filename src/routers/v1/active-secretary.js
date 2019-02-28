@@ -25,6 +25,9 @@ const activeSecretaryAccount = async (req,res)=>{
 }
 
 
+
+
 router.put('/:phoneNumber', activeSecretaryAccount);
+
 
 module.exports = router;

@@ -4,6 +4,7 @@ const userRepository = require("../../repositories/user");
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
 const otpHelper = require('../../services/athorization/otp')
+const officeRepository = require("../../repositories/office")
 const router = express.Router();
 
 
@@ -59,6 +60,26 @@ const getSecretaryListController = async (req, res) => {
 };
 
 
+const getOwnProfile = async (req,res)=>{
+    try {
+        let result = []
+        const secretary = await secretaryRepository.findSecretaryId(req.query.id);
+        result.push(secretary.firstName)
+        result.push(secretary.lastName)
+        result.push(secretary.phoneNumber)
+        const office = await officeRepository.findOfficeById(secretary.officeId)
+        result.push(office.phoneNumber)
+        result.push(office.address)
+
+        res.json({message: "success operation", result: result})
+
+    }catch (e) {
+        res.status(500).json({message:"getOwnProfile fail operation" ,result:e.message})
+
+    }
+}
+
+
 const updateSecretaryData = async (req, res) => {
     try {
         const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
@@ -79,7 +100,8 @@ const updateSecretaryData = async (req, res) => {
 };
 
 
-router.get('/', getSecretaryListController);
+// router.get('/', getSecretaryListController);
+router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
 router.post('/', checkAccess.validateJwt,checkAccess.checkRolesAccess, createUserAsSecretary);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateSecretaryData);
 

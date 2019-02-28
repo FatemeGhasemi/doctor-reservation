@@ -22,7 +22,8 @@ const initOfficeSchema = () => {
             type: Sequelize.STRING
         },
         secretaryId: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            foreignKey:true
         },
         address: {
             type: Sequelize.STRING

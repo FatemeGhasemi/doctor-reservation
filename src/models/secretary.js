@@ -29,7 +29,8 @@ const initSecretarySchema =  () => {
          },
          officeId:{
             type:Sequelize.INTEGER,
-             unique: true
+             unique: true,
+             foreignKey:true
          }
     });
     //TODO Secretary.sync just needed once to create tables, so if tables created dont need call it any more

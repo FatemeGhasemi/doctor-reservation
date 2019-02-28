@@ -40,6 +40,7 @@ function addRoutes() {
     app.use('/api/v1/reserves', require('./routers/v1/reserve'));
     app.use('/api/v1/reservations', require('./routers/v1/reservation'));
     app.use('/api/v1/secretaryApproved', require('./routers/v1/active-secretary'));
+    app.use('/api/v1/doctor-profile',require('./routers/v1/get-doctor-profile'));
 
 }
 
