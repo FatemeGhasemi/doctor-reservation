@@ -6,6 +6,8 @@
   "scripts": {
     "test": "mocha ./test/**/*.js",
     "start": "node ./src/index.js",
+    "start:dev": "node ./src/index.js",
+    "start:docker": "docker-compose up --build",
     "db:init": "node ./src/init-tables.js",
     "db:seed": "node ./seeders/index.js",
     "db:drop:seed": "DROP_DB=true node ./seeders/index.js",

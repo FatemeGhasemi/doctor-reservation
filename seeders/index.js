@@ -1,4 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({
+    path :'.env.seeders'
+});
 const secretary = require('./secretary')
 const status = require('./status')
 const user = require('./user')
