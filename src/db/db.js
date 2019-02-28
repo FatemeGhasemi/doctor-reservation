@@ -39,9 +39,9 @@ const createDbConnection = async ()=> {
         host: process.env.SEQUELIZE_HOST,
         port: process.env.POSTGRES_PORT,
         logging: process.env.LOG_QUERIES === 'true',
-        ssl: true,
+        ssl: process.env.POSTGRESS_SSL_SECURE === 'true',
         dialectOptions: {
-            ssl: true
+            ssl: process.env.POSTGRESS_SSL_SECURE === 'true'
         }
     });
     await sequelize
