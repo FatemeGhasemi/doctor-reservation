@@ -25,7 +25,8 @@
     "field":"مهندسی پزشکی",
     "grade":"لیسانس",
     "province":"تهران",
-    "city":"تهران"
+    "city":"تهران",
+    "avatarUrl": "vcjhsvcmscbjkkkllmnbbbt"
   },
   {
     "phoneNumber": "091925068018",
@@ -39,6 +40,7 @@
     "field":"مهندسی پزشکی",
     "grade":"لیسانس",
     "province":"تهران",
+    "avatarUrl": "vcjhsvcmscbjkkkllmnbbbt",
     "city":"تهران"
 
 
@@ -55,6 +57,8 @@
     "field":"مهندسی پزشکی",
     "grade":"لیسانس",
     "province":"تهران",
-    "city":"تهران"
+    "city":"تهران",
+    "avatarUrl": "vcjhsvcmscbjkkkllmnbbbt"
+
   }
 ]

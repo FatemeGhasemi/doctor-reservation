@@ -41,6 +41,7 @@ const getDoctorListController = async (req, res) => {
             doctorData.name = doctor.name
             doctorData.phoneNumber = doctor.phoneNumber
             doctorData.type = doctor.type
+            doctorData.avatarUrl = doctor.avatarUrl
             const officeIds =doctor.officeId
             for(let i = 0 ; i<officeIds.length ; i++){
                 const item = officeIds[i]
@@ -48,6 +49,8 @@ const getDoctorListController = async (req, res) => {
                 const officeAddress = office.address
                 const officePhone = office.phoneNumber
                 addressData.address = officeAddress
+                addressData.lat = office.lat
+                addressData.lat = office.long
                 addressData.phoneNumber = officePhone
                 address.push(addressData);
             }

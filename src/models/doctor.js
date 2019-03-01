@@ -56,6 +56,9 @@ const initDoctorSchema = () => {
         },
         city: {
             type: Sequelize.STRING
+        },
+        avatarUrl:{
+            type:Sequelize.STRING
         }
 
 
