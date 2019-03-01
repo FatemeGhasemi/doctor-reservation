@@ -8,6 +8,11 @@ const userSchema = require('../models/user')();
 const utils = require('../utils/utils')
 
 
+/**
+ *
+ * @param data
+ * @returns {Promise<*>}
+ */
 const creatReserve = async (data) => {
     const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId,data.reserveTime);
     const office = await officeRepository.findOfficeById(data.officeId)
@@ -30,6 +35,12 @@ const creatReserve = async (data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateReserveData = async (id, data) => {
     return reserveSchema.create({
             doctorId: data.doctorId,
@@ -40,18 +51,35 @@ const updateReserveData = async (id, data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findReserveById = async (id) => {
     return await reserveSchema.findOne ({returning: true, where: {id: id}})
 
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const cancelReserve = async (id) => {
     return reserveSchema.update({status: "cancel"},
         {returning: true, where: {id: id}})
 };
 
 
+/**
+ *
+ * @param phoneNumber
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
     const user = await userRepository.findUserByPhoneNumber(phoneNumber);
     const userId = user.id
@@ -59,6 +87,14 @@ const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
         {where: {userId: userId}})
 };
 
+
+/**
+ *
+ * @param phoneNumber
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const getListOfDoctorReserves = async (phoneNumber, offset = 0, limit = 10) => {
     const doctor = await doctorRepository.searchDoctorByPhoneNumber(phoneNumber);
     const doctorId = doctor.id;
@@ -67,6 +103,13 @@ const getListOfDoctorReserves = async (phoneNumber, offset = 0, limit = 10) => {
 };
 
 
+/**
+ *
+ * @param phoneNumber
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const getListOfSecretaryReserves = async (phoneNumber, offset = 0, limit = 10) => {
     const user = await userRepository.findUserByPhoneNumber(phoneNumber);
     const userId = user.id
@@ -75,6 +118,13 @@ const getListOfSecretaryReserves = async (phoneNumber, offset = 0, limit = 10) =
 };
 
 
+/**
+ *
+ * @param categoryId
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
     return userSchema.findAll(
         {offset: offset, limit: limit},
@@ -82,6 +132,11 @@ const searchDoctorByCategory = async (categoryId, offset = 0, limit = 10) => {
 };
 
 
+/**
+ *
+ * @param reserveId
+ * @returns {Promise<*|Reservation.doctorId|{type, required}|Reserve.doctorId|{type, required, allowNull}|Office.doctorId>}
+ */
 const findDoctorByReserveId = async (reserveId) => {
     const reserve = await findReserveById(reserveId)
     return reserve.doctorId

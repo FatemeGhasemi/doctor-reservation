@@ -1,9 +1,17 @@
 const axios = require('axios');
 
-// let process.env    = require('../config/production-consts').Zarinpal;
 const MerchantID = process.env.ZARIN_PAL_MERCHANT_ID;
 
-function buy(Amount, Description, CallbackURL, Email, Mobile) {
+/**
+ *
+ * @param Amount
+ * @param Description
+ * @param CallbackURL
+ * @param Email
+ * @param Mobile
+ * @returns {Promise<T | never>}
+ */
+const buy = (Amount, Description, CallbackURL, Email, Mobile)=> {
     return axios.post(`${process.env.ZARIN_PAL_BUY_URL}`, {
         MerchantID, Amount, Description, Email, Mobile, CallbackURL
     }, {
@@ -31,7 +39,14 @@ function buy(Amount, Description, CallbackURL, Email, Mobile) {
         })
 }
 
-function verifyPayment(Amount, Authority) {
+
+/**
+ *
+ * @param Amount
+ * @param Authority
+ * @returns {Promise<T | never>}
+ */
+const verifyPayment=(Amount, Authority)=> {
     return axios.post(`${process.env.ZARIN_PAL_VERIFICATION_PAYMENT_URL}`, {
         MerchantID, Amount, Authority
     })

@@ -5,6 +5,11 @@ const statusRepository = require('../repositories/status');
 const categoryRepository = require('../repositories/category')
 
 
+/**
+ *
+ * @param data
+ * @returns {Promise<*>}
+ */
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
     const userId = user.id;
@@ -19,6 +24,12 @@ const createDoctorUser = async (data) => {
     })
 };
 
+
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const approveAsDoctor = async (id) => {
     userSchema.update({role: "doctor"},
         {returning: true, where: {id: id}}
@@ -30,6 +41,12 @@ const approveAsDoctor = async (id) => {
 };
 
 
+/**
+ *
+ * @param phoneNumber
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateDoctorData = async (phoneNumber, data) => {
     return doctorSchema.update(
         {
@@ -45,6 +62,11 @@ const updateDoctorData = async (phoneNumber, data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const deactivateDoctor = async (id) => {
     return doctorSchema.update(
         {status: "deactivate"},
@@ -53,6 +75,12 @@ const deactivateDoctor = async (id) => {
 };
 
 
+/**
+ *
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const getAllDoctors = async (offset = 0, limit = 10) => {
     return doctorSchema.findAll(
         {offset: offset, limit: limit},
@@ -64,6 +92,12 @@ const getAllDoctors = async (offset = 0, limit = 10) => {
 //     return doctorSchema.findOne({where: {name: name}})
 // }
 
+
+/**
+ *
+ * @param categoryId
+ * @returns {Promise<*>}
+ */
 const searchDoctorByCategory = async (categoryId) => {
     const category = await categoryRepository.findCategoryById(categoryId)
     const categoryName = category.name
@@ -81,10 +115,21 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findDoctorById = async (id)=>{
     return doctorSchema.findOne({where: {id: id}})
 }
 
+
+/**
+ *
+ * @param phoneNumber
+ * @returns {*}
+ */
 const searchDoctorByPhoneNumber = (phoneNumber) => {
     return doctorSchema.findOne({where: {phoneNumber: phoneNumber}})
 };

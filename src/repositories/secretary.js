@@ -5,6 +5,12 @@ const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
 
 
+/**
+ *
+ * @param data
+ * @param doctorData
+ * @returns {Promise<*>}
+ */
 const createSecretaryUser = async (data, doctorData) => {
     let secretary;
     const doctor = await doctorRepository.searchDoctorByPhoneNumber(doctorData.phoneNumber)
@@ -26,6 +32,11 @@ const createSecretaryUser = async (data, doctorData) => {
 };
 
 
+/**
+ *
+ * @param data
+ * @returns {Promise<*>}
+ */
 const createSecretaryForSeeder = async (data) => {
     const user = await userRepository.createUserTobeSecretary(data.phoneNumber);
     const userId = user.id;
@@ -39,6 +50,12 @@ const createSecretaryForSeeder = async (data) => {
 }
 
 
+/**
+ *
+ * @param phoneNumber
+ * @param status
+ * @returns {Promise<*>}
+ */
 const defineSecretaryStatus = async (phoneNumber, status) => {
     await userSchema.update({role: "secretary"},
         {returning: true, where: {phoneNumber: phoneNumber}}
@@ -50,16 +67,32 @@ const defineSecretaryStatus = async (phoneNumber, status) => {
 };
 
 
+/**
+ *
+ * @param phoneNumber
+ * @returns {Promise<*>}
+ */
 const activateSecretary = async (phoneNumber) => {
     return secretarySchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})
 }
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findSecretaryId = async (id) => {
     return secretarySchema.findOne({where: {id: id}})
 }
 
 
+/**
+ *
+ * @param phoneNumber
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateSecretaryData = async (phoneNumber, data) => {
     return secretarySchema.update(
         {
@@ -72,6 +105,11 @@ const updateSecretaryData = async (phoneNumber, data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const approveAsSecretary = async (id) => {
     userSchema.update({role: "secretary"},
         {returning: true, where: {id: id}}
@@ -83,6 +121,11 @@ const approveAsSecretary = async (id) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const deactivateSecretary = async (id) => {
     return secretarySchema.update(
         {status: "deactivate"},
@@ -91,21 +134,13 @@ const deactivateSecretary = async (id) => {
 };
 
 
-const searchSecretaryFullText = async (filter, begin = 0, total = 10) => {
-    // return secretarySchema.findAll({
-    //     where: {
-    //         firstName: {[Op.iLike]: filter}, [Op.or]: [
-    //             {lastName: {[Op.iLike]: filter}},
-    //             {id: {[Op.gt]: 10}}
-    //         ]
-    //
-    //
-    //
-    //     }
-    // })
-};
-
-
+/**
+ *
+ * @param categoryId
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => {
     return userSchema.findAll(
         {offset: offset, limit: limit},
@@ -113,6 +148,11 @@ const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => 
 };
 
 
+/**
+ *
+ * @param phoneNumber
+ * @returns {Promise<*>}
+ */
 const searchSecretaryByPhoneNumber = async (phoneNumber) => {
     return secretarySchema.findOne({where: {$and: [{phoneNumber: phoneNumber}, {status: "approved"}]}})
 };
@@ -124,7 +164,6 @@ module.exports = {
     deactivateSecretary,
     searchSecretaryByCategory,
     createSecretaryUser,
-    searchSecretaryFullText,
     searchSecretaryByPhoneNumber,
     approveAsSecretary,
     findSecretaryId,

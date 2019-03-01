@@ -1,5 +1,13 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
+
+
+/**
+ *
+ * @param sequelize
+ * @param dropTables
+ * @returns {Promise<void>}
+ */
 const createTables = async (sequelize, dropTables = false) => {
     const userSchema = require('./models/user')(sequelize);
     const secretarySchema = require('./models/secretary')(sequelize);
@@ -25,6 +33,10 @@ const createTables = async (sequelize, dropTables = false) => {
 };
 
 
+/**
+ *
+ * @returns {Promise<*>}
+ */
 const init = async () => {
     sequelize = await new Sequelize(process.env.DATABASE_NAME, process.env.POSTGRES_USERNAME, process.env.POSTGRES_PASSWORD, {
         dialect: process.env.SEQUELIZE_DIALECT,
@@ -52,7 +64,10 @@ const init = async () => {
 };
 
 let sequelize;
-function initAndCreateTables(){
+/**
+ *
+ */
+const initAndCreateTables=()=>{
     init().then(() => createTables(sequelize));
 
 }

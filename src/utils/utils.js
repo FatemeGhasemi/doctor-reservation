@@ -2,11 +2,20 @@ const datetime = require('node-datetime');
 const moment = require('moment')
 
 
+/**
+ *
+ * @returns {Promise<number>}
+ */
 const getRandomFourDigitNumber = async () => {
     return Math.floor(1000 + Math.random() * 9000);
 };
 
 
+/**
+ *
+ * @param time
+ * @returns {Promise<boolean>}
+ */
 const ifTodayIsAtLeastOneDayBefore = async (time) => {
     try {
         // let time = "2019-02-11 21:59:10.634+03:30"
@@ -28,10 +37,24 @@ const ifTodayIsAtLeastOneDayBefore = async (time) => {
 };
 
 
+/**
+ *
+ * @param startDate
+ * @param reserveTimePeriodInMinute
+ * @returns {string}
+ */
 const addd =  (startDate, reserveTimePeriodInMinute) => {
     return moment(startDate).add(reserveTimePeriodInMinute, 'minute').format("YYYY-MM-DD HH:mm:ss")
 }
 
+
+/**
+ *
+ * @param timeStartString
+ * @param numberOfReserves
+ * @param reserveTimePeriodInMinute
+ * @returns {string[]}
+ */
 const counter =  (timeStartString, numberOfReserves, reserveTimePeriodInMinute) => {
     let timeString1 = timeStartString;
     let startDate;
@@ -44,15 +67,27 @@ const counter =  (timeStartString, numberOfReserves, reserveTimePeriodInMinute) 
         startDate = returnedEndDate;
         x.push(returnedEndDate)
     }
-    // console.log("x: ", x)
     return x
 }
 
+
+/**
+ *
+ * @param start
+ * @param finish
+ * @returns {number}
+ */
 const towTimesDifference =  (start, finish) => {
     let duration = moment.duration(finish.diff(start)).asMinutes();
     return duration
 }
 
+
+/**
+ *
+ * @param dates
+ * @returns {Promise<Array>}
+ */
 const dayHandler = async (dates) => {
     let count = []
     dates.forEach(async item => {
@@ -67,6 +102,12 @@ const dayHandler = async (dates) => {
 }
 
 
+/**
+ *
+ * @param dates
+ * @param reserveTime
+ * @returns {boolean}
+ */
 const isReserveTimeInDates =  (dates,reserveTime)=>{
     let validDate = []
     dates.forEach(item=>{

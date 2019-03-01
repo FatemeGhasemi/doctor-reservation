@@ -5,6 +5,10 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+
+/**
+ *
+ */
 db.initDb().then(() => {
     addRoutes();
     initSwagger();
@@ -17,7 +21,11 @@ db.initDb().then(() => {
     throw e
 });
 
-function initSwagger() {
+
+/**
+ *
+ */
+const initSwagger=()=> {
     const swaggerUi = require('swagger-ui-express');
     const swaggerDocument = require('./swager');
 // Because production environment support ssl we should scheme of swaggerData to https to can load that in production
@@ -29,6 +37,9 @@ function initSwagger() {
 }
 
 
+/**
+ *
+ */
 function addRoutes() {
     app.use('/api/v1/users', require('./routers/v1/user'));
     app.use('/api/v1/getOtp', require('./routers/v1/login-register'));

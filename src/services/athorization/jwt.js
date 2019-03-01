@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 
+/**
+ *
+ * @param phoneNumber
+ * @returns {*}
+ */
 const jwtGenerator = (phoneNumber) => {
     return jwt.sign(
         phoneNumber,
@@ -8,6 +13,12 @@ const jwtGenerator = (phoneNumber) => {
     );
 };
 
+
+/**
+ *
+ * @param jwtToken
+ * @returns {*}
+ */
 const verifyJwt = (jwtToken) => {
     try {
         return jwt.verify(jwtToken, process.env.JWT_SECRET);
@@ -17,6 +28,11 @@ const verifyJwt = (jwtToken) => {
 };
 
 
+/**
+ *
+ * @param jwtToken
+ * @returns {string}
+ */
 const removeBearer = (jwtToken) => {
     return jwtToken.split(' ')[1]
 };

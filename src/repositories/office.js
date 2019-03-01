@@ -1,6 +1,12 @@
 const officeSchema = require('../models/office')();
 const doctorRepositry = require('../repositories/doctor')
 
+
+/**
+ *
+ * @param data
+ * @returns {Promise<*>}
+ */
 const createNewOffice = async (data) => {
     return officeSchema.create({
         geom: {type: 'Point', coordinates: [data.lat, data.long]},
@@ -15,6 +21,12 @@ const createNewOffice = async (data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateOfficeData = async (id, data) => {
     return officeSchema.update({
             geom: {type: 'Point', coordinates: [data.lat, data.long]},
@@ -31,11 +43,21 @@ const updateOfficeData = async (id, data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findOfficeById = async (id) => {
     return  officeSchema.findOne({where: {id: id}})
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const changeOfficeStatus = async (id) => {
     const office = await findOfficeById(id);
     if (office.active) {
@@ -46,6 +68,12 @@ const changeOfficeStatus = async (id) => {
 };
 
 
+/**
+ *
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const returnAllOffices = async (offset = 0, limit = 10) => {
     return officeSchema.findAll(
         {offset: offset, limit: limit},
@@ -53,6 +81,11 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 };
 
 
+/**
+ *
+ * @param officeId
+ * @returns {Promise<*>}
+ */
 const findDoctorByOfficeId = async (officeId) => {
     const office = await findOfficeById(officeId)
     const doctorId = office.doctorId
@@ -61,6 +94,13 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
+/**
+ *
+ * @param lng
+ * @param latitude
+ * @param distance
+ * @returns {Promise<*>}
+ */
 const findClosestPoints = async (lng, latitude, distance) => {
     const sequelize = officeSchema.sequelize
     /**

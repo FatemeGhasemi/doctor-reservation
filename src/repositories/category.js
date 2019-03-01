@@ -2,6 +2,11 @@ let categorySchema = require('../models/category')();
 // const op = Sequelize.Op;
 
 
+/**
+ *
+ * @param parentName
+ * @returns {Promise<*>}
+ */
 const findCategoryByParentName = async (parentName) => {
     return categorySchema.findAll({
         where: {
@@ -10,6 +15,11 @@ const findCategoryByParentName = async (parentName) => {
 };
 
 
+/**
+ *
+ * @param name
+ * @returns {Promise<*>}
+ */
 const findCategoryByName = async (name) => {
     return categorySchema.findOne({
         where: {name: name}
@@ -17,17 +27,34 @@ const findCategoryByName = async (name) => {
 };
 
 
-
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findCategoryById = async (id) => {
     return categorySchema.findOne({where: {id: id}})
 };
 
 
+/**
+ *
+ * @param parentName
+ * @param name
+ * @param displayName
+ * @returns {Promise<*>}
+ */
 const createNewCategory = async (parentName, name, displayName) => {
     return categorySchema.create({parentName,  name, displayName})
 };
 
 
+/**
+ *
+ * @param id
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateCategoryData = async (id, data) => {
     const options = {name: data.name, parentName: data.parentName}
     if (!data.name)delete options['name']
@@ -38,6 +65,11 @@ const updateCategoryData = async (id, data) => {
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const changeCategoryStatus = async (id) => {
     const category = await findCategoryById(id);
     if (category.isAvailable) {
@@ -47,6 +79,13 @@ const changeCategoryStatus = async (id) => {
     }
 };
 
+
+/**
+ *
+ * @param offset
+ * @param limit
+ * @returns {Promise<*>}
+ */
 const returnAllCategories = async (offset = 0, limit = 10) => {
     return categorySchema.findAll(
         {offset: offset, limit: limit},

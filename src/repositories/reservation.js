@@ -5,6 +5,12 @@ const reserveRepository = require('../repositories/reserve');
 const officeRepository = require('../repositories/office')
 const secretaryRepository = require('../repositories/secretary')
 
+
+/**
+ *
+ * @param data
+ * @returns {Promise<*>}
+ */
 const creatReservation = async (data) => {
     const counter = await counterGenerator(data.dates);
     const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
@@ -30,6 +36,12 @@ const creatReservation = async (data) => {
 };
 
 
+/**
+ *
+ * @param reservationId
+ * @param startTime
+ * @returns {Promise<*>}
+ */
 const addStartTimeToCounter = async (reservationId, startTime) => {
     let newCounter = [];
     const reservation = await findReservationById(reservationId);
@@ -45,6 +57,12 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
 }
 
 
+/**
+ *
+ * @param reserveTime
+ * @param reservationId
+ * @returns {Promise<*>}
+ */
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
     console.log("reservation.counter", reservation.dates)
@@ -59,6 +77,11 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
 };
 
 
+/**
+ *
+ * @param officeId
+ * @returns {Promise<*>}
+ */
 const findReservationByOfficeId = async (officeId) => {
     let validReservation = [];
     const resrvation =  await reservationSchema.findAll({where: {officeId: officeId}})
@@ -72,6 +95,12 @@ const findReservationByOfficeId = async (officeId) => {
 };
 
 
+/**
+ *
+ * @param officeId
+ * @param reserveTime
+ * @returns {Promise<*>}
+ */
 const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
     let reservation = []
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
@@ -89,16 +118,32 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
 };
 
 
+/**
+ *
+ * @param dates
+ * @returns {Promise<*>}
+ */
 const counterGenerator = async (dates) => {
     return await utils.dayHandler(dates);
 };
 
 
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findReservationById = async (id) => {
     return await reservationSchema.findOne({returning: true, where: {id: id}})
 };
 
 
+/**
+ *
+ * @param id
+ * @param data
+ * @returns {Promise<*>}
+ */
 const updateReservationData = async (id, data) => {
     return reservationSchema.update({
             counter: data.counter,

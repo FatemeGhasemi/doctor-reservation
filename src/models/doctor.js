@@ -35,6 +35,9 @@ const initDoctorSchema = () => {
             type:Sequelize.STRING,
             defaultValue: "pending"
         },
+        secretaryId:{
+            type:Sequelize.ARRAY(Sequelize.INTEGER),
+        },
         type:{
             type:Sequelize.STRING
         }
