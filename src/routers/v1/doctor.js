@@ -82,9 +82,7 @@ const getDoctorListController = async (req, res) => {
             const doctor = doctors[j]
             const officeIds =doctor.officeId
             for(let i = 0 ; i<officeIds.length ; i++){
-                const address = []
                 let doctorData = {};
-                let addressData = {}
                 doctorData.name = doctor.name
                 doctorData.phoneNumber = doctor.phoneNumber
                 doctorData.type = doctor.type
