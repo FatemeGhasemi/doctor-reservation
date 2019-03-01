@@ -18,7 +18,7 @@ const router = express.Router();
 const getOwnProfile = async (req, res) => {
     try {
         let result = [];
-        const doctor = await doctorRepository.findDoctorById(req.query.id)
+        const doctor = await doctorRepository.searchDoctorByPhoneNumber(req.query.phoneNumber)
         const address = []
         let doctorData = {};
         doctorData.name = doctor.name
@@ -53,6 +53,6 @@ const getOwnProfile = async (req, res) => {
 }
 
 
-router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
+router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
 
 module.exports = router;

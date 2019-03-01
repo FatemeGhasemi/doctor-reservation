@@ -29,7 +29,7 @@ const createUserAsDoctor = async (req, res) => {
  * @param res
  * @returns {Promise<void>}
  */
-const getDoctorListController = async (req, res) => {
+const getDoctorListController1 = async (req, res) => {
     try {
         let result = [];
         const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
@@ -66,6 +66,58 @@ const getDoctorListController = async (req, res) => {
         res.status(500).json({message: e.message})
     }
 };
+
+
+
+
+const getDoctorListController = async (req, res) => {
+    try {
+        let result = [];
+        const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
+        for (let j = 0; j < doctors.length; j++) {
+            const doctor = doctors[j]
+            const officeIds =doctor.officeId
+            for(let i = 0 ; i<officeIds.length ; i++){
+                const address = []
+                let doctorData = {};
+                let addressData = {}
+                doctorData.name = doctor.name
+                doctorData.phoneNumber = doctor.phoneNumber
+                doctorData.type = doctor.type
+                doctorData.avatarUrl = doctor.avatarUrl
+                const item = officeIds[i]
+                const office = await officeRepository.findOfficeById(item);
+                const officeAddress = office.address
+                const officePhone = office.phoneNumber
+                addressData.address = officeAddress
+                addressData.lat = office.lat
+                addressData.long = office.long
+                addressData.phoneNumber = officePhone
+                address.push(addressData);
+                doctorData.address = address
+                result.push(doctorData)
+            }
+
+        }
+
+        res.json({message: "success operation", result: result})
+
+    } catch (e) {
+        console.log("getDoctorListController ERROR: ", e.message)
+        res.status(500).json({message: e.message})
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**

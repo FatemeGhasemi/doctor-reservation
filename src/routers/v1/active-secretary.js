@@ -40,7 +40,7 @@ const activeSecretaryAccount = async (req, res) => {
 const getListOfDoctorSecretary = async (req, res) => {
     try {
         const result = []
-        const doctor = await doctorRepository.findDoctorById(req.query.id)
+        const doctor = await doctorRepository.searchDoctorByPhoneNumber(req.query.phoneNumber)
         const secretaryIds = doctor.secretaryId
         for (let i = 0; i < secretaryIds.length; i++) {
             const secretaryData = {}
@@ -65,7 +65,7 @@ const getListOfDoctorSecretary = async (req, res) => {
 
 
 router.put('/:phoneNumber', activeSecretaryAccount);
-router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById, getListOfDoctorSecretary);
+router.get('/', checkAccess.validateJwt, checkAccess.checkAccess, getListOfDoctorSecretary);
 
 
 module.exports = router;
