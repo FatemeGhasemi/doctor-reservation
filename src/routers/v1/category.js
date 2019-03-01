@@ -3,6 +3,13 @@ const router = express.Router();
 const categoryRepository = require('../../repositories/category');
 const checkAccess = require('../../middlewares/authentication');
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createNewCategory = async (req, res) => {
     try {
         let parentName = req.body.parentName || null;
@@ -16,6 +23,12 @@ const createNewCategory = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const searchCategory = async (req, res) => {
     try {
         let categories;
@@ -36,6 +49,12 @@ const searchCategory = async (req, res) => {
 }
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateCategoryData = async (req, res) => {
     try {
         const category = await categoryRepository.updateCategoryData(req.params.id, req.body);
@@ -46,6 +65,12 @@ const updateCategoryData = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const changeCategoryStatus = async (req, res) => {
     try {
         const category = await categoryRepository.changeCategoryStatus(req.params.id);
@@ -56,6 +81,12 @@ const changeCategoryStatus = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const changeInCategoryHandler = async (req, res) => {
     try {
         const data = req.body

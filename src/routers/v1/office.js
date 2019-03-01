@@ -5,6 +5,12 @@ const checkAccess = require('../../middlewares/authentication');
 const router = express.Router();
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createNewOffice = async (req, res) => {
     try {
         const office = await officeRepository.createNewOffice(req.body)
@@ -15,6 +21,13 @@ const createNewOffice = async (req, res) => {
     }
 };
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateOffice = async (req, res) => {
     try {
         const office = await officeRepository.updateOfficeData(req.params.id, req.body)
@@ -25,6 +38,13 @@ const updateOffice = async (req, res) => {
     }
 }
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const searchOfficeByNearest = async (req, res) => {
     try {
         const office = await officeRepository.findClosestPoints(req.query.long, req.query.lat,req.query.distance)

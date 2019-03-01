@@ -4,6 +4,13 @@ const userRepository = require('../../repositories/user');
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createNewUser = async (req, res) => {
     try {
         const user = await userRepository.createUser(req.body.phoneNumber);
@@ -14,6 +21,13 @@ const createNewUser = async (req, res) => {
     }
 };
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateUserData = async (req, res) => {
     try {
         const data = req.body;
@@ -33,6 +47,13 @@ const updateUserData = async (req, res) => {
     }
 };
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getAllUsers = async (req, res) => {
     try {
         const user = await userRepository.getAllUsers()
@@ -46,6 +67,12 @@ const getAllUsers = async (req, res) => {
 }
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getOwnProfile = async (req,res)=>{
     try {
         const user = await userRepository.findUserById(req.query.id);

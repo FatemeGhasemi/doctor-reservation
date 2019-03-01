@@ -8,6 +8,12 @@ const officeRepository = require("../../repositories/office")
 const router = express.Router();
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createUserAsSecretary = async (req, res) => {
     try {
         const doctorAsUser = res.locals.user
@@ -23,9 +29,12 @@ const createUserAsSecretary = async (req, res) => {
 };
 
 
-
-
-
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getListOfSecretaryByCategory = async (req, res) => {
     try {
         const result = secretaryRepository.searchSecretaryByCategory(req.query.categoryId, req.query.offset, req.query.limit);
@@ -36,6 +45,12 @@ const getListOfSecretaryByCategory = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getListOfSecretaryFullTextSearch = async (req, res) => {
     try {
         const result = secretaryRepository.searchSecretaryFullText(req.query.filter, req.query.offset, req.query.limit);
@@ -46,6 +61,12 @@ const getListOfSecretaryFullTextSearch = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getSecretaryListController = async (req, res) => {
     try {
         let result;
@@ -60,6 +81,12 @@ const getSecretaryListController = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getOwnProfile = async (req,res)=>{
     try {
         let result = []
@@ -80,6 +107,12 @@ const getOwnProfile = async (req,res)=>{
 }
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateSecretaryData = async (req, res) => {
     try {
         const accessToken = jwtHelper.removeBearer(req.header('Authorization'));

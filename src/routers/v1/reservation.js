@@ -4,6 +4,12 @@ const reservationRepository = require('../../repositories/reservation');
 const checkAccess = require('../../middlewares/authentication');
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createReservation = async (req, res) => {
     try {
         const data = req.body
@@ -15,6 +21,13 @@ const createReservation = async (req, res) => {
     }
 }
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getListOfAvailableReserveList = async (req, res) => {
     try {
         const officeId = req.query.officeId

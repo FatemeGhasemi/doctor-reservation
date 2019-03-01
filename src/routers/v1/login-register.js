@@ -5,6 +5,13 @@ const userRepository = require('../../repositories/user');
 const otpSendLimiter = require('../../middlewares/limiter')
 const router = express.Router();
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const activationAndLogin = async (req, res) => {
     try {
         if (await otpService.isOtpValid(req.body.otp, req.body.phoneNumber)) {
@@ -21,6 +28,12 @@ const activationAndLogin = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getOtp = async (req, res) => {
     try {
         const message = "کاربر گرامی برای فعال سازی کاربری خود در اپ‌‌سفید کد زیر را در اپلیکیشن وارد نمایید";

@@ -6,6 +6,13 @@ const statusRepository = require('../../repositories/status');
 const reservationRepository = require('../../repositories/reservation');
 const utils = require('../../utils/utils');
 
+
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createNewReserve = async (req, res) => {
     try {
         const reserve = await reserveRepository.creatReserve(req.body)
@@ -20,6 +27,12 @@ const createNewReserve = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const cancelReserve = async (req, res) => {
     try {
         const reserve = await reserveRepository.findReserveById(req.params.id);
@@ -41,6 +54,12 @@ const cancelReserve = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateReserveData = async (req, res) => {
     try {
         const reserve = await reserveRepository.updateReserveData(req.params, req.body)

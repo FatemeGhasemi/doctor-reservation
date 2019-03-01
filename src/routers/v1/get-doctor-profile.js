@@ -9,6 +9,12 @@ const doctorRepository = require("../../repositories/doctor")
 const router = express.Router();
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getOwnProfile = async (req, res) => {
     try {
         let result = [];

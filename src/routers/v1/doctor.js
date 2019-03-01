@@ -7,6 +7,12 @@ const jwtHelper = require('../../services/athorization/jwt');
 const router = express.Router();
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const createUserAsDoctor = async (req, res) => {
     try {
         const user = await doctorRepository.createDoctorUser(req.body);
@@ -17,6 +23,12 @@ const createUserAsDoctor = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getDoctorListController = async (req, res) => {
     try {
         let result = [];
@@ -52,6 +64,12 @@ const getDoctorListController = async (req, res) => {
 };
 
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const updateDoctorData = async (req, res) => {
     try {
         console.log("hi to update")
