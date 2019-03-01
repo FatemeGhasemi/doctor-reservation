@@ -18,39 +18,29 @@ const router = express.Router();
 const getOwnProfile = async (req, res) => {
     try {
         let result = [];
-        const doctor = await doctorRepository.searchDoctorByPhoneNumber(req.query.phoneNumber)
+        const doctor = await doctorRepository.findDoctorById(req.query.id)
         const address = []
         let doctorData = {};
         doctorData.name = doctor.name
         doctorData.phoneNumber = doctor.phoneNumber
         doctorData.type = doctor.type
         const officeIds = doctor.officeId
-        console.log("officeIds: ", officeIds)
         for (let i = 0; i < officeIds.length; i++) {
             const item = officeIds[i]
-            console.log("item: ", item)
             const office = await officeRepository.findOfficeById(item);
-            // console.log("office: ",office)
             const officeAddress = office.address
             const officePhone = office.phoneNumber
-
             address.push(officeAddress);
             address.push(officePhone);
-            console.log("address1: ", address)
-
         }
-        console.log("address2: ", address)
         doctorData.address = address
-
         result.push(doctorData)
-
         res.json({message: "success operation", result: result})
-
     } catch (e) {
         console.log("getOwnProfile ERROR: ", e.message)
         res.status(500).json({message: e.message})
     }
-}
+};
 
 
 
