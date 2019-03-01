@@ -65,7 +65,8 @@ const getListOfDoctorSecretary = async (req, res) => {
 
 
 router.put('/:phoneNumber', activeSecretaryAccount);
-router.get('/', checkAccess.validateJwt, checkAccess.checkAccess, getListOfDoctorSecretary);
+// router.get('/', checkAccess.validateJwt, checkAccess.checkAccess, getListOfDoctorSecretary);
+router.get('/', getListOfDoctorSecretary);
 
 
 module.exports = router;
