@@ -68,8 +68,12 @@ const getDoctorListController1 = async (req, res) => {
 };
 
 
-
-
+/**
+ * get a list of doctors by the same categoryIds
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getDoctorListController = async (req, res) => {
     try {
         let result = [];
@@ -89,13 +93,14 @@ const getDoctorListController = async (req, res) => {
                 const office = await officeRepository.findOfficeById(item);
                 const officeAddress = office.address
                 const officePhone = office.phoneNumber
-                addressData.address = officeAddress
-                addressData.lat = office.lat
-                addressData.long = office.long
-                addressData.phoneNumber = officePhone
-                address.push(addressData);
-                doctorData.address = address
+                doctorData.address = officeAddress
+                doctorData.lat = office.lat
+                doctorData.long = office.long
+                doctorData.phoneNumber = officePhone
+                // address.push(addressData);
+                // doctorData.address = address
                 result.push(doctorData)
+                // result.push(addressData)
             }
 
         }
@@ -110,18 +115,8 @@ const getDoctorListController = async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
 /**
- *
+ * update doctor profile data
  * @param req
  * @param res
  * @returns {Promise<void>}

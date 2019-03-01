@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 /**
- *
+ * show doctors her/his own profile
  * @param req
  * @param res
  * @returns {Promise<void>}
@@ -53,6 +53,9 @@ const getOwnProfile = async (req, res) => {
 }
 
 
-router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
+
+
+// router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
+router.get('/',getOwnProfile);
 
 module.exports = router;
