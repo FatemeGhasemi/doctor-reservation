@@ -50,7 +50,7 @@ const getDoctorListController = async (req, res) => {
                 const officePhone = office.phoneNumber
                 addressData.address = officeAddress
                 addressData.lat = office.lat
-                addressData.lat = office.long
+                addressData.long = office.long
                 addressData.phoneNumber = officePhone
                 address.push(addressData);
             }
