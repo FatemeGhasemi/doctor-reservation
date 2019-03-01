@@ -20,7 +20,8 @@ const createDoctorUser = async (data) => {
         categoryId: data.categoryId,
         description: data.description,
         officeId: data.officeId,
-        type:data.type
+        type:data.type,
+        secretaryId:data.secretaryId
     })
 };
 
@@ -55,7 +56,8 @@ const updateDoctorData = async (phoneNumber, data) => {
             description: data.description,
             officeId: data.officeId,
             status: data.status,
-            type:data.type
+            type:data.type,
+            secretaryId: data.secretaryId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
