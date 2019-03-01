@@ -6,7 +6,12 @@
     "officeId": [1, 4, 7],
     "status":"approved",
     "type": "متخصص",
-    "secretaryId": [1,2,3]
+    "secretaryId": [1,2,3],
+    "nationalId":"001789654388",
+    "field":"مهندسی پزشکی",
+    "grade":"لیسانس",
+    "province":"تهران",
+    "city":"تهران"
   },
   {
     "phoneNumber": "091925068019",
@@ -15,10 +20,12 @@
     "officeId": [1],
     "status":"approved",
     "type": "متخصص",
-    "secretaryId": [1]
-
-
-
+    "secretaryId": [1],
+    "nationalId":"001789654386",
+    "field":"مهندسی پزشکی",
+    "grade":"لیسانس",
+    "province":"تهران",
+    "city":"تهران"
   },
   {
     "phoneNumber": "091925068018",
@@ -27,7 +34,12 @@
     "officeId": [1, 4, 7],
     "status":"approved",
     "type": "متخصص",
-    "secretaryId": [1,3]
+    "secretaryId": [1,3],
+    "nationalId":"001789654387",
+    "field":"مهندسی پزشکی",
+    "grade":"لیسانس",
+    "province":"تهران",
+    "city":"تهران"
 
 
   },
@@ -38,6 +50,11 @@
     "officeId": [1, 4, 7],
     "status":"approved",
     "type": "متخصص",
-    "secretaryId": [1,2,3]
+    "secretaryId": [1,2,3],
+    "nationalId":"00178965439",
+    "field":"مهندسی پزشکی",
+    "grade":"لیسانس",
+    "province":"تهران",
+    "city":"تهران"
   }
 ]

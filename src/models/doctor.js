@@ -6,12 +6,12 @@ const initDoctorSchema = () => {
         userId: {
             type: Sequelize.INTEGER,
             required: true,
-            foreignKey :true,
+            foreignKey: true,
         },
         officeId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
             required: true,
-            defaultValue:[]
+            defaultValue: []
         },
         name: {
             type: Sequelize.STRING,
@@ -19,28 +19,45 @@ const initDoctorSchema = () => {
         },
         categoryId: {
             type: Sequelize.STRING,
-            foreignKey:true,
+            foreignKey: true,
             required: true
         },
         phoneNumber: {
             type: Sequelize.STRING,
             required: true,
-            unique:true
+            unique: true
         },
         description: {
             type: Sequelize.STRING,
-            allowNull:true
+            allowNull: true
         },
-        status:{
-            type:Sequelize.STRING,
+        status: {
+            type: Sequelize.STRING,
             defaultValue: "pending"
         },
-        secretaryId:{
-            type:Sequelize.ARRAY(Sequelize.INTEGER),
+        secretaryId: {
+            type: Sequelize.ARRAY(Sequelize.INTEGER),
         },
-        type:{
-            type:Sequelize.STRING
+        type: {
+            type: Sequelize.STRING
+        },
+        nationalId: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        field: {
+            type: Sequelize.STRING
+        },
+        grade: {
+            type: Sequelize.STRING
+        },
+        province: {
+            type: Sequelize.STRING
+        },
+        city: {
+            type: Sequelize.STRING
         }
+
 
     });
     //TODO Doctor.sync just needed once to create tables, so if tables created dont need call it any more

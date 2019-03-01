@@ -3,6 +3,7 @@ const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const statusRepository = require('../repositories/status');
 const categoryRepository = require('../repositories/category')
+const officeRepository = require('../repositories/office')
 
 
 /**
@@ -11,17 +12,28 @@ const categoryRepository = require('../repositories/category')
  * @returns {Promise<*>}
  */
 const createDoctorUser = async (data) => {
-    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
-    const userId = user.id;
+    let user;
+    let userId;
+    user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
+    if(user.id) {
+         userId = user.id;
+    }
+    else {
+        user= await userRepository.createUser(data.phoneNumber)
+        userId = user.id;
+    }
     return doctorSchema.create({
         userId: userId,
         phoneNumber: data.phoneNumber,
         name: data.name,
         categoryId: data.categoryId,
         description: data.description,
-        officeId: data.officeId,
         type:data.type,
-        secretaryId:data.secretaryId
+        nationalId:data.nationalId,
+        field:data.field,
+        grade:data.grade,
+        province:data.province,
+        city:data.city
     })
 };
 
