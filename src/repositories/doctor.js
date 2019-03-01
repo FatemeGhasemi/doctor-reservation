@@ -12,16 +12,8 @@ const officeRepository = require('../repositories/office')
  * @returns {Promise<*>}
  */
 const createDoctorUser = async (data) => {
-    let user;
-    let userId;
-    user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
-    if(user.id) {
-         userId = user.id;
-    }
-    else {
-        user= await userRepository.createUser(data.phoneNumber)
-        userId = user.id;
-    }
+    const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
+    const userId=user.id;
     return doctorSchema.create({
         userId: userId,
         phoneNumber: data.phoneNumber,
