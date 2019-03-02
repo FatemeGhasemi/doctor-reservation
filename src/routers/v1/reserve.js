@@ -88,6 +88,7 @@ const updateReserveData = async (req, res) => {
 
 
 router.post('/', checkAccess.validateJwt, createNewReserve);
-router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
+// router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
+router.put('/:id', cancelReserve);
 
 module.exports = router;
