@@ -4,6 +4,7 @@ const utils = require('../utils/utils');
 const reserveRepository = require('../repositories/reserve');
 const officeRepository = require('../repositories/office')
 const secretaryRepository = require('../repositories/secretary')
+const doctorRepository = require('../repositories/doctor')
 
 
 /**
@@ -13,8 +14,10 @@ const secretaryRepository = require('../repositories/secretary')
  */
 const creatReservation = async (data) => {
     const counter = await counterGenerator(data.dates);
-    const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
-    const doctorId = doctor.id
+    // const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
+    const office = await officeRepository.findOfficeById(data.officeId)
+    const doctorId = office.doctorId
+    const doctor  = await doctorRepository.findDoctorById(doctorId)
     const doctorOffices = doctor.officeId
     const reservation = await findReservationByOfficeId(data.officeId)
     if (reservation) {
@@ -85,13 +88,17 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
 const findReservationByOfficeId = async (officeId) => {
     let validReservation = [];
     const resrvation =  await reservationSchema.findAll({where: {officeId: officeId}})
-    resrvation.forEach(item =>{
-        if(item.status === "valid"){
-            validReservation.push(item)
-        }
-    })
-    console.log("validReservation: ", validReservation )
-    return validReservation[0]
+    if (resrvation.length === 0) {
+        return []
+    }else {
+        resrvation.forEach(item => {
+            if (item.status === "valid") {
+                validReservation.push(item)
+            }
+        })
+        console.log("validReservation: ", validReservation)
+        return validReservation[0]
+    }
 };
 
 
@@ -121,10 +128,12 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
 /**
  *
  * @param dates
- * @returns {Promise<*>}
+ * @returns {Promise<Array>}
  */
+
 const counterGenerator = async (dates) => {
-    return await utils.dayHandler(dates);
+    const date= await utils.dayHandler(dates);
+    return date
 };
 
 

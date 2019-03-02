@@ -1,5 +1,5 @@
 const officeSchema = require('../models/office')();
-const doctorRepositry = require('../repositories/doctor')
+const doctorRepository= require('../repositories/doctor')
 
 
 /**
@@ -89,7 +89,7 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 const findDoctorByOfficeId = async (officeId) => {
     const office = await findOfficeById(officeId)
     const doctorId = office.doctorId
-    const doctor = doctorRepositry.findDoctorById(doctorId)
+    const doctor = await doctorRepository.findDoctorById(doctorId)
     return doctor
 }
 

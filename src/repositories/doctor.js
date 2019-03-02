@@ -128,7 +128,7 @@ const searchDoctorByCategory = async (categoryId) => {
  */
 const findDoctorById = async (id)=>{
     return doctorSchema.findOne({where: {id: id}})
-}
+};
 
 
 
