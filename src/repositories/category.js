@@ -3,7 +3,7 @@ let categorySchema = require('../models/category')();
 
 
 /**
- *
+ * find a category by its parent
  * @param parentName
  * @returns {Promise<*>}
  */
@@ -16,7 +16,7 @@ const findCategoryByParentName = async (parentName) => {
 
 
 /**
- *
+ * find category by its name
  * @param name
  * @returns {Promise<*>}
  */
@@ -28,7 +28,7 @@ const findCategoryByName = async (name) => {
 
 
 /**
- *
+ * find a category by its id
  * @param id
  * @returns {Promise<*>}
  */
@@ -38,7 +38,7 @@ const findCategoryById = async (id) => {
 
 
 /**
- *
+ * create a new category by admin
  * @param parentName
  * @param name
  * @param displayName
@@ -50,7 +50,7 @@ const createNewCategory = async (parentName, name, displayName) => {
 
 
 /**
- *
+ * update category data by admin
  * @param id
  * @param data
  * @returns {Promise<*>}
@@ -66,7 +66,7 @@ const updateCategoryData = async (id, data) => {
 
 
 /**
- *
+ * change category status
  * @param id
  * @returns {Promise<*>}
  */
@@ -81,7 +81,7 @@ const changeCategoryStatus = async (id) => {
 
 
 /**
- *
+ * return all categories
  * @param offset
  * @param limit
  * @returns {Promise<*>}

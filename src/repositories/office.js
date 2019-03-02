@@ -3,7 +3,7 @@ const doctorRepositry = require('../repositories/doctor')
 
 
 /**
- *
+ * create a new office
  * @param data
  * @returns {Promise<*>}
  */
@@ -22,7 +22,7 @@ const createNewOffice = async (data) => {
 
 
 /**
- *
+ * update office data
  * @param id
  * @param data
  * @returns {Promise<*>}
@@ -44,7 +44,7 @@ const updateOfficeData = async (id, data) => {
 
 
 /**
- *
+ * find a office by its id
  * @param id
  * @returns {Promise<*>}
  */
@@ -54,7 +54,7 @@ const findOfficeById = async (id) => {
 
 
 /**
- *
+ * change office
  * @param id
  * @returns {Promise<*>}
  */
@@ -69,7 +69,7 @@ const changeOfficeStatus = async (id) => {
 
 
 /**
- *
+ * return all offices
  * @param offset
  * @param limit
  * @returns {Promise<*>}
@@ -82,7 +82,7 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 
 
 /**
- *
+ * find a doctor by his/her own office id
  * @param officeId
  * @returns {Promise<*>}
  */
@@ -95,7 +95,7 @@ const findDoctorByOfficeId = async (officeId) => {
 
 
 /**
- *
+ * find closest office point to user
  * @param lng
  * @param latitude
  * @param distance

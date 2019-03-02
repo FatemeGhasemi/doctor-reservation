@@ -7,7 +7,7 @@ const secretaryRepository = require('../repositories/secretary')
 
 
 /**
- *
+ * create a new reservation
  * @param data
  * @returns {Promise<*>}
  */
@@ -37,7 +37,7 @@ const creatReservation = async (data) => {
 
 
 /**
- *
+ * add new start time to counter
  * @param reservationId
  * @param startTime
  * @returns {Promise<*>}

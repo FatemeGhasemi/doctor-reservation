@@ -7,7 +7,7 @@ const officeRepository = require('../repositories/office')
 
 
 /**
- *
+ * create a doctor from a user
  * @param data
  * @returns {Promise<*>}
  */
@@ -25,13 +25,13 @@ const createDoctorUser = async (data) => {
         field:data.field,
         grade:data.grade,
         province:data.province,
-        city:data.city
+        city:data.city,
     })
 };
 
 
 /**
- *
+ * admin approve a user to be a doctor
  * @param id
  * @returns {Promise<*>}
  */
@@ -47,7 +47,7 @@ const approveAsDoctor = async (id) => {
 
 
 /**
- *
+ * update a doctor profile data
  * @param phoneNumber
  * @param data
  * @returns {Promise<*>}
@@ -69,7 +69,7 @@ const updateDoctorData = async (phoneNumber, data) => {
 
 
 /**
- *
+ * deactivate a doctor
  * @param id
  * @returns {Promise<*>}
  */
@@ -82,7 +82,7 @@ const deactivateDoctor = async (id) => {
 
 
 /**
- *
+ * return all doctors from db
  * @param offset
  * @param limit
  * @returns {Promise<*>}
@@ -100,7 +100,7 @@ const getAllDoctors = async (offset = 0, limit = 10) => {
 
 
 /**
- *
+ * find a list of doctor in same category
  * @param categoryId
  * @returns {Promise<*>}
  */
@@ -122,7 +122,7 @@ const searchDoctorByCategory = async (categoryId) => {
 
 
 /**
- *
+ * find a doctor by his/her id
  * @param id
  * @returns {Promise<*>}
  */
@@ -134,7 +134,7 @@ const findDoctorById = async (id)=>{
 
 
 /**
- *
+ * find a doctor by his/her phone
  * @param phoneNumber
  * @returns {*}
  */
