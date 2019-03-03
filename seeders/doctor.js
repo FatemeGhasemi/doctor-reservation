@@ -29,7 +29,8 @@ async function insertDoctors(){
             field:item.field,
             grade:item.grade,
             province:item.province,
-            city:item.city
+            city:item.city,
+            avatarUrl:item.avatarUrl
         })
 
     }
