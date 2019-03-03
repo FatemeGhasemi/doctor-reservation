@@ -43,7 +43,7 @@ const ifTodayIsAtLeastOneDayBefore = async (time) => {
  * @param reserveTimePeriodInMinute
  * @returns {string}
  */
-const addd =  (startDate, reserveTimePeriodInMinute) => {
+const addd = (startDate, reserveTimePeriodInMinute) => {
     return moment(startDate).add(reserveTimePeriodInMinute, 'minute').format("YYYY-MM-DD HH:mm:ss")
 }
 
@@ -55,7 +55,7 @@ const addd =  (startDate, reserveTimePeriodInMinute) => {
  * @param reserveTimePeriodInMinute
  * @returns {string[]}
  */
-const counter =  (timeStartString, numberOfReserves, reserveTimePeriodInMinute) => {
+const counter = (timeStartString, numberOfReserves, reserveTimePeriodInMinute) => {
     let timeString1 = timeStartString;
     let startDate;
     let returnedEndDate
@@ -77,7 +77,7 @@ const counter =  (timeStartString, numberOfReserves, reserveTimePeriodInMinute) 
  * @param finish
  * @returns {number}
  */
-const towTimesDifference =  (start, finish) => {
+const towTimesDifference = (start, finish) => {
     let duration = moment.duration(finish.diff(start)).asMinutes();
     return duration
 }
@@ -93,9 +93,9 @@ const dayHandler = async (dates) => {
     dates.forEach(async item => {
         let startDate = moment(item.date + " " + item.start);
         let finishDate = moment(item.date + " " + item.finish);
-        const durationTimeInMinute =  towTimesDifference(startDate,finishDate);
+        const durationTimeInMinute = towTimesDifference(startDate, finishDate);
         const numberOfReserves = durationTimeInMinute / item.duration;
-        const c =  counter(startDate, numberOfReserves, item.duration)
+        const c = counter(startDate, numberOfReserves, item.duration)
         count.push(c)
     })
     return count
@@ -108,29 +108,61 @@ const dayHandler = async (dates) => {
  * @param reserveTime
  * @returns {boolean}
  */
-const isReserveTimeInDates =  (dates,reserveTime)=>{
+const isReserveTimeInDates = (dates, reserveTime) => {
     let validDate = []
-    dates.forEach(item=>{
-        item.forEach(i=>{
-            if (i === reserveTime){
+    dates.forEach(item => {
+        item.forEach(i => {
+            if (i === reserveTime) {
                 validDate.push(i)
             }
         })
     })
-    if (validDate.length !== 0){
+    if (validDate.length !== 0) {
         return true
-    }
-    else {
+    } else {
         return false
     }
 }
 
 
+const isDateInDates = (dates, reserveDate) => {
+    let validDate = []
+    dates.forEach(item => {
+        if(item.length !==0) {
+            const reserveWanted = item.split(" ")[0];
+            if (reserveWanted === reserveDate) {
+                validDate.push(item)
+            }
+        }
+        else if(item.length ===0){
+            item.forEach(i=>{
+                const reserveWanted = i.split(" ")[0];
+                if (reserveWanted === reserveDate) {
+                    validDate.push(i)
+                }
+            })
+        }
+
+    })
+    return validDate;
+}
+
+
+function isEmpty(obj) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 
 
 module.exports = {
     getRandomFourDigitNumber,
     ifTodayIsAtLeastOneDayBefore,
     dayHandler,
-    isReserveTimeInDates
+    isReserveTimeInDates,
+    isDateInDates,
+    isEmpty
+
 }

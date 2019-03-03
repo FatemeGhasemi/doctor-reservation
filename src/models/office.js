@@ -35,6 +35,12 @@ const initOfficeSchema = () => {
         active: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
+        },
+        province: {
+            type: Sequelize.STRING
+        },
+        city: {
+            type: Sequelize.STRING
         }
     });
 

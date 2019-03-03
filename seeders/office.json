@@ -6,7 +6,10 @@
     "lat": 35.7952,
     "long": 51.432,
     "phoneNumber": "02122317251",
-    "address": "تهران تجریش"
+    "address": " تجریش",
+    "province": "تهران",
+    "city": "تهران"
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7952, 51.432]},
@@ -15,7 +18,9 @@
     "lat": 35.7952,
     "long": 51.432,
     "phoneNumber": "02122317251",
-    "address": "تهران تجریش"
+    "address": "تهران تجریش",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7952, 51.432]},
@@ -24,7 +29,9 @@
     "lat": 35.7952,
     "long": 51.432,
     "phoneNumber": "02122317251",
-    "address": "تهران تجریش"
+    "address": "تهران تجریش",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7729, 51.4441]},
@@ -33,7 +40,9 @@
     "lat": 35.7729,
     "long": 51.4441,
     "phoneNumber": "02122317268",
-    "address": "تهران قلهک"
+    "address": "تهران قلهک",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7729, 51.4441]},
@@ -42,7 +51,9 @@
     "lat": 35.7729,
     "long": 51.4441,
     "phoneNumber": "02122317268",
-    "address": "تهران قلهک"
+    "address": "تهران قلهک",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7729, 51.4441]},
@@ -51,7 +62,9 @@
     "lat": 35.7729,
     "long": 51.4441,
     "phoneNumber": "02122317268",
-    "address": "تهران قلهک"
+    "address": "تهران قلهک",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7782, 51.4703]},
@@ -60,7 +73,9 @@
     "lat": 35.7782,
     "long": 51.4703,
     "phoneNumber": "02122317268",
-    "address": "تهران پاسداران"
+    "address": "تهران پاسداران",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7782, 51.4703]},
@@ -69,7 +84,9 @@
     "lat": 35.7782,
     "long": 51.4703,
     "phoneNumber": "02122317268",
-    "address": "تهران پاسداران"
+    "address": "تهران پاسداران",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7782, 51.4703]},
@@ -78,7 +95,9 @@
     "lat": 35.7782,
     "long": 51.4703,
     "phoneNumber": "02122317268",
-    "address": "تهران پاسداران"
+    "address": "تهران پاسداران",
+    "province": "تهران",
+    "city": "تهران"
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7282, 51.4160]},
@@ -87,7 +106,9 @@
     "lat": 35.7282,
     "long": 51.4160,
     "phoneNumber": "02122317268",
-    "address": "تهران آزادی"
+    "address": "تهران آزادی",
+    "province": "تهران",
+    "city": "تهران"
   }
 ,
   {
@@ -97,7 +118,9 @@
     "lat": 35.7564,
     "long": 51.3759,
     "phoneNumber": "02122317268",
-    "address": "تهران شهرک غرب"
+    "address": "تهران شهرک غرب",
+    "province": "تهران",
+    "city": "تهران"
   }
 
 ]

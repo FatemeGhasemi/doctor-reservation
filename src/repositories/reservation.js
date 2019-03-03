@@ -17,7 +17,7 @@ const creatReservation = async (data) => {
     // const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
     const office = await officeRepository.findOfficeById(data.officeId)
     const doctorId = office.doctorId
-    const doctor  = await doctorRepository.findDoctorById(doctorId)
+    const doctor = await doctorRepository.findDoctorById(doctorId)
     const doctorOffices = doctor.officeId
     const reservation = await findReservationByOfficeId(data.officeId)
     if (reservation) {
@@ -26,12 +26,12 @@ const creatReservation = async (data) => {
     if (doctorOffices.includes(data.officeId)) {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
-        if (data.secretaryId === secretaryId)
+        // if (data.secretaryId === secretaryId)
             return reservationSchema.create({
                 counter: counter,
                 officeId: data.officeId,
                 doctorId: doctorId,
-                secretaryId: secretaryId
+                secretaryId:secretaryId
             })
     } else {
         throw new Error("This time is not available")
@@ -50,7 +50,7 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
     const reservation = await findReservationById(reservationId);
     let counter = reservation.counter
     counter.forEach(item => {
-        item.forEach(i=>{
+        item.forEach(i => {
             newCounter.push(i)
         })
     })
@@ -68,18 +68,16 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
  */
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    console.log("reservation.counter", reservation.dates)
-    console.log("reserveTime", reserveTime)
-    let reserveList=
-        reservation.counter.forEach(item=>{
-            console.log("item: ",item)
-        item.filter(i=>{
-            console.log("i: ",i)
-            return i !== reserveTime
+    let reserveList = []
+    reservation.counter.forEach(items => {
+        items.forEach(item => {
+            if (item !== reserveTime) {
+                reserveList.push(item)
+            }
         })
-    });
-    console.log("reserveList", reserveList);
-    return reservationSchema.update({dates: reserveList}, {returning: true, where: {id: reservationId}})
+    })
+     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
+
 };
 
 
@@ -90,10 +88,10 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
  */
 const findReservationByOfficeId = async (officeId) => {
     let validReservation = [];
-    const resrvation =  await reservationSchema.findAll({where: {officeId: officeId}})
+    const resrvation = await reservationSchema.findAll({where: {officeId: officeId}})
     if (resrvation.length === 0) {
         return []
-    }else {
+    } else {
         resrvation.forEach(item => {
             if (item.status === "valid") {
                 validReservation.push(item)
@@ -116,11 +114,26 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
     console.log("reservations: ", reservations)
     reservations.forEach(item => {
-        console.log("reservation: ",item)
+            console.log("reservation: ", item)
             if (item.status === "valid") {
-                if ( utils.isReserveTimeInDates(item.counter,reserveTime)) {
+                if (utils.isReserveTimeInDates(item.counter, reserveTime)) {
                     reservation.push(item)
                 }
+            }
+        }
+    );
+    return reservation[0]
+};
+
+
+const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
+    let reservation = []
+    const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
+    reservations.forEach(item => {
+            if (item.status === "valid") {
+                if(item.counter.length !==0){
+                    reservation.push(utils.isDateInDates(item.counter,reserveDate))
+                    }
             }
         }
     );
@@ -135,7 +148,7 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
  */
 
 const counterGenerator = async (dates) => {
-    const date= await utils.dayHandler(dates);
+    const date = await utils.dayHandler(dates);
     return date
 };
 
@@ -177,4 +190,5 @@ module.exports = {
     deleteTimeAfterChoose,
     addStartTimeToCounter,
     findReservationByOfficeIdAndTime,
+    findReservationByOfficeIdAndDate
 };

@@ -1,5 +1,5 @@
 const officeSchema = require('../models/office')();
-const doctorRepository= require('../repositories/doctor')
+const doctorRepository = require('../repositories/doctor')
 
 
 /**
@@ -49,7 +49,7 @@ const updateOfficeData = async (id, data) => {
  * @returns {Promise<*>}
  */
 const findOfficeById = async (id) => {
-    return  officeSchema.findOne({where: {id: id}})
+    return officeSchema.findOne({where: {id: id}})
 };
 
 
@@ -124,6 +124,42 @@ WHERE
     });
 };
 
+const searchNearestSameCategoryOffice = async (lng, latitude, distance, categoryId) => {
+    const allOffices = await findClosestPoints(lng, latitude, distance)
+    let activeOffice = []
+    for (let i = 0; i < allOffices.length; i++) {
+        let data;
+        const office = allOffices[i]
+        const officeId = office.id
+        const doctor = await findDoctorByOfficeId(officeId);
+        const doctorCategory = doctor.categoryId
+        if (categoryId === doctorCategory && office.active) {
+            data = {}
+            data.id = officeId
+            data.doctorName = doctor.name
+            data.doctorType = doctor.type
+            data.locationCoordinate = office.geom
+            data.address = office.address
+            data.phoneNumber = office.phoneNumber
+        }
+        activeOffice.push(data)
+    }
+    let result = []
+
+    activeOffice.forEach(items=>{
+        if(items){
+            result.push(items)
+        }
+    })
+
+
+    console.log("result: ",result)
+
+
+    return result
+
+}
+
 
 module.exports = {
     createNewOffice,
@@ -132,7 +168,8 @@ module.exports = {
     returnAllOffices,
     findDoctorByOfficeId,
     findOfficeById,
-    findClosestPoints
+    findClosestPoints,
+    searchNearestSameCategoryOffice
 };
 
 
