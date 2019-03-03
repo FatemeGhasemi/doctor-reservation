@@ -47,7 +47,13 @@ const updateOffice = async (req, res) => {
  */
 const searchOfficeByNearest = async (req, res) => {
     try {
-        const office = await officeRepository.findClosestPoints(req.query.long, req.query.lat,req.query.distance)
+        const office = await officeRepository.searchNearestSameCategoryOffice(
+            req.query.long,
+            req.query.lat,
+            req.query.distance,
+            req.query.categoryId
+        )
+        console.log("result searchOfficeByNearest: ",office)
         res.json({message: "success operation", result: office})
 
     } catch (e) {

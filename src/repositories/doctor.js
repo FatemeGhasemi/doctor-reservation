@@ -3,7 +3,6 @@ const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const statusRepository = require('../repositories/status');
 const categoryRepository = require('../repositories/category')
-const officeRepository = require('../repositories/office')
 
 
 /**
@@ -126,7 +125,7 @@ const searchDoctorByCategory = async (categoryId) => {
  * @param id
  * @returns {Promise<*>}
  */
-const findDoctorById = async (id)=>{
+const findDoctorById = async (id) => {
     return doctorSchema.findOne({where: {id: id}})
 };
 
