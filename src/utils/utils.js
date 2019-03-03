@@ -128,12 +128,21 @@ const isReserveTimeInDates = (dates, reserveTime) => {
 const isDateInDates = (dates, reserveDate) => {
     let validDate = []
     dates.forEach(item => {
-        item.forEach(i => {
-            const reserveWanted = i.split(" ")[0];
+        if(item.length !==0) {
+            const reserveWanted = item.split(" ")[0];
             if (reserveWanted === reserveDate) {
-                validDate.push(i)
+                validDate.push(item)
             }
-        })
+        }
+        else if(item.length ===0){
+            item.forEach(i=>{
+                const reserveWanted = i.split(" ")[0];
+                if (reserveWanted === reserveDate) {
+                    validDate.push(i)
+                }
+            })
+        }
+
     })
     return validDate;
 }
