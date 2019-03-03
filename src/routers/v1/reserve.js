@@ -69,16 +69,20 @@ const searchByReserveDateAndCategory = async (req, res) => {
             for (let j=0; j<doctorOffices.length;j++){
                 const officeId = doctorOffices[j]
                 const reservations = await reservationRepository.findReservationByOfficeIdAndDate(officeId,req.query.reserveDate)
-                if(reservations) {
-                    const office = await officeRepository.findOfficeById(officeId)
-                    data.doctorName = doctorData.name
-                    data.doctorType = doctorData.type
-                    data.avatarUrl = doctorData.avatarUrl
-                    data.address = office.address
-                    data.latitude = office.lat
-                    data.longitude = office.long
-                    data.reserveAvailableTimes = reservations
+                console.log("reservations: ",reservations)
+                if(reservations !== undefined ) {
+                    if (reservations.length !== 0 ) {
+                        const office = await officeRepository.findOfficeById(officeId)
+                        data.doctorName = doctorData.name
+                        data.doctorType = doctorData.type
+                        data.avatarUrl = doctorData.avatarUrl
+                        data.address = office.address
+                        data.latitude = office.lat
+                        data.longitude = office.long
+                        data.reserveAvailableTimes = reservations
+                    }
                 }
+
             }
             console.log("data: ",data)
             if (!utils.isEmpty(data)){

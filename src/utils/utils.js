@@ -125,25 +125,28 @@ const isReserveTimeInDates = (dates, reserveTime) => {
 }
 
 
-const isDateInDates = (dates, reserveDate) => {
+const isDateInDates = async (dates, reserveDate) => {
     let validDate = []
     dates.forEach(item => {
-        if(item.length !==0) {
+        if(item.constructor !== Array) {
             const reserveWanted = item.split(" ")[0];
             if (reserveWanted === reserveDate) {
+                console.log("item: ",item)
                 validDate.push(item)
             }
         }
-        else if(item.length ===0){
+        else if(item.constructor === Array){
             item.forEach(i=>{
                 const reserveWanted = i.split(" ")[0];
                 if (reserveWanted === reserveDate) {
+                    console.log("i: ",i)
                     validDate.push(i)
                 }
             })
         }
 
     })
+    console.log("validDate: ",validDate)
     return validDate;
 }
 
