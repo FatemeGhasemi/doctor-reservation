@@ -68,8 +68,6 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
  */
 const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
     const reservation = await findReservationById(reservationId)
-    console.log("reservation.counter", reservation.dates)
-    console.log("reserveTime", reserveTime)
     let reserveList =[]
     reservation.counter.forEach(items=>{
         items.forEach(item=>{
@@ -78,16 +76,6 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
             }
         })
     })
-
-    // let reserveList=
-    //     reservation.counter.forEach(item=>{
-    //         console.log("item: ",item)
-    //     item.filter(i=>{
-    //         console.log("i: ",i)
-    //         return i !== reserveTime
-    //     })
-    // });
-    console.log("reserveList", reserveList);
     return reservationSchema.update({dates: reserveList}, {returning: true, where: {id: reservationId}})
 };
 
