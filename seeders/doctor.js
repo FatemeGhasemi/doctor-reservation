@@ -30,7 +30,8 @@ async function insertDoctors(){
             grade:item.grade,
             province:item.province,
             city:item.city,
-            avatarUrl:item.avatarUrl
+            avatarUrl:item.avatarUrl,
+            rate:item.rate
         })
 
     }

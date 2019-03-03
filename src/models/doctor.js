@@ -59,6 +59,9 @@ const initDoctorSchema = () => {
         },
         avatarUrl:{
             type:Sequelize.STRING
+        },
+        rate:{
+            type:Sequelize.INTEGER
         }
 
 
