@@ -11,7 +11,7 @@ const initReservationSchema = () => {
         counter: {
             type: Sequelize.ARRAY(Sequelize.JSON(Sequelize.STRING)),
             required: true,
-            allowNull: false,
+            allowNull: false
         },
         status: {
             type: Sequelize.STRING,
@@ -22,9 +22,7 @@ const initReservationSchema = () => {
             required: true
         },
         secretaryId:{
-            type: Sequelize.INTEGER,
-            required:true,
-            allowNull:false
+            type: Sequelize.INTEGER
         }
 
     });

@@ -26,12 +26,12 @@ const creatReservation = async (data) => {
     if (doctorOffices.includes(data.officeId)) {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
-        if (data.secretaryId === secretaryId)
+        // if (data.secretaryId === secretaryId)
             return reservationSchema.create({
                 counter: counter,
                 officeId: data.officeId,
                 doctorId: doctorId,
-                secretaryId: secretaryId
+                secretaryId:secretaryId
             })
     } else {
         throw new Error("This time is not available")
@@ -130,9 +130,9 @@ const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
     reservations.forEach(item => {
             if (item.status === "valid") {
-                if(item.counter.length !==0) {
-                    reservation.push(utils.isDateInDates(item.counter, reserveDate))
-                }
+                if(item.counter.length !==0){
+                    reservation.push(utils.isDateInDates(item.counter,reserveDate))
+                    }
             }
         }
     );

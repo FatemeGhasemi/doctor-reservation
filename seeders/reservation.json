@@ -1,20 +1,32 @@
 [
+
   {
     "officeId": 1,
-    "dates": [{"date": "2019-03-21", "start": "19:00:00", "finish": "19:30:00", "duration": 15}, {
-      "counter": "2019-04-30",
+    "dates":[{"date": "2019-03-25", "start": "13:00:00", "finish": "17:00:00", "duration": 60}, {
+      "date": "2019-03-30",
       "start": "13:00:00",
       "finish": "15:00:00",
-      "duration": 60
-    }],
-    "doctorId": 1,
-    "secretaryId": 1
+      "duration": 30
+    }, {"date": "2019-03-27", "start": "13:00:00", "finish": "16:00:00", "duration": 15}]
   },
   {
-    "officeId": 1,
-    "dates": [{"date": "2019-03-23", "start": "19:00:00", "finish": "19:30:00", "duration": 15
-    }],
-    "doctorId": 1,
-    "secretaryId": 1
+    "officeId": 4,
+    "dates":[{"date": "2019-03-20", "start": "15:00:00", "finish": "17:00:00", "duration": 60}, {
+      "date": "2019-03-22",
+      "start": "19:00:00",
+      "finish": "21:00:00",
+      "duration": 30
+    }, {"date": "2019-03-28", "start": "13:00:00", "finish": "16:00:00", "duration": 15}]
+  },
+  {
+    "officeId": 7,
+    "dates":[{"date": "2019-03-20", "start": "15:00:00", "finish": "17:00:00", "duration": 60}, {
+      "date": "2019-03-22",
+      "start": "19:00:00",
+      "finish": "21:00:00",
+      "duration": 30
+    }, {"date": "2019-03-28", "start": "13:00:00", "finish": "16:00:00", "duration": 15}]
   }
+
+
 ]
