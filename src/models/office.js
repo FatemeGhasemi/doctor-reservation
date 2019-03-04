@@ -41,6 +41,10 @@ const initOfficeSchema = () => {
         },
         city: {
             type: Sequelize.STRING
+        },
+        insuranceId:{
+            type:Sequelize.ARRAY(Sequelize.INTEGER),
+            defaultValue: []
         }
     });
 

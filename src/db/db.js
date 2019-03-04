@@ -18,6 +18,7 @@ const defineSchemas = async (sequelize) => {
     const statusSchema = require('../models/status')(sequelize);
     const reserveSchema = require('../models/reserve')(sequelize);
     const citySchema = require('../models/city')(sequelize);
+    const insuranceSchema = require('../models/insurance')(sequelize);
     try {
         await userSchema.initUserSchema();
         await secretarySchema.initSecretarySchema();
@@ -28,6 +29,7 @@ const defineSchemas = async (sequelize) => {
         await statusSchema.initStatusSchema();
         await reserveSchema.initReserveSchema();
         await citySchema.initCitySchema();
+        await insuranceSchema.initInsuranceSchema();
     }catch (e) {
         console.log("defineSchemas ERROR:",e.message)
     }

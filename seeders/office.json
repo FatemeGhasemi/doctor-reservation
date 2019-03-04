@@ -8,7 +8,8 @@
     "phoneNumber": "02122317251",
     "address": " تجریش",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1,2]
 
   },
   {
@@ -20,7 +21,9 @@
     "phoneNumber": "02122317251",
     "address": "تهران تجریش",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1,3]
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7952, 51.432]},
@@ -31,7 +34,9 @@
     "phoneNumber": "02122317251",
     "address": "تهران تجریش",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1,2,3]
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7729, 51.4441]},
@@ -42,7 +47,9 @@
     "phoneNumber": "02122317268",
     "address": "تهران قلهک",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1]
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7729, 51.4441]},
@@ -64,7 +71,9 @@
     "phoneNumber": "02122317268",
     "address": "تهران قلهک",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1,2]
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7782, 51.4703]},
@@ -75,7 +84,9 @@
     "phoneNumber": "02122317268",
     "address": "تهران پاسداران",
     "province": "تهران",
-    "city": "تهران"
+    "city": "تهران",
+    "insuranceId": [1,2]
+
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7782, 51.4703]},

@@ -29,6 +29,7 @@ const createTables = async (sequelize, dropTables = false) => {
         await statusSchema.initStatusSchema().sync({force: dropTables});
         await reserveSchema.initReserveSchema().sync({force: dropTables});
         await citySchema.initCitySchema().sync({force: dropTables});
+        await citySchema.initInsuranceSchema().sync({force: dropTables});
     } catch (e) {
         console.log("createTables ERROR:", e)
     }
