@@ -62,9 +62,25 @@ const searchOfficeByNearest = async (req, res) => {
 }
 
 
+const getAllOfInsuranceAnOfficeAccept = async (req,res)=>{
+    try {
+        const result =  await officeRepository.returnOfficeInsurance(req.query.officeId)
+        res.json({message: "success getAllOfInsuranceAnOfficeAccept operation", result: result})
+
+    }catch (e) {
+        res.status(500).json({message: "fail operation getAllOfInsuranceAnOfficeAccept", result: e.message})
+    }
+}
+
+
+
+
+
+
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewOffice);
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumberInOfficeRouter, checkAccess.checkRolesAccess, updateOffice);
 router.get('/', searchOfficeByNearest)
+router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
 module.exports = router;
 
 

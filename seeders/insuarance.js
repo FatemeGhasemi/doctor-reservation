@@ -1,10 +1,10 @@
 
 async function insertInsurance() {
-    const insuranceShema = require('../src/models/insurance')()
-    const mockData = require('./reservation.json')
+    const insuranceSchema = require('../src/models/insurance')()
+    const mockData = require('./insurance.json')
     for (let index = 0; index < mockData.length; index++) {
         const item = mockData[index]
-        await insuranceShema.create(item)
+        await insuranceSchema.create(item)
     }
 
 }

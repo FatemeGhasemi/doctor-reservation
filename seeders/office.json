@@ -10,7 +10,6 @@
     "province": "تهران",
     "city": "تهران",
     "insuranceId": [1,2]
-
   },
   {
     "geom": {"type": "Point", "coordinates": [35.7952, 51.432]},

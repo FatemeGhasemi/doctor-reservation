@@ -18,7 +18,8 @@ const createNewOffice = async (data) => {
         long: data.long,
         phoneNumber: data.phoneNumber,
         address: data.address,
-        type: data.type
+        type: data.type,
+        insuranceId: data.insuranceId
     })
 };
 
@@ -38,7 +39,9 @@ const updateOfficeData = async (id, data) => {
             long: data.long,
             phoneNumber: data.phoneNumber,
             address: data.address,
-            type: data.type
+            type: data.type,
+            insuranceId: data.insuranceId
+
         },
         {returning: true, where: {id: id}}
     )
@@ -179,12 +182,12 @@ const returnOfficeInsurance = async (officeId) => {
     const doctorName = doctor.name
     const doctorType = doctor.type
     const categoryId = doctor.categoryId
-    data.officeAddress=officeAddress
-    data.officelatitude=officeLatitude
-    data.officeLongitude=officeLongitude
-    data.doctorName=doctorName
-    data.doctorType=doctorType
-    data.categoryId=categoryId
+    data.officeAddress = officeAddress
+    data.officelatitude = officeLatitude
+    data.officeLongitude = officeLongitude
+    data.doctorName = doctorName
+    data.doctorType = doctorType
+    data.categoryId = categoryId
     data.insurance = listOfInsurance
     return data
 
