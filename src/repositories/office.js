@@ -1,5 +1,7 @@
 const officeSchema = require('../models/office')();
 const doctorRepository = require('../repositories/doctor')
+const categoryRepository = require('../repositories/category')
+const insuranceRepository = require('../repositories/insurance')
 
 
 /**
@@ -146,17 +148,45 @@ const searchNearestSameCategoryOffice = async (lng, latitude, distance, category
     }
     let result = []
 
-    activeOffice.forEach(items=>{
-        if(items){
+    activeOffice.forEach(items => {
+        if (items) {
             result.push(items)
         }
     })
-
-
-    console.log("result: ",result)
-
-
+    console.log("result: ", result)
     return result
+}
+
+
+const returnOfficeInsurance = async (officeId) => {
+    let data = {}
+    let listOfInsurance = []
+    const office = await findOfficeById(officeId)
+    const doctor = await findDoctorByOfficeId(officeId)
+
+    const insuranceIds = office.insuranceId
+    if (insuranceIds.length !== 0) {
+        for (let i = 0; i < insuranceIds.length; i++) {
+            const insuranceId = insuranceIds[i]
+            const insurance = await insuranceRepository.findInsuranceById(insuranceId)
+            const insuranceDisplayName = insurance.displayName
+            listOfInsurance.push(insuranceDisplayName)
+        }
+    }
+    const officeAddress = office.address
+    const officeLatitude = office.lastName
+    const officeLongitude = office.long
+    const doctorName = doctor.name
+    const doctorType = doctor.type
+    const categoryId = doctor.categoryId
+    data.officeAddress=officeAddress
+    data.officelatitude=officeLatitude
+    data.officeLongitude=officeLongitude
+    data.doctorName=doctorName
+    data.doctorType=doctorType
+    data.categoryId=categoryId
+    data.insurance = listOfInsurance
+    return data
 
 }
 
@@ -169,7 +199,8 @@ module.exports = {
     findDoctorByOfficeId,
     findOfficeById,
     findClosestPoints,
-    searchNearestSameCategoryOffice
+    searchNearestSameCategoryOffice,
+    returnOfficeInsurance
 };
 
 
