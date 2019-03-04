@@ -9,8 +9,8 @@ const office = require('./office')
 
 const category = require('./category')
 const reserve = require('./reserve')
+const insurance = require('./insuarance')
 const reservation = require('./reservation')
-const insurance = require('./insurance')
 const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
 
