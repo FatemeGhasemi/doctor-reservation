@@ -36,11 +36,8 @@ const initOfficeSchema = () => {
             type: Sequelize.BOOLEAN,
             defaultValue: true
         },
-        province: {
-            type: Sequelize.STRING
-        },
-        city: {
-            type: Sequelize.STRING
+        cityId: {
+            type: Sequelize.INTEGER
         },
         insuranceId:{
             type:Sequelize.ARRAY(Sequelize.INTEGER),

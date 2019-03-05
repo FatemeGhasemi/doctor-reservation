@@ -3,47 +3,40 @@
     "phoneNumber": "09192506805",
     "role": "admin",
     "status": "active",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 1
   },
   {
     "phoneNumber": "09192506806",
     "role": "doctor",
     "status": "active",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 1
   },
   {
     "phoneNumber": "09192506808",
     "role": "user",
     "status": "active",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 1
   },
   {
     "phoneNumber": "09192506809",
     "role": "user",
     "status": "active",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 3
   },
   {
     "phoneNumber": "091925068019",
     "role": "doctor",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 2
   },
   {
     "phoneNumber": "091925068018",
     "role": "doctor",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 1
   },
   {
     "phoneNumber": "091925068020",
     "role": "doctor",
-    "province": "تهران",
-    "city": "تهران"
+    "cityId": 1
   }
 ]
 

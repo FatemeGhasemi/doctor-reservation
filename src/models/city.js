@@ -3,20 +3,18 @@ let sequelize;
 let City;
 const initCitySchema = () => {
     City = sequelize.define('city', {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true
-        },
         code: {
-            type: Sequelize.STRING,
-            primaryKey: true
+            type: Sequelize.INTEGER,
+            unique: true
         },
-        province: {
+        name: {
             type: Sequelize.STRING,
             unique:true
         },
         displayName:{
-            type:Sequelize.STRING
+            type:Sequelize.STRING,
+            unique:true
+
         }
 
 
