@@ -18,6 +18,7 @@ const createTables = async (sequelize, dropTables = false) => {
     const statusSchema = require('./models/status')(sequelize);
     const reserveSchema = require('./models/reserve')(sequelize);
     const insuranceSchema = require('./models/insurance')(sequelize);
+    const citySchema = require('./models/city')(sequelize);
 
     try {
         await userSchema.initUserSchema().sync({force: dropTables});
@@ -29,6 +30,7 @@ const createTables = async (sequelize, dropTables = false) => {
         await statusSchema.initStatusSchema().sync({force: dropTables});
         await reserveSchema.initReserveSchema().sync({force: dropTables});
         await insuranceSchema.initInsuranceSchema().sync({force: dropTables});
+        await citySchema.initCitySchema().sync({force: dropTables});
     } catch (e) {
         console.log("createTables ERROR:", e)
     }
