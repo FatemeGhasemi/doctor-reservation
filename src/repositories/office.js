@@ -129,6 +129,8 @@ WHERE
     });
 };
 
+
+
 const searchNearestSameCategoryOffice = async (lng, latitude, distance, categoryId) => {
     const allOffices = await findClosestPoints(lng, latitude, distance)
     let activeOffice = []
@@ -192,6 +194,10 @@ const returnOfficeInsurance = async (officeId) => {
     return data
 
 }
+
+
+
+
 
 
 module.exports = {

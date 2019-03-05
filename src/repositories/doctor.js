@@ -3,6 +3,7 @@ const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const cityRepository = require('../repositories/city');
 const categoryRepository = require('../repositories/category')
+const officeRepository = require('../repositories/office')
 
 
 /**
@@ -122,6 +123,45 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
+const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
+    const doctors = await searchDoctorByCategory(categoryId)
+    let wantedOffices = []
+    let res = []
+    if (doctors.length!==0){
+        for (let i=0;i<doctors.length;i++){
+            let data = {}
+            const doctor = doctors[i]
+            const officeIds = doctor.officeId
+            if(officeIds.length !== 0){
+                for(let j = 0;j<officeIds.length;j++){
+                    const officeId = officeIds[j]
+                    const office =await officeRepository.findOfficeById(officeId)
+                    const officeCityId = office.cityId
+                    if(officeCityId === cityId){
+                        data.doctorName = doctor.name
+                        data.doctorType = doctor.type
+                        data.address = office.address
+                        data.latitude = office.lat
+                        data.longitude = office.long
+                        wantedOffices.push(data)
+
+                    }
+                }
+            }
+
+        }
+    }
+    wantedOffices.forEach(item=>{
+        if(item !=={}){
+            res.push(item)
+
+        }
+    })
+    return res
+
+}
+
+
 /**
  * find a doctor by his/her id
  * @param id
@@ -153,5 +193,6 @@ module.exports = {
     searchDoctorByPhoneNumber,
     getAllDoctors,
     findDoctorById,
+    searchDoctorOfficeByCategoryAndCity
     // searchDoctorByName
 }
