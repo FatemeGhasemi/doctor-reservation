@@ -49,6 +49,8 @@ const createUserTobeSecretary = async (phoneNumber) => {
  * @returns {Promise<*>}
  */
 const updateUser = async (phoneNumber, data) => {
+    const city = cityRepository.findCityByName(data.cityName)
+    const cityId = city.id
     return userSchema.update(
         {
             firstName: data.firstName,
@@ -56,7 +58,8 @@ const updateUser = async (phoneNumber, data) => {
             avatarUrl: data.avatarUrl,
             role: data.role,
             status: data.status,
-            officeId: data.officeId
+            officeId: data.officeId,
+            cityId:cityId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
