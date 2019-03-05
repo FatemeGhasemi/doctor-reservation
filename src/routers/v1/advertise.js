@@ -1,0 +1,118 @@
+const express = require('express');
+const router = express.Router();
+const advertiseRepository = require('../../repositories/advertise');
+const checkAccess = require('../../middlewares/authentication');
+
+
+const addNewAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.addNewAdvertise(req.body)
+        res.json({message: "add new advertise success operation: ",result})
+    }catch (e) {
+        console.log("add new advertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const getAllAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.getAllAdvertise()
+        res.json({message: "getAllAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("getAllAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const getOneAdvertiseById = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.findAdvertiseById(req.query.id)
+        res.json({message: "getOneAdvertiseById success operation: ",result})
+    }catch (e) {
+        console.log("getOneAdvertiseById operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const getActiveAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.findAdvertiseByStatus("active")
+        res.json({message: "getActiveAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("getActiveAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const getDeletedAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.findAdvertiseByStatus("delete")
+        res.json({message: "getActiveAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("getActiveAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const getDeactivateAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.findAdvertiseByStatus("deactivate")
+        res.json({message: "getDeactivateAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("getDeactivateAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const updateAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.updateAdvertise(req.body,req.params.id)
+        res.json({message: "updateAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("updateAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const deactivateAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.deactivateOneAdvertise(req.params.id)
+        res.json({message: "deactivateAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("deactivateAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const deleteAdvertise = async (req,res)=>{
+    try {
+        const result = await advertiseRepository.deleteOneAdvertise(req.params.id)
+        res.json({message: "deactivateAdvertise success operation: ",result})
+    }catch (e) {
+        console.log("deactivateAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+//TODO should handle access list to do each api
+router.post('/', addNewAdvertise)
+router.get('/active', getActiveAdvertise)
+router.get('/deactivate', getDeactivateAdvertise)
+router.get('/delete', getDeletedAdvertise)
+router.get('/', getAllAdvertise)
+router.get('/id', getOneAdvertiseById)
+router.put('/:id',updateAdvertise)
+router.put('/:id/deactivate',deactivateAdvertise)
+router.put('/:id/delete',deleteAdvertise)
+
+
+module.exports = router;

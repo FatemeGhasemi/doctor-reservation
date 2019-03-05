@@ -19,10 +19,14 @@ const getAllAdvertise = () => {
 };
 
 
-
 const deactivateOneAdvertise = async (id) => {
     return advertiseSchema.update({status: "deactivate"}, {returning: true, where: {id: id}})
 };
+
+const deleteOneAdvertise = async (id) => {
+    return advertiseSchema.update({status: "delete"}, {returning: true, where: {id: id}})
+};
+
 
 const updateAdvertise = async (data, id) => {
     let status;
@@ -58,7 +62,30 @@ const deactivateAllAdvertises = async () => {
     }
 };
 
+const findAdvertiseByStatus = async (status) => {
+    let res = []
+    const allAdvertise = await getAllAdvertise()
+    if (allAdvertise.length !== 0) {
+        for (let i = 0; i < allAdvertise.length; i++) {
+            const advertise = allAdvertise[i]
+            if (advertise.status === status) {
+                res.push(advertise)
+            }
+        }
+    }
+    return res
 
-module.exports = {addNewAdvertise, getAllAdvertise, updateAdvertise}
+}
+
+
+module.exports = {
+    addNewAdvertise,
+    getAllAdvertise,
+    updateAdvertise,
+    findAdvertiseById,
+    findAdvertiseByStatus,
+    deactivateOneAdvertise,
+    deleteOneAdvertise
+}
 
 
