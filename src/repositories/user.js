@@ -1,5 +1,5 @@
 const userSchema = require('../models/user')();
-const statusRepository = require('../repositories/status');
+const cityRepository = require('../repositories/city');
 
 
 /**
