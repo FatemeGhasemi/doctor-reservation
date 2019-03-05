@@ -23,13 +23,14 @@ async function initDbAndSeed() {
          */
         await secretary.insertSecretaries()
         await user.insertUsers()
+        await insurance.insertInsurance()
+        console.log("insertInsurance:")
         await office.insertOffices()
         await status.insertStatus()
         await category.insertCategorues()
         await doctor.insertDoctors()
         await reservation.insertReservation()
         await reserve.insertReserve()
-        await insurance.insertInsurance()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 

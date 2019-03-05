@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 let sequelize;
 let Insurance;
 const initInsuranceSchema = () => {
-    Insurance = sequelize.define('status', {
+    Insurance = sequelize.define('insurance', {
         name: {
             type: Sequelize.STRING,
             required: true,
