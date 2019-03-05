@@ -1,11 +1,15 @@
 let advertiseSchema = require('../models/advertise')();
 
 const addNewAdvertise = async (data) => {
-    const isDeactivate = await deactivateAllAdvertises()
-    if (isDeactivate) {
-        return advertiseSchema.create(data)
-    } else {
-        console.log("addNewAdvertise is failed")
+    try {
+        const isDeactivate = await deactivateAllAdvertises()
+        if (isDeactivate) {
+            return advertiseSchema.create(data)
+        } else {
+            console.log("addNewAdvertise is failed")
+        }
+    }catch (e) {
+        console.log("addNewAdvertise function failed: ",e)
     }
 };
 
@@ -53,10 +57,9 @@ const deactivateAllAdvertises = async () => {
             for (let i = 0; i < allAdvertises.length; i++) {
                 const advertise = allAdvertises[i]
                 const advertiseId = advertise.id
-                await deactivateOneAdvertise(advertiseId)
+                const result = await deactivateOneAdvertise(advertiseId)
             }
         }
-        return true
     } catch (e) {
         console.log(" fail deactivateAllAdvertises: ", e.message)
     }
