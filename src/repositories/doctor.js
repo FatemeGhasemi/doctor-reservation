@@ -156,10 +156,9 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
             res.push(item)
 
         }
-    })
+    });
     return res
-
-}
+};
 
 
 /**
