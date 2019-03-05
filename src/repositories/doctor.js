@@ -137,7 +137,7 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
                     const officeId = officeIds[j]
                     const office =await officeRepository.findOfficeById(officeId)
                     const officeCityId = office.cityId
-                    if(officeCityId === cityId){
+                    if(officeCityId == cityId){
                         data.doctorName = doctor.name
                         data.doctorType = doctor.type
                         data.address = office.address
