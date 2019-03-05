@@ -51,10 +51,7 @@ const initDoctorSchema = () => {
         grade: {
             type: Sequelize.STRING
         },
-        province: {
-            type: Sequelize.STRING
-        },
-        city: {
+        cityId: {
             type: Sequelize.STRING
         },
         avatarUrl:{

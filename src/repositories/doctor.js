@@ -13,6 +13,7 @@ const categoryRepository = require('../repositories/category')
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
     const userId=user.id;
+    const cityId = user.cityId
     return doctorSchema.create({
         userId: userId,
         phoneNumber: data.phoneNumber,
@@ -24,7 +25,7 @@ const createDoctorUser = async (data) => {
         field:data.field,
         grade:data.grade,
         province:data.province,
-        city:data.city,
+        cityId:cityId,
     })
 };
 
