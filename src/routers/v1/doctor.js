@@ -112,6 +112,17 @@ const getDoctorListController = async (req, res) => {
 };
 
 
+const getOfficesInOrderOfCategoryAndCity = async (req,res)=>{
+    try {
+        const result = await doctorRepository.searchDoctorOfficeByCategoryAndCity(req.query.categoryId,req.query.cityId)
+        res.json({message: "success getOfficesInOrderOfCategoryAndCity operation", result: result})
+    }catch (e) {
+        console.log("getOfficesInOrderOfCategoryAndCity ERROR: ", e.message)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 
 /**
  * update doctor profile data
@@ -140,6 +151,7 @@ const updateDoctorData = async (req, res) => {
 
 
 router.get('/', getDoctorListController);
+router.get('/cities/offices', getOfficesInOrderOfCategoryAndCity);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
 
