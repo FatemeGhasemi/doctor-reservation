@@ -150,7 +150,21 @@ const updateDoctorData = async (req, res) => {
 };
 
 
+
+const getDoctorDataById = async (req,res)=>{
+    try {
+        const doctor = await doctorRepository.findDoctorById(req.query.id)
+        res.json({message: "success operation", result: doctor})
+    }catch (e) {
+        console.log("getDoctorDataById ERROR: ", e)
+        res.status(500).json({message: e.message})   
+    }
+}
+
+
+
 router.get('/', getDoctorListController);
+router.get('/id', getDoctorDataById);
 router.get('/cities/offices', getOfficesInOrderOfCategoryAndCity);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
