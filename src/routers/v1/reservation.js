@@ -61,7 +61,7 @@ const getListOfAvailableReserveList = async (req, res) => {
     try {
         const officeId = req.query.officeId
         const reservation = await reservationRepository.findReservationByOfficeId(officeId)
-        const reserveList = reservation.counter
+        const reserveList = reservation
         res.json({message: "success getListOfAvailableReserveList operation", result: reserveList})
 
     } catch (e) {

@@ -16,25 +16,58 @@ const getRandomFourDigitNumber = async () => {
  * @param time
  * @returns {Promise<boolean>}
  */
-const ifTodayIsAtLeastOneDayBefore = async (time) => {
+const ifTodayIsAtLeastOneDayBefore = (time) => {
     try {
         // let time = "2019-02-11 21:59:10.634+03:30"
-        time = time.split(" ")[0];
-        console.log("time: ", time);
-        const day = time.split("-")[2];
-        const month = time.split("-")[1];
-        const year = time.split("-")[0];
         let now = datetime.create();
         now = now.format('m/d/Y');
-        const nowDay = now.split('/')[1];
-        const nowMonth = now.split('/')[0];
-        const nowYear = now.split('/')[2];
-        return (nowYear <= year && nowMonth <= month && nowDay < day)
+        let date = datetime.create(time);
+        let then = date.format('m/d/Y')
+        let start = moment(now);
+        let end = moment(then);
+        let duration = moment.duration(end.diff(start)).asDays();
+
+
+        return (duration <1)
 
     } catch (e) {
         console.log(e.message)
     }
 };
+
+
+
+
+
+const ifTimeIsOneWeekLaterThanToday =  (time) => {
+    try {
+        // let time = "2019-02-11 21:59:10.634+03:30"
+        let date = datetime.create(time);
+        let then = date.format('m/d/Y')
+        let now = datetime.create();
+        now = now.format('m/d/Y');
+        let start = moment(now);
+        let end = moment(then);
+        let duration = moment.duration(end.diff(start)).asDays();
+        console.log("duration:",duration)
+        if( duration>8){
+            return true
+        }
+        else {
+            return false
+        }
+
+    } catch (e) {
+        console.log(e.message)
+    }
+};
+
+
+
+
+
+
+
 
 
 /**
@@ -77,10 +110,12 @@ const counter = (timeStartString, numberOfReserves, reserveTimePeriodInMinute) =
  * @param finish
  * @returns {number}
  */
-const towTimesDifference = (start, finish) => {
+const towTimesDifference =  (start, finish) => {
     let duration = moment.duration(finish.diff(start)).asMinutes();
+    console.log("duration:",duration)
     return duration
 }
+
 
 
 /**
@@ -166,6 +201,7 @@ module.exports = {
     dayHandler,
     isReserveTimeInDates,
     isDateInDates,
-    isEmpty
+    isEmpty,
+    ifTimeIsOneWeekLaterThanToday
 
 }

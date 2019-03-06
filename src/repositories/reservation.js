@@ -91,16 +91,48 @@ const findReservationByOfficeId = async (officeId) => {
     const resrvation = await reservationSchema.findAll({where: {officeId: officeId}})
     if (resrvation.length === 0) {
         return []
-    } else {
-        resrvation.forEach(item => {
-            if (item.status === "valid") {
-                validReservation.push(item)
-            }
-        })
-        console.log("validReservation: ", validReservation)
-        return validReservation[0]
     }
-};
+    else {
+        if (resrvation[0].status === "valid") {
+            const counter = resrvation[0].counter
+            counter.forEach(item => {
+                if (item.constructor !== Array) {
+                    if (utils.ifTimeIsOneWeekLaterThanToday(item)) {
+                        validReservation.push(item)
+                    }
+                } else if (item.constructor === Array) {
+                    item.forEach(i => {
+                        if (utils.ifTimeIsOneWeekLaterThanToday(i)) {
+                            validReservation.push(i)
+                        }
+                    })
+                }
+            })
+            console.log("validReservation:",validReservation)
+            return validReservation
+        }
+        else {
+            return []
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+    //         if (item.status === "valid") {
+    //             validReservation.push(item)
+    //         }
+    //     })
+    //     console.log("validReservation: ", validReservation)
+    //     return validReservation[0]
+    // }
+
 
 
 /**
