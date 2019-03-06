@@ -32,6 +32,25 @@ const createDoctorUser = async (data) => {
 };
 
 
+
+
+/**
+ * find a doctor by his/her own office id
+ * @param officeId
+ * @returns {Promise<*>}
+ */
+const findDoctorByOfficeId = async (officeId) => {
+    const office = await officeRepository.findOfficeById(officeId)
+    const doctorId = office.doctorId
+    const doctor = await doctorRepository.findDoctorById(doctorId)
+    return doctor
+}
+
+
+
+
+
+
 /**
  * admin approve a user to be a doctor
  * @param id
@@ -192,6 +211,7 @@ module.exports = {
     searchDoctorByPhoneNumber,
     getAllDoctors,
     findDoctorById,
+    findDoctorByOfficeId,
     searchDoctorOfficeByCategoryAndCity
     // searchDoctorByName
 }

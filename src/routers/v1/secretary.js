@@ -5,6 +5,7 @@ const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
 const otpHelper = require('../../services/athorization/otp')
 const officeRepository = require("../../repositories/office")
+const doctorRepository = require("../../repositories/doctor")
 const router = express.Router();
 
 
@@ -38,20 +39,22 @@ const createUserAsSecretary = async (req, res) => {
 const getOwnProfile = async (req,res)=>{
     try {
         let result = []
-        const secretary = await secretaryRepository.findSecretaryId(req.query.id);
-        const offices = await officeRepository.findOfficeBySecretaryId(req.query.id)
+        const secretary = await secretaryRepository.searchSecretaryByPhoneNumber(req.query.phoneNumber);
+        const secretaryId = secretary.id
+        const offices = await officeRepository.findOfficeBySecretaryId(secretaryId)
         if(offices.length !==0){
-            let data = {}
             for (let i=0;i<offices.length;i++){
+                let data = {office:{}}
                 const office = offices[i]
                 const officeId = office.id
-                const doctor = await officeRepository.findDoctorByOfficeId(officeId)
-                data.address = office.address
-                data.lat = office.lat
-                data.long = office.long
+                const doctorId = office.doctorId
+                const doctor = await doctorRepository.findDoctorById(doctorId)
                 data.doctorName = doctor.name
                 data.doctorType = doctor.type
-                data.officeId = officeId
+                data.office.address = office.address
+                data.office.lat = lat = office.lat
+                data.office.long = office.long
+                data.office.id = officeId
                 result.push(data)
             }
         }

@@ -140,7 +140,7 @@ const deactivateSecretary = async (id) => {
  * @returns {Promise<*>}
  */
 const searchSecretaryByPhoneNumber = async (phoneNumber) => {
-    return secretarySchema.findOne({where: {$and: [{phoneNumber: phoneNumber}, {status: "approved"}]}})
+    return secretarySchema.findOne({where: {phoneNumber:phoneNumber}})
 };
 
 
