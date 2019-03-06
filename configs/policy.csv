@@ -35,6 +35,7 @@ p, doctor, reservations, post
 p, secretary, secretaryApproved, put
 
 p, admin, advertises, post
+p, admin, advertises, get
 
 
 
