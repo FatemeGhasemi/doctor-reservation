@@ -33,16 +33,7 @@ const deleteOneAdvertise = async (id) => {
 
 
 const updateAdvertise = async (data, id) => {
-    let status;
-    if (data.status) {
-        if (data.status !== "active") {
-            status = data.status
-        } else {
-            const advertise = await findAdvertiseById(id)
-            status = advertise.status
-        }
-    }
-    return advertiseSchema.update({url: data.url, label: data.label, status: status}, {
+    return advertiseSchema.update({url: data.url, label: data.label}, {
         returning: true,
         where: {id: id}
     })

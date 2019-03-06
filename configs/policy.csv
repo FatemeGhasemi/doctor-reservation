@@ -36,6 +36,7 @@ p, secretary, secretaryApproved, put
 
 p, admin, advertises, post
 p, admin, advertises, get
+p, admin, advertises, put
 
 
 
