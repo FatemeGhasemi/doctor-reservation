@@ -55,6 +55,7 @@ function addRoutes() {
     app.use('/api/v1/doctor-profile',require('./routers/v1/get-doctor-profile'));
     app.use('/api/v1/show-list-of-doctor-reservations',require('./routers/v1/show-doctor-list-of-rserves'));
     app.use('/api/v1/advertises', require('./routers/v1/advertise'));
+    app.use('/api/v1/galleries', require('./routers/v1/gallery'));
 }
 
 

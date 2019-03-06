@@ -44,7 +44,8 @@ const initOfficeSchema = () => {
         },
 
         photoUrl: {
-            type: Sequelize.ARRAY(Sequelize.STRING)
+            type: Sequelize.ARRAY(Sequelize.STRING),
+            defaultValue: []
         }
 
     });

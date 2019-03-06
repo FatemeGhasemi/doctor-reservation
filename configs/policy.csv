@@ -37,6 +37,12 @@ p, secretary, secretaryApproved, put
 p, admin, advertises, post
 p, admin, advertises, get
 p, admin, advertises, put
+p, admin, galleries, delete
+p, secretary, galleries, delete
+p, doctor, galleries, delete
+p, admin, galleries, put
+p, doctor, galleries, put
+p, secretary, galleries, put
 
 
 

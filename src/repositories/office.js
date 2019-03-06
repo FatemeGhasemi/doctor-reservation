@@ -130,7 +130,6 @@ WHERE
 };
 
 
-
 const searchNearestSameCategoryOffice = async (lng, latitude, distance, categoryId) => {
     const allOffices = await findClosestPoints(lng, latitude, distance)
     let activeOffice = []
@@ -195,11 +194,39 @@ const returnOfficeInsurance = async (officeId) => {
 
 }
 
-const findOfficeBySecretaryId =  (secretaryId)=>{
-    return officeSchema.findAll({where:{secretaryId:secretaryId}})
+const findOfficeBySecretaryId = (secretaryId) => {
+    return officeSchema.findAll({where: {secretaryId: secretaryId}})
 }
 
 
+const deletePhotoFromGallery = async (officeId, photoUrl) => {
+    const office = await findOfficeById(officeId)
+    let result = []
+    const urls = office.photoUrl
+    if (urls.length !== 0) {
+        for (let i = 0; i < urls.length; i++) {
+            let item = urls[i]
+            if (item !== photoUrl) {
+                result.push(item)
+            }
+        }
+    }
+    return officeSchema.update(
+        {photoUrl: result},
+        {returning: true, where: {id: officeId}}
+    )
+}
+
+
+const addPhotoToGallery = async (officeId, PhotoUrl) => {
+    const office = await findOfficeById(officeId)
+    const urls = office.photoUrl
+    urls.push(PhotoUrl)
+    return officeSchema.update(
+        {photoUrl: urls},
+        {returning: true, where: {id: officeId}}
+    )
+}
 
 
 module.exports = {
@@ -212,7 +239,9 @@ module.exports = {
     findClosestPoints,
     searchNearestSameCategoryOffice,
     returnOfficeInsurance,
-    findOfficeBySecretaryId
+    findOfficeBySecretaryId,
+    deletePhotoFromGallery,
+    addPhotoToGallery
 };
 
 
