@@ -52,13 +52,21 @@ const updateAdvertise = async (data, id) => {
 
 const deactivateAllAdvertises = async () => {
     try {
-        const allAdvertises = await getAllAdvertize()
+        let res = []
+        const allAdvertises = await getAllAdvertise()
         if (allAdvertises.length !== 0) {
             for (let i = 0; i < allAdvertises.length; i++) {
                 const advertise = allAdvertises[i]
                 const advertiseId = advertise.id
                 const result = await deactivateOneAdvertise(advertiseId)
+                res.push(result)
             }
+        }
+        else if (allAdvertises.length === 0) {
+            return true
+        }
+        if(res.length !==0){
+            return true
         }
     } catch (e) {
         console.log(" fail deactivateAllAdvertises: ", e.message)
