@@ -23,8 +23,9 @@ const validateJwt = async (req, res, next) => {
 
 const checkAccessWithPhoneNumber = async (req, res, next) => {
     try {
-        console.log("req.body.phoneNumber: ", req.params.phoneNumber);
-        if (res.locals.user.phoneNumber === req.params.phoneNumber) {
+        console.log("req.params.phoneNumber: ", req.params.phoneNumber);
+        console.log("req.query.phoneNumber: ", req.query.phoneNumber);
+        if (res.locals.user.phoneNumber === req.params.phoneNumber || res.locals.user.phoneNumber === req.query.phoneNumber) {
             next()
         }
     } catch (e) {
@@ -75,8 +76,7 @@ const checkAccessWihPhoneNumberReserveRouter = async (req, res, next) => {
             res.locals.user.phoneNumber === secretary.phoneNumber ||
             res.locals.user.phoneNumber === user.phoneNumber) {
             next()
-        }
-        else {
+        } else {
             res.status(403).json({"message": "unauthorized"})
 
         }
