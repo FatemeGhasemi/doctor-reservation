@@ -29,20 +29,6 @@ const createUserAsSecretary = async (req, res) => {
 };
 
 
-/**
- *
- * @param req
- * @param res
- * @returns {Promise<void>}
- */
-const getListOfSecretaryByCategory = async (req, res) => {
-    try {
-        const result = secretaryRepository.searchSecretaryByCategory(req.query.categoryId, req.query.offset, req.query.limit);
-        res.json({message: "success operation", result: result})
-    } catch (e) {
-        res.status(500).json({message: e.message})
-    }
-};
 
 
 /**
@@ -67,18 +53,7 @@ const getListOfSecretaryFullTextSearch = async (req, res) => {
  * @param res
  * @returns {Promise<void>}
  */
-const getSecretaryListController = async (req, res) => {
-    try {
-        let result;
-        if (req.query.categoryId) {
-            result = secretaryRepository.searchSecretaryByCategory(req.query.categoryId, req.query.offset, req.query.limit);
-            await getListOfSecretaryByCategory(req, res)
-        } else await getListOfSecretaryFullTextSearch(req, res)
 
-    } catch (e) {
-        console.log("getSecretaryListController ERROR: ", e.message)
-    }
-};
 
 
 /**

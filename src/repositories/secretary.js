@@ -25,7 +25,6 @@ const createSecretaryUser = async (data, doctorData) => {
             phoneNumber: data.phoneNumber,
             firstName: data.firstName,
             lastName: data.lastName,
-            officeId: data.officeId
         })
     }
     return secretary
@@ -45,7 +44,6 @@ const createSecretaryForSeeder = async (data) => {
         phoneNumber: data.phoneNumber,
         firstName: data.firstName,
         lastName: data.lastName,
-        officeId: data.officeId
     })
 }
 
@@ -134,18 +132,6 @@ const deactivateSecretary = async (id) => {
 };
 
 
-/**
- *
- * @param categoryId
- * @param offset
- * @param limit
- * @returns {Promise<*>}
- */
-const searchSecretaryByCategory = async (categoryId, offset = 0, limit = 10) => {
-    return userSchema.findAll(
-        {offset: offset, limit: limit},
-        {where: {categoryId: categoryId, status: "approved"}})
-};
 
 
 /**
@@ -162,7 +148,6 @@ module.exports = {
     defineSecretaryStatus,
     updateSecretaryData,
     deactivateSecretary,
-    searchSecretaryByCategory,
     createSecretaryUser,
     searchSecretaryByPhoneNumber,
     approveAsSecretary,
