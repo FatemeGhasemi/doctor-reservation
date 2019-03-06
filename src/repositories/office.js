@@ -195,7 +195,9 @@ const returnOfficeInsurance = async (officeId) => {
 
 }
 
-
+const findOfficeBySecretaryId =  (secretaryId)=>{
+    return officeSchema.findAll({where:{secretaryId:secretaryId}})
+}
 
 
 
@@ -209,7 +211,8 @@ module.exports = {
     findOfficeById,
     findClosestPoints,
     searchNearestSameCategoryOffice,
-    returnOfficeInsurance
+    returnOfficeInsurance,
+    findOfficeBySecretaryId
 };
 
 

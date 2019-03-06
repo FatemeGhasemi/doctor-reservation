@@ -42,18 +42,25 @@ const getListOfDoctorSecretary = async (req, res) => {
         const result = []
         const doctor = await doctorRepository.findDoctorById(req.query.id)
         const secretaryIds = doctor.secretaryId
-        for (let i = 0; i < secretaryIds.length; i++) {
-            const secretaryData = {}
-            const secretaryId = secretaryIds[i]
-            const secretary = await secretaryRepository.findSecretaryId(secretaryId);
-            secretaryData.firstName = secretary.firstName
-            secretaryData.lasttName = secretary.lastName
-            secretaryData.phoneNumber = secretary.phoneNumber
-            secretaryData.status = secretary.status
-            secretaryData.active =secretary.active
-            const office = await officeRepository.findOfficeById(secretary.officeId)
-            secretaryData.office = office.address
-            result.push(secretaryData)
+        const officeIds = doctor.officeId
+        if(officeIds.length !==0) {
+            for (let i = 0; i < officeIds.length; i++) {
+                const officeData = {}
+                const officeId = officeIds[i]
+                const office = await officeRepository.findOfficeById(officeId);
+                const secretaryId = office.secretaryId
+                const secretary = await secretaryRepository.findSecretaryId(secretaryId)
+                officeData.secretaryName = secretary.lastName
+                officeData.secretaryPhone = secretary.phoneNumber
+                officeData.secretaryId = secretary.id
+                officeData.address = office.address
+                officeData.lat = office.lat
+                officeData.long = office.long
+                result.push(officeData)
+            }
+        }
+        else {
+            res.status(400).json({message: "this doctor doesnt have any office"})
         }
         res.json({message: "success getListOfDoctorSecretary operation:  ", result: result})
 

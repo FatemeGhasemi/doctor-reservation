@@ -29,33 +29,6 @@ const createUserAsSecretary = async (req, res) => {
 };
 
 
-
-
-/**
- *
- * @param req
- * @param res
- * @returns {Promise<void>}
- */
-const getListOfSecretaryFullTextSearch = async (req, res) => {
-    try {
-        const result = secretaryRepository.searchSecretaryFullText(req.query.filter, req.query.offset, req.query.limit);
-        res.json({message: "success operation", result: result})
-    } catch (e) {
-        res.status(500).json({message: e.message})
-    }
-};
-
-
-/**
- *
- * @param req
- * @param res
- * @returns {Promise<void>}
- */
-
-
-
 /**
  *
  * @param req
@@ -66,12 +39,25 @@ const getOwnProfile = async (req,res)=>{
     try {
         let result = []
         const secretary = await secretaryRepository.findSecretaryId(req.query.id);
+        const offices = await officeRepository.findOfficeBySecretaryId(req.query.id)
+        if(offices.length !==0){
+            let data = {}
+            for (let i=0;i<offices.length;i++){
+                const office = offices[i]
+                const officeId = office.id
+                const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+                data.address = office.address
+                data.lat = office.lat
+                data.long = office.long
+                data.doctorName = doctor.name
+                data.doctorType = doctor.type
+                data.officeId = officeId
+                result.push(data)
+            }
+        }
         result.push(secretary.firstName)
         result.push(secretary.lastName)
         result.push(secretary.phoneNumber)
-        const office = await officeRepository.findOfficeById(secretary.officeId)
-        result.push(office.phoneNumber)
-        result.push(office.address)
 
         res.json({message: "success operation", result: result})
 
@@ -109,7 +95,8 @@ const updateSecretaryData = async (req, res) => {
 
 
 // router.get('/', getSecretaryListController);
-router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
+// router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
+router.get('/',getOwnProfile);
 router.post('/', checkAccess.validateJwt,checkAccess.checkRolesAccess, createUserAsSecretary);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateSecretaryData);
 
