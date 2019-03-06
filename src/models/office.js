@@ -11,11 +11,11 @@ const initOfficeSchema = () => {
             type: Sequelize.GEOMETRY('POINT'),
             allowNull: false
         },
-        lat:{
-            type:Sequelize.FLOAT
+        lat: {
+            type: Sequelize.FLOAT
         },
-        long:{
-            type:Sequelize.FLOAT
+        long: {
+            type: Sequelize.FLOAT
 
         },
         type: {
@@ -23,7 +23,7 @@ const initOfficeSchema = () => {
         },
         secretaryId: {
             type: Sequelize.INTEGER,
-            foreignKey:true
+            foreignKey: true
         },
         address: {
             type: Sequelize.STRING
@@ -39,9 +39,14 @@ const initOfficeSchema = () => {
         cityId: {
             type: Sequelize.INTEGER
         },
-        insuranceId:{
-            type:Sequelize.ARRAY(Sequelize.INTEGER),
+        insuranceId: {
+            type: Sequelize.ARRAY(Sequelize.INTEGER),
+        },
+
+        photoUrl: {
+            type: Sequelize.ARRAY(Sequelize.STRING)
         }
+
     });
 
     //TODO Office.sync just needed once to create tables, so if tables created dont need call it any more
