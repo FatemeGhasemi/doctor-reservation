@@ -107,7 +107,7 @@ const deleteAdvertise = async (req, res) => {
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, addNewAdvertise)
 router.get('/active', checkAccess.validateJwt, checkAccess.checkRolesAccess, getActiveAdvertise)
 router.get('/deactivate', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeactivateAdvertise)
-router.get('/delete', getDeletedAdvertise)
+router.get('/deleted', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeletedAdvertise)
 router.get('/', getAllAdvertise)
 router.get('/id', getOneAdvertiseById)
 router.put('/:id', updateAdvertise)
