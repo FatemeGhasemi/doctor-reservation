@@ -86,7 +86,8 @@ const getDoctorListController = async (req, res) => {
                 doctorData.name = doctor.name
                 doctorData.phoneNumber = doctor.phoneNumber
                 doctorData.type = doctor.type
-                doctorData.avatarUrl = doctor.avatarUrl
+                doctorData.doctorAvatarUrl = doctor.avatarUrl
+                doctorData.doctorRate =doctor.rate
                 const item = officeIds[i]
                 const office = await officeRepository.findOfficeById(item);
                 const officeAddress = office.address
@@ -95,6 +96,7 @@ const getDoctorListController = async (req, res) => {
                 doctorData.lat = office.lat
                 doctorData.long = office.long
                 doctorData.phoneNumber = officePhone
+                doctorData.officePhotos = office.photoUrl
                 // address.push(addressData);
                 // doctorData.address = address
                 result.push(doctorData)

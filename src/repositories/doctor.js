@@ -13,7 +13,7 @@ const officeRepository = require('../repositories/office')
  */
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
-    const userId=user.id;
+    const userId = user.id;
     const city = await cityRepository.findCityByName(data.cityName)
     const cityId = city.id
     return doctorSchema.create({
@@ -22,16 +22,14 @@ const createDoctorUser = async (data) => {
         name: data.name,
         categoryId: data.categoryId,
         description: data.description,
-        type:data.type,
-        nationalId:data.nationalId,
-        field:data.field,
-        grade:data.grade,
-        province:data.province,
-        cityId:cityId,
+        type: data.type,
+        nationalId: data.nationalId,
+        field: data.field,
+        grade: data.grade,
+        province: data.province,
+        cityId: cityId,
     })
 };
-
-
 
 
 /**
@@ -45,10 +43,6 @@ const findDoctorByOfficeId = async (officeId) => {
     const doctor = await doctorRepository.findDoctorById(doctorId)
     return doctor
 }
-
-
-
-
 
 
 /**
@@ -81,7 +75,7 @@ const updateDoctorData = async (phoneNumber, data) => {
             description: data.description,
             officeId: data.officeId,
             status: data.status,
-            type:data.type,
+            type: data.type,
             secretaryId: data.secretaryId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
@@ -129,39 +123,41 @@ const searchDoctorByCategory = async (categoryId) => {
     const category = await categoryRepository.findCategoryById(categoryId)
     const categoryName = category.name
     const result = await categoryRepository.findCategoryByParentName(categoryName)
-    if(result.length ===0) {
+    if (result.length === 0) {
         return doctorSchema.findAll({
             where: {
                 categoryId: categoryId
             }
         })
-    }
-    else {
+    } else {
         throw new Error("this is not available")
     }
 };
 
 
-const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
+const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     const doctors = await searchDoctorByCategory(categoryId)
     let wantedOffices = []
     let res = []
-    if (doctors.length!==0){
-        for (let i=0;i<doctors.length;i++){
+    if (doctors.length !== 0) {
+        for (let i = 0; i < doctors.length; i++) {
             let data = {}
             const doctor = doctors[i]
             const officeIds = doctor.officeId
-            if(officeIds.length !== 0){
-                for(let j = 0;j<officeIds.length;j++){
+            if (officeIds.length !== 0) {
+                for (let j = 0; j < officeIds.length; j++) {
                     const officeId = officeIds[j]
-                    const office =await officeRepository.findOfficeById(officeId)
+                    const office = await officeRepository.findOfficeById(officeId)
                     const officeCityId = office.cityId
-                    if(officeCityId == cityId){
+                    if (officeCityId == cityId) {
                         data.doctorName = doctor.name
                         data.doctorType = doctor.type
+                        data.doctorAvatarUrl = doctor.avatarUrl
+                        data.DoctorRate = doctor.rate
                         data.address = office.address
                         data.latitude = office.lat
                         data.longitude = office.long
+                        data.officePhotos = office.photoUrl
                         wantedOffices.push(data)
 
                     }
@@ -170,8 +166,8 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
 
         }
     }
-    wantedOffices.forEach(item=>{
-        if(item !=={}){
+    wantedOffices.forEach(item => {
+        if (item !== {}) {
             res.push(item)
 
         }
@@ -188,8 +184,6 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId)=>{
 const findDoctorById = async (id) => {
     return doctorSchema.findOne({where: {id: id}})
 };
-
-
 
 
 /**

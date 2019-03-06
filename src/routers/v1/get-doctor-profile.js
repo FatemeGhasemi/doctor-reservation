@@ -19,22 +19,25 @@ const getOwnProfile = async (req, res) => {
     try {
         let result = [];
         const doctor = await doctorRepository.findDoctorById(req.query.id)
-        const address = []
-        let doctorData = {};
-        doctorData.name = doctor.name
-        doctorData.phoneNumber = doctor.phoneNumber
-        doctorData.type = doctor.type
+
+
         const officeIds = doctor.officeId
         for (let i = 0; i < officeIds.length; i++) {
+            let doctorData = {officeData:{}};
+            doctorData.name = doctor.name
+            doctorData.phoneNumber = doctor.phoneNumber
+            doctorData.type = doctor.type
+            doctorData.doctorAvatarUrl = doctor.avatarUrl
             const item = officeIds[i]
             const office = await officeRepository.findOfficeById(item);
-            const officeAddress = office.address
-            const officePhone = office.phoneNumber
-            address.push(officeAddress);
-            address.push(officePhone);
+             doctorData.officeData.officeAddress = office.address
+             doctorData.officeData.officelat = office.lat
+             doctorData.officeData.officeLong = office.long
+            doctorData.officeData.officePhone = office.phoneNumber
+            doctorData.officeData.officePictures = office.photoUrl
+
+            result.push(doctorData);
         }
-        doctorData.address = address
-        result.push(doctorData)
         res.json({message: "success operation", result: result})
     } catch (e) {
         console.log("getOwnProfile ERROR: ", e.message)
