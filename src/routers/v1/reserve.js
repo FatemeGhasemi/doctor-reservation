@@ -40,7 +40,7 @@ const cancelReserve = async (req, res) => {
         const reserve = await reserveRepository.findReserveById(req.params.id);
         const reserveTime = reserve.reserveTime;
         const reservationId = reserve.reservationId;
-        const ifTodayIsAtLeastOneDayBefore = await utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
+        const ifTodayIsAtLeastOneDayBefore =  utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
         if (ifTodayIsAtLeastOneDayBefore) {
             const reserve = await reserveRepository.cancelReserve(req.params.id)
 

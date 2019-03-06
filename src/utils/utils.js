@@ -26,9 +26,9 @@ const ifTodayIsAtLeastOneDayBefore = (time) => {
         let start = moment(now);
         let end = moment(then);
         let duration = moment.duration(end.diff(start)).asDays();
+        console.log("duration:",duration)
 
-
-        return (duration <1)
+        return (duration >= 1)
 
     } catch (e) {
         console.log(e.message)
