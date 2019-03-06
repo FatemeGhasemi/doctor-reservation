@@ -52,7 +52,7 @@ const getOwnProfile = async (req,res)=>{
                 data.doctorName = doctor.name
                 data.doctorType = doctor.type
                 data.office.address = office.address
-                data.office.lat = lat = office.lat
+                data.office.lat  = office.lat
                 data.office.long = office.long
                 data.office.id = officeId
                 result.push(data)
