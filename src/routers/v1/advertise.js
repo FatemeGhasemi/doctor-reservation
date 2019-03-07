@@ -105,7 +105,7 @@ const deleteAdvertise = async (req, res) => {
 
 //TODO should handle access list to do each api
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, addNewAdvertise)
-router.get('/active', checkAccess.validateJwt, checkAccess.checkRolesAccess, getActiveAdvertise)
+router.get('/active', getActiveAdvertise)
 router.get('/deactivate', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeactivateAdvertise)
 router.get('/deleted', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeletedAdvertise)
 router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllAdvertise)
