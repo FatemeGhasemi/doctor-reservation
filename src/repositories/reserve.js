@@ -14,20 +14,20 @@ const utils = require('../utils/utils')
  * @returns {Promise<*>}
  */
 const creatReserve = async (data) => {
-    const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId,data.reserveTime);
+    const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId, data.reserveTime);
     const office = await officeRepository.findOfficeById(data.officeId)
     const secretaryId = office.secretaryId
     const reserveList = reservation.counter;
     const reservationId = reservation.id;
     const reserveTime = data.reserveTime;
-    if (utils.isReserveTimeInDates(reserveList,reserveTime)) {
+    if (utils.isReserveTimeInDates(reserveList, reserveTime)) {
         return reserveSchema.create({
             doctorId: data.doctorId,
             userId: data.userId,
             reserveTime: data.reserveTime,
             officeId: data.officeId,
             reservationId: reservationId,
-            secretaryId:secretaryId
+            secretaryId: secretaryId
         })
     } else {
         throw new Error("This time is not available")
@@ -57,7 +57,7 @@ const updateReserveData = async (id, data) => {
  * @returns {Promise<*>}
  */
 const findReserveById = async (id) => {
-    return await reserveSchema.findOne ({returning: true, where: {id: id}})
+    return await reserveSchema.findOne({returning: true, where: {id: id}})
 
 };
 
@@ -143,6 +143,62 @@ const findDoctorByReserveId = async (reserveId) => {
 }
 
 
+const countFreeTimeToReserve = async (reservation) => {
+    let count = 0;
+        reservation.forEach(item => {
+            count += 1
+        })
+
+    return count
+
+};
+
+
+const countCancelReserves = async (officeId) => {
+    let count = 0;
+    const cancelledReserves = await reserveSchema.findAll({where: {status: "cancel"}})
+    if (cancelledReserves.length !== 0) {
+        cancelledReserves.forEach(item => {
+            if (item.officeId === officeId) {
+                count += 1
+            }
+        })
+    }
+    return count
+}
+
+
+const countAllReservesTome = async (officeId) => {
+    const countFreeTimeToReserve = await countFreeTimeToReserve(officeId)
+    const countCancelReserves = await countCancelReserves(officeId)
+    return countCancelReserves + countFreeTimeToReserve
+}
+
+
+const createReportForOfficeInSpecialPeriodOfDate = async (officeId, start, finish) => {
+    const reservations = await reservationRepository.findReservationByOfficeId(officeId)
+    let result = []
+    if (reservations.length !== 0) {
+        let data = {}
+        for (let i = 0; i < reservations.length; i++) {
+            const reservation = reservations[i]
+            console.log("reservation:",reservation)
+            if (utils.ifTime2IsBetweenTowOtherTime(start, reservation, finish)) {
+                const freeTimeToReserve = await countFreeTimeToReserve(reservations)
+                const countCancelReserves = await countCancelReserves(officeId)
+                const countAllReserves = freeTimeToReserve + countCancelReserves
+                data.freeTimeToReserve = freeTimeToReserve
+                data.countCancelReserves = countCancelReserves
+                data.countAllReserves = countAllReserves
+            }
+        }
+        data.officeId = officeId
+        result.push(data)
+    }
+    return result
+}
+
+
 module.exports = {
     creatReserve,
     searchDoctorByCategory,
@@ -152,5 +208,6 @@ module.exports = {
     updateReserveData,
     cancelReserve,
     findReserveById,
-    findDoctorByReserveId
+    findDoctorByReserveId,
+    createReportForOfficeInSpecialPeriodOfDate
 }

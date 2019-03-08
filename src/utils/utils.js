@@ -26,7 +26,7 @@ const ifTodayIsAtLeastOneDayBefore = (time) => {
         let start = moment(now);
         let end = moment(then);
         let duration = moment.duration(end.diff(start)).asDays();
-        console.log("duration:",duration)
+        console.log("duration:", duration)
 
         return (duration >= 1)
 
@@ -36,10 +36,7 @@ const ifTodayIsAtLeastOneDayBefore = (time) => {
 };
 
 
-
-
-
-const ifTimeIsOneWeekLaterThanToday =  (time) => {
+const ifTimeIsOneWeekLaterThanToday = (time) => {
     try {
         // let time = "2019-02-11 21:59:10.634+03:30"
         let date = datetime.create(time);
@@ -49,11 +46,10 @@ const ifTimeIsOneWeekLaterThanToday =  (time) => {
         let start = moment(now);
         let end = moment(then);
         let duration = moment.duration(end.diff(start)).asDays();
-        console.log("duration:",duration)
-        if( duration>8){
+        console.log("duration:", duration)
+        if (duration > 8) {
             return true
-        }
-        else {
+        } else {
             return false
         }
 
@@ -63,11 +59,24 @@ const ifTimeIsOneWeekLaterThanToday =  (time) => {
 };
 
 
+const ifTime2IsBetweenTowOtherTime = (time1, time2, time3) => {
+    try {
+        // let time = "2019-02-11 21:59:10.634+03:30"
+        let date1 = datetime.create(time1);
+        let date2 = datetime.create(time2);
+        let date3 = datetime.create(time3);
+        date1 = date1.format('m/d/Y')
+        date2 = date2.format('m/d/Y')
+        date3 = date3.format('m/d/Y')
+        let start = moment(date1);
+        let middle = moment(date2);
+        let end = moment(date3);
+        return start <= middle <= end;
 
-
-
-
-
+    } catch (e) {
+        console.log(e.message)
+    }
+};
 
 
 /**
@@ -110,12 +119,11 @@ const counter = (timeStartString, numberOfReserves, reserveTimePeriodInMinute) =
  * @param finish
  * @returns {number}
  */
-const towTimesDifference =  (start, finish) => {
+const towTimesDifference = (start, finish) => {
     let duration = moment.duration(finish.diff(start)).asMinutes();
-    console.log("duration:",duration)
+    console.log("duration:", duration)
     return duration
 }
-
 
 
 /**
@@ -163,25 +171,24 @@ const isReserveTimeInDates = (dates, reserveTime) => {
 const isDateInDates = async (dates, reserveDate) => {
     let validDate = []
     dates.forEach(item => {
-        if(item.constructor !== Array) {
+        if (item.constructor !== Array) {
             const reserveWanted = item.split(" ")[0];
             if (reserveWanted === reserveDate) {
-                console.log("item: ",item)
+                console.log("item: ", item)
                 validDate.push(item)
             }
-        }
-        else if(item.constructor === Array){
-            item.forEach(i=>{
+        } else if (item.constructor === Array) {
+            item.forEach(i => {
                 const reserveWanted = i.split(" ")[0];
                 if (reserveWanted === reserveDate) {
-                    console.log("i: ",i)
+                    console.log("i: ", i)
                     validDate.push(i)
                 }
             })
         }
 
     })
-    console.log("validDate: ",validDate)
+    console.log("validDate: ", validDate)
     return validDate;
 }
 
@@ -202,6 +209,7 @@ module.exports = {
     isReserveTimeInDates,
     isDateInDates,
     isEmpty,
-    ifTimeIsOneWeekLaterThanToday
+    ifTimeIsOneWeekLaterThanToday,
+    ifTime2IsBetweenTowOtherTime
 
 }

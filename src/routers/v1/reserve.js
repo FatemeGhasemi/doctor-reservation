@@ -40,7 +40,7 @@ const cancelReserve = async (req, res) => {
         const reserve = await reserveRepository.findReserveById(req.params.id);
         const reserveTime = reserve.reserveTime;
         const reservationId = reserve.reservationId;
-        const ifTodayIsAtLeastOneDayBefore =  utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
+        const ifTodayIsAtLeastOneDayBefore = utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
         if (ifTodayIsAtLeastOneDayBefore) {
             const reserve = await reserveRepository.cancelReserve(req.params.id)
 
@@ -59,19 +59,19 @@ const cancelReserve = async (req, res) => {
 const searchByReserveDateAndCategory = async (req, res) => {
     try {
         let dataArray = []
-        let result  = []
+        let result = []
         const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
-        for (let i=0 ;i<doctors.length;i++){
+        for (let i = 0; i < doctors.length; i++) {
             let data = {}
             const doctor = doctors[i];
             const doctorOffices = doctor.officeId
             const doctorData = await doctorRepository.findDoctorById(doctor.id)
-            for (let j=0; j<doctorOffices.length;j++){
+            for (let j = 0; j < doctorOffices.length; j++) {
                 const officeId = doctorOffices[j]
-                const reservations = await reservationRepository.findReservationByOfficeIdAndDate(officeId,req.query.reserveDate)
-                console.log("reservations: ",reservations)
-                if(reservations !== undefined ) {
-                    if (reservations.length !== 0 ) {
+                const reservations = await reservationRepository.findReservationByOfficeIdAndDate(officeId, req.query.reserveDate)
+                console.log("reservations: ", reservations)
+                if (reservations !== undefined) {
+                    if (reservations.length !== 0) {
                         const office = await officeRepository.findOfficeById(officeId)
                         data.doctorName = doctorData.name
                         data.doctorType = doctorData.type
@@ -84,13 +84,13 @@ const searchByReserveDateAndCategory = async (req, res) => {
                 }
 
             }
-            console.log("data: ",data)
-            if (!utils.isEmpty(data)){
+            console.log("data: ", data)
+            if (!utils.isEmpty(data)) {
                 result.push(data)
             }
         }
 
-        console.log("result: ",result)
+        console.log("result: ", result)
         res.json({message: "success operation searchByReserveDateAndCategory", result: result})
 
     } catch (e) {
@@ -117,9 +117,7 @@ const updateReserveData = async (req, res) => {
 };
 
 
-
-
-const  findUserReserveList = async (req, res) => {
+const findUserReserveList = async (req, res) => {
     try {
         const reserve = await reserveRepository.getListOfUserReserves(req.query.phoneNumber)
         res.json({message: "success findUserReserveList operation", result: reserve})
@@ -130,9 +128,15 @@ const  findUserReserveList = async (req, res) => {
 };
 
 
+const reportForReserves = async (req,res)=>{
+    try {
+        const reserve = await reserveRepository.createReportForOfficeInSpecialPeriodOfDate(req.query.officeId)
+        res.json({message: "success reportForReserves operation", result: reserve})
 
-
-
+    } catch (e) {
+        res.status(500).json({message: "reportForReserves ERROR: " + e.message})
+    }
+}
 
 
 // const updateHandler = async (req, res) => {
@@ -151,10 +155,13 @@ const  findUserReserveList = async (req, res) => {
 // };
 
 
-router.post('/', checkAccess.validateJwt, createNewReserve);
+    router
+.
+post('/', checkAccess.validateJwt, createNewReserve);
 // router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
 router.put('/:id', cancelReserve);
 router.get('/', searchByReserveDateAndCategory);
-router.get('/userReserveList',checkAccess.validateJwt,checkAccess.checkAccess, findUserReserveList);
+router.get('/userReserveList', checkAccess.validateJwt, checkAccess.checkAccess, findUserReserveList);
+router.get('/reservesReport', reportForReserves);
 
 module.exports = router;
