@@ -135,6 +135,12 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
+const returnDoctorData = async (doctorId)=>{
+
+
+}
+
+
 const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     const doctors = await searchDoctorByCategory(categoryId)
     let wantedOffices = []

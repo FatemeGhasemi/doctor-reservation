@@ -57,14 +57,14 @@ const searchOfficeByNearest = async (req, res) => {
         res.json({message: "success operation", result: office})
 
     } catch (e) {
-        res.status(500).json({message: "fail operation updateOffice", result: e.message})
+        res.status(500).json({message: "fail operation searchOfficeByNearest", result: e.message})
     }
 }
 
 
 const getAllOfInsuranceAnOfficeAccept = async (req,res)=>{
     try {
-        const result =  await officeRepository.returnOfficeInsurance(req.query.officeId)
+        const result =  await officeRepository.returnOfficeData(req.query.officeId)
         res.json({message: "success getAllOfInsuranceAnOfficeAccept operation", result: result})
 
     }catch (e) {

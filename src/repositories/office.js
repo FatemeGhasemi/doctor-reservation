@@ -1,7 +1,5 @@
 const officeSchema = require('../models/office')();
 const doctorSchema = require('../models/doctor')();
-const doctorRepository = require('../repositories/doctor')
-const categoryRepository = require('../repositories/category')
 const insuranceRepository = require('../repositories/insurance')
 
 
@@ -154,14 +152,18 @@ const searchNearestSameCategoryOffice = async (lng, latitude, distance, category
         const officeId = office.id
         const doctor = await findDoctorByOfficeId(officeId);
         const doctorCategory = doctor.categoryId
+        const officeInsurances = await OfficeInsurance(officeId)
         if (categoryId === doctorCategory && office.active) {
             data = {}
             data.id = officeId
             data.doctorName = doctor.name
             data.doctorType = doctor.type
-            data.locationCoordinate = office.geom
+            data.lat = office.lat
+            data.long = office.long
             data.address = office.address
             data.phoneNumber = office.phoneNumber
+            data.officePhotoUrl = office.photoUrl
+            data.officeInsurances = officeInsurances
         }
         activeOffice.push(data)
     }
@@ -189,26 +191,40 @@ const findDoctorById = async (id) => {
 
 
 
+
+const OfficeInsurance = async (officeId)=>{
+    let listOfInsurance = []
+    const office = await findOfficeById(officeId)
+    const insuranceIds = office.insuranceId
+    if ( insuranceIds === null || insuranceIds ===undefined) {
+        listOfInsurance.push(null)
+    }
+    else{
+        if (insuranceIds.length !== 0) {
+            for (let i = 0; i < insuranceIds.length; i++) {
+                const insuranceId = insuranceIds[i]
+                const insurance = await insuranceRepository.findInsuranceById(insuranceId)
+                const insuranceDisplayName = insurance.displayName
+                listOfInsurance.push(insuranceDisplayName)
+            }
+        }
+    }
+    return listOfInsurance
+}
+
+
+
 /**
  *
  * @param officeId
  * @returns {Promise<void>}
  */
-const returnOfficeInsurance = async (officeId) => {
+const returnOfficeData = async (officeId) => {
     let data = {}
-    let listOfInsurance = []
     const office = await findOfficeById(officeId)
     const doctorId = office.doctorId
     const doctor = await findDoctorById(doctorId)
-    const insuranceIds = office.insuranceId
-    if (insuranceIds.length !== 0) {
-        for (let i = 0; i < insuranceIds.length; i++) {
-            const insuranceId = insuranceIds[i]
-            const insurance = await insuranceRepository.findInsuranceById(insuranceId)
-            const insuranceDisplayName = insurance.displayName
-            listOfInsurance.push(insuranceDisplayName)
-        }
-    }
+    const listOfInsurances = await OfficeInsurance(officeId)
     const officeAddress = office.address
     const officeLatitude = office.lastName
     const officeLongitude = office.long
@@ -221,7 +237,7 @@ const returnOfficeInsurance = async (officeId) => {
     data.doctorName = doctorName
     data.doctorType = doctorType
     data.categoryId = categoryId
-    data.insurance = listOfInsurance
+    data.insurance = listOfInsurances
     return data
 
 }
@@ -291,7 +307,7 @@ module.exports = {
     findOfficeById,
     findClosestPoints,
     searchNearestSameCategoryOffice,
-    returnOfficeInsurance,
+    returnOfficeData,
     findOfficeBySecretaryId,
     deletePhotoFromGallery,
     addPhotoToGallery
