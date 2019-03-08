@@ -49,6 +49,7 @@ const updateOfficeData = async (id, data) => {
 };
 
 
+
 /**
  * find a office by its id
  * @param id
@@ -57,6 +58,7 @@ const updateOfficeData = async (id, data) => {
 const findOfficeById = async (id) => {
     return officeSchema.findOne({where: {id: id}})
 };
+
 
 
 /**
@@ -74,6 +76,7 @@ const changeOfficeStatus = async (id) => {
 };
 
 
+
 /**
  * return all offices
  * @param offset
@@ -87,6 +90,7 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 };
 
 
+
 /**
  * find a doctor by his/her own office id
  * @param officeId
@@ -98,6 +102,7 @@ const findDoctorByOfficeId = async (officeId) => {
     const doctor = await findDoctorById(doctorId)
     return doctor
 }
+
 
 
 /**
@@ -131,6 +136,15 @@ WHERE
 };
 
 
+
+/**
+ *
+ * @param lng
+ * @param latitude
+ * @param distance
+ * @param categoryId
+ * @returns {Promise<Array>}
+ */
 const searchNearestSameCategoryOffice = async (lng, latitude, distance, categoryId) => {
     const allOffices = await findClosestPoints(lng, latitude, distance)
     let activeOffice = []
@@ -162,10 +176,24 @@ const searchNearestSameCategoryOffice = async (lng, latitude, distance, category
     return result
 }
 
+
+
+/**
+ *
+ * @param id
+ * @returns {Promise<*>}
+ */
 const findDoctorById = async (id) => {
     return doctorSchema.findOne({where: {id: id}})
 };
 
+
+
+/**
+ *
+ * @param officeId
+ * @returns {Promise<void>}
+ */
 const returnOfficeInsurance = async (officeId) => {
     let data = {}
     let listOfInsurance = []
@@ -198,11 +226,25 @@ const returnOfficeInsurance = async (officeId) => {
 
 }
 
+
+
+/**
+ *
+ * @param secretaryId
+ * @returns {*}
+ */
 const findOfficeBySecretaryId = (secretaryId) => {
     return officeSchema.findAll({where: {secretaryId: secretaryId}})
 }
 
 
+
+/**
+ *
+ * @param officeId
+ * @param photoUrl
+ * @returns {Promise<*>}
+ */
 const deletePhotoFromGallery = async (officeId, photoUrl) => {
     const office = await findOfficeById(officeId)
     let result = []
@@ -222,6 +264,13 @@ const deletePhotoFromGallery = async (officeId, photoUrl) => {
 }
 
 
+
+/**
+ *
+ * @param officeId
+ * @param PhotoUrl
+ * @returns {Promise<*>}
+ */
 const addPhotoToGallery = async (officeId, PhotoUrl) => {
     const office = await findOfficeById(officeId)
     const urls = office.photoUrl
