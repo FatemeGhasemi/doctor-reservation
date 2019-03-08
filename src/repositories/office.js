@@ -40,7 +40,6 @@ const updateOfficeData = async (id, data) => {
             address: data.address,
             type: data.type,
             insuranceId: data.insuranceId
-
         },
         {returning: true, where: {id: id}}
     )

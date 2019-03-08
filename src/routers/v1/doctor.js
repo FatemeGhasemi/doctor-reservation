@@ -42,8 +42,8 @@ const getDoctorListController1 = async (req, res) => {
             doctorData.phoneNumber = doctor.phoneNumber
             doctorData.type = doctor.type
             doctorData.avatarUrl = doctor.avatarUrl
-            const officeIds =doctor.officeId
-            for(let i = 0 ; i<officeIds.length ; i++){
+            const officeIds = doctor.officeId
+            for (let i = 0; i < officeIds.length; i++) {
                 const item = officeIds[i]
                 const office = await officeRepository.findOfficeById(item);
                 const officeAddress = office.address
@@ -80,14 +80,14 @@ const getDoctorListController = async (req, res) => {
         const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
         for (let j = 0; j < doctors.length; j++) {
             const doctor = doctors[j]
-            const officeIds =doctor.officeId
-            for(let i = 0 ; i<officeIds.length ; i++){
+            const officeIds = doctor.officeId
+            for (let i = 0; i < officeIds.length; i++) {
                 let doctorData = {};
                 doctorData.name = doctor.name
                 doctorData.phoneNumber = doctor.phoneNumber
                 doctorData.type = doctor.type
                 doctorData.doctorAvatarUrl = doctor.avatarUrl
-                doctorData.doctorRate =doctor.rate
+                doctorData.doctorRate = doctor.rate
                 const item = officeIds[i]
                 const office = await officeRepository.findOfficeById(item);
                 const officeAddress = office.address
@@ -97,14 +97,9 @@ const getDoctorListController = async (req, res) => {
                 doctorData.long = office.long
                 doctorData.phoneNumber = officePhone
                 doctorData.officePhotos = office.photoUrl
-                // address.push(addressData);
-                // doctorData.address = address
                 result.push(doctorData)
-                // result.push(addressData)
             }
-
         }
-
         res.json({message: "success operation", result: result})
 
     } catch (e) {
@@ -114,16 +109,15 @@ const getDoctorListController = async (req, res) => {
 };
 
 
-const getOfficesInOrderOfCategoryAndCity = async (req,res)=>{
+const getOfficesInOrderOfCategoryAndCity = async (req, res) => {
     try {
-        const result = await doctorRepository.searchDoctorOfficeByCategoryAndCity(req.query.categoryId,req.query.cityId)
+        const result = await doctorRepository.searchDoctorOfficeByCategoryAndCity(req.query.categoryId, req.query.cityId)
         res.json({message: "success getOfficesInOrderOfCategoryAndCity operation", result: result})
-    }catch (e) {
+    } catch (e) {
         console.log("getOfficesInOrderOfCategoryAndCity ERROR: ", e.message)
         res.status(500).json({message: e.message})
     }
 }
-
 
 
 /**
@@ -152,17 +146,27 @@ const updateDoctorData = async (req, res) => {
 };
 
 
-
-const getDoctorDataById = async (req,res)=>{
+const getDoctorDataById = async (req, res) => {
     try {
         const doctor = await doctorRepository.findDoctorById(req.query.id)
         res.json({message: "success operation", result: doctor})
-    }catch (e) {
+    } catch (e) {
         console.log("getDoctorDataById ERROR: ", e)
-        res.status(500).json({message: e.message})   
+        res.status(500).json({message: e.message})
     }
 }
 
+
+const userGiveRateToDoctor = async (req, res) => {
+    try {
+        const result = await doctorRepository.updateDoctorData(req.params.doctorId, req.query.rate)
+        res.json({message: "success userGiveRateToDoctor operation", result: result})
+
+    } catch (e) {
+        console.log("userGiveRateToDoctor ERROR: ", e)
+        res.status(500).json({message: e.message})
+    }
+}
 
 
 router.get('/', getDoctorListController);
@@ -170,5 +174,7 @@ router.get('/id', getDoctorDataById);
 router.get('/cities/offices', getOfficesInOrderOfCategoryAndCity);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
+router.put('/:doctorId/rate', checkAccess.validateJwt, userGiveRateToDoctor);
+
 
 module.exports = router;

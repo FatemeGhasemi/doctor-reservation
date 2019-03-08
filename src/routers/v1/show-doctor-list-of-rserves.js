@@ -7,6 +7,9 @@ const doctorRepository = require('../../repositories/doctor');
 const checkAccess = require('../../middlewares/authentication');
 
 
+
+
+
 const showDoctorListOfReserves = async (req, res) => {
     try {
         let result = []
@@ -28,10 +31,12 @@ const showDoctorListOfReserves = async (req, res) => {
             data.officeLatitude = officeLatitude
             data.officeLongitude = officeLongitude
             data.officePhone = officePhone
+            data.officePhotoUrls = office.photoUrl
             data.doctorName = doctorName
             data.doctorPhone = doctorPhone
             data.doctorType = doctorType
             data.doctorPhoto = doctorPhoto
+            data.doctorRate = doctor.rate
 
             data.times =[]
             if (reservation.length !== 0) {

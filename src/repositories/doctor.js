@@ -83,6 +83,20 @@ const updateDoctorData = async (phoneNumber, data) => {
 };
 
 
+
+const updateDoctorRate =  (doctorId,rate)=>{
+    if(0<=rate <=5) {
+        return doctorSchema.update({rate: rate},
+            {returning: true, where: {id: doctorId}
+        })
+    }
+    else {
+        throw new Error("rate should be between 0 and 5")
+    }
+}
+
+
+
 /**
  * deactivate a doctor
  * @param id
@@ -136,11 +150,15 @@ const searchDoctorByCategory = async (categoryId) => {
 
 
 const returnDoctorData = async (doctorId)=>{
-
-
 }
 
 
+/**
+ *
+ * @param categoryId
+ * @param cityId
+ * @returns {Promise<Array>}
+ */
 const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     const doctors = await searchDoctorByCategory(categoryId)
     let wantedOffices = []
@@ -165,11 +183,9 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
                         data.longitude = office.long
                         data.officePhotos = office.photoUrl
                         wantedOffices.push(data)
-
                     }
                 }
             }
-
         }
     }
     wantedOffices.forEach(item => {
@@ -180,6 +196,7 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     });
     return res
 };
+
 
 
 /**
@@ -212,6 +229,7 @@ module.exports = {
     getAllDoctors,
     findDoctorById,
     findDoctorByOfficeId,
-    searchDoctorOfficeByCategoryAndCity
+    searchDoctorOfficeByCategoryAndCity,
+    updateDoctorRate
     // searchDoctorByName
 }
