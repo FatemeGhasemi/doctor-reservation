@@ -159,7 +159,7 @@ const getDoctorDataById = async (req, res) => {
 
 const userGiveRateToDoctor = async (req, res) => {
     try {
-        const result = await doctorRepository.updateDoctorData(req.params.doctorId, req.query.rate)
+        const result = await doctorRepository.updateDoctorRate(req.params.doctorId, req.query.rate)
         res.json({message: "success userGiveRateToDoctor operation", result: result})
 
     } catch (e) {
