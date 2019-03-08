@@ -1,4 +1,5 @@
 const officeSchema = require('../models/office')();
+const doctorSchema = require('../models/doctor')();
 const doctorRepository = require('../repositories/doctor')
 const categoryRepository = require('../repositories/category')
 const insuranceRepository = require('../repositories/insurance')
@@ -161,13 +162,16 @@ const searchNearestSameCategoryOffice = async (lng, latitude, distance, category
     return result
 }
 
+const findDoctorById = async (id) => {
+    return doctorSchema.findOne({where: {id: id}})
+};
 
 const returnOfficeInsurance = async (officeId) => {
     let data = {}
     let listOfInsurance = []
     const office = await findOfficeById(officeId)
-    const doctor = await findDoctorByOfficeId(officeId)
-
+    const doctorId = office.doctorId
+    const doctor = await findDoctorById(doctorId)
     const insuranceIds = office.insuranceId
     if (insuranceIds.length !== 0) {
         for (let i = 0; i < insuranceIds.length; i++) {
