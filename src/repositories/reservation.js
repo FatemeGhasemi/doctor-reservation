@@ -163,19 +163,10 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
 
 
 const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
-    let reservation = []
-    const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
-    for (let i = 0; i < reservations.length; i++) {
-        let item = reservations[i]
-        if (item.status === "valid") {
-            if (item.counter.length !== 0) {
-                const reserveList = await utils.isDateInDates(item.counter, reserveDate)
-                console.log("reserveList: ", reserveList)
-                reservation.push(reserveList)
-            }
-        }
-    }
-    return reservation[0]
+    const reservations = await findValidReservationCounterOfAnOfficeByOfficeId(officeId)
+    const reserveList = await utils.isDateInDates(reservations, reserveDate)
+    console.log("reserveList: ", reserveList)
+    return reserveList
 };
 
 
