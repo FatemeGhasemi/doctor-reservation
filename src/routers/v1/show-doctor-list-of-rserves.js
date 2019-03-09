@@ -10,14 +10,14 @@ const checkAccess = require('../../middlewares/authentication');
 
 
 
-const showDoctorListOfReserves = async (req, res) => {
+const showDoctorListOfFreeTimeThatNotReserved = async (req, res) => {
     try {
         let result = []
         const doctor = await doctorRepository.findDoctorById(req.query.id)
         const officeIds = doctor.officeId
         for (let i = 0; i < officeIds.length; i++) {
             const data = {}
-            const reservation = await reservationRepository.findReservationByOfficeId(officeIds[i])
+            const freeTimes = await reservationRepository.findValidReservationCounterOfAnOfficeByOfficeId(officeIds[i])
             const office = await officeRepository.findOfficeById(officeIds[i])
             const officeAddress = office.address
             const officeLatitude = office.lat
@@ -27,6 +27,7 @@ const showDoctorListOfReserves = async (req, res) => {
             const doctorType = doctor.type
             const doctorPhoto = doctor.avatarUrl
             const officePhone = office.phoneNumber
+            data.officeId = office.id
             data.officeAddress = officeAddress
             data.officeLatitude = officeLatitude
             data.officeLongitude = officeLongitude
@@ -39,14 +40,8 @@ const showDoctorListOfReserves = async (req, res) => {
             data.doctorRate = doctor.rate
 
             data.times =[]
-            if (reservation.length !== 0) {
-
-                const secretary = await secretaryRepository.findSecretaryId(reservation.secretaryId)
-                const secretaryName = secretary.lastName
-                const secretaryPhone = secretary.phoneNumber
-                data.times = reservation.counter
-                data.secretaryName = secretaryName
-                data.secretaryPhone = secretaryPhone
+            if (freeTimes.length !== 0) {
+                data.times = freeTimes
             }
             result.push(data)
         }
@@ -58,5 +53,5 @@ const showDoctorListOfReserves = async (req, res) => {
 }
 
 
-router.get('/', showDoctorListOfReserves);
+router.get('/doctors', showDoctorListOfFreeTimeThatNotReserved);
 module.exports = router;

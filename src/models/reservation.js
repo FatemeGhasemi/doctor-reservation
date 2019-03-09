@@ -6,12 +6,14 @@ const initReservationSchema = () => {
         officeId: {
             type: Sequelize.INTEGER,
             required: true,
-            allowNull: false
+            allowNull: false,
+
         },
         counter: {
             type: Sequelize.ARRAY(Sequelize.JSON(Sequelize.STRING)),
             required: true,
-            allowNull: false
+            allowNull: false,
+
         },
         status: {
             type: Sequelize.STRING,
