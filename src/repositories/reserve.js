@@ -14,10 +14,7 @@ const utils = require('../utils/utils')
  * @returns {Promise<*>}
  */
 const creatReserve = async (data) => {
-    // const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId, data.reserveTime);
-    // if(reservationRepository.ifTimeIsValidToReserve(data.officeId, data.reserveTime)){
     const office = await officeRepository.findOfficeById(data.officeId)
-    // const reservation = await reservationRepository.findReservationByOfficeId(data.officeId)
     let res = []
     const reservations = await reservationRepository.findReservationByOfficeId(data.officeId)
     for (let i = 0; i < reservations.length; i++) {
@@ -52,9 +49,6 @@ const creatReserve = async (data) => {
             secretaryId: secretaryId
         })
     }
-    // } else {
-    //     throw new Error("This time is not available")
-    // }
 };
 
 
@@ -86,9 +80,8 @@ const findReserveById = async (id) => {
 
 
 
-const findReserveByOfficeId =  (officeId)=>{
-    return reserveSchema.findAll({where:{officeId:officeId}})
-
+const findReserveByOfficeId =  async (officeId)=>{
+   return reserveSchema.findAll({where: {officeId: officeId}})
 }
 
 

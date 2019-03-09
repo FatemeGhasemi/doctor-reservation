@@ -1,7 +1,7 @@
+const reserveSchema = require('../models/reserve')();
 const reservationSchema = require('../models/reservation')();
 const officeSchema = require('../models/office')();
 const utils = require('../utils/utils');
-const reserveRepository = require('../repositories/reserve');
 const officeRepository = require('../repositories/office')
 const secretaryRepository = require('../repositories/secretary')
 const doctorRepository = require('../repositories/doctor')
@@ -220,7 +220,7 @@ const updateReservationData = async (id, data) => {
 
 const cancelListOfOffice = async (officeId)=>{
     let cancelList = []
-    const reserves = await reserveRepository.findReserveByOfficeId(officeId)
+    const reserves = await reserveSchema.findAll({where:{officeId}})
     reserves.forEach(reserve=>{
         if(reserve.status === "cancel"){
             cancelList.push(reserve)
@@ -232,7 +232,7 @@ const cancelListOfOffice = async (officeId)=>{
 
 const reservedListOfOffice = async (officeId)=>{
     let approvedList = []
-    const reserves = await reserveRepository.findReserveByOfficeId(officeId)
+    const reserves = await reserveSchema.findAll({where:{officeId}})
     reserves.forEach(reserve=>{
         if(reserve.status === "approved"){
             approvedList.push(reserve)
