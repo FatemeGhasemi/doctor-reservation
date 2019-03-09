@@ -79,9 +79,23 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
 
 const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
     try {
+        let result = []
         const officeId = req.query.officeId
         const reservation = await reservationRepository.reservedListOfOffice(officeId)
-        res.json({message: "success getListOfReservedTimeToReserveForAnOffice operation", result: reservation})
+        const office = await officeRepository.findOfficeById(officeId)
+        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        let data = {}
+        data.officeId = office.id
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officPhoto = office.photoUrl
+        data.doctorName = doctor.name
+        data.doctorPhone = doctor.phoneNumber
+        data.doctorPhoto = doctor.avatarUrl
+        data.freeTimeForReserve = reservation
+        result.push(data)
+        res.json({message: "success getListOfReservedTimeToReserveForAnOffice operation", result: result})
 
     } catch (e) {
         res.status(500).json({message: "fail getListOfReservedTimeToReserveForAnOffice operation", result: e})
@@ -91,9 +105,23 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
 
 const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
     try {
+        let result = []
         const officeId = req.query.officeId
         const reservation = await reservationRepository.cancelListOfOffice(officeId)
-        res.json({message: "success getListOfCancelTimeToReserveForAnOffice operation", result: reservation})
+        const office = await officeRepository.findOfficeById(officeId)
+        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        let data = {}
+        data.officeId = office.id
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officPhoto = office.photoUrl
+        data.doctorName = doctor.name
+        data.doctorPhone = doctor.phoneNumber
+        data.doctorPhoto = doctor.avatarUrl
+        data.cancelReserves = reservation
+        result.push(data)
+        res.json({message: "success getListOfCancelTimeToReserveForAnOffice operation", result: result})
 
     } catch (e) {
         res.status(500).json({message: "fail getListOfCancelTimeToReserveForAnOffice operation", result: e})
@@ -102,12 +130,84 @@ const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
 
 
 
+const getListOfAllReserveForAnOffice = async (req, res) => {
+    try {
+        let result = []
+        const officeId = req.query.officeId
+        const cancelReservation = await reservationRepository.cancelListOfOffice(officeId)
+        const freeTimeForReserve = await reservationRepository.reservedListOfOffice(officeId)
+
+        const office = await officeRepository.findOfficeById(officeId)
+        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        let data = {}
+        data.officeId = office.id
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officPhoto = office.photoUrl
+        data.doctorName = doctor.name
+        data.doctorPhone = doctor.phoneNumber
+        data.doctorPhoto = doctor.avatarUrl
+        data.cancelReserves = cancelReservation
+        data.freeTimeForReserve = freeTimeForReserve
+        result.push(data)
+        res.json({message: "success getListOfAllReserveForAnOffice operation", result: result})
+    } catch (e) {
+        res.status(500).json({message: "fail getListOfAllReserveForAnOffice operation", result: e})
+    }
+};
 
 
+
+
+const reportOfReservesTimeInNumber = async (req,res)=>{
+    try {
+        let result = []
+        const officeId = req.query.officeId
+        let freeCount = [];
+        let cancelCount = []
+        const cancelReservation = await reservationRepository.cancelListOfOffice(officeId)
+
+        for (let i=0;i<cancelReservation.length;i++){
+            cancelCount.push(i)
+        }
+
+
+        const freeTimeForReserve = await reservationRepository.reservedListOfOffice(officeId)
+        for (let j=0;j<freeTimeForReserve.length;j++){
+            freeCount.push(j)
+        }
+
+        let numberOfAllTimeToReserve = cancelCount.length + freeCount.length
+
+        const office = await officeRepository.findOfficeById(officeId)
+        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        let data = {}
+        data.officeId = office.id
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officPhoto = office.photoUrl
+        data.doctorName = doctor.name
+        data.doctorPhone = doctor.phoneNumber
+        data.doctorPhoto = doctor.avatarUrl
+        data.numberOfcancelReserves = cancelCount.length
+        data.numberOfFreeTimeForReserve = freeCount.length
+        data.numberOfAllReserves = numberOfAllTimeToReserve
+        result.push(data)
+        res.json({message: "success getListOfAllReserveForAnOffice operation", result: result})
+    } catch (e) {
+        res.status(500).json({message: "fail getListOfAllReserveForAnOffice operation", result: e})
+    }
+}
 
 
 router.post('/', checkAccess.validateJwt, createReservation);
 router.get('/freeTime', getListOfFreeTimeToReserveForAnOffice);
 router.get('/reservedTime', getListOfReservedTimeToReserveForAnOffice);
 router.get('/cancelTime', getListOfCancelTimeToReserveForAnOffice);
+router.get('/numberOfCancelTime', getListOfCancelTimeToReserveForAnOffice);
+router.get('/allReserveTime', getListOfAllReserveForAnOffice);
+router.get('/reportOfReserveTime', reportOfReservesTimeInNumber);
+
 module.exports = router;
