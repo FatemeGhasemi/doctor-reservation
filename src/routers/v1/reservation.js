@@ -32,6 +32,7 @@ const createReservation = async (req, res) => {
         const secretaryName = secretary.lastName
         const secretaryPhone = secretary.phoneNumber
         result.times = reservation.counter
+        result.officeId = office.id
         result.officeAddress = officeAddress
         result.officeLatitude = officeLatitude
         result.officeLongitude = officeLongitude
@@ -57,10 +58,10 @@ const createReservation = async (req, res) => {
  * @param res
  * @returns {Promise<void>}
  */
-const getListOfAvailableReserveList = async (req, res) => {
+const getListOfAvailableReserveListInCurrentOneWeek = async (req, res) => {
     try {
         const officeId = req.query.officeId
-        const reservation = await reservationRepository.findReservationByOfficeId(officeId)
+        const reservation = await reservationRepository.returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek(officeId)
         const reserveList = reservation
         res.json({message: "success getListOfAvailableReserveList operation", result: reserveList})
 
@@ -71,5 +72,5 @@ const getListOfAvailableReserveList = async (req, res) => {
 
 
 router.post('/', checkAccess.validateJwt, createReservation);
-router.get('/', getListOfAvailableReserveList);
+router.get('/', getListOfAvailableReserveListInCurrentOneWeek);
 module.exports = router;

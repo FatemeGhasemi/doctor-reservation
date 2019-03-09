@@ -56,7 +56,7 @@ const cancelReserve = async (req, res) => {
 };
 
 
-const searchByReserveDateAndCategory = async (req, res) => {
+const searchByReserveDateAndCategoryInCurrentWeek = async (req, res) => {
     try {
         let dataArray = []
         let result = []
@@ -128,7 +128,7 @@ const findUserReserveList = async (req, res) => {
 };
 
 
-const reportForReserves = async (req,res)=>{
+const reportForReserves = async (req, res) => {
     try {
         const reserve = await reserveRepository.createReportForOfficeInSpecialPeriodOfDate(req.query.officeId)
         res.json({message: "success reportForReserves operation", result: reserve})
@@ -155,12 +155,10 @@ const reportForReserves = async (req,res)=>{
 // };
 
 
-    router
-.
-post('/', checkAccess.validateJwt, createNewReserve);
+router.post('/', checkAccess.validateJwt, createNewReserve);
 // router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
 router.put('/:id', cancelReserve);
-router.get('/', searchByReserveDateAndCategory);
+router.get('/', searchByReserveDateAndCategoryInCurrentWeek);
 router.get('/userReserveList', checkAccess.validateJwt, checkAccess.checkAccess, findUserReserveList);
 router.get('/reservesReport', reportForReserves);
 

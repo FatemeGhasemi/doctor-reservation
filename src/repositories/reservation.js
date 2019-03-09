@@ -20,6 +20,8 @@ const creatReservation = async (data) => {
     const doctor = await doctorRepository.findDoctorById(doctorId)
     const doctorOffices = doctor.officeId
     const reservation = await findReservationByOfficeId(data.officeId)
+
+    // if(utils.isCounterAvailableInResevation) {
     if (reservation) {
         reservationSchema.update({status: "expired"}, {returning: true, where: {id: reservation.id}})
     }
@@ -27,15 +29,19 @@ const creatReservation = async (data) => {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
         // if (data.secretaryId === secretaryId)
-            return reservationSchema.create({
-                counter: counter,
-                officeId: data.officeId,
-                doctorId: doctorId,
-                secretaryId:secretaryId
-            })
+        return reservationSchema.create({
+            counter: counter,
+            officeId: data.officeId,
+            doctorId: doctorId,
+            secretaryId: secretaryId
+        })
     } else {
         throw new Error("This time is not available")
     }
+    // }
+    // else {
+    //     throw new Error("This time is not available")
+    // }
 };
 
 
@@ -50,7 +56,7 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
     const reservation = await findReservationById(reservationId);
     let counter = reservation.counter
     counter.forEach(item => {
-            newCounter.push(item)
+        newCounter.push(item)
     })
     counter = newCounter.push(startTime)
     console.log("newCounter: ", newCounter)
@@ -74,62 +80,55 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
             }
         })
     })
-     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
+    return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
 
 };
 
+// findReservationByOfficeId
 
 /**
  *
  * @param officeId
  * @returns {Promise<*>}
  */
-const findReservationByOfficeId = async (officeId) => {
+const findValidReservationCounterOfAnOfficeByOfficeId = async (officeId) => {
     let validReservation = [];
-    const resrvation = await reservationSchema.findAll({where: {officeId: officeId}})
-    if (resrvation.length === 0) {
+    const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
+    if (reservations.length === 0) {
         return []
-    }
-    else {
-        if (resrvation[0].status === "valid") {
-            const counter = resrvation[0].counter
-            counter.forEach(item => {
-                if (item.constructor !== Array) {
-                    if (utils.ifTimeIsOneWeekLaterThanToday(item)) {
+    } else {
+        for (let i = 0; i < reservations.length; i++) {
+            const reservation = reservations[i]
+            if (reservation.status === "valid") {
+                const counter = reservation.counter
+                counter.forEach(item => {
+                    if (item.constructor !== Array) {
                         validReservation.push(item)
-                    }
-                } else if (item.constructor === Array) {
-                    item.forEach(i => {
-                        if (utils.ifTimeIsOneWeekLaterThanToday(i)) {
+                    } else if (item.constructor === Array) {
+                        item.forEach(i => {
                             validReservation.push(i)
-                        }
-                    })
-                }
-            })
-            console.log("validReservation:",validReservation)
-            return validReservation
+                        })
+                    }
+                })
+            }
         }
-        else {
-            return []
-        }
-    }
 
+        console.log("validReservation:", validReservation)
+        return validReservation
+    }
 }
 
 
-
-
-
-
-
-
-    //         if (item.status === "valid") {
-    //             validReservation.push(item)
-    //         }
-    //     })
-    //     console.log("validReservation: ", validReservation)
-    //     return validReservation[0]
-    // }
+const returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek = async (officeId)=>{
+    let oneWeekValid = []
+    const reservationCounter = await findValidReservationCounterOfAnOfficeByOfficeId(officeId)
+    reservationCounter.forEach(i=>{
+        if(utils.ifTimeIsOneWeekLaterThanToday(i)){
+            oneWeekValid.push(i)
+        }
+    })
+    return oneWeekValid
+}
 
 
 
@@ -159,11 +158,11 @@ const findReservationByOfficeIdAndTime = async (officeId, reserveTime) => {
 const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
     let reservation = []
     const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
-    for (let i =0;i<reservations.length;i++){
+    for (let i = 0; i < reservations.length; i++) {
         let item = reservations[i]
         if (item.status === "valid") {
-            if(item.counter.length !==0){
-                const reserveList = await utils.isDateInDates(item.counter,reserveDate)
+            if (item.counter.length !== 0) {
+                const reserveList = await utils.isDateInDates(item.counter, reserveDate)
                 console.log("reserveList: ", reserveList)
                 reservation.push(reserveList)
             }
@@ -218,9 +217,11 @@ module.exports = {
     creatReservation,
     updateReservationData,
     counterGenerator,
-    findReservationByOfficeId,
+    // findReservationByOfficeId,
     deleteTimeAfterChoose,
     addStartTimeToCounter,
     findReservationByOfficeIdAndTime,
-    findReservationByOfficeIdAndDate
+    findReservationByOfficeIdAndDate,
+    returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek,
+    findValidReservationCounterOfAnOfficeByOfficeId
 };
