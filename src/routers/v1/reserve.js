@@ -20,7 +20,7 @@ const createNewReserve = async (req, res) => {
         const reserve = await reserveRepository.creatReserve(req.body)
         const reservationId = reserve.reservationId
         const reserveTime = reserve.reserveTime
-        await reservationRepository.deleteTimeAfterChoose(reserveTime, reservationId);
+        // await reservationRepository.deleteTimeAfterChoose(reserveTime, reservationId);
         res.json({message: "success operation", result: reserve})
     } catch (e) {
         console.log("Error createNewReserve ", e)

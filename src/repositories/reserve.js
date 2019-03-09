@@ -14,13 +14,35 @@ const utils = require('../utils/utils')
  * @returns {Promise<*>}
  */
 const creatReserve = async (data) => {
-    const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId, data.reserveTime);
+    // const reservation = await reservationRepository.findReservationByOfficeIdAndTime(data.officeId, data.reserveTime);
+    // if(reservationRepository.ifTimeIsValidToReserve(data.officeId, data.reserveTime)){
     const office = await officeRepository.findOfficeById(data.officeId)
+    // const reservation = await reservationRepository.findReservationByOfficeId(data.officeId)
+    let res = []
+    const reservations = await reservationRepository.findReservationByOfficeId(data.officeId)
+    for (let i = 0; i < reservations.length; i++) {
+        const reservation = reservations[i]
+        const counter = reservation.counter
+        counter.forEach(item => {
+            if (item.constructor === Array) {
+                item.forEach(i => {
+                    if (data.reserveTime === i) {
+                        res.push(reservation)
+                    }
+                })
+            } else if (item.constructor !== Array) {
+                if (data.reserveTime === item) {
+                    res.push(reservation)
+                }
+            }
+        })
+    }
+    const reservationData = res[0]
+    await reservationRepository.deleteTimeAfterChoose(data.reserveTime,reservationData.counter,reservationData.id)
+
     const secretaryId = office.secretaryId
-    const reserveList = reservation.counter;
-    const reservationId = reservation.id;
-    const reserveTime = data.reserveTime;
-    if (utils.isReserveTimeInDates(reserveList, reserveTime)) {
+    const reservationId = reservationData.id;
+    if (reservationData.length !== 0) {
         return reserveSchema.create({
             doctorId: data.doctorId,
             userId: data.userId,
@@ -29,9 +51,10 @@ const creatReserve = async (data) => {
             reservationId: reservationId,
             secretaryId: secretaryId
         })
-    } else {
-        throw new Error("This time is not available")
     }
+    // } else {
+    //     throw new Error("This time is not available")
+    // }
 };
 
 
@@ -145,9 +168,9 @@ const findDoctorByReserveId = async (reserveId) => {
 
 const countFreeTimeToReserve = async (reservation) => {
     let count = 0;
-        reservation.forEach(item => {
-            count += 1
-        })
+    reservation.forEach(item => {
+        count += 1
+    })
 
     return count
 
@@ -182,7 +205,7 @@ const createReportForOfficeInSpecialPeriodOfDate = async (officeId, start, finis
         let data = {}
         for (let i = 0; i < reservations.length; i++) {
             const reservation = reservations[i]
-            console.log("reservation:",reservation)
+            console.log("reservation:", reservation)
             if (utils.ifTime2IsBetweenTowOtherTime(start, reservation, finish)) {
                 const freeTimeToReserve = await countFreeTimeToReserve(reservations)
                 const countCancelReserves = await countCancelReserves(officeId)

@@ -145,26 +145,24 @@ const dayHandler = async (dates) => {
 }
 
 
-/**
- *
- * @param dates
- * @param reserveTime
- * @returns {boolean}
- */
 const isReserveTimeInDates = (dates, reserveTime) => {
     let validDate = []
     dates.forEach(item => {
-        item.forEach(i => {
-            if (i === reserveTime) {
-                validDate.push(i)
+        if (item.constructor === Array) {
+            item.forEach(i => {
+                if (i === reserveTime) {
+                    validDate.push(i)
+                }
+            })
+        } else if (item.constructor !== Array) {
+            if (item === reserveTime) {
+                validDate.push(item)
+
             }
-        })
+        }
+
     })
-    if (validDate.length !== 0) {
-        return true
-    } else {
-        return false
-    }
+    return validDate.length !==0
 }
 
 
@@ -193,29 +191,13 @@ const isDateInDates = async (dates, reserveDate) => {
 }
 
 
-const isEmpty = (obj)=> {
+const isEmpty = (obj) => {
     for (let key in obj) {
         if (obj.hasOwnProperty(key))
             return false;
     }
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports = {
