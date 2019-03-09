@@ -71,7 +71,9 @@ const ifTime2IsBetweenTowOtherTime = (time1, time2, time3) => {
         let start = moment(date1);
         let middle = moment(date2);
         let end = moment(date3);
-        return start <= middle <= end;
+        let duration1 = towTimesDifference(start, middle)
+        let duration2 = towTimesDifference(middle, end)
+        return (duration1 >= 0 && duration2 >= 0);
 
     } catch (e) {
         console.log(e.message)
@@ -162,7 +164,7 @@ const isReserveTimeInDates = (dates, reserveTime) => {
         }
 
     })
-    return validDate.length !==0
+    return validDate.length !== 0
 }
 
 

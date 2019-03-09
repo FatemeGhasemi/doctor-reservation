@@ -5,6 +5,7 @@ const officeRepository = require('../../repositories/office');
 const secretaryRepository = require('../../repositories/secretary');
 const doctorRepository = require('../../repositories/doctor');
 const checkAccess = require('../../middlewares/authentication');
+const utils = require('../../utils/utils')
 
 
 /**
@@ -18,7 +19,7 @@ const createReservation = async (req, res) => {
         let result = {};
         const data = req.body
         const reservation = await reservationRepository.creatReservation(data)
-        if(reservation !==undefined) {
+        if (reservation !== undefined) {
             const office = await officeRepository.findOfficeById(reservation.officeId)
             const officeAddress = office.address
             const officeLatitude = office.lat
@@ -47,7 +48,7 @@ const createReservation = async (req, res) => {
 
             res.json({message: "success createReservation operation", result: result})
         }
-        if(reservation ===undefined){
+        if (reservation === undefined) {
             res.status(400).json({message: "fail createReservation operation", result: "times are not in valid"})
 
         }
@@ -66,10 +67,31 @@ const createReservation = async (req, res) => {
  */
 const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
     try {
+        let valid = []
         const officeId = req.query.officeId
-        const reservation = await reservationRepository.returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek(officeId)
-        const reserveList = reservation
-        res.json({message: "success getListOfAvailableReserveList operation", result: reserveList})
+        const reservation = await reservationRepository.findValidReservationCounterOfAnOfficeByOfficeId(officeId)
+        const office = await officeRepository.findOfficeById(officeId)
+        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        for (let i = 0; i < reservation.length; i++) {
+            const time = reservation[i]
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, time, req.query.finish)) {
+                valid.push(reservation[i])
+            }
+        }
+        let result = []
+        let data = {}
+        data.officeId = office.id
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officPhoto = office.photoUrl
+        data.doctorName = doctor.name
+        data.doctorPhone = doctor.phoneNumber
+        data.doctorPhoto = doctor.avatarUrl
+        data.freeTimeForReserve = valid
+        result.push(data)
+
+        res.json({message: "success getListOfAvailableReserveList operation", result: result})
 
     } catch (e) {
         res.status(500).json({message: "fail getListOfAvailableReserveList operation", result: e})
@@ -80,8 +102,22 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
 const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
     try {
         let result = []
+        let valid = []
+        let reserveTime = []
         const officeId = req.query.officeId
         const reservation = await reservationRepository.reservedListOfOffice(officeId)
+        for (let i = 0; i < reservation.length; i++) {
+            let time = reservation[i]
+            reserveTime.push(time.reserveTime)
+        }
+
+        for (let j = 0; j < reserveTime.length; j++) {
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, reserveTime[j], req.query.finish)) {
+                valid.push(reserveTime[j])
+            }
+        }
+
+
         const office = await officeRepository.findOfficeById(officeId)
         const doctor = await officeRepository.findDoctorByOfficeId(officeId)
         let data = {}
@@ -93,7 +129,7 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
         data.doctorName = doctor.name
         data.doctorPhone = doctor.phoneNumber
         data.doctorPhoto = doctor.avatarUrl
-        data.freeTimeForReserve = reservation
+        data.freeTimeForReserve = valid
         result.push(data)
         res.json({message: "success getListOfReservedTimeToReserveForAnOffice operation", result: result})
 
@@ -106,8 +142,21 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
 const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
     try {
         let result = []
+        let valid = []
+        let reserveTime = []
         const officeId = req.query.officeId
         const reservation = await reservationRepository.cancelListOfOffice(officeId)
+        for (let i = 0; i < reservation.length; i++) {
+            let time = reservation[i]
+            reserveTime.push(time.reserveTime)
+        }
+
+        for (let j = 0; j < reserveTime.length; j++) {
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, reserveTime[j], req.query.finish)) {
+                valid.push(reserveTime[j])
+            }
+        }
+
         const office = await officeRepository.findOfficeById(officeId)
         const doctor = await officeRepository.findDoctorByOfficeId(officeId)
         let data = {}
@@ -119,7 +168,7 @@ const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
         data.doctorName = doctor.name
         data.doctorPhone = doctor.phoneNumber
         data.doctorPhoto = doctor.avatarUrl
-        data.cancelReserves = reservation
+        data.cancelReserves = valid
         result.push(data)
         res.json({message: "success getListOfCancelTimeToReserveForAnOffice operation", result: result})
 
@@ -129,56 +178,41 @@ const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
 };
 
 
-
-const getListOfAllReserveForAnOffice = async (req, res) => {
-    try {
-        let result = []
-        const officeId = req.query.officeId
-        const cancelReservation = await reservationRepository.cancelListOfOffice(officeId)
-        const freeTimeForReserve = await reservationRepository.reservedListOfOffice(officeId)
-
-        const office = await officeRepository.findOfficeById(officeId)
-        const doctor = await officeRepository.findDoctorByOfficeId(officeId)
-        let data = {}
-        data.officeId = office.id
-        data.officeAddress = office.address
-        data.officeLat = office.lat
-        data.officeLong = office.long
-        data.officPhoto = office.photoUrl
-        data.doctorName = doctor.name
-        data.doctorPhone = doctor.phoneNumber
-        data.doctorPhoto = doctor.avatarUrl
-        data.cancelReserves = cancelReservation
-        data.freeTimeForReserve = freeTimeForReserve
-        result.push(data)
-        res.json({message: "success getListOfAllReserveForAnOffice operation", result: result})
-    } catch (e) {
-        res.status(500).json({message: "fail getListOfAllReserveForAnOffice operation", result: e})
-    }
-};
-
-
-
-
-const reportOfReservesTimeInNumber = async (req,res)=>{
+const reportOfReservesTimeInNumber = async (req, res) => {
     try {
         let result = []
         const officeId = req.query.officeId
         let freeCount = [];
         let cancelCount = []
+        let countReservedTime = []
         const cancelReservation = await reservationRepository.cancelListOfOffice(officeId)
 
-        for (let i=0;i<cancelReservation.length;i++){
-            cancelCount.push(i)
+        for (let i = 0; i < cancelReservation.length; i++) {
+            let time = cancelReservation[i].reserveTime
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, time, req.query.finish)) {
+                cancelCount.push(i)
+            }
         }
 
 
         const freeTimeForReserve = await reservationRepository.reservedListOfOffice(officeId)
-        for (let j=0;j<freeTimeForReserve.length;j++){
-            freeCount.push(j)
+        for (let i = 0; i < freeTimeForReserve.length; i++) {
+            let time = freeTimeForReserve[i].reserveTime
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, time, req.query.finish)) {
+                freeCount.push(i)
+            }
         }
 
-        let numberOfAllTimeToReserve = cancelCount.length + freeCount.length
+        const reservedTime = await reservationRepository.reservedListOfOffice(officeId)
+        for (let i = 0; i < reservedTime.length; i++) {
+            let time = reservedTime[i].reserveTime
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, time, req.query.finish)) {
+                countReservedTime.push(i)
+            }
+        }
+
+
+        let numberOfAllTimeToReserve = cancelCount.length + freeCount.length + countReservedTime.length
 
         const office = await officeRepository.findOfficeById(officeId)
         const doctor = await officeRepository.findDoctorByOfficeId(officeId)
@@ -193,6 +227,7 @@ const reportOfReservesTimeInNumber = async (req,res)=>{
         data.doctorPhoto = doctor.avatarUrl
         data.numberOfcancelReserves = cancelCount.length
         data.numberOfFreeTimeForReserve = freeCount.length
+        data.countReservedTime = countReservedTime.length
         data.numberOfAllReserves = numberOfAllTimeToReserve
         result.push(data)
         res.json({message: "success getListOfAllReserveForAnOffice operation", result: result})
@@ -207,7 +242,6 @@ router.get('/freeTime', getListOfFreeTimeToReserveForAnOffice);
 router.get('/reservedTime', getListOfReservedTimeToReserveForAnOffice);
 router.get('/cancelTime', getListOfCancelTimeToReserveForAnOffice);
 router.get('/numberOfCancelTime', getListOfCancelTimeToReserveForAnOffice);
-router.get('/allReserveTime', getListOfAllReserveForAnOffice);
 router.get('/reportOfReserveTime', reportOfReservesTimeInNumber);
 
 module.exports = router;
