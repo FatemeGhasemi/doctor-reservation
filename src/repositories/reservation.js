@@ -50,6 +50,7 @@ const creatReservation = async (data) => {
 }
 
 
+
 /**
  * add new start time to counter
  * @param reservationId
@@ -89,9 +90,12 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
 
 };
 
+
+
 const findReservationByOfficeId = (officeId) => {
     return reservationSchema.findAll({where: {officeId: officeId}})
 }
+
 
 
 /**
