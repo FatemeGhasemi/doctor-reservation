@@ -217,6 +217,32 @@ const updateReservationData = async (id, data) => {
 };
 
 
+
+const cancelListOfOffice = async (officeId)=>{
+    let cancelList = []
+    const reserves = await reserveRepository.findReserveByOfficeId(officeId)
+    reserves.forEach(reserve=>{
+        if(reserve.status === "cancel"){
+            cancelList.push(reserve)
+        }
+    })
+    return cancelList
+}
+
+
+const reservedListOfOffice = async (officeId)=>{
+    let approvedList = []
+    const reserves = await reserveRepository.findReserveByOfficeId(officeId)
+    reserves.forEach(reserve=>{
+        if(reserve.status === "approved"){
+            approvedList.push(reserve)
+        }
+    })
+    return approvedList
+}
+
+
+
 module.exports = {
     findReservationById,
     creatReservation,
@@ -229,5 +255,7 @@ module.exports = {
     findReservationByOfficeIdAndDate,
     returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek,
     findValidReservationCounterOfAnOfficeByOfficeId,
-    ifTimeIsValidToReserve
+    ifTimeIsValidToReserve,
+    reservedListOfOffice,
+    cancelListOfOffice
 };

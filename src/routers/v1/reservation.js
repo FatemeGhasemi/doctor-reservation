@@ -64,7 +64,7 @@ const createReservation = async (req, res) => {
  * @param res
  * @returns {Promise<void>}
  */
-const getListOfAvailableReserveListInCurrentOneWeek = async (req, res) => {
+const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
     try {
         const officeId = req.query.officeId
         const reservation = await reservationRepository.returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek(officeId)
@@ -77,6 +77,37 @@ const getListOfAvailableReserveListInCurrentOneWeek = async (req, res) => {
 };
 
 
+const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
+    try {
+        const officeId = req.query.officeId
+        const reservation = await reservationRepository.reservedListOfOffice(officeId)
+        res.json({message: "success getListOfReservedTimeToReserveForAnOffice operation", result: reservation})
+
+    } catch (e) {
+        res.status(500).json({message: "fail getListOfReservedTimeToReserveForAnOffice operation", result: e})
+    }
+};
+
+
+const getListOfCancelTimeToReserveForAnOffice = async (req, res) => {
+    try {
+        const officeId = req.query.officeId
+        const reservation = await reservationRepository.cancelListOfOffice(officeId)
+        res.json({message: "success getListOfCancelTimeToReserveForAnOffice operation", result: reservation})
+
+    } catch (e) {
+        res.status(500).json({message: "fail getListOfCancelTimeToReserveForAnOffice operation", result: e})
+    }
+};
+
+
+
+
+
+
+
 router.post('/', checkAccess.validateJwt, createReservation);
-router.get('/', getListOfAvailableReserveListInCurrentOneWeek);
+router.get('/freeTime', getListOfFreeTimeToReserveForAnOffice);
+router.get('/reservedTime', getListOfReservedTimeToReserveForAnOffice);
+router.get('/cancelTime', getListOfCancelTimeToReserveForAnOffice);
 module.exports = router;

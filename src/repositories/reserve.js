@@ -85,6 +85,14 @@ const findReserveById = async (id) => {
 };
 
 
+
+const findReserveByOfficeId =  (officeId)=>{
+    return reserveSchema.findAll({where:{officeId:officeId}})
+
+}
+
+
+
 /**
  *
  * @param id
@@ -232,5 +240,6 @@ module.exports = {
     cancelReserve,
     findReserveById,
     findDoctorByReserveId,
-    createReportForOfficeInSpecialPeriodOfDate
+    createReportForOfficeInSpecialPeriodOfDate,
+    findReserveByOfficeId
 }
