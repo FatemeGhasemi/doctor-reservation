@@ -19,30 +19,35 @@ const creatReservation = async (data) => {
     const doctorId = office.doctorId
     const doctor = await doctorRepository.findDoctorById(doctorId)
     const doctorOffices = doctor.officeId
-    const reservation = await findReservationByOfficeId(data.officeId)
+    // const reservations = await findReservationByOfficeId(data.officeId)
+    const existFreeReserveList = await findValidReservationCounterOfAnOfficeByOfficeId(data.officeId)
+    if (existFreeReserveList.length !== 0) {
+        for (let i = 0; i < existFreeReserveList.length; i++) {
 
-    // if(utils.isCounterAvailableInResevation) {
-    if (reservation) {
-        reservationSchema.update({status: "expired"}, {returning: true, where: {id: reservation.id}})
+
+            if (counter.includes(existFreeReserveList[i])) {
+                counter.splice(existFreeReserveList[i], 1);
+            }
+        }
     }
+
     if (doctorOffices.includes(data.officeId)) {
         const office = await officeRepository.findOfficeById(data.officeId)
         let secretaryId = office.secretaryId
-        // if (data.secretaryId === secretaryId)
-        return reservationSchema.create({
-            counter: counter,
-            officeId: data.officeId,
-            doctorId: doctorId,
-            secretaryId: secretaryId
-        })
+        if (counter.length !== 0) {
+            return reservationSchema.create({
+                counter: counter,
+                officeId: data.officeId,
+                doctorId: doctorId,
+                secretaryId: secretaryId
+            })
+        }
     } else {
         throw new Error("This time is not available")
+
+
     }
-    // }
-    // else {
-    //     throw new Error("This time is not available")
-    // }
-};
+}
 
 
 /**
@@ -84,7 +89,10 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
 
 };
 
-// findReservationByOfficeId
+const findReservationByOfficeId = (officeId) => {
+    return reservationSchema.findAll({where: {officeId: officeId}})
+}
+
 
 /**
  *
@@ -93,7 +101,7 @@ const deleteTimeAfterChoose = async (reserveTime, reservationId) => {
  */
 const findValidReservationCounterOfAnOfficeByOfficeId = async (officeId) => {
     let validReservation = [];
-    const reservations = await reservationSchema.findAll({where: {officeId: officeId}})
+    const reservations = await findReservationByOfficeId(officeId)
     if (reservations.length === 0) {
         return []
     } else {
@@ -119,17 +127,16 @@ const findValidReservationCounterOfAnOfficeByOfficeId = async (officeId) => {
 }
 
 
-const returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek = async (officeId)=>{
+const returnItemsOfReservationCounterOfAnOfficeThatAreInCurrentWeek = async (officeId) => {
     let oneWeekValid = []
     const reservationCounter = await findValidReservationCounterOfAnOfficeByOfficeId(officeId)
-    reservationCounter.forEach(i=>{
-        if(utils.ifTimeIsOneWeekLaterThanToday(i)){
+    reservationCounter.forEach(i => {
+        if (utils.ifTimeIsOneWeekLaterThanToday(i)) {
             oneWeekValid.push(i)
         }
     })
     return oneWeekValid
 }
-
 
 
 /**
@@ -179,8 +186,18 @@ const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
  */
 
 const counterGenerator = async (dates) => {
+    let counter = []
     const date = await utils.dayHandler(dates);
-    return date
+    date.forEach(item => {
+        if (item.constructor === Array) {
+            item.forEach(i => {
+                counter.push(i)
+            })
+        } else if (item.constructor !== Array) {
+            counter.push(item)
+        }
+    })
+    return counter
 };
 
 
@@ -217,7 +234,7 @@ module.exports = {
     creatReservation,
     updateReservationData,
     counterGenerator,
-    // findReservationByOfficeId,
+    findReservationByOfficeId,
     deleteTimeAfterChoose,
     addStartTimeToCounter,
     findReservationByOfficeIdAndTime,

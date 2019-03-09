@@ -2,12 +2,12 @@
 
   {
     "officeId": 1,
-    "dates":[{"date": "2019-03-25", "start": "13:00:00", "finish": "17:00:00", "duration": 60}, {
-      "date": "2019-03-30",
+    "dates":[{"date": "2019-03-26", "start": "13:00:00", "finish": "17:00:00", "duration": 60}, {
+      "date": "2019-03-28",
       "start": "13:00:00",
       "finish": "15:00:00",
       "duration": 30
-    }, {"date": "2019-03-27", "start": "13:00:00", "finish": "16:00:00", "duration": 15}]
+    }, {"date": "2019-05-08", "start": "13:00:00", "finish": "16:00:00", "duration": 15}]
   },
   {
     "officeId": 4,
