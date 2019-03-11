@@ -4,6 +4,7 @@ const reservationRepository = require('../../repositories/reservation');
 const officeRepository = require('../../repositories/office');
 const secretaryRepository = require('../../repositories/secretary');
 const doctorRepository = require('../../repositories/doctor');
+const cityRepository = require('../../repositories/city');
 const checkAccess = require('../../middlewares/authentication');
 const utils = require('../../utils/utils')
 
@@ -72,6 +73,9 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
         const reservation = await reservationRepository.findValidReservationCounterOfAnOfficeByOfficeId(officeId)
         const office = await officeRepository.findOfficeById(officeId)
         const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        const cityId = office.cityId
+        const cityName = await cityRepository.findCityById(cityId)
+
         for (let i = 0; i < reservation.length; i++) {
             const time = reservation[i]
             if (utils.ifTime2IsBetweenTowOtherTime(req.query.start, time, req.query.finish)) {
@@ -88,7 +92,8 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
         data.doctorName = doctor.name
         data.doctorPhone = doctor.phoneNumber
         data.doctorPhoto = doctor.avatarUrl
-        data.freeTimeForReserve = valid
+        data.cityName = cityName
+        data.freeTimeData = valid
         result.push(data)
 
         res.json({message: "success getListOfAvailableReserveList operation", result: result})
@@ -106,6 +111,7 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
         let reserveTime = []
         const officeId = req.query.officeId
         const reservation = await reservationRepository.reservedListOfOffice(officeId)
+        console.log("reservation:",reservation)
         for (let i = 0; i < reservation.length; i++) {
             let time = reservation[i]
             reserveTime.push(time.reserveTime)
@@ -120,6 +126,8 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
 
         const office = await officeRepository.findOfficeById(officeId)
         const doctor = await officeRepository.findDoctorByOfficeId(officeId)
+        const cityId = office.cityId
+        const cityName = await cityRepository.findCityById(cityId)
         let data = {}
         data.officeId = office.id
         data.officeAddress = office.address
@@ -130,6 +138,16 @@ const getListOfReservedTimeToReserveForAnOffice = async (req, res) => {
         data.doctorPhone = doctor.phoneNumber
         data.doctorPhoto = doctor.avatarUrl
         data.freeTimeForReserve = valid
+        data.OfficeCity = cityName
+
+        // reservedTimeDetails:{}
+        // data.reservedTimeDetails.reserveId = reservation.reserveId
+        // data.reservedTimeDetails.userIdThatReservedTime = reservation.userId
+        // data.reservedTimeDetails.reserveTime = reservation.reserveTime
+        // data.reservedTimeDetails.price = reservation.price
+        // data.reservedTimeDetails.paymentId = reservation.paymentId
+
+
         result.push(data)
         res.json({message: "success getListOfReservedTimeToReserveForAnOffice operation", result: result})
 
