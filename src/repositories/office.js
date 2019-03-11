@@ -225,7 +225,7 @@ const returnOfficeData = async (officeId) => {
     const doctor = await findDoctorById(doctorId)
     const listOfInsurances = await OfficeInsurance(officeId)
     const officeAddress = office.address
-    const officeLatitude = office.lastName
+    const officeLatitude = office.lat
     const officeLongitude = office.long
     const officePhotoUrls = office.photoUrl
     const doctorName = doctor.name

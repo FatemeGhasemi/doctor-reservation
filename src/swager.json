@@ -29,11 +29,32 @@
     {
       "name": "offices",
       "description": "Operations about office"
+    },
+    {
+      "name": "reserves",
+      "description": "Operations about office"
+    },
+    {
+      "name": "reservations",
+      "description": "Operations about office"
+    },
+    {
+      "name": "insurances",
+      "description": "Operations about office"
+    },
+    {
+      "name": "cities",
+      "description": "Operations about office"
+    },
+    {
+      "name": "advertises",
+      "description": "Operations about office"
     }
   ],
   "paths": {
     "/getOtp": {
       "get": {
+        "description": "رمز یک بار مصرف را برای کاربر به شماره تلفنی که در کواری آمده ارسال میکند تا عملیات  لاگین کاربر انجام شود",
         "tags": [
           "getOtp"
         ],
@@ -60,9 +81,9 @@
         }
       }
     },
-
     "/activation": {
       "post": {
+        "description": "کاربر رمز یکبار مصرفی که دریافت کرده را وارد اپلیکیشن میکند تا حساب کاربری اش فعال شود",
         "tags": [
           "activation"
         ],
@@ -91,6 +112,7 @@
     },
     "/offices": {
       "post": {
+        "description": "دکتر یا منشی میتوانند یک مطب جدید اضافه کنند",
         "tags": [
           "offices"
         ],
@@ -109,7 +131,6 @@
           {
             "in": "header",
             "name": "Authorization",
-            "description": "it can just create by approve doctor or secretary",
             "required": true,
             "schema": {
               "type": "string"
@@ -123,6 +144,7 @@
         }
       },
       "put": {
+        "description": "دکتر یا منشی میتوانند اطلاعات مربوط به مطب های خود را به روز رسانی کنند",
         "tags": [
           "offices"
         ],
@@ -133,7 +155,6 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Update office object",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Office"
@@ -156,6 +177,7 @@
         }
       },
       "get": {
+        "description": "با توجه به کتگوری دکتر مورد نظر مطب هایی که  فاصله ی در خواستی(در کواری)  از نقطه ی کاربر (طول و عرض ورودی) قرار دارند را برمیگرداند ",
         "tags": [
           "offices"
         ],
@@ -165,26 +187,34 @@
         "parameters": [
           {
             "in": "query",
-            "name": "filter",
-            "required": false,
+            "name": "lat",
+            "required": true,
             "schema": {
               "default": ""
             }
           },
           {
             "in": "query",
-            "name": "begin",
-            "required": false,
+            "name": "long",
+            "required": true,
             "schema": {
-              "default": 0
+              "default": ""
             }
           },
           {
             "in": "query",
-            "name": "total",
-            "required": false,
+            "name": "distance",
+            "required": true,
             "schema": {
-              "default": 10
+              "default": ""
+            }
+          },
+          {
+            "in": "query",
+            "name": "categoryId",
+            "required": true,
+            "schema": {
+              "default": ""
             }
           }
         ],
@@ -193,6 +223,35 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/OfficeResult"
+            }
+          }
+        }
+      }
+    },
+    "/offices/insurances": {
+      "get": {
+        "description": "با توجه به آی دی مطب داده شده لیست بیمه های مورد قبول در آن مطب به همراه اطلاعات دکتر و مطب را باز میگرداند",
+        "tags": [
+          "offices"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "officeId",
+            "required": true,
+            "schema": {
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/officeInsuranceGetResponse"
             }
           }
         }
@@ -849,6 +908,20 @@
         }
       }
     },
+    "OfficeInsuranceResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OfficeInsuranceResult"
+          }
+        }
+      }
+    },
     "User": {
       "type": "object",
       "required": [
@@ -1029,6 +1102,43 @@
         "flag": {
           "type": "boolean",
           "readOnly": true
+        }
+      }
+    },
+    "officeInsuranceGetResponse": {
+      "type": "object",
+      "required": [
+        "phoneNumber",
+        "address",
+        "location"
+      ],
+      "properties": {
+        "officeAddress": {
+          "type": "string"
+        },
+        "officeLongitude": {
+          "type": "float"
+        },
+        "officePhotoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "doctorName": {
+          "type": "string"
+        },
+        "doctorType": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "insurance": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
