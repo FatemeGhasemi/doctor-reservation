@@ -43,6 +43,10 @@ p, doctor, galleries, delete
 p, admin, galleries, put
 p, doctor, galleries, put
 p, secretary, galleries, put
+p, admin, cities, put
+p, admin, cities, post
+p, admin, cities, get
+p, admin, cities, delete
 
 
 
