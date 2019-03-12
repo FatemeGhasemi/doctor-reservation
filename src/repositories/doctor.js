@@ -13,22 +13,28 @@ const officeRepository = require('../repositories/office')
  */
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
-    const userId = user.id;
-    const city = await cityRepository.findCityByName(data.cityName)
-    const cityId = city.id
-    return doctorSchema.create({
-        userId: userId,
-        phoneNumber: data.phoneNumber,
-        name: data.name,
-        categoryId: data.categoryId,
-        description: data.description,
-        type: data.type,
-        nationalId: data.nationalId,
-        field: data.field,
-        grade: data.grade,
-        province: data.province,
-        cityId: cityId,
-    })
+    if(user) {
+        const userId = user.id;
+        await userRepository.updateUserRole(data.phoneNumber,"doctor")
+        const city = await cityRepository.findCityByName(data.cityName)
+        const cityId = city.id
+        console.log(data.categoryId)
+        return doctorSchema.create({
+            userId: userId,
+            phoneNumber: data.phoneNumber,
+            name: data.name,
+            categoryId: data.categoryId,
+            description: data.description,
+            type: data.type,
+            nationalId: data.nationalId,
+            field: data.field,
+            grade: data.grade,
+            cityId: cityId,
+        })
+    }
+    else {
+        throw new Error("user have to creat user account first")
+    }
 };
 
 

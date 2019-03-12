@@ -56,6 +56,7 @@ function addRoutes() {
     app.use('/api/v1/listOfFreeTimes',require('./routers/v1/show-doctor-list-of-rserves'));
     app.use('/api/v1/advertises', require('./routers/v1/advertise'));
     app.use('/api/v1/galleries', require('./routers/v1/gallery'));
+    app.use('/api/v1/doctor-registration', require('./routers/v1/doctor-registration'));
 }
 
 

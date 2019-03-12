@@ -50,54 +50,61 @@
 //     console.log(res)
 // })
 
-require('dotenv').config();
-const db = require('./db/db')
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+// require('dotenv').config();
+// const db = require('./db/db')
+// const express = require('express');
+// const app = express();
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.json());
+//
+// db.initDb().then(() => {
+// }).catch(e => {
+//     console.log("Error init db ", e.message)
+//     throw e
+// });
+//
+// const officeSchema = require('./models/office')();
+//
+//
+// const findNearestsPoints = async (longitude, latitude)=>{
+//     try {
+//
+//         return officeSchema.findAll({
+//             attributes: {
+//                 include: [
+//                     [
+//                         officeSchema.fn(
+//                             'ST_Distance',
+//                             Sequelize.col('location'),
+//                             Sequelize.fn('ST_MakePoint', longitude, latitude)
+//                         ),
+//                         'distance'
+//                     ]
+//                 ]
+//             },
+//             where: Sequelize.where(
+//                 Sequelize.fn(
+//                     'ST_DWithin',
+//                     Sequelize.col('location'),
+//                     Sequelize.fn('ST_MakePoint', longitude, latitude),
+//                     process.env.REDIUS_DISTANCE
+//                 ),
+//                 true
+//             ),
+//             order: Sequelize.literal('distance ASC')
+//         });
+//     }catch (e) {
+//         console.log(e.message)
+//     }
+//
+//
+// };
+//
+// findNearestsPoints(10.3,4.6).then(res=>{console.log(res)})
+const categoryRepository = require("../src/repositories/category");
 
-db.initDb().then(() => {
-}).catch(e => {
-    console.log("Error init db ", e.message)
-    throw e
-});
+const x = async ()=> {
+    return await categoryRepository.findCategoryIdByAnArrayOfCategories(["darmangaran","dandanPezeshki","jarahOmoomi"])
+}
 
-const officeSchema = require('./models/office')();
-
-
-const findNearestsPoints = async (longitude, latitude)=>{
-    try {
-
-        return officeSchema.findAll({
-            attributes: {
-                include: [
-                    [
-                        officeSchema.fn(
-                            'ST_Distance',
-                            Sequelize.col('location'),
-                            Sequelize.fn('ST_MakePoint', longitude, latitude)
-                        ),
-                        'distance'
-                    ]
-                ]
-            },
-            where: Sequelize.where(
-                Sequelize.fn(
-                    'ST_DWithin',
-                    Sequelize.col('location'),
-                    Sequelize.fn('ST_MakePoint', longitude, latitude),
-                    process.env.REDIUS_DISTANCE
-                ),
-                true
-            ),
-            order: Sequelize.literal('distance ASC')
-        });
-    }catch (e) {
-        console.log(e.message)
-    }
-
-
-};
-
-findNearestsPoints(10.3,4.6).then(res=>{console.log(res)})
+console.log(x())

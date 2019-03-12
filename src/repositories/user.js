@@ -59,11 +59,16 @@ const updateUser = async (phoneNumber, data) => {
             role: data.role,
             status: data.status,
             officeId: data.officeId,
-            cityId:cityId
+            cityId: cityId
         },
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
 };
+
+
+const updateUserRole = async (phoneNumber,role) => {
+    return userSchema.update({role: role}, {returning: true, where: {phoneNumber: phoneNumber}})
+}
 
 
 /**
@@ -139,7 +144,8 @@ module.exports = {
     findUserById,
     getUserRoleByPhoneNumber,
     getAllUsers,
-    createUserTobeSecretary
+    createUserTobeSecretary,
+    updateUserRole
 //     searchUserFullText,
 //     addFavorite,
 //     removeFavorite,
