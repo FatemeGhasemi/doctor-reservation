@@ -257,6 +257,43 @@
         }
       }
     },
+    "/galleries/id:": {
+      "put": {
+        "description": "اضافه کردن عکس به گالری عکس های مطب",
+        "tags": [
+          "galleries"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "link",
+            "required": true,
+            "schema": {
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Office"
+            }
+          }
+        }
+      }
+    },
     "/doctors": {
       "post": {
         "tags": [
@@ -1087,6 +1124,15 @@
         "location"
       ],
       "properties": {
+        "geom": {
+          "type": "string",
+          "coordinate": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
         "phoneNumber": {
           "type": "string"
         },
@@ -1094,14 +1140,37 @@
           "type": "string"
         },
         "lat": {
-          "type": "string"
+          "type": "integer"
         },
         "long": {
+          "type": "integer"
+        },
+        "type": {
           "type": "string"
         },
-        "flag": {
-          "type": "boolean",
-          "readOnly": true
+        "secretaryId": {
+          "type": "integer"
+        },
+        "doctorId": {
+          "type": "integer"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "cityId": {
+          "type": "integer"
+        },
+        "insuranceId": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "photoUrl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -1117,7 +1186,10 @@
           "type": "string"
         },
         "officeLongitude": {
-          "type": "float"
+          "type": "integer"
+        },
+        "officelatitude": {
+          "type": "integer"
         },
         "officePhotoUrls": {
           "type": "array",

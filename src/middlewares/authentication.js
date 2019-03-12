@@ -8,13 +8,19 @@ const secretaryRepository = require('../repositories/secretary')
 
 const validateJwt = async (req, res, next) => {
     try {
-        const authorizationHeader = jwtHelper.removeBearer(req.header('Authorization'));
-        const userData = jwtHelper.verifyJwt(authorizationHeader)
-        res.locals.user = await userRepository.findUserByPhoneNumber(userData.phoneNumber)
-        if (res.locals.user) {
-            next()
-        } else {
-            throw new Error("unAuthorize")
+        console.log("req:",req)
+        if(req.header('Authorization') ===undefined|| req.header('Authorization') ===null){
+            res.status(404).json({"message": "json web token is empty"})
+        }
+        else {
+            const authorizationHeader = jwtHelper.removeBearer(req.header('Authorization'));
+            const userData = jwtHelper.verifyJwt(authorizationHeader)
+            res.locals.user = await userRepository.findUserByPhoneNumber(userData.phoneNumber)
+            if (res.locals.user) {
+                next()
+            } else {
+                throw new Error("unAuthorize")
+            }
         }
     } catch (e) {
         res.status(403).json({"message": e.message})

@@ -22,6 +22,7 @@ const deletePhotoFromGallery = async (req, res) => {
 
 const addPhotoToGallery = async (req, res) => {
     try {
+        console.log("req:",req)
         const result =await officeRepository.addPhotoToGallery(req.params.id, req.query.link)
         res.json({message: "success addPhotoToGallery operation ", result: result})
 
