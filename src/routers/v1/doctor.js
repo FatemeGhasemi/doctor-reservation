@@ -80,24 +80,26 @@ const getDoctorListController = async (req, res) => {
         const doctors = await doctorRepository.searchDoctorByCategory(req.query.categoryId)
         for (let j = 0; j < doctors.length; j++) {
             const doctor = doctors[j]
-            const officeIds = doctor.officeId
-            for (let i = 0; i < officeIds.length; i++) {
-                let doctorData = {};
-                doctorData.name = doctor.name
-                doctorData.phoneNumber = doctor.phoneNumber
-                doctorData.type = doctor.type
-                doctorData.doctorAvatarUrl = doctor.avatarUrl
-                doctorData.doctorRate = doctor.rate
-                const item = officeIds[i]
-                const office = await officeRepository.findOfficeById(item);
-                const officeAddress = office.address
-                const officePhone = office.phoneNumber
-                doctorData.address = officeAddress
-                doctorData.lat = office.lat
-                doctorData.long = office.long
-                doctorData.phoneNumber = officePhone
-                doctorData.officePhotos = office.photoUrl
-                result.push(doctorData)
+            if (doctor.status === "approved") {
+                const officeIds = doctor.officeId
+                for (let i = 0; i < officeIds.length; i++) {
+                    let doctorData = {};
+                    doctorData.name = doctor.name
+                    doctorData.phoneNumber = doctor.phoneNumber
+                    doctorData.type = doctor.type
+                    doctorData.doctorAvatarUrl = doctor.avatarUrl
+                    doctorData.doctorRate = doctor.rate
+                    const item = officeIds[i]
+                    const office = await officeRepository.findOfficeById(item);
+                    const officeAddress = office.address
+                    const officePhone = office.phoneNumber
+                    doctorData.address = officeAddress
+                    doctorData.lat = office.lat
+                    doctorData.long = office.long
+                    doctorData.phoneNumber = officePhone
+                    doctorData.officePhotos = office.photoUrl
+                    result.push(doctorData)
+                }
             }
         }
         res.json({message: "success operation", result: result})

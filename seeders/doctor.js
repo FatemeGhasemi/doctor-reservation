@@ -31,7 +31,8 @@ async function insertDoctors(){
             province:item.province,
             city:item.city,
             avatarUrl:item.avatarUrl,
-            rate:item.rate
+            rate:item.rate,
+            status:item.status
         })
 
     }

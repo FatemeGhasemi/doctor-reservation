@@ -13,9 +13,9 @@ const officeRepository = require('../repositories/office')
  */
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
-    if(user) {
+    if (user) {
         const userId = user.id;
-        await userRepository.updateUserRole(data.phoneNumber,"doctor")
+        await userRepository.updateUserRole(data.phoneNumber, "doctor")
         const city = await cityRepository.findCityByName(data.cityName)
         const cityId = city.id
         console.log(data.categoryId)
@@ -31,8 +31,7 @@ const createDoctorUser = async (data) => {
             grade: data.grade,
             cityId: cityId,
         })
-    }
-    else {
+    } else {
         throw new Error("user have to creat user account first")
     }
 };
@@ -89,18 +88,16 @@ const updateDoctorData = async (phoneNumber, data) => {
 };
 
 
-
-const updateDoctorRate =  (doctorId,rate)=>{
-    if(0<=rate <=5) {
+const updateDoctorRate = (doctorId, rate) => {
+    if (0 <= rate <= 5) {
         return doctorSchema.update({rate: rate},
-            {returning: true, where: {id: doctorId}
-        })
-    }
-    else {
+            {
+                returning: true, where: {id: doctorId}
+            })
+    } else {
         throw new Error("rate should be between 0 and 5")
     }
 }
-
 
 
 /**
@@ -155,7 +152,7 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
-const returnDoctorData = async (doctorId)=>{
+const returnDoctorData = async (doctorId) => {
 }
 
 
@@ -173,22 +170,24 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
         for (let i = 0; i < doctors.length; i++) {
             let data = {}
             const doctor = doctors[i]
-            const officeIds = doctor.officeId
-            if (officeIds.length !== 0) {
-                for (let j = 0; j < officeIds.length; j++) {
-                    const officeId = officeIds[j]
-                    const office = await officeRepository.findOfficeById(officeId)
-                    const officeCityId = office.cityId
-                    if (officeCityId == cityId) {
-                        data.doctorName = doctor.name
-                        data.doctorType = doctor.type
-                        data.doctorAvatarUrl = doctor.avatarUrl
-                        data.DoctorRate = doctor.rate
-                        data.address = office.address
-                        data.latitude = office.lat
-                        data.longitude = office.long
-                        data.officePhotos = office.photoUrl
-                        wantedOffices.push(data)
+            if (doctor.status === "approved") {
+                const officeIds = doctor.officeId
+                if (officeIds.length !== 0) {
+                    for (let j = 0; j < officeIds.length; j++) {
+                        const officeId = officeIds[j]
+                        const office = await officeRepository.findOfficeById(officeId)
+                        const officeCityId = office.cityId
+                        if (officeCityId == cityId) {
+                            data.doctorName = doctor.name
+                            data.doctorType = doctor.type
+                            data.doctorAvatarUrl = doctor.avatarUrl
+                            data.DoctorRate = doctor.rate
+                            data.address = office.address
+                            data.latitude = office.lat
+                            data.longitude = office.long
+                            data.officePhotos = office.photoUrl
+                            wantedOffices.push(data)
+                        }
                     }
                 }
             }
@@ -202,7 +201,6 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     });
     return res
 };
-
 
 
 /**
