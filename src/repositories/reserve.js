@@ -1,7 +1,7 @@
 const reserveSchema = require('../models/reserve')();
 const userRepository = require('../repositories/user');
 const reservationRepository = require('../repositories/reservation');
-const statusRepository = require('../repositories/status');
+const cityRepository = require('../repositories/city');
 const doctorRepository = require('../repositories/doctor')
 const officeRepository = require('../repositories/office')
 const userSchema = require('../models/user')();
@@ -105,10 +105,34 @@ const cancelReserve = async (id) => {
  * @returns {Promise<*>}
  */
 const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
+    let data = {}
+    let result = []
     const user = await userRepository.findUserByPhoneNumber(phoneNumber);
     const userId = user.id
-    return reserveSchema.findAll({offset: offset, limit: limit},
+    const reserves = await reserveSchema.findAll({offset: offset, limit: limit},
         {where: {userId: userId}})
+    const reserveData = reserves[0]
+
+    const doctor =await doctorRepository.findDoctorById(reserveData.doctorId)
+    const office = await officeRepository.findOfficeById(reserveData.officeId)
+    const city = await cityRepository.findCityById(office.cityId)
+
+    data.doctorName = doctor.name
+    data.doctorPhoneNumber = doctor.phoneNumber
+    data.doctorPhoto = doctor.photoUrl
+    data.officeAddress = office.address
+    data.officeLat = office.lat
+    data.officeLong = office.long
+    data.officeCity = city.displayName
+    data.officePhone = office.phoneNumber
+    data.officePhotoes = office.photoUrl
+    data.reserveTime =reserveData.reserveTime
+    data.price = reserveData.price
+    data.paymentId = reserveData.paymentId
+    data.reservationId = reserveData.reservationId
+    result.push(data)
+    return result
+
 };
 
 
