@@ -27,11 +27,6 @@ const getListOfActivityField = async (req, res) => {
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i]
             result.push(category.displayName)
-            // const lastItemInCircle = await categoryRepository.findCategoryByParentName(category.name)
-            // if (lastItemInCircle === [] || lastItemInCircle === null || lastItemInCircle === undefined){
-            //
-            // }
-
         }
 
         res.json({message: "success getListOfActivityField operation", result: result})
@@ -63,7 +58,7 @@ const registerDoctor = async (req, res) => {
 
 router.get('/registerType', checkAccess.validateJwt, getListOfRegisterTypes);
 router.get('/ActivityField', checkAccess.validateJwt, getListOfActivityField);
-router.post('/', registerDoctor);
+router.post('/',checkAccess.validateJwt, registerDoctor);
 
 
 

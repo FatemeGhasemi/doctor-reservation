@@ -96,7 +96,7 @@ const returnAllCategories = async (offset = 0, limit = 10) => {
 
 const returnAllCategoryThatTheirParentsNull = async () => {
     let res = []
-    const allCategories = await categorySchema.finAll({where: {parentName: null}})
+    const allCategories = await categorySchema.findAll({where: {parentName: null}})
 
     for (let i = 0; i < allCategories.length; i++) {
         const category = allCategories[i]
