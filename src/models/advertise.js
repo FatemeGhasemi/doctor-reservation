@@ -12,6 +12,9 @@ const initAdvertiseSchema = () => {
         status:{
             type:Sequelize.STRING,
             defaultValue:"active"
+        },
+        expireDate:{
+            type:Sequelize.STRING
         }
 
 

@@ -103,9 +103,22 @@ const deleteAdvertise = async (req, res) => {
 }
 
 
+
+const listOfAdvertisesToShow = async (req, res) => {
+    try {
+        const result = await advertiseRepository.showActiveAdvertises()
+        res.json({message: "listOfAdvertisesToShow success operation: ", result})
+    } catch (e) {
+        console.log("listOfAdvertisesToShow operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 //TODO should handle access list to do each api
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, addNewAdvertise)
 router.get('/active', getActiveAdvertise)
+router.get('/showAdvertisesList', listOfAdvertisesToShow)
 router.get('/deactivate', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeactivateAdvertise)
 router.get('/deleted', checkAccess.validateJwt, checkAccess.checkRolesAccess, getDeletedAdvertise)
 router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllAdvertise)

@@ -1,17 +1,24 @@
 let advertiseSchema = require('../models/advertise')();
+const utils = require('../utils/utils')
 
 const addNewAdvertise = async (data) => {
-    try {
-        const isDeactivate = await deactivateAllAdvertises()
-        if (isDeactivate) {
-            return advertiseSchema.create(data)
-        } else {
-            console.log("addNewAdvertise is failed")
-        }
-    }catch (e) {
-        console.log("addNewAdvertise function failed: ",e)
-    }
+    return advertiseSchema.create(data)
+
 };
+
+
+const showActiveAdvertises = async () => {
+    let valid = []
+    const activeAdvertises = await advertiseSchema.findAll({where: {status: "active"}})
+    for (let i = 0; i < activeAdvertises.length; i++) {
+        const activeAdvertise = activeAdvertises[i]
+        if (utils.ifTodayIsAtLeastOneDayBefore(activeAdvertise.expireDate)) {
+            valid.push(activeAdvertise.url)
+        }
+    }
+    return valid
+}
+
 
 const findAdvertiseById = (id) => {
     return advertiseSchema.findOne({where: {id: id}})
@@ -52,11 +59,10 @@ const deactivateAllAdvertises = async () => {
                 const result = await deactivateOneAdvertise(advertiseId)
                 res.push(result)
             }
-        }
-        else if (allAdvertises.length === 0) {
+        } else if (allAdvertises.length === 0) {
             return true
         }
-        if(res.length !==0){
+        if (res.length !== 0) {
             return true
         }
     } catch (e) {
@@ -70,7 +76,13 @@ const findAdvertiseByStatus = async (status) => {
     if (allAdvertise.length !== 0) {
         for (let i = 0; i < allAdvertise.length; i++) {
             const advertise = allAdvertise[i]
-            if (advertise.status === status) {
+            if (!utils.ifTodayIsAtLeastOneDayBefore(advertise.expireDate)) {
+                await deactivateOneAdvertise(advertise.id)
+                if(status === "deactivate"){
+                    res.push(advertise)
+                }
+            }
+            else if (advertise.status === status) {
                 res.push(advertise)
             }
         }
@@ -87,7 +99,8 @@ module.exports = {
     findAdvertiseById,
     findAdvertiseByStatus,
     deactivateOneAdvertise,
-    deleteOneAdvertise
+    deleteOneAdvertise,
+    showActiveAdvertises
 }
 
 
