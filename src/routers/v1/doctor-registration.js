@@ -20,7 +20,7 @@ const getListOfRegisterTypes = async (req, res) => {
     }
 }
 
-const getListOfActivityField = async (req, res, next) => {
+const getListOfActivityField = async (req, res) => {
     try {
         let result = []
         const categories = await categoryRepository.findCategoryByParentName(req.query.parentName)
