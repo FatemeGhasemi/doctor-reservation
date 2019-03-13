@@ -30,6 +30,7 @@ const createDoctorUser = async (data) => {
             field: data.field,
             grade: data.grade,
             cityId: cityId,
+            medicalSystemNumber: data.medicalSystemNumber
         })
     } else {
         throw new Error("user have to creat user account first")
@@ -45,8 +46,13 @@ const createDoctorUser = async (data) => {
 const findDoctorByOfficeId = async (officeId) => {
     const office = await officeRepository.findOfficeById(officeId)
     const doctorId = office.doctorId
-    const doctor = await doctorSchema.findOne({where:{id:doctorId}})
+    const doctor = await doctorSchema.findOne({where: {id: doctorId}})
     return doctor
+}
+
+
+const findDoctorBymedicalSystemNumber = async (medicalSystemNumber) => {
+    return doctorSchema.findOne({where: {medicalSystemNumber: medicalSystemNumber}})
 }
 
 
@@ -152,10 +158,6 @@ const searchDoctorByCategory = async (categoryId) => {
 };
 
 
-const returnDoctorData = async (doctorId) => {
-}
-
-
 /**
  *
  * @param categoryId
@@ -196,7 +198,6 @@ const searchDoctorOfficeByCategoryAndCity = async (categoryId, cityId) => {
     wantedOffices.forEach(item => {
         if (item !== {}) {
             res.push(item)
-
         }
     });
     return res
@@ -223,6 +224,33 @@ const searchDoctorByPhoneNumber = (phoneNumber) => {
 };
 
 
+const addDoctorToRecommandList = async (phoneNumber, doctorData) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    if (doctor.proprietary === true) {
+        doctor.recommendedList.push(doctorData)
+    }
+    return doctorSchema.update({recommendedList: doctor.recommendedList}, {
+        returning: true,
+        where: {phoneNumber: phoneNumber}
+    })
+};
+
+
+const removeDoctorFromRecommandList = async (phoneNumber, doctorData) => {
+    let valid = []
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    if (doctor.proprietary === true) {
+        for (let i = 0; i < doctor.recommendedList.length; i++) {
+            const favorite = user.recommendedList[i]
+            if (favorite !== doctorData) {
+                valid.push(favorite)
+            }
+        }
+    }
+    return doctorSchema.update({recommendedList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
+};
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
@@ -234,6 +262,8 @@ module.exports = {
     findDoctorById,
     findDoctorByOfficeId,
     searchDoctorOfficeByCategoryAndCity,
-    updateDoctorRate
+    updateDoctorRate,
+    addDoctorToRecommandList,
+    removeDoctorFromRecommandList
     // searchDoctorByName
 }

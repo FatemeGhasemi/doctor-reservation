@@ -67,6 +67,11 @@ const initDoctorSchema = () => {
         recommendedList: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
             defaultValue: []
+        },
+        medicalSystemNumber: {
+            type: Sequelize.STRING,
+            unique: true,
+            allowNull: false
         }
 
 
