@@ -1,5 +1,7 @@
 const userSchema = require('../models/user')();
+const doctorSchema = require('../models/doctor')();
 const cityRepository = require('../repositories/city');
+const officeRepository = require('../repositories/office');
 
 
 /**
@@ -66,7 +68,7 @@ const updateUser = async (phoneNumber, data) => {
 };
 
 
-const updateUserRole = async (phoneNumber,role) => {
+const updateUserRole = async (phoneNumber, role) => {
     return userSchema.update({role: role}, {returning: true, where: {phoneNumber: phoneNumber}})
 }
 
@@ -120,19 +122,57 @@ const getAllUsers = async (offset = 0, limit = 10) => {
 }
 
 
-// const searchUserFullText = async (filter) => {
-// //    TODO return  user list
-// };
+const addFavorite = async (phoneNumber, doctorId) => {
+    const user = await findUserByPhoneNumber(phoneNumber)
+    if (user.role === "user") {
+        user.favoriteList.push(doctorId)
+    }
+    return userSchema.update({favoriteList: user.favoriteList}, {returning: true, where: {phoneNumber: phoneNumber}})
+
+};
 
 
-// const addFavorite = (phoneNumber, data) => {
-// //    TODO return favorite data
-// };
+const removeFavorite = async (phoneNumber, doctorId) => {
+    let valid = []
+    const user = await findUserByPhoneNumber(phoneNumber)
+    if (user.role === "user") {
+        for (let i = 0; i < user.favoriteList.length; i++) {
+            const favorite = user.favoriteList[i]
+            if (favorite !== doctorId) {
+                valid.push(favorite)
+            }
+        }
+    }
+    return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
+
+};
 
 
-// const removeFavorite = (phoneNumber, data) => {
-// //    TODO return favorite data
-// };
+const getListOfFavorite = async (phoneNumber) => {
+    let result =[]
+    const user = await findUserByPhoneNumber(phoneNumber)
+    const favoriteList = user.favoriteList
+    for (let i = 0; i < favoriteList.length; i++) {
+        let data = {}
+        const doctorId = favoriteList[i]
+        const doctor = await doctorSchema.findOne({where: {id: doctorId}})
+        const officeIds = doctor.officeId
+        for (let j = 0; j < officeIds.length; j++) {
+            const officId = officeIds[j]
+            const office = await officeRepository.findOfficeById(officId)
+            data.doctorName = doctor.name
+            data.doctorPhoneNumber = doctor.phoneNumber
+            data.doctorPhoto = doctor.photoUrl
+            data.officeAddress = office.address
+            data.officeLat = office.lat
+            data.officeLong = office.long
+            data.officePhone = office.phoneNumber
+            data.officePhotoes = office.photoUrl
+            result.push(data)
+        }
+    }
+    return result
+}
 
 
 module.exports = {
@@ -145,10 +185,11 @@ module.exports = {
     getUserRoleByPhoneNumber,
     getAllUsers,
     createUserTobeSecretary,
-    updateUserRole
+    updateUserRole,
 //     searchUserFullText,
-//     addFavorite,
-//     removeFavorite,
+    addFavorite,
+    removeFavorite,
+    getListOfFavorite
 };
 
 

@@ -31,6 +31,10 @@ const initUserSchema = () => {
          },
          cityId:{
             type:Sequelize.INTEGER
+         },
+         favoriteList:{
+            type:Sequelize.ARRAY(Sequelize.INTEGER),
+             defaultValue:[]
          }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more

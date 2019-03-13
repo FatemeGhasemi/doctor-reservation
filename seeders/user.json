@@ -15,13 +15,15 @@
     "phoneNumber": "09192506808",
     "role": "user",
     "status": "active",
-    "cityId": 1
+    "cityId": 1,
+    "favoriteList":[1,2,3]
   },
   {
     "phoneNumber": "09192506809",
     "role": "user",
     "status": "active",
-    "cityId": 3
+    "cityId": 3,
+    "favoriteList":[1,2]
   },
   {
     "phoneNumber": "091925068019",
