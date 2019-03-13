@@ -1,8 +1,5 @@
 const express = require('express');
-const otpService = require('../../services/athorization/otp');
-const jwtService = require('../../services/athorization/jwt');
 const userRepository = require('../../repositories/user');
-const otpSendLimiter = require('../../middlewares/limiter')
 const checkAccess = require('../../middlewares/authentication');
 
 const router = express.Router();

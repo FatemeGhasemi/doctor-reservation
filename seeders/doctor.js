@@ -32,7 +32,9 @@ async function insertDoctors(){
             city:item.city,
             avatarUrl:item.avatarUrl,
             rate:item.rate,
-            status:item.status
+            status:item.status,
+            medicalSystemNumber:item.medicalSystemNumber,
+            proprietary:item.proprietary
         })
 
     }

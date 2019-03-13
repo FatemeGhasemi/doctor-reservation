@@ -14,7 +14,8 @@
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
     "rate": 4,
-    "proprietary": true
+    "proprietary": true,
+    "medicalSystemNumber": "8374837982084093092888"
 
   },
   {
@@ -32,7 +33,9 @@
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg",
     "rate": 3,
-    "proprietary": true
+    "proprietary": true,
+    "medicalSystemNumber": "8374837982084093092999"
+
 
   },
   {
@@ -49,7 +52,9 @@
     "province":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide1.jpg",
     "city":"تهران",
-    "rate": 5
+    "rate": 5,
+    "medicalSystemNumber": "8374837982084093092777"
+
 
 
   },
@@ -67,7 +72,9 @@
     "province":"تهران",
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
-    "rate": 2
+    "rate": 2,
+    "medicalSystemNumber": "8374837982084093092666"
+
 
   }
 ]
