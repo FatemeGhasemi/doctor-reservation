@@ -58,6 +58,7 @@ function addRoutes() {
     app.use('/api/v1/galleries', require('./routers/v1/gallery'));
     app.use('/api/v1/doctor-registration', require('./routers/v1/doctor-registration'));
     app.use('/api/v1/cities', require('./routers/v1/city'));
+    app.use('/api/v1/send-user-reserve-data', require('./routers/v1/reserve-data-sender'));
 }
 
 
