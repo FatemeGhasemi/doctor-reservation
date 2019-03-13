@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const checkAccess = require('../../middlewares/authentication');
 const reserveRepository = require('../../repositories/reserve');
-const statusRepository = require('../../repositories/status');
+const userRepository = require('../../repositories/user');
 const reservationRepository = require('../../repositories/reservation');
 const doctorRepository = require('../../repositories/doctor');
 const officeRepository = require('../../repositories/office');
@@ -20,7 +20,7 @@ const createNewReserve = async (req, res) => {
         const reserve = await reserveRepository.creatReserve(req.body)
         const reservationId = reserve.reservationId
         const reserveTime = reserve.reserveTime
-        // await reservationRepository.deleteTimeAfterChoose(reserveTime, reservationId);
+
         res.json({message: "success operation", result: reserve})
     } catch (e) {
         console.log("Error createNewReserve ", e)

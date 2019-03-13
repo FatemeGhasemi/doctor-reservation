@@ -45,7 +45,7 @@ const createDoctorUser = async (data) => {
 const findDoctorByOfficeId = async (officeId) => {
     const office = await officeRepository.findOfficeById(officeId)
     const doctorId = office.doctorId
-    const doctor = await doctorRepository.findDoctorById(doctorId)
+    const doctor = await doctorSchema.findOne({where:{id:doctorId}})
     return doctor
 }
 

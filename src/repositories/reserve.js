@@ -37,12 +37,15 @@ const creatReserve = async (data) => {
     const reservationData = res[0]
     await reservationRepository.deleteTimeAfterChoose(data.reserveTime,reservationData.counter,reservationData.id)
 
+    const doctor = await doctorRepository.findDoctorByOfficeId(data.officeId)
+    const user = await userRepository.findUserByPhoneNumber(data.userPhoneNumber)
+
     const secretaryId = office.secretaryId
     const reservationId = reservationData.id;
     if (reservationData.length !== 0) {
         return reserveSchema.create({
-            doctorId: data.doctorId,
-            userId: data.userId,
+            doctorId: doctor.id,
+            userId: user.id,
             reserveTime: data.reserveTime,
             officeId: data.officeId,
             reservationId: reservationId,
@@ -104,35 +107,34 @@ const cancelReserve = async (id) => {
  * @param limit
  * @returns {Promise<*>}
  */
-const getListOfUserReserves = async (phoneNumber, offset = 0, limit = 10) => {
+const getListOfUserReserves = async (phoneNumber) => {
     let data = {}
     let result = []
     const user = await userRepository.findUserByPhoneNumber(phoneNumber);
     const userId = user.id
-    const reserves = await reserveSchema.findAll({offset: offset, limit: limit},
-        {where: {userId: userId}})
-    const reserveData = reserves[0]
+    const reserves = await reserveSchema.findAll({where: {userId: userId}})
 
-    const doctor =await doctorRepository.findDoctorById(reserveData.doctorId)
-    const office = await officeRepository.findOfficeById(reserveData.officeId)
-    const city = await cityRepository.findCityById(office.cityId)
-
-    data.doctorName = doctor.name
-    data.doctorPhoneNumber = doctor.phoneNumber
-    data.doctorPhoto = doctor.photoUrl
-    data.officeAddress = office.address
-    data.officeLat = office.lat
-    data.officeLong = office.long
-    data.officeCity = city.displayName
-    data.officePhone = office.phoneNumber
-    data.officePhotoes = office.photoUrl
-    data.reserveTime =reserveData.reserveTime
-    data.price = reserveData.price
-    data.paymentId = reserveData.paymentId
-    data.reservationId = reserveData.reservationId
-    result.push(data)
+    for(let i=0;i<reserves.length;i++){
+        const reserveData = reserves[i]
+        const doctor =await doctorRepository.findDoctorById(reserveData.doctorId)
+        const office = await officeRepository.findOfficeById(reserveData.officeId)
+        const city = await cityRepository.findCityById(office.cityId)
+        data.doctorName = doctor.name
+        data.doctorPhoneNumber = doctor.phoneNumber
+        data.doctorPhoto = doctor.photoUrl
+        data.officeAddress = office.address
+        data.officeLat = office.lat
+        data.officeLong = office.long
+        data.officeCity = city.displayName
+        data.officePhone = office.phoneNumber
+        data.officePhotoes = office.photoUrl
+        data.reserveTime =reserveData.reserveTime
+        data.price = reserveData.price
+        data.paymentId = reserveData.paymentId
+        data.reservationId = reserveData.reservationId
+        result.push(data)
+    }
     return result
-
 };
 
 
