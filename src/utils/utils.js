@@ -27,9 +27,7 @@ const ifTodayIsAtLeastOneDayBefore = (time) => {
         let end = moment(then);
         let duration = moment.duration(end.diff(start)).asDays();
         console.log("duration:", duration)
-
         return (duration >= 1)
-
     } catch (e) {
         console.log(e.message)
     }
@@ -131,9 +129,10 @@ const towTimesDifference = (start, finish) => {
 /**
  *
  * @param dates
+ * @param numberOfReservesInEachTim
  * @returns {Promise<Array>}
  */
-const dayHandler = async (dates) => {
+const dayHandler = async (dates,numberOfReservesInEachTim) => {
     let count = []
     dates.forEach(async item => {
         let startDate = moment(item.date + " " + item.start);
@@ -141,7 +140,9 @@ const dayHandler = async (dates) => {
         const durationTimeInMinute = towTimesDifference(startDate, finishDate);
         const numberOfReserves = durationTimeInMinute / item.duration;
         const c = counter(startDate, numberOfReserves, item.duration)
-        count.push(c)
+        for (let i=0;i<numberOfReservesInEachTim;i++){
+            count.push(c)
+        }
     })
     return count
 }

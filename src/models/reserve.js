@@ -26,13 +26,11 @@ const initReserveSchema = () => {
             type: Sequelize.STRING,
             required: true,
             allowNull: false,
-            unique: 'uniqueTag'
         },
         officeId: {
             type: Sequelize.INTEGER,
             required: true,
             allowNull: false,
-            unique: 'uniqueTag'
         },
         price: {
             type: Sequelize.NUMERIC

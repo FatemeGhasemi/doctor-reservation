@@ -13,13 +13,11 @@ const doctorRepository = require('../repositories/doctor')
  * @returns {Promise<*>}
  */
 const creatReservation = async (data) => {
-    const counter = await counterGenerator(data.dates);
-    // const doctor = await officeRepository.findDoctorByOfficeId(data.officeId)
+    const counter = await counterGenerator(data.dates, data.numberOfReservesInEachTim || 1);
     const office = await officeRepository.findOfficeById(data.officeId)
     const doctorId = office.doctorId
     const doctor = await doctorRepository.findDoctorById(doctorId)
     const doctorOffices = doctor.officeId
-    // const reservations = await findReservationByOfficeId(data.officeId)
     const existFreeReserveList = await findValidReservationCounterOfAnOfficeByOfficeId(data.officeId)
     if (existFreeReserveList.length !== 0) {
         for (let i = 0; i < existFreeReserveList.length; i++) {
@@ -39,7 +37,8 @@ const creatReservation = async (data) => {
                 counter: counter,
                 officeId: data.officeId,
                 doctorId: doctorId,
-                secretaryId: secretaryId
+                secretaryId: secretaryId,
+                numberOfReservesInEachTim: data.numberOfReservesInEachTim
             })
         }
     } else {
@@ -71,18 +70,28 @@ const addStartTimeToCounter = async (reservationId, startTime) => {
 
 const deleteTimeAfterChoose = async (reserveTime, counter, reservationId) => {
     let reserveList = []
-        counter.forEach(item => {
-            if (item.constructor !== Array)
-                if (item !== reserveTime) {
-                    reserveList.push(item)
-                } else if (item.constructor === Array) {
-                    item.forEach(i => {
-                        if (i !== reserveTime) {
-                            reserveList.push(i)
-                        }
-                    })
+    let x = []
+    counter.forEach(item => {
+        if (item.constructor !== Array) {
+            if (item === reserveTime) {
+                x.push(item)
+            }
+            if (item !== reserveTime) {
+                reserveList.push(item)
+            }
+        } else if (item.constructor === Array) {
+            item.forEach(i => {
+                if (i === reserveTime) {
+                    x.push(i)
                 }
-        })
+                if (i !== reserveTime) {
+                    reserveList.push(i)
+                }
+            })
+        }
+    })
+    x.pop();
+    reserveList.push(...x)
     return reservationSchema.update({counter: reserveList}, {returning: true, where: {id: reservationId}})
 
 };
@@ -170,12 +179,13 @@ const findReservationByOfficeIdAndDate = async (officeId, reserveDate) => {
 /**
  *
  * @param dates
+ * @param numberOfReservesInEachTim
  * @returns {Promise<Array>}
  */
 
-const counterGenerator = async (dates) => {
+const counterGenerator = async (dates, numberOfReservesInEachTim) => {
     let counter = []
-    const date = await utils.dayHandler(dates);
+    const date = await utils.dayHandler(dates, numberOfReservesInEachTim);
     date.forEach(item => {
         if (item.constructor === Array) {
             item.forEach(i => {
@@ -217,12 +227,11 @@ const updateReservationData = async (id, data) => {
 };
 
 
-
-const cancelListOfOffice = async (officeId)=>{
+const cancelListOfOffice = async (officeId) => {
     let cancelList = []
-    const reserves = await reserveSchema.findAll({where:{officeId}})
-    reserves.forEach(reserve=>{
-        if(reserve.status === "cancel"){
+    const reserves = await reserveSchema.findAll({where: {officeId}})
+    reserves.forEach(reserve => {
+        if (reserve.status === "cancel") {
             cancelList.push(reserve)
         }
     })
@@ -230,17 +239,16 @@ const cancelListOfOffice = async (officeId)=>{
 }
 
 
-const reservedListOfOffice = async (officeId)=>{
+const reservedListOfOffice = async (officeId) => {
     let approvedList = []
-    const reserves = await reserveSchema.findAll({where:{officeId}})
-    reserves.forEach(reserve=>{
-        if(reserve.status === "approved"){
+    const reserves = await reserveSchema.findAll({where: {officeId}})
+    reserves.forEach(reserve => {
+        if (reserve.status === "approved") {
             approvedList.push(reserve)
         }
     })
     return approvedList
 }
-
 
 
 module.exports = {
