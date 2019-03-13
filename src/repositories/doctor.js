@@ -237,7 +237,7 @@ const removeDoctorFromRecommandList = async (phoneNumber, doctorData) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     if (doctor.proprietary === true) {
         for (let i = 0; i < doctor.recommendedList.length; i++) {
-            const favorite = user.recommendedList[i]
+            const favorite = doctor.recommendedList[i]
             if (favorite !== doctorData) {
                 valid.push(favorite)
             }

@@ -34,7 +34,17 @@ const addToRecommandList = async (req, res) => {
 
 const removeFromRecommandList = async (req, res) => {
     try {
-        const result = await doctorRepository.removeDoctorFromRecommandList(req.params.phoneNumber, req.body.doctorData)
+        let doctorId;
+        const doctor1 = await doctorRepository.searchDoctorByPhoneNumber(req.body.doctorData)
+        const doctor2 = await doctorRepository.findDoctorByMedicalSystemNumber(req.body.doctorData)
+
+        if (doctor1) {
+            doctorId = doctor1.id
+        }
+        if (doctor2) {
+            doctorId = doctor2.id
+        }
+        const result = await doctorRepository.removeDoctorFromRecommandList(req.params.phoneNumber, doctorId)
         res.json({message: "removeFromRecommandList operation succeed", result: result})
 
     } catch (e) {
