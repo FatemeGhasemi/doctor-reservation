@@ -54,21 +54,21 @@ const removeFromRecommandList = async (req, res) => {
 }
 
 
-// const getListOfDoctorRecommands= async (req,res)=>{
-//     try {
-//         const result = await doctorRepository.getDoctorRecommandList(req.query.phoneNumber)
-//         console.log(result)
-//         res.json({message: "getListOfDoctorRecommands operation succeed",result:result})
-//
-//     }catch (e) {
-//         console.log("getListOfDoctorRecommands ERROR: ", e.message);
-//         res.status(500).json({message: "getListOfDoctorRecommands operation failed",result:e.message})
-//     }
-// }
+const getListOfDoctorRecommands= async (req,res)=>{
+    try {
+        const result = await doctorRepository.getDoctorRecommandList(req.query.phoneNumber)
+        console.log(result)
+        res.json({message: "getListOfDoctorRecommands operation succeed",result:result})
+
+    }catch (e) {
+        console.log("getListOfDoctorRecommands ERROR: ", e.message);
+        res.status(500).json({message: "getListOfDoctorRecommands operation failed",result:e.message})
+    }
+}
 
 
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, addToRecommandList);
 router.delete('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, removeFromRecommandList);
-// router.get('/',checkAccess.validateJwt,getListOfUserFavorite);
+router.get('/',checkAccess.validateJwt,getListOfDoctorRecommands);
 
 module.exports = router;
