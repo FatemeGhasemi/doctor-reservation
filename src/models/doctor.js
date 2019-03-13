@@ -54,15 +54,19 @@ const initDoctorSchema = () => {
         cityId: {
             type: Sequelize.STRING
         },
-        avatarUrl:{
-            type:Sequelize.STRING
+        avatarUrl: {
+            type: Sequelize.STRING
         },
-        rate:{
-            type:Sequelize.INTEGER
+        rate: {
+            type: Sequelize.INTEGER
         },
-        proprietary:{
-            type:Sequelize.BOOLEAN,
-            defaultValue:false
+        proprietary: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+        },
+        recommendedList: {
+            type: Sequelize.ARRAY(Sequelize.INTEGER),
+            defaultValue: []
         }
 
 
