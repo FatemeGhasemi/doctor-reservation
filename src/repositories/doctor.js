@@ -51,10 +51,6 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
-const findDoctorBymedicalSystemNumber = async (medicalSystemNumber) => {
-    return doctorSchema.findOne({where: {medicalSystemNumber: medicalSystemNumber}})
-}
-
 
 /**
  * admin approve a user to be a doctor
@@ -251,6 +247,12 @@ const removeDoctorFromRecommandList = async (phoneNumber, doctorData) => {
 };
 
 
+const findDoctorByMedicalSystemNumber = async (medicalSystemNumber) => {
+    return doctorSchema.findOne({where: {medicalSystemNumber: medicalSystemNumber}})
+}
+
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
@@ -264,6 +266,7 @@ module.exports = {
     searchDoctorOfficeByCategoryAndCity,
     updateDoctorRate,
     addDoctorToRecommandList,
-    removeDoctorFromRecommandList
+    removeDoctorFromRecommandList,
+    findDoctorByMedicalSystemNumber
     // searchDoctorByName
 }

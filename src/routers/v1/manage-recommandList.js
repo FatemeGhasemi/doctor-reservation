@@ -8,27 +8,38 @@ const checkAccess = require('../../middlewares/authentication');
 const router = express.Router();
 
 
-
-const addToRecommandList = async (req,res)=>{
+const addToRecommandList = async (req, res) => {
     try {
-        const result = await doctorRepository.addDoctorToRecommandList(req.params.phoneNumber,req.body.doctorId)
-        res.json({message: "addToRecommandList operation succeed",result:result})
+        let doctorId;
+        const doctor1 = await doctorRepository.searchDoctorByPhoneNumber(req.body.doctorData)
+        const doctor2 = await doctorRepository.findDoctorByMedicalSystemNumber(req.body.doctorData)
 
-    }catch (e) {
+        if (doctor1) {
+            doctorId = doctor1.id
+        }
+        if (doctor2) {
+            doctorId = doctor2.id
+        }
+
+
+        const result = await doctorRepository.addDoctorToRecommandList(req.params.phoneNumber, doctorId)
+        res.json({message: "addToRecommandList operation succeed", result: result})
+
+    } catch (e) {
         console.log("addToRecommandList ERROR: ", e.message);
-        res.status(500).json({message: "addToRecommandList operation failed",result:e.message})
+        res.status(500).json({message: "addToRecommandList operation failed", result: e.message})
     }
 }
 
 
-const removeFromRecommandList = async (req,res)=>{
+const removeFromRecommandList = async (req, res) => {
     try {
-        const result = await doctorRepository.removeDoctorFromRecommandList(req.params.phoneNumber,req.body.doctorId)
-        res.json({message: "removeFromRecommandList operation succeed",result:result})
+        const result = await doctorRepository.removeDoctorFromRecommandList(req.params.phoneNumber, req.body.doctorData)
+        res.json({message: "removeFromRecommandList operation succeed", result: result})
 
-    }catch (e) {
+    } catch (e) {
         console.log("removeFromRecommandList ERROR: ", e.message);
-        res.status(500).json({message: "removeFromRecommandList operation failed",result:e.message})
+        res.status(500).json({message: "removeFromRecommandList operation failed", result: e.message})
     }
 }
 
@@ -46,11 +57,8 @@ const removeFromRecommandList = async (req,res)=>{
 // }
 
 
-
-
-
-router.put('/:phoneNumber',checkAccess.validateJwt,checkAccess.checkAccess ,addToRecommandList);
-router.delete('/:phoneNumber',checkAccess.validateJwt,checkAccess.checkAccess ,removeFromRecommandList);
+router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, addToRecommandList);
+router.delete('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, removeFromRecommandList);
 // router.get('/',checkAccess.validateJwt,getListOfUserFavorite);
 
 module.exports = router;
