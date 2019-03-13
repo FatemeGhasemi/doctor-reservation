@@ -59,6 +59,10 @@ const initDoctorSchema = () => {
         },
         rate:{
             type:Sequelize.INTEGER
+        },
+        proprietary:{
+            type:Sequelize.BOOLEAN,
+            defaultValue:false
         }
 
 

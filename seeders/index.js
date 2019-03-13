@@ -15,6 +15,8 @@ const city = require('./city')
 const advertise = require('./advertise')
 const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
+const favorite = require('./favorite')
+
 
 async function initDbAndSeed() {
     try {
@@ -34,6 +36,7 @@ async function initDbAndSeed() {
         await reservation.insertReservation()
         await reserve.insertReserve()
         await advertise.insertAdvertise()
+        await favorite.insertFavorite()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 

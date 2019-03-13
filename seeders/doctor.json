@@ -13,7 +13,8 @@
     "province":"تهران",
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
-    "rate": 4
+    "rate": 4,
+    "proprietary": true
 
   },
   {
@@ -30,7 +31,9 @@
     "province":"تهران",
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg",
-    "rate": 3
+    "rate": 3,
+    "proprietary": true
+
   },
   {
     "phoneNumber": "091925068018",
