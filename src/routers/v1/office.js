@@ -75,8 +75,6 @@ const getAllOfInsuranceAnOfficeAccept = async (req,res)=>{
 
 
 
-
-
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewOffice);
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumberInOfficeRouter, checkAccess.checkRolesAccess, updateOffice);
 router.get('/', searchOfficeByNearest)

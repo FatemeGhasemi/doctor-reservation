@@ -38,10 +38,14 @@ p, admin, advertises, post
 p, admin, advertises, get
 p, admin, advertises, put
 p, admin, galleries, delete
+p, admin, galleries, post
 p, secretary, galleries, delete
+p, secretary, galleries, post
 p, doctor, galleries, delete
 p, admin, galleries, put
 p, doctor, galleries, put
+p, doctor, galleries, post
+
 p, secretary, galleries, put
 p, admin, cities, put
 p, admin, cities, post
