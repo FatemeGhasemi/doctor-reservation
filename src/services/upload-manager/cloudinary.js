@@ -13,25 +13,20 @@ const uploadToCloudinary = (image) => {
     const filesDir = "./tempFiles"
     const path = filesDir + "/" + utils.generateRandomString(20) + ".png"
     console.log('uploadToCloudinary image dest path',path)
-
     return new Promise((resolve, reject) => {
         image.mv(path, function (err) {
             if (err) {
                 return reject('Move image failed ', err)
             }
             if (utils.validateFileSize(path, 2000000000)) {
-
                 cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
                     fs.unlink(path)
                     if (err) {
                         console.log('error uploading cloudinary ', err)
                         return reject('Upload image failed ...', err)
-
                     }
                     console.log('result of cloudinary ', result.url)
                     resolve(result.url)
-
-
                 });
             }
             else {
@@ -39,7 +34,6 @@ const uploadToCloudinary = (image) => {
             }
 
         });
-
     })
 }
 
