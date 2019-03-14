@@ -7,6 +7,7 @@ const reservationRepository = require('../../repositories/reservation');
 const doctorRepository = require('../../repositories/doctor');
 const officeRepository = require('../../repositories/office');
 const utils = require('../../utils/utils');
+const sms = require('../../services/sms')
 
 
 /**
@@ -17,14 +18,29 @@ const utils = require('../../utils/utils');
  */
 const createNewReserve = async (req, res) => {
     try {
+        let result = []
+        let message = "کاربر محترم اپ سفید رزرو پزشک مورد نظر شما به شرح زیر انجام شده:"
         const reserve = await reserveRepository.creatReserve(req.body)
-        const reservationId = reserve.reservationId
-        const reserveTime = reserve.reserveTime
-
-        res.json({message: "success operation", result: reserve})
+        const doctorId = reserve.doctorId
+        const doctor = await doctorRepository.findDoctorById(doctorId)
+        const office = await officeRepository.findOfficeById(reserve.officeId)
+        let data = {}
+        data.officAddress = office.address
+        data.officLat = office.lat
+        data.officLong = office.long
+        data.doctorName = doctor.name
+        data.doctorType = doctor.type
+        data.avatarUrl = doctor.avatarUrl
+        data.reservaTime = req.body.reserveTime
+        result.push(data)
+        if (doctor.smsPackCounter >= 1) {
+            await sms.send(res.locals.user.phoneNumber, {message: message, data: data})
+            await doctorRepository.minusDoctorSmsPackCounter(doctorId)
+        }
+        res.json({message: "success createNewReserve operation", result: result})
     } catch (e) {
         console.log("Error createNewReserve ", e)
-        res.status(500).json({message: e.message})
+        res.status(500).json({message: createNewReserve, result: e.message})
     }
 };
 
@@ -41,17 +57,31 @@ const cancelReserve = async (req, res) => {
         const reserveTime = reserve.reserveTime;
         const reservationId = reserve.reservationId;
         const ifTodayIsAtLeastOneDayBefore = utils.ifTodayIsAtLeastOneDayBefore(reserveTime)
+        const doctorId = reserve.doctorId
+        const doctor = await doctorRepository.findDoctorById(doctorId)
+        const user = await userRepository.findUserById(reserve.userId)
         if (ifTodayIsAtLeastOneDayBefore) {
             const reserve = await reserveRepository.cancelReserve(req.params.id)
-
             await reservationRepository.addStartTimeToCounter(reservationId, reserveTime)
-            res.json({message: "success operation", result: reserve})
+            if (doctor.smsPackCounter >= 1) {
+                const message = "کاربر گرامی اپ سفید نوبت شما با اطلاعات زیر لغو شد"
+                let data = {}
+                data.reservaTime = reserve.reserveTime
+                data.reserveId = req.params.id
+                data.doctorName = doctor.name
+                await sms.send(user.phoneNumber, {message: message, data: data})
+            }
+            let result = []
+            result.push(data)
+
+
+            res.json({message: "success cancelReserve operation", result: result})
         } else if (!ifTodayIsAtLeastOneDayBefore) {
             res.json({message: "too late to cancel yor reserve"})
         }
     } catch (e) {
         console.log("cancelReserve ERROR: ", e)
-        res.status(500).json({message: "cancelReserve ERROR: " + e.message})
+        res.status(500).json({message: "cancelReserve ERROR: ", result: e.message})
     }
 };
 

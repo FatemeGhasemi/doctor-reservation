@@ -76,6 +76,10 @@ const initDoctorSchema = () => {
         documentsPhotosUrl:{
             type:Sequelize.ARRAY(Sequelize.STRING),
             defaultValue:[]
+        },
+        smsPackCounter:{
+            type:Sequelize.NUMERIC,
+            defaultValue:0
         }
 
 

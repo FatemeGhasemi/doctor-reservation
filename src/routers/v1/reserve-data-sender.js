@@ -1,5 +1,5 @@
 const express = require('express');
-const otpService = require('../../services/athorization/otp');
+const sms = require('../../services/sms');
 const jwtService = require('../../services/athorization/jwt');
 const userRepository = require('../../repositories/user');
 const reserveRepository = require('../../repositories/reserve');
@@ -26,7 +26,7 @@ const sendUserReservesData = async (req, res) => {
         data.message = message
         data.reserveData = result
 
-        await otpService.sendOtpHandler(req.query.phoneNumber, data)
+        await sms.send(req.query.phoneNumber, data)
         res.status(200).json({message: "success sendUserReservesData operation", result: data})
     } catch (e) {
         console.log("sendUserReservesData ERROR: ", e.message);

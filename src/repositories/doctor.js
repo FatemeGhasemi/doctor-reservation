@@ -51,7 +51,6 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
-
 /**
  * admin approve a user to be a doctor
  * @param id
@@ -252,35 +251,32 @@ const findDoctorByMedicalSystemNumber = async (medicalSystemNumber) => {
 }
 
 
-
-const getDoctorRecommandList = async (phoneNumber)=>{
-        let result =[]
-        const doctor = await searchDoctorByPhoneNumber(phoneNumber)
-        const recommendedList = doctor.recommendedList
-        for (let i = 0; i < recommendedList.length; i++) {
-            let data = {}
-            const doctorId = recommendedList[i]
-            const doctor = await findDoctorById(doctorId)
-            const officeIds = doctor.officeId
-            for (let j = 0; j < officeIds.length; j++) {
-                const officId = officeIds[j]
-                const office = await officeRepository.findOfficeById(officId)
-                data.doctorName = doctor.name
-                data.doctorPhoneNumber = doctor.phoneNumber
-                data.doctorPhoto = doctor.photoUrl
-                data.doctorCategoryId = doctor.categoryId
-                data.officeAddress = office.address
-                data.officeLat = office.lat
-                data.officeLong = office.long
-                data.officePhone = office.phoneNumber
-                data.officePhotoes = office.photoUrl
-                result.push(data)
-            }
+const getDoctorRecommandList = async (phoneNumber) => {
+    let result = []
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    const recommendedList = doctor.recommendedList
+    for (let i = 0; i < recommendedList.length; i++) {
+        let data = {}
+        const doctorId = recommendedList[i]
+        const doctor = await findDoctorById(doctorId)
+        const officeIds = doctor.officeId
+        for (let j = 0; j < officeIds.length; j++) {
+            const officId = officeIds[j]
+            const office = await officeRepository.findOfficeById(officId)
+            data.doctorName = doctor.name
+            data.doctorPhoneNumber = doctor.phoneNumber
+            data.doctorPhoto = doctor.photoUrl
+            data.doctorCategoryId = doctor.categoryId
+            data.officeAddress = office.address
+            data.officeLat = office.lat
+            data.officeLong = office.long
+            data.officePhone = office.phoneNumber
+            data.officePhotoes = office.photoUrl
+            result.push(data)
         }
-        return result
+    }
+    return result
 }
-
-
 
 
 const deletePhotoFromDoctorDocument = async (phoneNumber, photoUrl) => {
@@ -302,8 +298,6 @@ const deletePhotoFromDoctorDocument = async (phoneNumber, photoUrl) => {
 }
 
 
-
-
 const addPhotoToDoctorDocument = async (phoneNumber, PhotoUrl) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     const urls = doctor.documentsPhotosUrl
@@ -314,6 +308,12 @@ const addPhotoToDoctorDocument = async (phoneNumber, PhotoUrl) => {
     )
 }
 
+
+const minusDoctorSmsPackCounter = async (doctorId) => {
+    const doctor = await findDoctorById(doctorId)
+    const smsPackCounter = doctor.smsPackCounter - 1
+    return doctorSchema.update({smsPackCounter: smsPackCounter}, {returning: true, where: {id: doctorId}})
+}
 
 
 module.exports = {
@@ -333,6 +333,7 @@ module.exports = {
     findDoctorByMedicalSystemNumber,
     getDoctorRecommandList,
     deletePhotoFromDoctorDocument,
-    addPhotoToDoctorDocument
+    addPhotoToDoctorDocument,
+    minusDoctorSmsPackCounter
     // searchDoctorByName
 }
