@@ -1,47 +1,30 @@
-// const Sequelize = require('sequelize');
-//
-// const sequelize = new Sequelize('test', 'postgres', 'postgres', {
-//     dialect:'postgres',
-//     host:'localhost',
-//     port: 5431,
-// });
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log('Connection has been established successfully.');
-//     })
-//     .catch(err => {
-//         console.error('Unable to connect to the database:', err);
-//     });
-// const User = sequelize.define('user', {
-//     firstName: {
-//         type: Sequelize.STRING
-//     },
-//     lastName: {
-//         type: Sequelize.STRING
-//     }
-// });
-// const City = sequelize.define('city', { countryCode: Sequelize.STRING });
-// const Country = sequelize.define('country', { isoCode: Sequelize.STRING });
+require('dotenv').config();
 
-// Here we can connect countries and cities base on country code
-// Country.hasMany(City, {foreignKey: 'countryCode', sourceKey: 'isoCode'});
-// City.belongsTo(Country, {foreignKey: 'countryCode', targetKey: 'isoCode'});
-// force: true will drop the table if it already exists
-// City.sync({force: true}).then(() => {
-    // Table created
-    // return User.create({
-    //     firstName: 'John',
-    //     lastName: 'Hancock'
-    // });
-// });
-// Country.sync({force: true}).then(() => {
-    // Table created
-    // return User.create({
-    //     firstName: 'John',
-    //     lastName: 'Hancock'
-    // });
-// });
-let y = [[1,2,3],[4,5]]
-console.log(y)
-y.contains(7)
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const uploadManager = require('./src/services/upload-manager/cloudinary')
+
+app.use(bodyParser.json());
+app.use(fileUpload());
+app.listen(5000, () => {
+    console.log("Example app listening at http://%s:%s", 5000)
+    if (process.env.IS_MOCK === 'true') console.log('Mock mode ....')
+});
+app.post('/upload',upload)
+
+async function upload(req, res) {
+    console.log('req.files : ' , req.files);
+    const image = req.files.image;
+    console.log('request body : ',req.body);
+    try {
+        const result = await uploadManager.uploadToCloudinary(image)
+        res.json({message: `fileName uoloaded`, result: {imageLink :result.url}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message:"Problem with uploading image", result:e.message})
+    }
+
+}

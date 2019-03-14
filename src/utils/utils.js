@@ -7,10 +7,26 @@ const moment = require('moment')
  * @returns {Promise<number>}
  */
 const getRandomFourDigitNumber = async () => {
-    return Math.floor(1000 + Math.random() * 9000);
+    return getRandomInt(1000, 9999);
+};
+
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 
+const generateRandomString = (len) => {
+    const buf = [];
+    const chars =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charlen = chars.length;
+
+    for (let i = 0; i < len; i += 1) {
+        buf.push(chars[getRandomInt(0, charlen - 1)]);
+    }
+
+    return buf.join('');
+};
 /**
  *
  * @param time
@@ -211,6 +227,7 @@ module.exports = {
     isDateInDates,
     isEmpty,
     ifTimeIsOneWeekLaterThanToday,
-    ifTime2IsBetweenTowOtherTime
+    ifTime2IsBetweenTowOtherTime,
+    generateRandomString
 
 }
