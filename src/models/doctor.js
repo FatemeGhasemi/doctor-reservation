@@ -72,7 +72,12 @@ const initDoctorSchema = () => {
             type: Sequelize.STRING,
             unique: true,
             allowNull: false
+        },
+        documentsPhotosUrl:{
+            type:Sequelize.ARRAY(Sequelize.STRING),
+            defaultValue:[]
         }
+
 
 
     });

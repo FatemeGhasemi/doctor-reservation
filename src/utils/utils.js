@@ -1,5 +1,6 @@
 const datetime = require('node-datetime');
 const moment = require('moment')
+const fs = require('fs')
 
 
 /**
@@ -219,6 +220,22 @@ const isEmpty = (obj) => {
 }
 
 
+
+const getFileSizeInBytes = (filename)=> {
+    const stats = fs.statSync(filename)
+    const fileSizeInBytes = stats["size"]
+    return fileSizeInBytes
+}
+
+
+const validateFileSize = (filename,maxByte)=>{
+    const fileSizeInBytes = getFileSizeInBytes(filename)
+    return fileSizeInBytes<=maxByte
+}
+
+
+
+
 module.exports = {
     getRandomFourDigitNumber,
     ifTodayIsAtLeastOneDayBefore,
@@ -228,6 +245,8 @@ module.exports = {
     isEmpty,
     ifTimeIsOneWeekLaterThanToday,
     ifTime2IsBetweenTowOtherTime,
-    generateRandomString
+    generateRandomString,
+    getFileSizeInBytes,
+    validateFileSize
 
 }

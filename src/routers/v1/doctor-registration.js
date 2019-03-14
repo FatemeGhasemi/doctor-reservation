@@ -3,9 +3,11 @@ const doctorRepository = require("../../repositories/doctor");
 const officeRepository = require("../../repositories/office");
 const userRepository = require("../../repositories/user");
 const categoryRepository = require("../../repositories/category");
-
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
+const fileUpload = require('express-fileupload');
+const uploadManager = require('../../services/upload-manager/cloudinary')
+const utils = require('../../utils/utils')
 const router = express.Router();
 
 
@@ -40,9 +42,8 @@ const getListOfActivityField = async (req, res) => {
 
 const registerDoctor = async (req, res) => {
     try {
-        // ["darmangaran", "dandanPezeshki", "jarahOmoomi"]
         const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(req.body.categoriesArray)
-        console.log("req.body.categoriesArray:",req.body.categoriesArray)
+        console.log("req.body.categoriesArray:", req.body.categoriesArray)
         req.body.categoryId = categoryId
         const doctor = await doctorRepository.createDoctorUser(req.body)
         res.json({message: "success registerDoctor operation", result: doctor})
@@ -51,15 +52,31 @@ const registerDoctor = async (req, res) => {
         console.log("registerDoctor ERROR: ", e)
         res.status(500).json({message: "registerDoctor fail operation", result: e.message})
     }
+}
 
 
+const uploadDocument = async (req, res) => {
+    console.log('req.files : ', req.files);
+    const image = req.files.image;
+    console.log('req.files.image : ', image);
+    try {
+
+        const phone = res.locals.user.phoneNumber
+        const result = await uploadManager.uploadToCloudinary(image)
+        await doctorRepository.addPhotoToDoctorDocument(phone,result)
+        res.json({message: `fileName uploaded`, result: {imageLink: result}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message: "Problem with uploading image", result: e.message})
+    }
 }
 
 
 router.get('/registerType', checkAccess.validateJwt, getListOfRegisterTypes);
 router.get('/ActivityField', checkAccess.validateJwt, getListOfActivityField);
-router.post('/',checkAccess.validateJwt, registerDoctor);
-
+router.post('/', checkAccess.validateJwt, registerDoctor);
+router.post('/uploadFile', checkAccess.validateJwt, uploadDocument);
 
 
 module.exports = router;

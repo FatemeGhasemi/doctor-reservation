@@ -278,7 +278,40 @@ const getDoctorRecommandList = async (phoneNumber)=>{
             }
         }
         return result
+}
 
+
+
+
+const deletePhotoFromDoctorDocument = async (phoneNumber, photoUrl) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    let result = []
+    const urls = doctor.documentsPhotosUrl
+    if (urls.length !== 0) {
+        for (let i = 0; i < urls.length; i++) {
+            let item = urls[i]
+            if (item !== photoUrl) {
+                result.push(item)
+            }
+        }
+    }
+    return doctorSchema.update(
+        {documentsPhotosUrl: result},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
+}
+
+
+
+
+const addPhotoToDoctorDocument = async (phoneNumber, PhotoUrl) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    const urls = doctor.documentsPhotosUrl
+    urls.push(PhotoUrl)
+    return doctorSchema.update(
+        {documentsPhotosUrl: urls},
+        {returning: true, where: {phoneNumber: phoneNumber}}
+    )
 }
 
 
@@ -298,6 +331,8 @@ module.exports = {
     addDoctorToRecommandList,
     removeDoctorFromRecommandList,
     findDoctorByMedicalSystemNumber,
-    getDoctorRecommandList
+    getDoctorRecommandList,
+    deletePhotoFromDoctorDocument,
+    addPhotoToDoctorDocument
     // searchDoctorByName
 }

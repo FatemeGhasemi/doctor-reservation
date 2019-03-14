@@ -19,17 +19,24 @@ const uploadToCloudinary = (image) => {
             if (err) {
                 return reject('Move image failed ', err)
             }
-            cloudinary.uploader.upload(path,{folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
-                fs.unlink(path)
-                if (err) {
-                    return reject('Upload image failed ...', err)
+            // if (utils.validateFileSize(path, 2000000000)) {
 
-                }
-                console.log('error uploading cloudinary ', err)
-                console.log('result of cloudinary ', result)
-                resolve(result)
+                cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
+                    fs.unlink(path)
+                    if (err) {
+                        console.log('error uploading cloudinary ', err)
+                        return reject('Upload image failed ...', err)
 
-            });
+                    }
+                    console.log('result of cloudinary ', result.url)
+                    resolve(result.url)
+
+
+                });
+            // }
+            // else {
+            //     return reject('cant upload file larger than tow megabyte', err)
+            // }
 
         });
 
