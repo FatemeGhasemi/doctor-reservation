@@ -175,6 +175,11 @@ const getListOfFavorite = async (phoneNumber) => {
 }
 
 
+const addAvatarUrl = async (phoneNumber,photoUrl)=>{
+    userSchema.update({avatarUrl: photoUrl},{returning:true,where:{phoneNumber:phoneNumber}})
+}
+
+
 module.exports = {
     activateUser,
     createUser,
@@ -189,7 +194,8 @@ module.exports = {
 //     searchUserFullText,
     addFavorite,
     removeFavorite,
-    getListOfFavorite
+    getListOfFavorite,
+    addAvatarUrl
 };
 
 

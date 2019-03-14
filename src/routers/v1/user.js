@@ -3,6 +3,7 @@ const router = express.Router();
 const userRepository = require('../../repositories/user');
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
+const uploadManager = require('../../services/upload-manager/cloudinary')
 
 
 /**
@@ -86,10 +87,30 @@ const getOwnProfile = async (req,res)=>{
 
 
 
+const uploadAvatarUrl = async (req,res)=>{
+    try {
+        const image = req.files.image;
+        const result = uploadManager.uploadToCloudinary(image)
+        const user = await userRepository.addAvatarUrl(res.locals.user.phoneNumber,result)
+        res.json({message: "success operation", result: {imageUrl:result,userId:user.id}})
+
+    }catch (e) {
+        res.status(500).json({message:"getOwnProfile fail operation" ,result:e.message})
+
+    }
+}
+
+
+
+
+
+
+
 
 
 router.post('/', createNewUser);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, updateUserData);
 // router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
 router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
+router.post('/upload-avatarPhoto', checkAccess.validateJwt,uploadAvatarUrl);
 module.exports = router;
