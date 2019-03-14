@@ -19,7 +19,7 @@ const uploadToCloudinary = (image) => {
             if (err) {
                 return reject('Move image failed ', err)
             }
-            // if (utils.validateFileSize(path, 2000000000)) {
+            if (utils.validateFileSize(path, 2000000000)) {
 
                 cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
                     fs.unlink(path)
@@ -33,10 +33,10 @@ const uploadToCloudinary = (image) => {
 
 
                 });
-            // }
-            // else {
-            //     return reject('cant upload file larger than tow megabyte', err)
-            // }
+            }
+            else {
+                return reject('cant upload file larger than tow megabyte', err)
+            }
 
         });
 
