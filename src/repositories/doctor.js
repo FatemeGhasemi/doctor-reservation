@@ -316,6 +316,11 @@ const minusDoctorSmsPackCounter = async (doctorId) => {
 }
 
 
+const updateSmsCounter = async (doctorId,counter)=>{
+    doctorSchema.update({smsPackCounter: counter},{returning:true,where:{id:doctorId}})
+}
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
@@ -334,6 +339,7 @@ module.exports = {
     getDoctorRecommandList,
     deletePhotoFromDoctorDocument,
     addPhotoToDoctorDocument,
-    minusDoctorSmsPackCounter
+    minusDoctorSmsPackCounter,
+    updateSmsCounter
     // searchDoctorByName
 }
