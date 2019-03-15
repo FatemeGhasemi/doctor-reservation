@@ -67,12 +67,7 @@ const getAllOfInsuranceAnOfficeAccept = async (req, res) => {
     try {
         let result = []
         const offices = await officeRepository.returnOfficeData(req.query.officeId)
-        for (let i=0;i<offices.length;i++){
-            const office = offices[i]
-            if(office.categoryId === req.query.categoryId){
-                result.push(office)
-            }
-        }
+        result.push(offices)
 
         res.json({message: "success getAllOfInsuranceAnOfficeAccept operation", result: result})
 
