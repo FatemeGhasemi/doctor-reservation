@@ -27,12 +27,9 @@ const chargeSmsPackCounter = async (doctorPhone) => {
         }else {
             data.message="no credit to charge"
         }
-
         result.push(data)
     }
-
     return result
-
 }
 
 
