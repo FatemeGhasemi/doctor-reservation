@@ -43,7 +43,8 @@ const initDoctorSchema = () => {
         },
         nationalId: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique:true
         },
         field: {
             type: Sequelize.STRING
@@ -80,6 +81,10 @@ const initDoctorSchema = () => {
         smsPackCounter:{
             type:Sequelize.NUMERIC,
             defaultValue:0
+        },
+        gender:{
+            type:Sequelize.STRING
+            allowNull:false
         }
 
 

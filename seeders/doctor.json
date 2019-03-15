@@ -15,7 +15,9 @@
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
     "rate": 4,
     "proprietary": true,
-    "medicalSystemNumber": "8374837982084093092888"
+    "medicalSystemNumber": "8374837982084093092888",
+    "gender": "male"
+
 
   },
   {
@@ -34,7 +36,8 @@
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg",
     "rate": 3,
     "proprietary": true,
-    "medicalSystemNumber": "8374837982084093092999"
+    "medicalSystemNumber": "8374837982084093092999",
+    "gender": "male"
 
 
   },
@@ -53,14 +56,30 @@
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide1.jpg",
     "city":"تهران",
     "rate": 5,
-    "medicalSystemNumber": "8374837982084093092777"
-
-
-
+    "medicalSystemNumber": "8374837982084093092777",
+    "gender": "male"
   },
   {
     "phoneNumber": "091925068020",
     "name": "ناصر ناصری",
+    "categoryId": 38,
+    "officeId": [2,6],
+    "status":"approved",
+    "type": "متخصص",
+    "secretaryId": [1,2,3],
+    "nationalId":"00178965438",
+    "field":"مهندسی پزشکی",
+    "grade":"لیسانس",
+    "province":"تهران",
+    "city":"تهران",
+    "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
+    "rate": 2,
+    "medicalSystemNumber": "8374837982084093092666",
+    "gender": "male"
+  },
+  {
+    "phoneNumber": "091925068026",
+    "name": "زهرا زهرایی",
     "categoryId": 38,
     "officeId": [2,6],
     "status":"approved",
@@ -73,8 +92,7 @@
     "city":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
     "rate": 2,
-    "medicalSystemNumber": "8374837982084093092666"
-
-
+    "medicalSystemNumber": "8374837982084093092777",
+    "gender": "female"
   }
 ]

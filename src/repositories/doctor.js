@@ -30,7 +30,8 @@ const createDoctorUser = async (data) => {
             field: data.field,
             grade: data.grade,
             cityId: cityId,
-            medicalSystemNumber: data.medicalSystemNumber
+            medicalSystemNumber: data.medicalSystemNumber,
+            gender:data.gender
         })
     } else {
         throw new Error("user have to creat user account first")
@@ -49,6 +50,12 @@ const findDoctorByOfficeId = async (officeId) => {
     const doctor = await doctorSchema.findOne({where: {id: doctorId}})
     return doctor
 }
+
+
+const findDoctorsByGender = async (gender)=>{
+    return doctorSchema.findAll({where:{gender:gender}})
+}
+
 
 
 /**
@@ -326,6 +333,16 @@ const updateSmsCounter = async (doctorId,counter)=>{
 }
 
 
+const findDoctorByType= (doctorType)=>{
+    return doctorSchema.findAll({where:{type:doctorType}})
+}
+
+
+const findDoctorGender= (gender)=>{
+    return doctorSchema.findAll({where:{gender:gender}})
+}
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
@@ -346,6 +363,9 @@ module.exports = {
     addPhotoToDoctorDocument,
     minusDoctorSmsPackCounter,
     updateSmsCounter,
-    findDoctorByUserId
+    findDoctorsByGender,
+    findDoctorByUserId,
+    findDoctorByType,
+    findDoctorGender
     // searchDoctorByName
 }

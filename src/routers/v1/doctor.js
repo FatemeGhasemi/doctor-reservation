@@ -98,6 +98,7 @@ const getDoctorListController = async (req, res) => {
                     doctorData.long = office.long
                     doctorData.phoneNumber = officePhone
                     doctorData.officePhotos = office.photoUrl
+                    doctorData.officeId = item
                     result.push(doctorData)
                 }
             }
