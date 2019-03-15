@@ -65,7 +65,15 @@ const searchOfficeByNearest = async (req, res) => {
 
 const getAllOfInsuranceAnOfficeAccept = async (req, res) => {
     try {
-        const result = await officeRepository.returnOfficeData(req.query.officeId)
+        let result = []
+        const offices = await officeRepository.returnOfficeData(req.query.officeId)
+        for (let i=0;i<offices.length;i++){
+            const office = offices[i]
+            if(office.categoryId === req.query.categoryId){
+                result.push(office)
+            }
+        }
+
         res.json({message: "success getAllOfInsuranceAnOfficeAccept operation", result: result})
 
     } catch (e) {
@@ -115,6 +123,7 @@ const getListOfOfficeInCity = async (req, res) => {
         })
     }
 }
+
 
 const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
     try {
