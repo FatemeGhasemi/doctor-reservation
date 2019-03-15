@@ -328,13 +328,15 @@ const findOfficeByCity = async (cityName) => {
 };
 
 
-const findOfficeByDoctorGender = async (gender) => {
+const findOfficeByDoctorGender = async (gender,categoryId) => {
     let result = [];
     const doctors = await doctorSchema.findAll({where: {gender: gender}});
     for (let i = 0; i < doctors.length; i++) {
         const doctor = doctors[i];
-        const res = await returnDoctorData(doctor.id);
-        result.push(res)
+        if(doctor.categoryId === categoryId) {
+            const res = await returnDoctorData(doctor.id);
+            result.push(res)
+        }
     }
     return result
 };

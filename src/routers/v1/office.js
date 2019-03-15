@@ -111,7 +111,7 @@ const getListOfOfficeInCity = async (req, res) => {
 
 const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
     try {
-        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender)
+        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender,req.query.categoryId)
         res.json({message: "success getListOfOfficeWithSpecialGenderDoctor operation", result: result})
 
     } catch (e) {
@@ -156,7 +156,7 @@ router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumb
 router.get('/', searchOfficeByNearest)
 router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
 router.get('/city', getListOfOfficeInCity)
-router.get('/gender', getListOfOfficeWithSpecialGenderDoctor)
+router.get('/gender/category', getListOfOfficeWithSpecialGenderDoctor)
 router.get('/insuranceName/city', findListOfOfficeAcceptSpecialInsurance)
 router.get('/insurances/gender/city/category', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
 module.exports = router;
