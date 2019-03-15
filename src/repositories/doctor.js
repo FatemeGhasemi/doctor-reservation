@@ -374,5 +374,4 @@ module.exports = {
     findDoctorByType,
     findDoctorGender,
     findDoctorByDoctorType
-    // searchDoctorByName
 }
