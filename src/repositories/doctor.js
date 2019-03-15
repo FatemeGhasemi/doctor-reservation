@@ -53,7 +53,8 @@ const findDoctorByOfficeId = async (officeId) => {
 
 
 const findDoctorsByGender = async (gender)=>{
-    return doctorSchema.findAll({where:{gender:gender}})
+    const doctors = await doctorSchema.findAll({where:{gender:gender}})
+    return doctors
 }
 
 
@@ -372,6 +373,6 @@ module.exports = {
     findDoctorsByGender,
     findDoctorByUserId,
     findDoctorByType,
-    findDoctorGender,
+    // findDoctorGender,
     findDoctorByDoctorType
 }

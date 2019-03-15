@@ -23,36 +23,37 @@ const findInsuranceByName = async (insuranceName) => {
 
 
 
-const findOfficeByInsuranceNameAndGenderAndDoctorType = async (insuranceName, doctorType, gender, cityName) => {
-    const doctors = await doctorRepository.findDoctorByType(doctorType)
-    let result = []
-    // let offices =
+const findOfficeByInsuranceNameAndGender = async (insuranceName, gender, cityName) => {
 
+    const doctors = await doctorRepository.findDoctorsByGender(gender)
+    let result = []
+    // // let offices =
+    //
     for (let i = 0; i < doctors.length; i++) {
         const doctor = doctors[i]
-        if (gender) {
-            if (doctor.gender === gender) {
-                const offices = doctor.officeId
-                for (let j = 0; j < offices.length; j++) {
-                    const office = offices[j]
+                const officeIds = doctor.officeId
+                for (let j = 0; j < officeIds.length; j++) {
+                    const officeId = officeIds[j]
+                    const office = await officeRepository.findOfficeById(officeId)
                     const cityId = office.cityId
                     const city = await cityRepository.findCityById(cityId)
                     if (city.name === cityName || city.displayName === cityName) {
                         const insurances = await officeRepository.OfficeInsurance(office.id)
                         for (let k = 0; k < insurances.length; k++) {
                             const insurance = insurances[k]
-                            if (insurance.name === insuranceName || insurance.displayName === insuranceName) {
-                                const data = await officeRepository.returnOfficeData(office.id)
+                            const insuranceNamex = await insuranceSchema.findOne({where:{displayName: insurance}})
+                            const insuranceNamexx = insuranceNamex.name
+                            if (insuranceNamexx === insuranceName) {
+                                const data = await officeRepository.returnDoctorData(doctor.id)
                                 result.push(data)
                             }
                         }
                     }
                 }
-            }
-        }
+
     }
     return result
 }
 
 
-module.exports = {findInsuranceById, findInsuranceByName, findOfficeByInsuranceNameAndGenderAndDoctorType}
+module.exports = {findInsuranceById, findInsuranceByName, findOfficeByInsuranceNameAndGender}

@@ -355,7 +355,8 @@ module.exports = {
     addPhotoToGallery,
     OfficeInsurance,
     findOfficeByCity,
-    findOfficeByDoctorGender
+    findOfficeByDoctorGender,
+    returnDoctorData
 };
 
 

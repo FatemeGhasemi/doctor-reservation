@@ -76,9 +76,8 @@ const getAllOfInsuranceAnOfficeAccept = async (req, res) => {
 
 const getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName = async (req, res) => {
     try {
-        const result = await insurancesRepository.findOfficeByInsuranceNameAndGenderAndDoctorType(
+        const result = await insurancesRepository.findOfficeByInsuranceNameAndGender(
             req.query.insuaranceName,
-            req.query.doctorType,
             req.query.gender,
             req.query.cityName)
         res.json({
@@ -148,22 +147,6 @@ const findListOfOfficeAcceptSpecialInsurance = async (req, res) => {
         })
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNewOffice);
