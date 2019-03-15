@@ -98,7 +98,14 @@ const getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName = as
 
 const getListOfOfficeInCity = async (req, res) => {
     try {
-        const result = await officeRepository.findOfficeByCity(req.query.cityName)
+        let result = []
+        const offices = await officeRepository.findOfficeByCity(req.query.cityName)
+        for (let i=0;i<offices.length;i++){
+            const office = offices[i]
+            if(office.categoryId === req.query.categoryId){
+                result.push(office)
+            }
+        }
         res.json({message: "success getListOfOfficeInCity operation", result: result})
 
     } catch (e) {
@@ -155,7 +162,7 @@ router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNe
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumberInOfficeRouter, checkAccess.checkRolesAccess, updateOffice);
 router.get('/', searchOfficeByNearest)
 router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
-router.get('/city', getListOfOfficeInCity)
+router.get('/city/category', getListOfOfficeInCity)
 router.get('/gender/category', getListOfOfficeWithSpecialGenderDoctor)
 router.get('/insuranceName/city', findListOfOfficeAcceptSpecialInsurance)
 router.get('/insurances/gender/city/category', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
