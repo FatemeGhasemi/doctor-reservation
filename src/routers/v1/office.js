@@ -98,7 +98,7 @@ const getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName = as
 const getListOfOfficeInCity = async (req, res) => {
     try {
         const result = await officeRepository.findOfficeByCity(req.query.cityName)
-        res.json({message:"success getListOfOfficeInCity operation",result:result})
+        res.json({message: "success getListOfOfficeInCity operation", result: result})
 
     } catch (e) {
         res.status(500).json({
@@ -111,7 +111,7 @@ const getListOfOfficeInCity = async (req, res) => {
 const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
     try {
         const result = await officeRepository.findOfficeByDoctorGender(req.query.gender)
-        res.json({message:"success getListOfOfficeWithSpecialGenderDoctor operation",result:result})
+        res.json({message: "success getListOfOfficeWithSpecialGenderDoctor operation", result: result})
 
     } catch (e) {
         res.status(500).json({
@@ -124,16 +124,38 @@ const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
 
 const findListOfOfficeAcceptSpecialInsurance = async (req, res) => {
     try {
-        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender)
-        res.json({message:"success getListOfOfficeWithSpecialGenderDoctor operation",result:result})
+        let result = []
+        const offices = await officeRepository.findOfficeByCity(req.query.cityName)
+        const insurance = await insurancesRepository.findInsuranceByName(req.query.insuranceName)
+        const insuaranceDisplayName = insurance[0].displayName
+        for (let i = 0; i < offices.length; i++) {
+            let data = {}
+            const office = offices[i]
+            const officeInsurances = office.insurance
+            for (let j = 0; j < officeInsurances.length; j++) {
+                const officeInsurance = officeInsurances[j]
+                if (officeInsurance === insuaranceDisplayName) {
+                    result.push(office)
+                }
+            }
+        }
+        res.json({message: "success findListOfOfficeAcceptSpecialInsurance operation", result: result})
 
     } catch (e) {
         res.status(500).json({
-            message: "fail operation getListOfOfficeWithSpecialGenderDoctor",
+            message: "fail operation findListOfOfficeAcceptSpecialInsurance",
             result: e.message
         })
     }
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -150,6 +172,7 @@ router.get('/', searchOfficeByNearest)
 router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
 router.get('/city', getListOfOfficeInCity)
 router.get('/gender', getListOfOfficeWithSpecialGenderDoctor)
+router.get('/insuranceName/city', findListOfOfficeAcceptSpecialInsurance)
 router.get('/insurances/gender/city/type', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
 module.exports = router;
 

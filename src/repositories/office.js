@@ -222,6 +222,7 @@ const returnOfficeData = async (officeId) => {
     const doctorName = doctor.name;
     const doctorType = doctor.type;
     const categoryId = doctor.categoryId;
+    data.officeId = officeId
     data.officeAddress = officeAddress;
     data.officelatitude = officeLatitude;
     data.officeLongitude = officeLongitude;

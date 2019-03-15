@@ -9,9 +9,9 @@ const findInsuranceById = (id) => {
     return insuranceSchema.findOne({where: {id: id}})
 }
 
-const findInsuranceByName = (insuranceName) => {
-    const insurance1 = insuranceSchema({where: {name: insuranceName}})
-    const insurance2 = insuranceSchema({where: {displayName: insuranceName}})
+const findInsuranceByName = async (insuranceName) => {
+    const insurance1 = await insuranceSchema.findAll({where: {name: insuranceName}})
+    const insurance2 = await insuranceSchema.findAll({where: {displayName: insuranceName}})
     if (insurance1) {
         return insurance1
     }
