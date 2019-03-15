@@ -76,10 +76,12 @@ const getAllOfInsuranceAnOfficeAccept = async (req, res) => {
 
 const getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName = async (req, res) => {
     try {
-        const result = await insurancesRepository.findOfficeByInsuranceNameAndGender(
+        const result = await insurancesRepository.findOfficeByInsuranceNameAndGenderAndCategoryId(
             req.query.insuaranceName,
             req.query.gender,
-            req.query.cityName)
+            req.query.cityName,
+            req.query.categoryId
+            )
         res.json({
             message: "success getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName operation",
             result: result
@@ -156,7 +158,7 @@ router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
 router.get('/city', getListOfOfficeInCity)
 router.get('/gender', getListOfOfficeWithSpecialGenderDoctor)
 router.get('/insuranceName/city', findListOfOfficeAcceptSpecialInsurance)
-router.get('/insurances/gender/city/type', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
+router.get('/insurances/gender/city/category', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
 module.exports = router;
 
 
