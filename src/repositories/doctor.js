@@ -260,7 +260,7 @@ const removeDoctorFromRecommandList = async (phoneNumber, doctorData) => {
 
 const findDoctorByMedicalSystemNumber = async (medicalSystemNumber) => {
     return doctorSchema.findOne({where: {medicalSystemNumber: medicalSystemNumber}})
-}
+};
 
 
 const getDoctorRecommandList = async (phoneNumber) => {
@@ -289,7 +289,7 @@ const getDoctorRecommandList = async (phoneNumber) => {
         }
     }
     return result
-}
+};
 
 
 const deletePhotoFromDoctorDocument = async (phoneNumber, photoUrl) => {
@@ -308,7 +308,7 @@ const deletePhotoFromDoctorDocument = async (phoneNumber, photoUrl) => {
         {documentsPhotosUrl: result},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
-}
+};
 
 
 const addPhotoToDoctorDocument = async (phoneNumber, PhotoUrl) => {
@@ -319,29 +319,34 @@ const addPhotoToDoctorDocument = async (phoneNumber, PhotoUrl) => {
         {documentsPhotosUrl: urls},
         {returning: true, where: {phoneNumber: phoneNumber}}
     )
-}
+};
 
 
 const minusDoctorSmsPackCounter = async (doctorId) => {
     const doctor = await findDoctorById(doctorId)
     const smsPackCounter = doctor.smsPackCounter - 1
     return doctorSchema.update({smsPackCounter: smsPackCounter}, {returning: true, where: {id: doctorId}})
-}
+};
 
 
 const updateSmsCounter = async (doctorId,counter)=>{
     doctorSchema.update({smsPackCounter: counter},{returning:true,where:{id:doctorId}})
-}
+};
 
 
 const findDoctorByType= (doctorType)=>{
     return doctorSchema.findAll({where:{type:doctorType}})
-}
+};
 
 
 const findDoctorGender= (gender)=>{
     return doctorSchema.findAll({where:{gender:gender}})
-}
+};
+
+
+const findDoctorByDoctorType = (doctorType)=>{
+    return doctorSchema.findAll({where:{type:doctorType}})
+};
 
 
 module.exports = {
@@ -367,6 +372,7 @@ module.exports = {
     findDoctorsByGender,
     findDoctorByUserId,
     findDoctorByType,
-    findDoctorGender
+    findDoctorGender,
+    findDoctorByDoctorType
     // searchDoctorByName
 }

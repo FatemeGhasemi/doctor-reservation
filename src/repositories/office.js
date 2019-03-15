@@ -210,56 +210,56 @@ const OfficeInsurance = async (officeId) => {
  * @returns {Promise<void>}
  */
 const returnOfficeData = async (officeId) => {
-    let data = {}
-    const office = await findOfficeById(officeId)
-    const doctorId = office.doctorId
-    const doctor = await findDoctorById(doctorId)
-    const listOfInsurances = await OfficeInsurance(officeId)
-    const officeAddress = office.address
-    const officeLatitude = office.lat
-    const officeLongitude = office.long
-    const officePhotoUrls = office.photoUrl
-    const doctorName = doctor.name
-    const doctorType = doctor.type
-    const categoryId = doctor.categoryId
-    data.officeAddress = officeAddress
-    data.officelatitude = officeLatitude
-    data.officeLongitude = officeLongitude
-    data.officePhotoUrls = officePhotoUrls
-    data.doctorName = doctorName
-    data.doctorType = doctorType
-    data.categoryId = categoryId
-    data.insurance = listOfInsurances
+    let data = {};
+    const office = await findOfficeById(officeId);
+    const doctorId = office.doctorId;
+    const doctor = await findDoctorById(doctorId);
+    const listOfInsurances = await OfficeInsurance(officeId);
+    const officeAddress = office.address;
+    const officeLatitude = office.lat;
+    const officeLongitude = office.long;
+    const officePhotoUrls = office.photoUrl;
+    const doctorName = doctor.name;
+    const doctorType = doctor.type;
+    const categoryId = doctor.categoryId;
+    data.officeAddress = officeAddress;
+    data.officelatitude = officeLatitude;
+    data.officeLongitude = officeLongitude;
+    data.officePhotoUrls = officePhotoUrls;
+    data.doctorName = doctorName;
+    data.doctorType = doctorType;
+    data.categoryId = categoryId;
+    data.insurance = listOfInsurances;
     return data
 }
 
 
 const returnDoctorData = async (doctorId) => {
-    let data = {}
-    const doctor = await findDoctorById(doctorId)
-    const officeIds = doctor.officeId
+    let data = {};
+    const doctor = await findDoctorById(doctorId);
+    const officeIds = doctor.officeId;
     for (let i = 0; i < officeIds.length; i++) {
-        const officeId = officeIds[i]
-        const listOfInsurances = await OfficeInsurance(officeId)
-        const office = findDoctorById(officeId)
-        const officeAddress = office.address
-        const officeLatitude = office.lat
-        const officeLongitude = office.long
-        const officePhotoUrls = office.photoUrl
-        const doctorName = doctor.name
-        const doctorType = doctor.type
-        const categoryId = doctor.categoryId
-        data.doctorName = doctorName
-        data.doctorType = doctorType
-        data.categoryId = categoryId
-        data.officeAddress = officeAddress
-        data.officelatitude = officeLatitude
-        data.officeLongitude = officeLongitude
-        data.officePhotoUrls = officePhotoUrls
+        const officeId = officeIds[i];
+        const listOfInsurances = await OfficeInsurance(officeId);
+        const office = findDoctorById(officeId);
+        const officeAddress = office.address;
+        const officeLatitude = office.lat;
+        const officeLongitude = office.long;
+        const officePhotoUrls = office.photoUrl;
+        const doctorName = doctor.name;
+        const doctorType = doctor.type;
+        const categoryId = doctor.categoryId;
+        data.doctorName = doctorName;
+        data.doctorType = doctorType;
+        data.categoryId = categoryId;
+        data.officeAddress = officeAddress;
+        data.officelatitude = officeLatitude;
+        data.officeLongitude = officeLongitude;
+        data.officePhotoUrls = officePhotoUrls;
         data.insurance = listOfInsurances
     }
     return data
-}
+};
 
 
 /**
@@ -269,7 +269,7 @@ const returnDoctorData = async (doctorId) => {
  */
 const findOfficeBySecretaryId = (secretaryId) => {
     return officeSchema.findAll({where: {secretaryId: secretaryId}})
-}
+};
 
 
 /**
@@ -281,10 +281,10 @@ const findOfficeBySecretaryId = (secretaryId) => {
 const deletePhotoFromGallery = async (officeId, photoUrl) => {
     const office = await findOfficeById(officeId)
     let result = []
-    const urls = office.photoUrl
+    const urls = office.photoUrl;
     if (urls.length !== 0) {
         for (let i = 0; i < urls.length; i++) {
-            let item = urls[i]
+            let item = urls[i];
             if (item !== photoUrl) {
                 result.push(item)
             }
@@ -294,7 +294,7 @@ const deletePhotoFromGallery = async (officeId, photoUrl) => {
         {photoUrl: result},
         {returning: true, where: {id: officeId}}
     )
-}
+};
 
 
 /**
@@ -305,18 +305,18 @@ const deletePhotoFromGallery = async (officeId, photoUrl) => {
  */
 const addPhotoToGallery = async (officeId, PhotoUrl) => {
     const office = await findOfficeById(officeId)
-    const urls = office.photoUrl
-    urls.push(PhotoUrl)
+    const urls = office.photoUrl;
+    urls.push(PhotoUrl);
     return officeSchema.update(
         {photoUrl: urls},
         {returning: true, where: {id: officeId}}
     )
-}
+};
 
 
 const findOfficeByCity = async (cityName) => {
     let result = []
-    const city = await cityRepository.findCityByName(cityName)
+    const city = await cityRepository.findCityByName(cityName);
     const offices = await officeSchema.findAll({where: {cityId: city.id}})
     for (let i = 0; i < offices.length; i++) {
         const office = offices[i]
@@ -324,19 +324,19 @@ const findOfficeByCity = async (cityName) => {
         result.push(res)
     }
     return result
-}
+};
 
 
 const findOfficeByDoctorGender = async (gender) => {
-    let result = []
-    const doctors = await doctorSchema.findAll({where: {gender: gender}})
+    let result = [];
+    const doctors = await doctorSchema.findAll({where: {gender: gender}});
     for (let i = 0; i < doctors.length; i++) {
-        const doctor = doctors[i]
-        const res = await returnDoctorData(doctor.id)
+        const doctor = doctors[i];
+        const res = await returnDoctorData(doctor.id);
         result.push(res)
     }
     return result
-}
+};
 
 
 module.exports = {
