@@ -284,6 +284,7 @@ const getDoctorRecommandList = async (phoneNumber) => {
             data.officeLong = office.long
             data.officePhone = office.phoneNumber
             data.officePhotoes = office.photoUrl
+            data.officeId = officId
             result.push(data)
         }
     }

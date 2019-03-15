@@ -23,6 +23,9 @@ const findInsuranceByName = (insuranceName)=>{
 const findOfficeByInsuranceNameAndGenderAndDoctorType = async (insuranceName,doctorType,gender)=>{
     const doctors = doctorRepository.findDoctorByType(doctorType)
     for (let i=0;i<doctors.length;i++){
+        const doctor = doctors[i]
+        if(doctor.gender === gender){
+        }
 
 
     }
