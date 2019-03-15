@@ -83,7 +83,7 @@ const initDoctorSchema = () => {
             defaultValue:0
         },
         gender:{
-            type:Sequelize.STRING
+            type:Sequelize.STRING,
             allowNull:false
         }
 
