@@ -1,6 +1,8 @@
 const officeSchema = require('../models/office')();
 const doctorSchema = require('../models/doctor')();
-const insuranceRepository = require('../repositories/insurance')
+// const insuranceRepository = require('../repositories/insurance')
+const insuranceSchema = require('../models/insurance')();
+const cityRepository = require('../repositories/city')
 
 
 /**
@@ -46,7 +48,6 @@ const updateOfficeData = async (id, data) => {
 };
 
 
-
 /**
  * find a office by its id
  * @param id
@@ -55,7 +56,6 @@ const updateOfficeData = async (id, data) => {
 const findOfficeById = async (id) => {
     return officeSchema.findOne({where: {id: id}})
 };
-
 
 
 /**
@@ -73,7 +73,6 @@ const changeOfficeStatus = async (id) => {
 };
 
 
-
 /**
  * return all offices
  * @param offset
@@ -87,7 +86,6 @@ const returnAllOffices = async (offset = 0, limit = 10) => {
 };
 
 
-
 /**
  * find a doctor by his/her own office id
  * @param officeId
@@ -99,7 +97,6 @@ const findDoctorByOfficeId = async (officeId) => {
     const doctor = await findDoctorById(doctorId)
     return doctor
 }
-
 
 
 /**
@@ -131,7 +128,6 @@ WHERE
         type: sequelize.QueryTypes.SELECT
     });
 };
-
 
 
 /**
@@ -178,7 +174,6 @@ const searchNearestSameCategoryOffice = async (lng, latitude, distance, category
 }
 
 
-
 /**
  *
  * @param id
@@ -189,20 +184,17 @@ const findDoctorById = async (id) => {
 };
 
 
-
-
-const OfficeInsurance = async (officeId)=>{
+const OfficeInsurance = async (officeId) => {
     let listOfInsurance = []
     const office = await findOfficeById(officeId)
     const insuranceIds = office.insuranceId
-    if ( insuranceIds === null || insuranceIds ===undefined) {
+    if (insuranceIds === null || insuranceIds === undefined) {
         listOfInsurance.push(null)
-    }
-    else{
+    } else {
         if (insuranceIds.length !== 0) {
             for (let i = 0; i < insuranceIds.length; i++) {
                 const insuranceId = insuranceIds[i]
-                const insurance = await insuranceRepository.findInsuranceById(insuranceId)
+                const insurance = await insuranceSchema.findOne({where: {id: insuranceId}})
                 const insuranceDisplayName = insurance.displayName
                 listOfInsurance.push(insuranceDisplayName)
             }
@@ -210,7 +202,6 @@ const OfficeInsurance = async (officeId)=>{
     }
     return listOfInsurance
 }
-
 
 
 /**
@@ -240,9 +231,35 @@ const returnOfficeData = async (officeId) => {
     data.categoryId = categoryId
     data.insurance = listOfInsurances
     return data
-
 }
 
+
+const returnDoctorData = async (doctorId) => {
+    let data = {}
+    const doctor = await findDoctorById(doctorId)
+    const officeIds = doctor.officeId
+    for (let i = 0; i < officeIds.length; i++) {
+        const officeId = officeIds[i]
+        const listOfInsurances = await OfficeInsurance(officeId)
+        const office = findDoctorById(officeId)
+        const officeAddress = office.address
+        const officeLatitude = office.lat
+        const officeLongitude = office.long
+        const officePhotoUrls = office.photoUrl
+        const doctorName = doctor.name
+        const doctorType = doctor.type
+        const categoryId = doctor.categoryId
+        data.doctorName = doctorName
+        data.doctorType = doctorType
+        data.categoryId = categoryId
+        data.officeAddress = officeAddress
+        data.officelatitude = officeLatitude
+        data.officeLongitude = officeLongitude
+        data.officePhotoUrls = officePhotoUrls
+        data.insurance = listOfInsurances
+    }
+    return data
+}
 
 
 /**
@@ -253,7 +270,6 @@ const returnOfficeData = async (officeId) => {
 const findOfficeBySecretaryId = (secretaryId) => {
     return officeSchema.findAll({where: {secretaryId: secretaryId}})
 }
-
 
 
 /**
@@ -281,7 +297,6 @@ const deletePhotoFromGallery = async (officeId, photoUrl) => {
 }
 
 
-
 /**
  *
  * @param officeId
@@ -299,6 +314,31 @@ const addPhotoToGallery = async (officeId, PhotoUrl) => {
 }
 
 
+const findOfficeByCity = async (cityName) => {
+    let result = []
+    const city = await cityRepository.findCityByName(cityName)
+    const offices = await officeSchema.findAll({where: {cityId: city.id}})
+    for (let i = 0; i < offices.length; i++) {
+        const office = offices[i]
+        const res = await returnOfficeData(office.id)
+        result.push(res)
+    }
+    return result
+}
+
+
+const findOfficeByDoctorGender = async (gender) => {
+    let result = []
+    const doctors = await doctorSchema.findAll({where: {gender: gender}})
+    for (let i = 0; i < doctors.length; i++) {
+        const doctor = doctors[i]
+        const res = await returnDoctorData(doctor.id)
+        result.push(res)
+    }
+    return result
+}
+
+
 module.exports = {
     createNewOffice,
     updateOfficeData,
@@ -311,7 +351,10 @@ module.exports = {
     returnOfficeData,
     findOfficeBySecretaryId,
     deletePhotoFromGallery,
-    addPhotoToGallery
+    addPhotoToGallery,
+    OfficeInsurance,
+    findOfficeByCity,
+    findOfficeByDoctorGender
 };
 
 

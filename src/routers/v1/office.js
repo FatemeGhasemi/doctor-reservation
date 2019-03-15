@@ -1,6 +1,7 @@
 const express = require('express');
 const doctorRepository = require("../../repositories/doctor");
 const officeRepository = require("../../repositories/office");
+const insurancesRepository = require("../../repositories/insurance");
 const checkAccess = require('../../middlewares/authentication');
 const router = express.Router();
 
@@ -53,7 +54,7 @@ const searchOfficeByNearest = async (req, res) => {
             req.query.distance,
             req.query.categoryId
         )
-        console.log("result searchOfficeByNearest: ",office)
+        console.log("result searchOfficeByNearest: ", office)
         res.json({message: "success operation", result: office})
 
     } catch (e) {
@@ -62,15 +63,83 @@ const searchOfficeByNearest = async (req, res) => {
 }
 
 
-const getAllOfInsuranceAnOfficeAccept = async (req,res)=>{
+const getAllOfInsuranceAnOfficeAccept = async (req, res) => {
     try {
-        const result =  await officeRepository.returnOfficeData(req.query.officeId)
+        const result = await officeRepository.returnOfficeData(req.query.officeId)
         res.json({message: "success getAllOfInsuranceAnOfficeAccept operation", result: result})
 
-    }catch (e) {
+    } catch (e) {
         res.status(500).json({message: "fail operation getAllOfInsuranceAnOfficeAccept", result: e.message})
     }
 }
+
+
+const getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName = async (req, res) => {
+    try {
+        const result = await insurancesRepository.findOfficeByInsuranceNameAndGenderAndDoctorType(
+            req.query.insuaranceName,
+            req.query.doctorType,
+            req.query.gender,
+            req.query.cityName)
+        res.json({
+            message: "success getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName operation",
+            result: result
+        })
+
+    } catch (e) {
+        res.status(500).json({
+            message: "fail operation getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName",
+            result: e.message
+        })
+    }
+}
+
+
+const getListOfOfficeInCity = async (req, res) => {
+    try {
+        const result = await officeRepository.findOfficeByCity(req.query.cityName)
+        res.json({message:"success getListOfOfficeInCity operation",result:result})
+
+    } catch (e) {
+        res.status(500).json({
+            message: "fail operation getListOfOfficeInCity",
+            result: e.message
+        })
+    }
+}
+
+const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
+    try {
+        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender)
+        res.json({message:"success getListOfOfficeWithSpecialGenderDoctor operation",result:result})
+
+    } catch (e) {
+        res.status(500).json({
+            message: "fail operation getListOfOfficeWithSpecialGenderDoctor",
+            result: e.message
+        })
+    }
+}
+
+
+const findListOfOfficeAcceptSpecialInsurance = async (req, res) => {
+    try {
+        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender)
+        res.json({message:"success getListOfOfficeWithSpecialGenderDoctor operation",result:result})
+
+    } catch (e) {
+        res.status(500).json({
+            message: "fail operation getListOfOfficeWithSpecialGenderDoctor",
+            result: e.message
+        })
+    }
+}
+
+
+
+
+
+
 
 
 
@@ -79,6 +148,9 @@ router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createNe
 router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWithPhoneNumberInOfficeRouter, checkAccess.checkRolesAccess, updateOffice);
 router.get('/', searchOfficeByNearest)
 router.get('/insurances', getAllOfInsuranceAnOfficeAccept)
+router.get('/city', getListOfOfficeInCity)
+router.get('/gender', getListOfOfficeWithSpecialGenderDoctor)
+router.get('/insurances/gender/city/type', getListOfOfficesWithSpecialCityAndGenderAndDoctorTypeAndInsuranceName)
 module.exports = router;
 
 

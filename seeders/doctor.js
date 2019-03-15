@@ -1,4 +1,4 @@
-async function insertDoctors(){
+async function insertDoctors() {
     const doctorRepository = require('../src/repositories/doctor');
     const userRepository = require('../src/repositories/user');
     const doctorSchema = require('../src/models/doctor')();
@@ -9,13 +9,15 @@ async function insertDoctors(){
         let user;
         let userId;
         user = await userRepository.findUserByPhoneNumber(item.phoneNumber)
-        if(user.id) {
+        if (user) {
+            if (user.id) {
+                userId = user.id;
+            }
+        } else {
+            user = await userRepository.createUser(item.phoneNumber)
             userId = user.id;
         }
-        else {
-            user= await userRepository.createUser(item.phoneNumber)
-            userId = user.id;
-        }
+        // await doctorSchema.create(item)
         await doctorSchema.create({
             userId: userId,
             phoneNumber: item.phoneNumber,
@@ -34,13 +36,15 @@ async function insertDoctors(){
             rate:item.rate,
             status:item.status,
             medicalSystemNumber:item.medicalSystemNumber,
-            proprietary:item.proprietary
+            proprietary:item.proprietary,
+            gender : item.gender
+
         })
 
     }
 }
 
-module.exports ={insertDoctors}
+module.exports = {insertDoctors}
 
 
 
