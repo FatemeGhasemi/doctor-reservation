@@ -15,12 +15,13 @@ const createTables = async (sequelize, dropTables = false) => {
     const officeSchema = require('./models/office')(sequelize);
     const doctorSchema = require('./models/doctor')(sequelize);
     const categorySchema = require('./models/category')(sequelize);
-    const statusSchema = require('./models/status')(sequelize);
     const reserveSchema = require('./models/reserve')(sequelize);
     const insuranceSchema = require('./models/insurance')(sequelize);
     const citySchema = require('./models/city')(sequelize);
     const advertiseSchema = require('./models/advertise')(sequelize);
     const favoriteSchema = require('./models/favorit')(sequelize);
+    const billingSchema = require('./models/billing')(sequelize);
+
 
     try {
         await userSchema.initUserSchema().sync({force: dropTables});
@@ -29,12 +30,13 @@ const createTables = async (sequelize, dropTables = false) => {
         await reservationSchema.initReservationSchema().sync({force: dropTables});
         await officeSchema.initOfficeSchema().sync({force: dropTables});
         await categorySchema.initCategorySchema().sync({force: dropTables});
-        await statusSchema.initStatusSchema().sync({force: dropTables});
         await reserveSchema.initReserveSchema().sync({force: dropTables});
         await insuranceSchema.initInsuranceSchema().sync({force: dropTables});
         await citySchema.initCitySchema().sync({force: dropTables});
         await advertiseSchema.initAdvertiseSchema().sync({force: dropTables});
         await favoriteSchema.initFavoriteSchema().sync({force: dropTables});
+        await billingSchema.initBillingSchema().sync({force: dropTables});
+
     } catch (e) {
         console.log("createTables ERROR:", e)
     }

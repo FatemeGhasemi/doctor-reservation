@@ -3,7 +3,7 @@ const category = require('../models/category');
 const office = require('../models/office');
 const reservation = require('../models/reservation');
 const doctor = require('../models/doctor');
-const status = require('../models/status');
+const status = require('../models/billing');
 const reserve = require('../models/reserve');
 const relationCoordinator = require('./relation-coordinator')
 
@@ -15,7 +15,7 @@ const defineSchemas = async (sequelize) => {
     const officeSchema = require('../models/office')(sequelize);
     const doctorSchema = require('../models/doctor')(sequelize);
     const categorySchema = require('../models/category')(sequelize);
-    const statusSchema = require('../models/status')(sequelize);
+    const billingSchema = require('../models/billing')(sequelize);
     const reserveSchema = require('../models/reserve')(sequelize);
     const insuranceSchema = require('../models/insurance')(sequelize);
     const citySchema = require('../models/city')(sequelize);
@@ -28,7 +28,7 @@ const defineSchemas = async (sequelize) => {
         await reservationSchema.initReservationSchema();
         await officeSchema.initOfficeSchema();
         await categorySchema.initCategorySchema();
-        await statusSchema.initStatusSchema();
+        await billingSchema.initBillingSchema();
         await reserveSchema.initReserveSchema();
         await insuranceSchema.initInsuranceSchema();
         await citySchema.initCitySchema();

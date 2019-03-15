@@ -1,8 +1,0 @@
-[
-
-  {"name": "active"},
-  {"name": "pending"},
-  {"name": "canceled"},
-  {"name": "approved"},
-  {"name": "deleted"}
-]

@@ -1,4 +1,4 @@
-const statusSchema = require('../models/status')();
+const statusSchema = require('../models/billing')();
 
 
 /**

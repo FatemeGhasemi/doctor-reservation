@@ -1,0 +1,23 @@
+[
+  {
+    "userId": 2,
+    "refId": "9849739480840222",
+    "creditAmountInToman": 50000,
+    "status": 100
+  },
+  {
+    "userId": 5,
+    "refId": "9849739480840555",
+    "creditAmountInToman": 20000,
+    "status": -1
+
+
+  },
+  {
+    "userId": 6,
+    "refId": "9849739480840666",
+    "creditAmountInToman": 30000,
+    "status": 100
+
+  }
+]

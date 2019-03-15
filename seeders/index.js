@@ -2,7 +2,6 @@ require('dotenv').config({
     path :'.env.seeders'
 });
 const secretary = require('./secretary')
-const status = require('./status')
 const user = require('./user')
 const doctor = require('./doctor')
 const office = require('./office')
@@ -16,6 +15,7 @@ const advertise = require('./advertise')
 const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
 const favorite = require('./favorite')
+const billing = require('./billing')
 
 
 async function initDbAndSeed() {
@@ -29,7 +29,6 @@ async function initDbAndSeed() {
         await user.insertUsers()
         await insurance.insertInsurance()
         await office.insertOffices()
-        await status.insertStatus()
         await category.insertCategorues()
         await doctor.insertDoctors()
         await secretary.insertSecretaries()
@@ -37,6 +36,7 @@ async function initDbAndSeed() {
         await reserve.insertReserve()
         await advertise.insertAdvertise()
         await favorite.insertFavorite()
+        await billing.insertBilling()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 
