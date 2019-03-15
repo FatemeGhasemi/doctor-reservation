@@ -3,7 +3,7 @@ async function insertBilling() {
     const mockData = require('./billing.json')
     for (let index = 0; index < mockData.length; index++) {
         const item = mockData[index]
-        await billingSchema.create({item})
+        await billingSchema.create(item)
     }
 
 }

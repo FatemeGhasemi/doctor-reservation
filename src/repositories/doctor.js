@@ -209,6 +209,11 @@ const findDoctorById = async (id) => {
 };
 
 
+const findDoctorByUserId = async (userId) => {
+    return doctorSchema.findOne({where: {userId: userId}})
+};
+
+
 /**
  * find a doctor by his/her phone
  * @param phoneNumber
@@ -340,6 +345,7 @@ module.exports = {
     deletePhotoFromDoctorDocument,
     addPhotoToDoctorDocument,
     minusDoctorSmsPackCounter,
-    updateSmsCounter
+    updateSmsCounter,
+    findDoctorByUserId
     // searchDoctorByName
 }

@@ -62,6 +62,7 @@ function addRoutes() {
     app.use('/api/v1/send-user-reserve-data', require('./routers/v1/reserve-data-sender'));
     app.use('/api/v1/userFavoriteList', require('./routers/v1/manage-favorite-list-for-users'));
     app.use('/api/v1/doctorRecommendList', require('./routers/v1/manage-recommandList'));
+    app.use('/api/v1/chargeSmsPacketCounter', require('./routers/v1/billing'));
 }
 
 

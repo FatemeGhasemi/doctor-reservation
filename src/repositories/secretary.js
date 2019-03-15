@@ -1,7 +1,6 @@
 const secretarySchema = require('../models/secretary')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
-const statusRepository = require('../repositories/status');
 const doctorRepository = require('../repositories/doctor')
 
 

@@ -15,12 +15,13 @@ const defineSchemas = async (sequelize) => {
     const officeSchema = require('../models/office')(sequelize);
     const doctorSchema = require('../models/doctor')(sequelize);
     const categorySchema = require('../models/category')(sequelize);
-    const billingSchema = require('../models/billing')(sequelize);
     const reserveSchema = require('../models/reserve')(sequelize);
     const insuranceSchema = require('../models/insurance')(sequelize);
     const citySchema = require('../models/city')(sequelize);
     const advertiseSchema = require('../models/advertise')(sequelize);
     const favoriteSchema = require('../models/favorit')(sequelize);
+    const billingSchema = require('../models/billing')(sequelize);
+
     try {
         await userSchema.initUserSchema();
         await secretarySchema.initSecretarySchema();
@@ -28,12 +29,13 @@ const defineSchemas = async (sequelize) => {
         await reservationSchema.initReservationSchema();
         await officeSchema.initOfficeSchema();
         await categorySchema.initCategorySchema();
-        await billingSchema.initBillingSchema();
         await reserveSchema.initReserveSchema();
         await insuranceSchema.initInsuranceSchema();
         await citySchema.initCitySchema();
         await advertiseSchema.initAdvertiseSchema();
         await favoriteSchema.initFavoriteSchema();
+        await billingSchema.initBillingSchema();
+
     }catch (e) {
         console.log("defineSchemas ERROR:",e.message)
     }

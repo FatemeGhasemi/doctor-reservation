@@ -10,14 +10,14 @@
     "userId": 2,
     "refId": "9849739480840222",
     "creditAmountInToman": 50000,
-    "status": 100,
+    "status": -1,
     "expired": true
   },
   {
     "userId": 5,
     "refId": "9849739480840555",
     "creditAmountInToman": 20000,
-    "status": -1
+    "status": 100
   },
   {
     "userId": 6,

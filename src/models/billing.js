@@ -22,7 +22,7 @@ const initBillingSchema = () => {
             type:Sequelize.NUMERIC
         },
         expired:{
-            type:Boolean,
+            type:Sequelize.BOOLEAN,
             defaultValue: false
         }
 
