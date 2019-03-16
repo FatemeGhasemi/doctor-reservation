@@ -350,6 +350,20 @@ const findDoctorByDoctorType = (doctorType)=>{
 };
 
 
+const findDoctorsNotApproved = ()=>{
+    return doctorSchema.findAll({where:{status:"pending"}})
+}
+
+const filterPendingDoctorsByCity = async (cityName)=>{
+    const city = await cityRepository.findCityByName(cityName)
+    const doctors =await findDoctorsNotApproved()
+    for(let i=0;i<doctors.length;i++){
+
+    }
+
+}
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
