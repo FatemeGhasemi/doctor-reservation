@@ -14,7 +14,8 @@ const createNewCategory = async (req, res) => {
     try {
         let parentName = req.body.parentName || null;
         const name = req.body.name;
-        const category = await categoryRepository.crateNewCategory(parentName, name)
+        const displayName = req.body.displayName;
+        const category = await categoryRepository.crateNewCategory(parentName, name,displayName)
         res.json({message: "success operation", result: category})
 
     } catch (e) {
