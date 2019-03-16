@@ -1,33 +1,40 @@
 [
-  {"parentName": null,"displayName":"درمانگران","name":"darmangaran"},
-  {"parentName": null,"displayName":"دارو و تجهیزات","name":"darooTajhizat"},
-  {"parentName": null,"displayName":"مراکز درمانی","name":"marakezDarmani"},
-  {"parentName": null,"displayName":"مراکز تشخیص","name":"marakezTashkhis"},
+  {"parentName": null,"displayName":"درمانگران","name":"darmangaran",
+    "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"
+  },
+  {"parentName": null,"displayName":"دارو و تجهیزات","name":"darooTajhizat",
+    "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"
+  },
+  {"parentName": null,"displayName":"مراکز درمانی","name":"marakezDarmani",
+    "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"
+  },
+  {"parentName": null,"displayName":"مراکز تشخیص","name":"marakezTashkhis", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"
+  },
 
-  {"parentName": "darmangaran","displayName":"دندانپزشک فوق تخصص","name":"dandanPezeshkFoghTakhasos"},
-  {"parentName": "darmangaran","displayName":"دندانپزشک متخصص","name":"dandanPezeshkMotakhases"},
-  {"parentName": "darmangaran","displayName":"دندانپزشک عمومی","name":"dandanPezeshkOmomi"},
-  {"parentName": "darmangaran","displayName":"دندانپزشکی","name":"dandanPezeshki"},
-  {"parentName": "darmangaran","displayName":"پزشک عمومی","name":"pezeshkOmumi"},
-  {"parentName": "darmangaran","displayName":"پزشک فوق تخصص","name":"pezeshkFoghTakhasos"},
-  {"parentName": "darmangaran","displayName":"پزشک متخصص","name":"pezeshkMotakhases"},
-  {"parentName": "darmangaran","displayName":"چشم پزشک","name":"cheshmPezeshk"},
-  {"parentName": "darmangaran","displayName":"زیبایی","name":"zibayi"},
-  {"parentName": "darmangaran","displayName":"ژنتیک","name":"zhenetik"},
-  {"parentName": "darmangaran","displayName":" قلب و عروق","name":"ghalbOrogh"},
-  {"parentName": "darmangaran","displayName":" ستون فقرات","name":"sotoonFagharat"},
-  {"parentName": "darmangaran","displayName":" ارتوپد","name":"ortopred"},
-  {"parentName": "darmangaran","displayName":" پوست و مو","name":"poostMoo"},
-  {"parentName": "darmangaran","displayName":" فیزیوتراپ","name":"fiziotorap"},
-  {"parentName": "darmangaran","displayName":" زنان","name":"zanan"},
-  {"parentName": "darmangaran","displayName":" تنفس","name":"tanafos"},
+  {"parentName": "darmangaran","displayName":"دندانپزشک فوق تخصص","name":"dandanPezeshkFoghTakhasos", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"دندانپزشک متخصص","name":"dandanPezeshkMotakhases", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"دندانپزشک عمومی","name":"dandanPezeshkOmomi", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"دندانپزشکی","name":"dandanPezeshki", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"پزشک عمومی","name":"pezeshkOmumi", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"پزشک فوق تخصص","name":"pezeshkFoghTakhasos", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"پزشک متخصص","name":"pezeshkMotakhases", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"چشم پزشک","name":"cheshmPezeshk", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"زیبایی","name":"zibayi", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":"ژنتیک","name":"zhenetik", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" قلب و عروق","name":"ghalbOrogh", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" ستون فقرات","name":"sotoonFagharat", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" ارتوپد","name":"ortopred", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" پوست و مو","name":"poostMoo", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" فیزیوتراپ","name":"fiziotorap", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" زنان","name":"zanan", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "darmangaran","displayName":" تنفس","name":"tanafos", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
 
 
 
 
 
-  {"parentName": "dandanPezeshki","displayName":"اطفال","name":"atfal"},
-  {"parentName": "dandanPezeshki","displayName":"جراحی عمومی","name":"jarahOmoomi"},
+  {"parentName": "dandanPezeshki","displayName":"اطفال","name":"atfal", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
+  {"parentName": "dandanPezeshki","displayName":"جراحی عمومی","name":"jarahOmoomi", "photoUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"},
   {"parentName": "ghalbOrogh","displayName":"جراحی عمومی","name":"jarahOmoomi"},
   {"parentName": "zanan","displayName":"زنان و زایمان","name":"zananZayeman"},
   {"parentName": "pezeshkFoghTakhasos","displayName":"اورولوژی","name":"orolozhi"},

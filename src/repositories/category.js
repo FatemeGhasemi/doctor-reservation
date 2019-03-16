@@ -45,8 +45,8 @@ const findCategoryById = async (id) => {
  * @param displayName
  * @returns {Promise<*>}
  */
-const createNewCategory = async (parentName, name, displayName) => {
-    return categorySchema.create({parentName, name, displayName})
+const createNewCategory = async (parentName, name, displayName,photoUrl) => {
+    return categorySchema.create({parentName, name, displayName,photoUrl})
 };
 
 

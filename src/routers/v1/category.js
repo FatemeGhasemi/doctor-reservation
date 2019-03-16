@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const categoryRepository = require('../../repositories/category');
 const checkAccess = require('../../middlewares/authentication');
+const uploadManager = require('../../services/upload-manager/cloudinary')
 
 
 /**
@@ -15,7 +16,9 @@ const createNewCategory = async (req, res) => {
         let parentName = req.body.parentName || null;
         const name = req.body.name;
         const displayName = req.body.displayName;
-        const category = await categoryRepository.crateNewCategory(parentName, name,displayName)
+        const image = req.files.image;
+        const result = uploadManager.uploadToCloudinary(image)
+        const category = await categoryRepository.crateNewCategory(parentName, name,displayName,result)
         res.json({message: "success operation", result: category})
 
     } catch (e) {

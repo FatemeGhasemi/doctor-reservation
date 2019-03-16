@@ -20,6 +20,11 @@ const initCategorySchema = () => {
         isAvailable: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
+        },
+        photoUrl:{
+            type: Sequelize.STRING,
+            defaultValue: "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg"
+
         }
     });
     //TODO Category.sync just needed once to create tables, so if tables created dont need call it any more
