@@ -51,6 +51,7 @@ p, admin, cities, put
 p, admin, cities, post
 p, admin, cities, get
 p, admin, cities, delete
+p, admin, sms, post
 
 
 
