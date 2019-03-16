@@ -37,7 +37,9 @@ const updateUserData = async (req, res) => {
         const role = await userRepository.getUserRoleByPhoneNumber(phone);
         if (role === "user" || role === "doctor" || role === "secretary") {
             delete data['role'];
-            delete data['status']
+            if(data.status === "active") {
+                delete data['status']
+            }
         }
         delete data['phoneNumber'];
         const user = await userRepository.updateUser(req.params.phoneNumber, data);
