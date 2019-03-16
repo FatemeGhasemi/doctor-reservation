@@ -122,6 +122,17 @@ const deactivateDoctor = async (id) => {
 };
 
 
+
+const rejectDoctor = async (id) => {
+    return doctorSchema.update(
+        {status: "reject"},
+        {returning: true, where: {id: id}}
+    )
+};
+
+
+
+
 /**
  * return all doctors from db
  * @param offset
@@ -355,13 +366,22 @@ const findDoctorsNotApproved = ()=>{
 }
 
 const filterPendingDoctorsByCity = async (cityName)=>{
+    let res = []
     const city = await cityRepository.findCityByName(cityName)
     const doctors =await findDoctorsNotApproved()
     for(let i=0;i<doctors.length;i++){
-
+        const doctor = doctors[i]
+        if(doctor.cityId === city.id){
+            res.push(doctor)
+        }
     }
+    return res
 
 }
+
+
+
+
 
 
 module.exports = {
@@ -388,5 +408,8 @@ module.exports = {
     findDoctorByUserId,
     findDoctorByType,
     // findDoctorGender,
-    findDoctorByDoctorType
+    findDoctorByDoctorType,
+    filterPendingDoctorsByCity,
+    findDoctorsNotApproved,
+    rejectDoctor
 }

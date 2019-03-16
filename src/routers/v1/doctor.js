@@ -172,12 +172,53 @@ const userGiveRateToDoctor = async (req, res) => {
 }
 
 
+const showListOfDoctorsNotApproved = async (req, res) => {
+    try {
+        let result
+        if (req.query.cityName) {
+            result = await doctorRepository.filterPendingDoctorsByCity(req.cityName)
+        } else {
+            result = await doctorRepository.findDoctorsNotApproved()
+        }
+        res.json({message: "success showListOfDoctorsNotApproved operation", result: result})
+    } catch (e) {
+        console.log("showListOfDoctorsNotApproved ERROR: ", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const approveDoctor = async (req, res) => {
+    try {
+        const result = await doctorRepository.approveAsDoctor(req.params.id)
+        res.json({message: "success showListOfDoctorsNotApproved operation", result: result})
+    } catch (e) {
+        console.log("approveDoctor ERROR: ", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
+const rejectDoctor = async (req, res) => {
+    try {
+        const result = await doctorRepository.rejectDoctor(req.params.id)
+        res.json({message: "success rejectDoctor operation", result: result})
+    } catch (e) {
+        console.log("approveDoctor ERROR: ", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 router.get('/', getDoctorListController);
 router.get('/id', getDoctorDataById);
+router.get('/pending', checkAccess.validateJwt, showListOfDoctorsNotApproved);
 router.get('/cities/offices', getOfficesInOrderOfCategoryAndCity);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateDoctorData);
 router.put('/:doctorId/rate', checkAccess.validateJwt, userGiveRateToDoctor);
+router.put('/:id/approve', checkAccess.validateJwt, approveDoctor);
+router.put('/:id/reject', checkAccess.validateJwt, rejectDoctor);
 
 
 module.exports = router;
