@@ -57,9 +57,15 @@ const updateUserData = async (req, res) => {
  */
 const getAllUsers = async (req, res) => {
     try {
-        const user = await userRepository.getAllUsers()
-        res.json({message: "success operation", result: user})
+        let user;
+        if(req.query.city){
+             user = await userRepository.getUsersInCity(req.query.city)
+        }
+        else {
+            user = await userRepository.getAllUsers()
 
+        }
+        res.json({message: "success operation", result: user})
 
     } catch (e) {
         res.status(500).json({message: e.message})
@@ -110,7 +116,7 @@ const uploadAvatarUrl = async (req,res)=>{
 
 router.post('/', createNewUser);
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, updateUserData);
-// router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
+router.get('/AllUsers', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllUsers)
 router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
 router.post('/upload-avatarPhoto', checkAccess.validateJwt,uploadAvatarUrl);
 module.exports = router;

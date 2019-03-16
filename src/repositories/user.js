@@ -111,14 +111,14 @@ const deactivateUser = async (phoneNumber) => {
 };
 
 
-/**
- *
- * @param offset
- * @param limit
- * @returns {Promise<*>}
- */
-const getAllUsers = async (offset = 0, limit = 10) => {
-    return userSchema.findAll({offset: offset, limit: limit},)
+
+const getAllUsers = async () => {
+    return userSchema.findAll({})
+}
+
+const getUsersInCity = async (city) => {
+    const cityData =await cityRepository.findCityByName(city)
+    return userSchema.findAll({where:{cityId:cityData.id}})
 }
 
 
@@ -195,7 +195,8 @@ module.exports = {
     addFavorite,
     removeFavorite,
     getListOfFavorite,
-    addAvatarUrl
+    addAvatarUrl,
+    getUsersInCity
 };
 
 
