@@ -119,9 +119,11 @@ const getListOfUserReserves = async (phoneNumber) => {
         const doctor =await doctorRepository.findDoctorById(reserveData.doctorId)
         const office = await officeRepository.findOfficeById(reserveData.officeId)
         const city = await cityRepository.findCityById(office.cityId)
+        data.doctorId = doctor.id
         data.doctorName = doctor.name
         data.doctorPhoneNumber = doctor.phoneNumber
         data.doctorPhoto = doctor.photoUrl
+        data.doctorSmsCounter = doctor.smsPackCounter
         data.officeAddress = office.address
         data.officeLat = office.lat
         data.officeLong = office.long
@@ -132,6 +134,7 @@ const getListOfUserReserves = async (phoneNumber) => {
         data.price = reserveData.price
         data.paymentId = reserveData.paymentId
         data.reservationId = reserveData.reservationId
+        data.reserveId = reserveData.id
         result.push(data)
     }
     return result
