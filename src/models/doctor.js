@@ -62,8 +62,7 @@ const initDoctorSchema = () => {
             type: Sequelize.INTEGER
         },
         proprietary: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: false
+            type: Sequelize.BOOLEAN
         },
         recommendedList: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),

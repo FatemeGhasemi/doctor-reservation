@@ -64,6 +64,8 @@ function addRoutes() {
     app.use('/api/v1/doctorRecommendList', require('./routers/v1/manage-recommandList'));
     app.use('/api/v1/chargeSmsPacketCounter', require('./routers/v1/billing'));
     app.use('/api/v1/send', require('./routers/v1/sms'));
+    app.use('/api/v1/proprietary', require('./routers/v1/proprietary-app-managment'));
+    // app.use('/api/v1/proprietary', require('./routers/v1/proprietary-app-managment'));
 }
 
 

@@ -247,6 +247,7 @@ module.exports = {
     ifTime2IsBetweenTowOtherTime,
     generateRandomString,
     getFileSizeInBytes,
-    validateFileSize
+    validateFileSize,
+    getRandomInt
 
 }

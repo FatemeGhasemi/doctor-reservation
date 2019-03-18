@@ -4,6 +4,8 @@ const userRepository = require('../repositories/user');
 const cityRepository = require('../repositories/city');
 const categoryRepository = require('../repositories/category')
 const officeRepository = require('../repositories/office')
+const utils = require('../utils/utils')
+const sms = require('../services/sms')
 
 
 /**
@@ -31,7 +33,7 @@ const createDoctorUser = async (data) => {
             grade: data.grade,
             cityId: cityId,
             medicalSystemNumber: data.medicalSystemNumber,
-            gender:data.gender
+            gender: data.gender
         })
     } else {
         throw new Error("user have to creat user account first")
@@ -52,11 +54,10 @@ const findDoctorByOfficeId = async (officeId) => {
 }
 
 
-const findDoctorsByGender = async (gender)=>{
-    const doctors = await doctorSchema.findAll({where:{gender:gender}})
+const findDoctorsByGender = async (gender) => {
+    const doctors = await doctorSchema.findAll({where: {gender: gender}})
     return doctors
 }
-
 
 
 /**
@@ -122,7 +123,6 @@ const deactivateDoctor = async (id) => {
 };
 
 
-
 const rejectDoctor = async (id) => {
     return doctorSchema.update(
         {status: "reject"},
@@ -131,17 +131,15 @@ const rejectDoctor = async (id) => {
 };
 
 
-
-
 /**
  * return all doctors from db
  * @param offset
  * @param limit
  * @returns {Promise<*>}
  */
-const getAllDoctors = async (offset = 0, limit = 10) => {
+const getAllDoctors = async () => {
     return doctorSchema.findAll(
-        {offset: offset, limit: limit},
+        {},
     )
 }
 
@@ -341,47 +339,158 @@ const minusDoctorSmsPackCounter = async (doctorId) => {
 };
 
 
-const updateSmsCounter = async (doctorId,counter)=>{
-    doctorSchema.update({smsPackCounter: counter},{returning:true,where:{id:doctorId}})
+const updateSmsCounter = async (doctorId, counter) => {
+    doctorSchema.update({smsPackCounter: counter}, {returning: true, where: {id: doctorId}})
 };
 
 
-const findDoctorByType= (doctorType)=>{
-    return doctorSchema.findAll({where:{type:doctorType}})
+const findDoctorByType = (doctorType) => {
+    return doctorSchema.findAll({where: {type: doctorType}})
 };
 
 
-const findDoctorGender= (gender)=>{
-    return doctorSchema.findAll({where:{gender:gender}})
+const findDoctorGender = (gender) => {
+    return doctorSchema.findAll({where: {gender: gender}})
 };
 
 
-const findDoctorByDoctorType = (doctorType)=>{
-    return doctorSchema.findAll({where:{type:doctorType}})
+const findDoctorByDoctorType = (doctorType) => {
+    return doctorSchema.findAll({where: {type: doctorType}})
 };
 
 
-const findDoctorsNotApproved = ()=>{
-    return doctorSchema.findAll({where:{status:"pending"}})
+const findDoctorsNotApproved = () => {
+    return doctorSchema.findAll({where: {status: "pending"}})
 }
 
-const filterPendingDoctorsByCity = async (cityName)=>{
+const filterPendingDoctorsByCity = async (cityName) => {
     let res = []
     const city = await cityRepository.findCityByName(cityName)
-    const doctors =await findDoctorsNotApproved()
-    for(let i=0;i<doctors.length;i++){
+    const doctors = await findDoctorsNotApproved()
+    for (let i = 0; i < doctors.length; i++) {
         const doctor = doctors[i]
-        if(doctor.cityId === city.id){
+        if (doctor.cityId === city.id) {
             res.push(doctor)
         }
     }
     return res
+}
 
+
+const sendProprietaryRequest = async (phoneNumber) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    if(doctor) {
+        if (doctor.status === "approved") {
+            if (!doctor.proprietary) {
+                return doctorSchema.update({status: "pendingToBeProprietary"}, {
+                    returning: true,
+                    where: {phoneNumber: phoneNumber}
+                })
+            }
+        } else {
+            throw new Error("doctor should be approved first")
+        }
+    }
+    else {
+        throw new Error("doctor should be approved first")
+    }
+}
+
+
+const acceptToBeProprietary = async (phoneNumber) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    if (doctor.status === "pendingToBeProprietary") {
+        await doctorSchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})
+        await doctorSchema.update({proprietary: true}, {returning: true, where: {phoneNumber: phoneNumber}})
+        const codeGenerated = utils.getRandomInt(1000000, 9999999)
+        let message = " کاربر گرامی درخواست شما مبنی بر دریافت کد اپ اختصاصی در اپ سفید تایید گردید "
+        message += "کد اپ شما :"
+        message += codeGenerated
+        await sms.send(phoneNumber, message)
+    } else {
+        throw new Error("doctor should request first")
+    }
+};
+
+const listOfPendingTobeProprietaryDoctor = async () => {
+    let res = []
+    const doctors = await getAllDoctors()
+    for (let i = 0; i < doctors.length; i++) {
+        let data = {}
+        const doctor = doctors[i]
+        if(doctor.status ==="pendingToBeProprietary"){
+            data.doctorName = doctor.name
+            data.doctorType = doctor.type
+            data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+            data.doctorPhone = doctor.phoneNumber
+            data.doctorId = doctor.id
+            res.push(data)
+        }
+    }
+    return res
+}
+
+
+const listOfRejectTobeProprietaryDoctor = async () => {
+    let res = []
+    const doctors = await getAllDoctors()
+    for (let i = 0; i < doctors.length; i++) {
+        let data = {}
+        const doctor = doctors[i]
+        if(doctor.status ==="approved") {
+            if (doctor.proprietary === false) {
+                data.doctorName = doctor.name
+                data.doctorType = doctor.type
+                data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+                data.doctorPhone = doctor.phoneNumber
+                data.doctorId = doctor.id
+                res.push(data)
+            }
+        }
+    }
+    return res
 }
 
 
 
 
+const listOfApprovedTobeProprietaryDoctor = async () => {
+    let res = []
+    const doctors = await getAllDoctors()
+    for (let i = 0; i < doctors.length; i++) {
+        let data = {}
+        const doctor = doctors[i]
+        if(doctor.status ==="approved") {
+            if (doctor.proprietary === true) {
+                data.doctorName = doctor.name
+                data.doctorType = doctor.type
+                data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+                data.doctorPhone = doctor.phoneNumber
+                data.doctorId = doctor.id
+                res.push(data)
+            }
+        }
+    }
+    return res
+}
+
+
+
+
+
+
+
+const rejectToBeProprietary =  async (phoneNumber) => {
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    if (doctor.status === "pendingToBeProprietary") {
+        await doctorSchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})
+        await doctorSchema.update({proprietary: false}, {returning: true, where: {phoneNumber: phoneNumber}})
+        let message = " کاربر گرامی متاسفانه درخواست شما مبنی بر دریافت کد اپ اختصاصی در اپ سفید تایید نشده "
+        await sms.send(phoneNumber, message)
+    } else {
+        throw new Error("doctor should request first")
+    }
+};
 
 
 module.exports = {
@@ -411,5 +520,11 @@ module.exports = {
     findDoctorByDoctorType,
     filterPendingDoctorsByCity,
     findDoctorsNotApproved,
-    rejectDoctor
+    rejectDoctor,
+    acceptToBeProprietary,
+    sendProprietaryRequest,
+    listOfPendingTobeProprietaryDoctor,
+    rejectToBeProprietary,
+    listOfRejectTobeProprietaryDoctor,
+    listOfApprovedTobeProprietaryDoctor
 }
