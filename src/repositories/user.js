@@ -188,6 +188,11 @@ const findDoctorById = (id) => {
 }
 
 
+const findDoctorByUserId = (userId)=>{
+    return doctorSchema.findOne({where: {userId: userId}})
+}
+
+
 const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) => {
     const doctor = await findDoctorByProprietaryCode(proprietaryCode)
     const user = await findUserByPhoneNumber(ownPhoneNumber)
@@ -195,13 +200,17 @@ const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) =>
     if (doctor.proprietary === "true") {
         if (doctor.status === "approved") {
             userProprietaryAppList.push(doctor.id)
+            if(user.role === "doctor"){
+                const self = findDoctorByUserId(user.id)
+                userProprietaryAppList.push(self.id)
+            }
         }
     }
     return userSchema.update({proprietaryAppList: userProprietaryAppList}, {
         returning: true,
         where: {phoneNumber: ownPhoneNumber}
     })
-}
+};
 
 
 const searchDoctorByPhoneNumber = (phoneNumber) => {
@@ -246,7 +255,6 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
     for (let i = 0; i < userProprietaryAppList; i++) {
         let data = {}
         const  recommendList = await getDoctorRecommandList()
-
         const doctorId = userProprietaryAppList[i]
         const doctor = await findDoctorById(doctorId)
         data.doctorId = doctorId
@@ -276,7 +284,8 @@ module.exports = {
     getListOfFavorite,
     addAvatarUrl,
     getUsersInCity,
-    getListOfUserProprietaryAppList
+    getListOfUserProprietaryAppList,
+    addDoctorToProprietaryAppList
 };
 
 
