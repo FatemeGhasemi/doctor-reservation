@@ -84,9 +84,10 @@ const initDoctorSchema = () => {
         gender:{
             type:Sequelize.STRING,
             allowNull:false
+        },
+        proprietaryAppCode:{
+            type:Sequelize.STRING
         }
-
-
 
     });
     //TODO Doctor.sync just needed once to create tables, so if tables created dont need call it any more

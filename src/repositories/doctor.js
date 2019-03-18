@@ -379,7 +379,7 @@ const filterPendingDoctorsByCity = async (cityName) => {
 
 const sendProprietaryRequest = async (phoneNumber) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
-    if(doctor) {
+    if (doctor) {
         if (doctor.status === "approved") {
             if (!doctor.proprietary) {
                 return doctorSchema.update({status: "pendingToBeProprietary"}, {
@@ -390,8 +390,7 @@ const sendProprietaryRequest = async (phoneNumber) => {
         } else {
             throw new Error("doctor should be approved first")
         }
-    }
-    else {
+    } else {
         throw new Error("doctor should be approved first")
     }
 }
@@ -400,9 +399,12 @@ const sendProprietaryRequest = async (phoneNumber) => {
 const acceptToBeProprietary = async (phoneNumber) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     if (doctor.status === "pendingToBeProprietary") {
-        await doctorSchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})
-        await doctorSchema.update({proprietary: true}, {returning: true, where: {phoneNumber: phoneNumber}})
         const codeGenerated = utils.getRandomInt(1000000, 9999999)
+        await doctorSchema.update({
+            status: "approved",
+            proprietary: true,
+            proprietaryAppCode: codeGenerated
+        }, {returning: true, where: {phoneNumber: phoneNumber}})
         let message = " کاربر گرامی درخواست شما مبنی بر دریافت کد اپ اختصاصی در اپ سفید تایید گردید "
         message += "کد اپ شما :"
         message += codeGenerated
@@ -418,7 +420,7 @@ const listOfPendingTobeProprietaryDoctor = async () => {
     for (let i = 0; i < doctors.length; i++) {
         let data = {}
         const doctor = doctors[i]
-        if(doctor.status ==="pendingToBeProprietary"){
+        if (doctor.status === "pendingToBeProprietary") {
             data.doctorName = doctor.name
             data.doctorType = doctor.type
             data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
@@ -437,7 +439,7 @@ const listOfRejectTobeProprietaryDoctor = async () => {
     for (let i = 0; i < doctors.length; i++) {
         let data = {}
         const doctor = doctors[i]
-        if(doctor.status ==="approved") {
+        if (doctor.status === "approved") {
             if (doctor.proprietary === false) {
                 data.doctorName = doctor.name
                 data.doctorType = doctor.type
@@ -452,15 +454,13 @@ const listOfRejectTobeProprietaryDoctor = async () => {
 }
 
 
-
-
 const listOfApprovedTobeProprietaryDoctor = async () => {
     let res = []
     const doctors = await getAllDoctors()
     for (let i = 0; i < doctors.length; i++) {
         let data = {}
         const doctor = doctors[i]
-        if(doctor.status ==="approved") {
+        if (doctor.status === "approved") {
             if (doctor.proprietary === true) {
                 data.doctorName = doctor.name
                 data.doctorType = doctor.type
@@ -475,8 +475,7 @@ const listOfApprovedTobeProprietaryDoctor = async () => {
 }
 
 
-
-const rejectToBeProprietary =  async (phoneNumber) => {
+const rejectToBeProprietary = async (phoneNumber) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     if (doctor.status === "pendingToBeProprietary") {
         await doctorSchema.update({status: "approved"}, {returning: true, where: {phoneNumber: phoneNumber}})

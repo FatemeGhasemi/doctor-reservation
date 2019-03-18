@@ -79,7 +79,7 @@ const getListOfAcceptTobeProprietaryDoctor =  async (req,res)=>{
 router.get('/pending',checkAccess.validateJwt,checkAccess.checkRolesAccess,getListOfPendingTobeProprietaryDoctor);
 router.get('/approved',checkAccess.validateJwt,checkAccess.checkRolesAccess,getListOfAcceptTobeProprietaryDoctor);
 router.get('/rejected',checkAccess.validateJwt,checkAccess.checkRolesAccess,getListOfRejectTobeProprietaryDoctor);
-router.post('/',checkAccess.validateJwt,checkAccess.checkAccess,requestToBeProprietaryDoctor);
+router.post('/sendRequest',checkAccess.validateJwt,checkAccess.checkRolesAccess,requestToBeProprietaryDoctor);
 router.put('/acceptToBeProprietary/:phoneNumber',checkAccess.validateJwt,checkAccess.checkRolesAccess,acceptToBeProprietaryDoctor);
 router.put('/rejectToBeProprietary/:phoneNumber',checkAccess.validateJwt,checkAccess.checkRolesAccess,rejectToBeProprietaryDoctor);
 module.exports = router;
