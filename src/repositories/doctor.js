@@ -476,10 +476,6 @@ const listOfApprovedTobeProprietaryDoctor = async () => {
 
 
 
-
-
-
-
 const rejectToBeProprietary =  async (phoneNumber) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     if (doctor.status === "pendingToBeProprietary") {

@@ -81,5 +81,5 @@ router.get('/approved',checkAccess.validateJwt,checkAccess.checkRolesAccess,getL
 router.get('/rejected',checkAccess.validateJwt,checkAccess.checkRolesAccess,getListOfRejectTobeProprietaryDoctor);
 router.post('/',checkAccess.validateJwt,checkAccess.checkAccess,requestToBeProprietaryDoctor);
 router.put('/acceptToBeProprietary/:phoneNumber',checkAccess.validateJwt,checkAccess.checkRolesAccess,acceptToBeProprietaryDoctor);
-router.put('/acceptToBeProprietary/:phoneNumber',checkAccess.validateJwt,checkAccess.checkRolesAccess,rejectToBeProprietaryDoctor);
+router.put('/rejectToBeProprietary/:phoneNumber',checkAccess.validateJwt,checkAccess.checkRolesAccess,rejectToBeProprietaryDoctor);
 module.exports = router;
