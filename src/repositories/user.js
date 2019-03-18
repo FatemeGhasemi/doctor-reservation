@@ -111,14 +111,14 @@ const deactivateUser = async (phoneNumber) => {
 };
 
 
-
 const getAllUsers = async () => {
     return userSchema.findAll({})
 }
 
+
 const getUsersInCity = async (city) => {
-    const cityData =await cityRepository.findCityByName(city)
-    return userSchema.findAll({where:{cityId:cityData.id}})
+    const cityData = await cityRepository.findCityByName(city)
+    return userSchema.findAll({where: {cityId: cityData.id}})
 }
 
 
@@ -128,7 +128,6 @@ const addFavorite = async (phoneNumber, doctorId) => {
         user.favoriteList.push(doctorId)
     }
     return userSchema.update({favoriteList: user.favoriteList}, {returning: true, where: {phoneNumber: phoneNumber}})
-
 };
 
 
@@ -144,12 +143,11 @@ const removeFavorite = async (phoneNumber, doctorId) => {
         }
     }
     return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
-
 };
 
 
 const getListOfFavorite = async (phoneNumber) => {
-    let result =[]
+    let result = []
     const user = await findUserByPhoneNumber(phoneNumber)
     const favoriteList = user.favoriteList
     for (let i = 0; i < favoriteList.length; i++) {
@@ -172,11 +170,94 @@ const getListOfFavorite = async (phoneNumber) => {
         }
     }
     return result
+};
+
+
+const addAvatarUrl = async (phoneNumber, photoUrl) => {
+    userSchema.update({avatarUrl: photoUrl}, {returning: true, where: {phoneNumber: phoneNumber}})
+};
+
+
+const findDoctorByProprietaryCode = (proprietaryCode) => {
+    return doctorSchema.findOne({where: {proprietaryAppCode: proprietaryCode}})
 }
 
 
-const addAvatarUrl = async (phoneNumber,photoUrl)=>{
-    userSchema.update({avatarUrl: photoUrl},{returning:true,where:{phoneNumber:phoneNumber}})
+const findDoctorById = (id) => {
+    return doctorSchema.findOne({where: {id: id}})
+}
+
+
+const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) => {
+    const doctor = await findDoctorByProprietaryCode(proprietaryCode)
+    const user = await findUserByPhoneNumber(ownPhoneNumber)
+    let userProprietaryAppList = user.proprietaryAppList
+    if (doctor.proprietary === "true") {
+        if (doctor.status === "approved") {
+            userProprietaryAppList.push(doctor.id)
+        }
+    }
+    return userSchema.update({proprietaryAppList: userProprietaryAppList}, {
+        returning: true,
+        where: {phoneNumber: ownPhoneNumber}
+    })
+}
+
+
+const searchDoctorByPhoneNumber = (phoneNumber) => {
+    return doctorSchema.findOne({where: {phoneNumber: phoneNumber}})
+};
+
+
+const getDoctorRecommandList = async (phoneNumber) => {
+    let result = []
+    const doctor = await searchDoctorByPhoneNumber(phoneNumber)
+    const recommendedList = doctor.recommendedList
+    for (let i = 0; i < recommendedList.length; i++) {
+        let data = {}
+        const doctorId = recommendedList[i]
+        const doctor = await findDoctorById(doctorId)
+        const officeIds = doctor.officeId
+        for (let j = 0; j < officeIds.length; j++) {
+            const officId = officeIds[j]
+            const office = await officeRepository.findOfficeById(officId)
+            data.doctorName = doctor.name
+            data.doctorPhoneNumber = doctor.phoneNumber
+            data.doctorPhoto = doctor.photoUrl
+            data.doctorCategoryId = doctor.categoryId
+            data.officeAddress = office.address
+            data.officeLat = office.lat
+            data.officeLong = office.long
+            data.officePhone = office.phoneNumber
+            data.officePhotoes = office.photoUrl
+            data.officeId = officId
+            result.push(data)
+        }
+    }
+    return result
+};
+
+
+
+const getListOfUserProprietaryAppList = async (phoneNumber) => {
+    const user = await findUserByPhoneNumber(phoneNumber)
+    let result = []
+    let userProprietaryAppList = user.proprietaryAppList
+    for (let i = 0; i < userProprietaryAppList; i++) {
+        let data = {}
+        const  recommendList = await getDoctorRecommandList()
+
+        const doctorId = userProprietaryAppList[i]
+        const doctor = await findDoctorById(doctorId)
+        data.doctorId = doctorId
+        data.doctorName = doctor.name
+        data.doctorType=doctor.type
+        data.doctorCategoryId = doctor.categoryId
+        data.getDoctorRecommandList = recommendList
+        result.push(data)
+    }
+
+
 }
 
 

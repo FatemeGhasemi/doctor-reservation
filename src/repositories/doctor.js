@@ -488,6 +488,9 @@ const rejectToBeProprietary = async (phoneNumber) => {
 };
 
 
+
+
+
 module.exports = {
     approveAsDoctor,
     updateDoctorData,
