@@ -69,6 +69,6 @@ const getListOfDoctorRecommands= async (req,res)=>{
 
 router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, addToRecommandList);
 router.delete('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkAccess, removeFromRecommandList);
-router.get('/',checkAccess.validateJwt,getListOfDoctorRecommands);
+router.get('/',getListOfDoctorRecommands);
 
 module.exports = router;
