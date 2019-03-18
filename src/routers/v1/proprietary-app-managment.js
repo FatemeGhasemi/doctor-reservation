@@ -95,6 +95,8 @@ const addDoctorToUserProprietaryAppList = async (req, res) => {
     }
 }
 
+
+
 router.put('/addDoctorToUserProprietaryAppList',checkAccess.validateJwt,addDoctorToUserProprietaryAppList)
 router.get('/ShowUserOwnProprietaryAppList', checkAccess.validateJwt, ShowUserOwnProprietaryAppList)
 router.get('/pending', checkAccess.validateJwt, checkAccess.checkRolesAccess, getListOfPendingTobeProprietaryDoctor);
