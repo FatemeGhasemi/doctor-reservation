@@ -256,8 +256,6 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
         data.getDoctorRecommandList = recommendList
         result.push(data)
     }
-
-
 }
 
 
@@ -277,7 +275,8 @@ module.exports = {
     removeFavorite,
     getListOfFavorite,
     addAvatarUrl,
-    getUsersInCity
+    getUsersInCity,
+    getListOfUserProprietaryAppList
 };
 
 
