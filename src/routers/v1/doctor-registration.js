@@ -27,8 +27,11 @@ const getListOfActivityField = async (req, res) => {
         let result = []
         const categories = await categoryRepository.findCategoryByParentName(req.query.parentName)
         for (let i = 0; i < categories.length; i++) {
+            let data = {}
             const category = categories[i]
-            result.push(category.displayName)
+            data.categoryName = category.name
+            data.categoryDisplayName = category.displayName
+            result.push(data)
         }
 
         res.json({message: "success getListOfActivityField operation", result: result})

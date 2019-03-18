@@ -97,10 +97,13 @@ const returnAllCategories = async (offset = 0, limit = 10) => {
 const returnAllCategoryThatTheirParentsNull = async () => {
     let res = []
     const allCategories = await categorySchema.findAll({where: {parentName: null}})
+    let data = {}
 
     for (let i = 0; i < allCategories.length; i++) {
         const category = allCategories[i]
-        res.push(category.displayName)
+        data.categoryName = category.name
+        data.categoryDisplayName = category.displayName
+        res.push(data)
     }
 
     return res
@@ -108,7 +111,6 @@ const returnAllCategoryThatTheirParentsNull = async () => {
 
 
 const findCategoryIdByAnArrayOfCategories = async (arrayOfCategories) => {
-
     try {
         let i = 1;
         let tempCategory = await findCategoryByName(arrayOfCategories[arrayOfCategories.length - i])
