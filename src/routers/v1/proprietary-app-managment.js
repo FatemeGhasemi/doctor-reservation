@@ -77,6 +77,7 @@ const getListOfAcceptTobeProprietaryDoctor = async (req, res) => {
 const ShowUserOwnProprietaryAppList = async (req, res) => {
     try {
         const result = await userRepository.getListOfUserProprietaryAppList(res.locals.user.phoneNumber)
+        console.log("result: ",result)
         res.json({message: "ShowUserOwnProprietaryAppList operation succeed", result: result})
     } catch (e) {
         console.log("ShowUserOwnProprietaryAppList ERROR: ", e.message);
@@ -96,8 +97,20 @@ const addDoctorToUserProprietaryAppList = async (req, res) => {
 }
 
 
+const deleteDoctorToUserProprietaryAppList = async (req, res) => {
+    try {
+        const result = await userRepository.removeDoctorFromProprietaryAppList(req.query.doctorProprietaryCode, res.locals.user.phoneNumber)
+        res.json({message: "deleteDoctorToUserProprietaryAppList operation succeed", result: result})
+    } catch (e) {
+        console.log("deleteDoctorToUserProprietaryAppList ERROR: ", e.message);
+        res.status(500).json({message: "deleteDoctorToUserProprietaryAppList operation failed", result: e.message})
+    }
+}
+
+
 
 router.put('/addDoctorToUserProprietaryAppList',checkAccess.validateJwt,addDoctorToUserProprietaryAppList)
+router.put('/deleteDoctorToUserProprietaryAppList',checkAccess.validateJwt,deleteDoctorToUserProprietaryAppList)
 router.get('/ShowUserOwnProprietaryAppList', checkAccess.validateJwt, ShowUserOwnProprietaryAppList)
 router.get('/pending', checkAccess.validateJwt, checkAccess.checkRolesAccess, getListOfPendingTobeProprietaryDoctor);
 router.get('/approved', checkAccess.validateJwt, checkAccess.checkRolesAccess, getListOfAcceptTobeProprietaryDoctor);

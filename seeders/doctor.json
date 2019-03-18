@@ -16,9 +16,8 @@
     "rate": 4,
     "proprietary": true,
     "medicalSystemNumber": "83748379820840930928881",
-    "gender": "male"
-
-
+    "gender": "male",
+    "proprietaryAppCode": "1947555"
   },
   {
     "phoneNumber": "091925068019",
@@ -37,8 +36,6 @@
     "rate": 3,
     "medicalSystemNumber": "83748379820840930929992",
     "gender": "male"
-
-
   },
   {
     "phoneNumber": "091925068018",

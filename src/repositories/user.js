@@ -197,13 +197,30 @@ const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) =>
     const doctor = await findDoctorByProprietaryCode(proprietaryCode)
     const user = await findUserByPhoneNumber(ownPhoneNumber)
     let userProprietaryAppList = user.proprietaryAppList
-    if (doctor.proprietary === "true") {
+    if (doctor.proprietary === true) {
         if (doctor.status === "approved") {
             userProprietaryAppList.push(doctor.id)
-
         }
     }
     return userSchema.update({proprietaryAppList: userProprietaryAppList}, {
+        returning: true,
+        where: {phoneNumber: ownPhoneNumber}
+    })
+};
+
+
+const removeDoctorFromProprietaryAppList = async (proprietaryCode, ownPhoneNumber) => {
+    let res = []
+    const doctor = await findDoctorByProprietaryCode(proprietaryCode)
+    const user = await findUserByPhoneNumber(ownPhoneNumber)
+    let userProprietaryAppList = user.proprietaryAppList
+    userProprietaryAppList.forEach(item=>{
+        if(item !== doctor.id){
+            res.push(item)
+        }
+    })
+
+    return userSchema.update({proprietaryAppList: res}, {
         returning: true,
         where: {phoneNumber: ownPhoneNumber}
     })
@@ -250,14 +267,14 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
     let result = []
     let userProprietaryAppList = user.proprietaryAppList
     if(user.role === "doctor"){
-        const self = findDoctorByUserId(user.id)
+        const self = await findDoctorByUserId(user.id)
         userProprietaryAppList.push(self.id)
     }
-    for (let i = 0; i < userProprietaryAppList; i++) {
+    for (let i = 0; i < userProprietaryAppList.length; i++) {
         let data = {}
-        const  recommendList = await getDoctorRecommandList()
         const doctorId = userProprietaryAppList[i]
         const doctor = await findDoctorById(doctorId)
+        const  recommendList = await getDoctorRecommandList(doctor.phoneNumber)
         data.doctorId = doctorId
         data.doctorName = doctor.name
         data.doctorType=doctor.type
@@ -265,6 +282,7 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
         data.getDoctorRecommandList = recommendList
         result.push(data)
     }
+    return result
 }
 
 
@@ -286,7 +304,8 @@ module.exports = {
     addAvatarUrl,
     getUsersInCity,
     getListOfUserProprietaryAppList,
-    addDoctorToProprietaryAppList
+    addDoctorToProprietaryAppList,
+    removeDoctorFromProprietaryAppList
 };
 
 

@@ -37,7 +37,8 @@ async function insertDoctors() {
             status:item.status,
             medicalSystemNumber:item.medicalSystemNumber,
             proprietary:item.proprietary,
-            gender : item.gender
+            gender : item.gender,
+            proprietaryAppCode:item.proprietaryAppCode
 
         })
 
