@@ -200,10 +200,7 @@ const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) =>
     if (doctor.proprietary === "true") {
         if (doctor.status === "approved") {
             userProprietaryAppList.push(doctor.id)
-            if(user.role === "doctor"){
-                const self = findDoctorByUserId(user.id)
-                userProprietaryAppList.push(self.id)
-            }
+
         }
     }
     return userSchema.update({proprietaryAppList: userProprietaryAppList}, {
@@ -252,6 +249,10 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
     const user = await findUserByPhoneNumber(phoneNumber)
     let result = []
     let userProprietaryAppList = user.proprietaryAppList
+    if(user.role === "doctor"){
+        const self = findDoctorByUserId(user.id)
+        userProprietaryAppList.push(self.id)
+    }
     for (let i = 0; i < userProprietaryAppList; i++) {
         let data = {}
         const  recommendList = await getDoctorRecommandList()
