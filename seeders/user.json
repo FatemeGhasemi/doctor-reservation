@@ -3,42 +3,54 @@
     "phoneNumber": "09192506805",
     "role": "admin",
     "status": "active",
-    "cityId": 1
+    "cityId": 1,
+    "proprietaryAppList": [1]
   },
   {
     "phoneNumber": "09192506806",
     "role": "doctor",
     "status": "active",
-    "cityId": 1
+    "cityId": 1,
+    "proprietaryAppList": [1]
+
   },
   {
     "phoneNumber": "09192506808",
     "role": "user",
     "status": "active",
     "cityId": 1,
-    "favoriteList":[1,2,3]
+    "favoriteList":[1,2,3],
+    "proprietaryAppList": [1]
   },
   {
     "phoneNumber": "09192506809",
     "role": "user",
     "status": "active",
     "cityId": 3,
-    "favoriteList":[1,2]
+    "favoriteList":[1,2],
+    "proprietaryAppList": [1]
+
   },
   {
     "phoneNumber": "091925068019",
     "role": "doctor",
-    "cityId": 2
+    "cityId": 2,
+    "proprietaryAppList": [1]
+
   },
   {
     "phoneNumber": "091925068018",
     "role": "doctor",
-    "cityId": 1
+    "cityId": 1,
+    "proprietaryAppList": [1]
+
   },
   {
     "phoneNumber": "091925068020",
     "role": "doctor",
-    "cityId": 1
+    "cityId": 1,
+    "proprietaryAppList": [1]
+
   }
 ]
 
