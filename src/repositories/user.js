@@ -280,6 +280,8 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
         data.doctorType=doctor.type
         data.doctorCategoryId = doctor.categoryId
         data.getDoctorRecommandList = recommendList
+        data.doctorAvatarUrl = doctor.avatarUrl
+        data.doctorProprietaryAppCode = doctor.proprietaryAppCode
         result.push(data)
     }
     return result
