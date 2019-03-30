@@ -198,8 +198,10 @@ const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) =>
     const user = await findUserByPhoneNumber(ownPhoneNumber)
     let userProprietaryAppList = user.proprietaryAppList
     if (doctor.proprietary === true) {
-        if (doctor.status === "approved") {
-            userProprietaryAppList.push(doctor.id)
+        if(!user.proprietaryAppList.includes(doctor.id)) {
+            if (doctor.status === "approved") {
+                userProprietaryAppList.push(doctor.id)
+            }
         }
     }
     return userSchema.update({proprietaryAppList: userProprietaryAppList}, {
