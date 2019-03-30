@@ -244,9 +244,11 @@ const searchDoctorByPhoneNumber = (phoneNumber) => {
 const addDoctorToRecommandList = async (phoneNumber, doctorData) => {
     const doctor = await searchDoctorByPhoneNumber(phoneNumber)
     if (doctor.proprietary === true) {
+        if (!doctor.recommendedList.includes(doctorData))
         doctor.recommendedList.push(doctorData)
     }
-    return doctorSchema.update({recommendedList: doctor.recommendedList}, {
+    let uniqueNames = uniq = [...new Set(doctor.recommendedList)];
+    return doctorSchema.update({recommendedList: uniqueNames}, {
         returning: true,
         where: {phoneNumber: phoneNumber}
     })
