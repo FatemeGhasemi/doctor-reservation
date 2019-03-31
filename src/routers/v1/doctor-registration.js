@@ -91,10 +91,10 @@ const showListOfDetectionCenterListOfDepartmanParts = async (req,res)=>{
             {parent:"azmayeshgah",name:"cellFree" ,displayName:"cell free"},
         ];
 
-        if(req.query === "tasvirBardari"){
+        if(req.query.subParts === "tasvirBardari"){
             res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data1})
         }
-        if(req.query === "azmayeshgah"){
+        if(req.query.subParts === "azmayeshgah"){
             res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data2})
         }
 
