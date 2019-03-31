@@ -248,10 +248,12 @@ const addDoctorToRecommandList = async (phoneNumber, doctorData) => {
         doctor.recommendedList.push(doctorData)
     }
     let uniqueNames = uniq = [...new Set(doctor.recommendedList)];
-    return doctorSchema.update({recommendedList: uniqueNames}, {
+    const doctorAdded = await doctorSchema.update({recommendedList: uniqueNames}, {
         returning: true,
         where: {phoneNumber: phoneNumber}
     })
+    return doctorAdded[1]
+
 };
 
 
@@ -266,7 +268,8 @@ const removeDoctorFromRecommandList = async (phoneNumber, doctorData) => {
             }
         }
     }
-    return doctorSchema.update({recommendedList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
+    const doctorRemoved = doctorSchema.update({recommendedList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
+    return doctorRemoved[1]
 };
 
 
