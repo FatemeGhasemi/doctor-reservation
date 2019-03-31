@@ -43,12 +43,122 @@ const getListOfActivityField = async (req, res) => {
 }
 
 
+const showListOfMedicalCenterListOfDepartmanParts = async (req,res)=>{
+    try {
+        const data = [
+            {name:"zanan" ,displayName:"زنان"},
+            {name:"atfal" ,displayName:"اطفال"},
+            {name:"dakheli" ,displayName:"داخلی"},
+            {name:"ghalb" ,displayName:"قلب"},
+            {name:"ortopedi" ,displayName:"ارتوپدی"},
+            {name:"jarahiOmomi" ,displayName:"جراحی عمومی"},
+            {name:"jarahiAsab" ,displayName:"جراحی اعصاب"},
+            {name:"oroloji" ,displayName:"اورولوژی"},
+            {name:"ravanPezeshki" ,displayName:"روانپزشکی"},
+            {name:"gooshHalghBini" ,displayName:"گوش و حلق و بینی"},
+            {name:"maghzAsab" ,displayName:"مغز و اعصاب"},
+            {name:"poost" ,displayName:"پوست"},
+            {name:"CCU" ,displayName:"CCU"},
+            {name:"ICU" ,displayName:"ICU"},
+            {name:"NICU" ,displayName:"NICU"}
+        ]
+        res.json({message: "success showListOfDepartmanParts operation", result: data})
+
+
+    }catch (e) {
+        console.log("showListOfMedicalCenterListOfDepartmanParts ERROR: ", e)
+        res.status(500).json({message: "showListOfMedicalCenterListOfDepartmanParts fail operation", result: e.message})
+    }
+}
+
+
+
+const showListOfDetectionCenterListOfDepartmanParts = async (req,res)=>{
+    try {
+        const data1 = [
+            {parent:"tasvirBardari", name:"radioLoji" ,displayName:"رادیولوژی"},
+            {parent:"tasvirBardari",name:"sonografi" ,displayName:"سونوگرافی"},
+            {parent:"tasvirBardari",name:"mamografi" ,displayName:"ماموگرافی"},
+            {parent:"tasvirBardari",name:"siti" ,displayName:"سی تی"},
+            {parent:"tasvirBardari",name:"MRI" ,displayName:"ام آر آی"}
+        ];
+
+        const data2 = [
+            {parent:"azmayeshgah",name:"bioshimi" ,displayName:"بیوشیمی"},
+            {parent:"azmayeshgah",name:"patoloji" ,displayName:"پاتولوژی"},
+            {parent:"azmayeshgah",name:"zhenetik" ,displayName:"ژنتیک"},
+            {parent:"azmayeshgah",name:"hormoni" ,displayName:"هورمونی"},
+            {parent:"azmayeshgah",name:"cellFree" ,displayName:"cell free"},
+        ];
+
+        if(req.query === "tasvirBardari"){
+            res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data1})
+        }
+        if(req.query === "azmayeshgah"){
+            res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data2})
+        }
+
+    }catch (e) {
+        console.log("showListOfDetectionCenterListOfDepartmanParts ERROR: ", e)
+        res.status(500).json({message: "showListOfDetectionCenterListOfDepartmanParts fail operation", result: e.message})
+    }
+}
+
+
+
+
+
+
 const registerDoctor = async (req, res) => {
     try {
+        let departmanType;
+        let doctor;
+        const categories = req.body.categoriesArray
         const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(req.body.categoriesArray)
         console.log("req.body.categoriesArray:", req.body.categoriesArray)
         req.body.categoryId = categoryId
-        const doctor = await doctorRepository.createDoctorUser(req.body)
+        if (categories[0] === "darmangaran") {
+            doctor = await doctorRepository.createDoctorUser(req.body)
+        }
+        if ( categories[0] === "marakezDarmani" || categories[0] === "marakezTashkhis") {
+            departmanType = categories[categories.length - 1]
+            req.body.departmanType = departmanType
+            if(req.body.departmanName){
+                if (req.body.operationLicenseExpiredTime){
+                    if(categories[0] === "marakezDarmani"){
+                        if(req.body.medicalCenterListOfDepartmanParts){
+                            doctor = await doctorRepository.createDoctorUser(req.body)
+                        }
+                        else {
+                            res.json({message: "medical center list of departman parts  cant be empty"})
+                        }
+                    }
+                    if(categories[0] === "marakezTashkhis"){
+                        if(req.body.detectionCenterListOfDepartmanParts){
+                            doctor = await doctorRepository.createDoctorUser(req.body)
+                        }
+                        else {
+                            res.json({message: "detection center list of departman parts  cant be empty"})
+
+                        }
+
+                    }
+                }
+                else {
+                    res.json({message: "operation license expired time  cant be empty"})
+
+                }
+            }
+            else {
+                res.json({message: "departman name cant be empty"})
+
+            }
+        }
+        if(categories[0] === "darooTajhizat"){
+            if(req.body.storeName){
+                doctor = await doctorRepository.createDoctorUser(req.body)
+            }
+        }
         res.json({message: "success registerDoctor operation", result: doctor})
 
     } catch (e) {
@@ -66,7 +176,7 @@ const uploadDocument = async (req, res) => {
 
         const phone = res.locals.user.phoneNumber
         const result = await uploadManager.uploadToCloudinary(image)
-        await doctorRepository.addPhotoToDoctorDocument(phone,result)
+        await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
     } catch (e) {
@@ -78,6 +188,8 @@ const uploadDocument = async (req, res) => {
 
 router.get('/registerType', checkAccess.validateJwt, getListOfRegisterTypes);
 router.get('/ActivityField', checkAccess.validateJwt, getListOfActivityField);
+router.get('/medicalDepartmanParts', checkAccess.validateJwt, showListOfMedicalCenterListOfDepartmanParts);
+router.get('/detectionDepartmanParts', checkAccess.validateJwt, showListOfDetectionCenterListOfDepartmanParts);
 router.post('/', checkAccess.validateJwt, registerDoctor);
 router.post('/uploadFile', checkAccess.validateJwt, uploadDocument);
 

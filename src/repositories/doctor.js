@@ -33,7 +33,15 @@ const createDoctorUser = async (data) => {
             grade: data.grade,
             cityId: cityId,
             medicalSystemNumber: data.medicalSystemNumber,
-            gender: data.gender
+            gender: data.gender,
+            creditExpiredTime:data.creditExpiredTime,
+            operationLicenseExpiredTime:data.operationLicenseExpiredTime,
+            departmanType:data.departmanType,
+            departmanName:data.departmanName,
+            medicalCenterListOfDepartmanParts:data.medicalCenterListOfDepartmanParts,
+            detectionCenterListOfDepartmanParts:data.detectionCenterListOfDepartmanParts,
+            storeName:data.storeName
+
         })
     } else {
         throw new Error("user have to creat user account first")

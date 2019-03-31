@@ -43,7 +43,6 @@ const initDoctorSchema = () => {
         },
         nationalId: {
             type: Sequelize.STRING,
-            allowNull: false,
             unique:true
         },
         field: {
@@ -71,7 +70,6 @@ const initDoctorSchema = () => {
         medicalSystemNumber: {
             type: Sequelize.STRING,
             unique: true,
-            allowNull: false
         },
         documentsPhotosUrl:{
             type:Sequelize.ARRAY(Sequelize.STRING),
@@ -87,7 +85,31 @@ const initDoctorSchema = () => {
         },
         proprietaryAppCode:{
             type:Sequelize.STRING
+        },
+        creditExpiredTime:{
+            type:Sequelize.STRING,
+            allowNull:false
+
+        },
+        operationLicenseExpiredTime:{
+            type:Sequelize.STRING
+        },
+        departmanType:{
+            type:Sequelize.STRING
+        },
+        departmanName:{
+            type:Sequelize.STRING
+        },
+        medicalCenterListOfDepartmanParts:{
+            type:Sequelize.ARRAY(Sequelize.STRING)
+        },
+        detectionCenterListOfDepartmanParts:{
+            type:Sequelize.ARRAY(Sequelize.STRING)
+        },
+        storeName:{
+            type:Sequelize.STRING
         }
+
 
     });
     //TODO Doctor.sync just needed once to create tables, so if tables created dont need call it any more
