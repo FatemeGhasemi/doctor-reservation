@@ -12,12 +12,15 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
     "rate": 4,
     "proprietary": true,
     "medicalSystemNumber": "83748379820840930928881",
     "gender": "male",
-    "proprietaryAppCode": "1947555"
+    "proprietaryAppCode": "1947555",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "091925068019",
@@ -32,10 +35,14 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
+
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide-03.jpg",
     "rate": 3,
     "medicalSystemNumber": "83748379820840930929992",
-    "gender": "male"
+    "gender": "male",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "091925068018",
@@ -51,10 +58,14 @@
     "province":"تهران",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slide1.jpg",
     "city":"تهران",
+    "cityName": "tehran",
+
     "rate": 5,
     "proprietary": false,
     "medicalSystemNumber": "83748379820840930927773",
-    "gender": "male"
+    "gender": "male",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "091925068020",
@@ -69,11 +80,15 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
+
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
     "rate": 2,
     "proprietary": false,
     "medicalSystemNumber": "83748379820840930926664",
-    "gender": "male"
+    "gender": "male",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "091925068026",
@@ -88,10 +103,14 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
+
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
     "rate": 2,
     "medicalSystemNumber": "83748379820840930927775",
-    "gender": "female"
+    "gender": "female",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "091925068028",
@@ -106,10 +125,14 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
+
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/Medical-Clinics.jpg",
     "rate": 2,
     "medicalSystemNumber": "837483798208409309277756666",
-    "gender": "female"
+    "gender": "female",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "0919250680897",
@@ -124,11 +147,15 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
+
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
     "rate": 4,
     "proprietary": true,
     "medicalSystemNumber": "8374837982084093092888189797",
-    "gender": "female"
+    "gender": "female",
+    "creditExpiredTime":"2021-03-22 15:00:00"
+
   },
   {
     "phoneNumber": "0919250680899",
@@ -143,10 +170,12 @@
     "grade":"لیسانس",
     "province":"تهران",
     "city":"تهران",
+    "cityName": "tehran",
     "avatarUrl": "https://filedn.com/l09SUUreq5ifuLbBenJHcmf/reservation/slider-img3.jpg",
     "rate": 4,
     "proprietary": true,
     "medicalSystemNumber": "83748379820840930928881897979898",
-    "gender": "female"
+    "gender": "female",
+    "creditExpiredTime":"2021-03-22 15:00:00"
   }
 ]

@@ -1,6 +1,7 @@
 async function insertDoctors() {
     const doctorRepository = require('../src/repositories/doctor');
     const userRepository = require('../src/repositories/user');
+    const cityRepository = require('../src/repositories/city');
     const doctorSchema = require('../src/models/doctor')();
 
     const mockData = require('./doctor.json')
@@ -17,6 +18,8 @@ async function insertDoctors() {
             user = await userRepository.createUser(item.phoneNumber)
             userId = user.id;
         }
+        const city = await cityRepository.findCityByName(item.cityName)
+        const cityId = city.id
         // await doctorSchema.create(item)
         await doctorSchema.create({
             userId: userId,
@@ -31,7 +34,7 @@ async function insertDoctors() {
             field:item.field,
             grade:item.grade,
             province:item.province,
-            city:item.city,
+            cityId:cityId,
             avatarUrl:item.avatarUrl,
             rate:item.rate,
             status:item.status,

@@ -42,11 +42,11 @@
 
 
 
-  {"parentName": "darooTajhizat","displayName":"داروخانه تک نسخه ای ","name":"darooKaneTakNoskhei"},
-  {"parentName": "darooTajhizat","displayName":"داروخانه شبانه روزی ","name":"darooKaneShabaneRoozi"},
-  {"parentName": "darooTajhizat","displayName":"داروخانه روزانه ","name":"darooKaneRoozane"},
-  {"parentName": "darooTajhizat","displayName":"داروخانه ۱۳آبان ","name":"darooKaneSizdahAban"},
-  {"parentName": "darooTajhizat","displayName":"داروخانه هلال احمر ","name":"darooKaneHelalAhmar"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه تک نسخه ای ","name":"darooKhaneTakNoskhei"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه شبانه روزی ","name":"darooKhaneShabaneRoozi"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه روزانه ","name":"darooKhaneRoozane"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه ۱۳آبان ","name":"darooKhaneSizdahAban"},
+  {"parentName": "darooTajhizat","displayName":"داروخانه هلال احمر ","name":"darooKhaneHelalAhmar"},
   {"parentName": "darooTajhizat","displayName":"تجهیزات بیمارستانی","name":"tajhizatBimarestani"},
   {"parentName": "darooTajhizat","displayName":"تجهیزات ارتوپدی","name":"tajhizatOrtopedi"},
   {"parentName": "darooTajhizat","displayName":"تجهیزات مطب","name":"tajhizatMatab"},
@@ -83,6 +83,6 @@
   {"parentName": "marakezTashkhis","displayName":"اندوسکوپی","name":"andoskopi"},
   {"parentName": "marakezTashkhis","displayName":"کاردیوگرافی","name":"kardioGerafi"},
 
-  {"parentName": "azmayeshgah","displayName":"آزمابشگاه خون","name":"azmayeshgahKoon"},
+  {"parentName": "azmayeshgah","displayName":"آزمابشگاه خون","name":"azmayeshgahKhoon"},
   {"parentName": "zhenetik","displayName":"آزمایشگاه ژنتیک","name":"azmayeshgahZhenetik"}
 ]
