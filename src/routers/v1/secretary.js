@@ -79,15 +79,14 @@ const getOwnProfile = async (req,res)=>{
  */
 const updateSecretaryData = async (req, res) => {
     try {
-        const accessToken = jwtHelper.removeBearer(req.header('Authorization'));
-        const phone = jwtHelper.verifyJwt(accessToken).phoneNumber;
+        const phone = res.locals.user.phoneNumber
         const role = await userRepository.getUserRoleByPhoneNumber(phone);
         if (req.body) {
             const data = req.body;
             if (role === "secretary") {
                 delete data['status']
             }
-            const user = await secretaryRepository.updateSecretaryData(req.params.phoneNumber, data);
+            const user = await secretaryRepository.updateSecretaryData(phone, data);
             res.json({message: "success operation", result: user})
         }
 
@@ -100,7 +99,7 @@ const updateSecretaryData = async (req, res) => {
 // router.get('/', getSecretaryListController);
 // router.get('/', checkAccess.validateJwt, checkAccess.checkAccessById,getOwnProfile);
 router.get('/',getOwnProfile);
-router.post('/', checkAccess.validateJwt,checkAccess.checkRolesAccess, createUserAsSecretary);
-router.put('/:phoneNumber', checkAccess.validateJwt, checkAccess.checkRolesAccess, updateSecretaryData);
+router.post('/', checkAccess.validateJwt, createUserAsSecretary);
+router.put('/', checkAccess.validateJwt, updateSecretaryData);
 
 module.exports = router;
