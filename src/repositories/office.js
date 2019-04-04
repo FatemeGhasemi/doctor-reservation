@@ -1,5 +1,6 @@
 const officeSchema = require('../models/office')();
 const doctorSchema = require('../models/doctor')();
+const secretarySchema = require('../models/secretary')();
 // const insuranceRepository = require('../repositories/insurance')
 const insuranceSchema = require('../models/insurance')();
 const cityRepository = require('../repositories/city')
@@ -11,7 +12,9 @@ const cityRepository = require('../repositories/city')
  * @returns {Promise<*>}
  */
 const createNewOffice = async (data) => {
-    return officeSchema.create({
+    const doctor = await doctorSchema.findOne({where:{id:data.doctorId}})
+    let offices = doctor.officeId
+    const newOfficeData = await officeSchema.create({
         geom: {type: 'Point', coordinates: [data.lat, data.long]},
         doctorId: data.doctorId,
         secretaryId: data.secretaryId,
@@ -22,6 +25,11 @@ const createNewOffice = async (data) => {
         type: data.type,
         insuranceId: data.insuranceId
     })
+
+    offices.push(newOfficeData.id)
+    await doctorSchema.update({officeId:offices},{returning:true,where:{id:data.doctorId}})
+    return newOfficeData
+
 };
 
 
@@ -328,12 +336,14 @@ const findOfficeByCity = async (cityName) => {
 };
 
 
-const findOfficeByDoctorGender = async (gender,categoryId) => {
+const findOfficeByDoctorGender = async (gender,categoryId,cityName) => {
     let result = [];
+    const city = await cityRepository.findCityByName(cityName)
+    const cityId = city.id
     const doctors = await doctorSchema.findAll({where: {gender: gender}});
     for (let i = 0; i < doctors.length; i++) {
         const doctor = doctors[i];
-        if(doctor.categoryId === categoryId) {
+        if(doctor.categoryId === categoryId && doctor.cityId === cityId) {
             const res = await returnDoctorData(doctor.id);
             result.push(res)
         }
