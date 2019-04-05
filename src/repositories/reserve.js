@@ -107,10 +107,10 @@ const cancelReserve = async (id) => {
  * @param limit
  * @returns {Promise<*>}
  */
-const getListOfUserReserves = async (phoneNumber) => {
+const getListOfUserReserves = async (user) => {
     let data = {}
     let result = []
-    const user = await userRepository.findUserByPhoneNumber(phoneNumber);
+    // const user = await userRepository.findUserByPhoneNumber(phoneNumber);
     const userId = user.id
     const reserves = await reserveSchema.findAll({where: {userId: userId}})
 
