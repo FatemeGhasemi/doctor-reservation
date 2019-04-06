@@ -13,8 +13,27 @@ const router = express.Router();
 
 const getListOfRegisterTypes = async (req, res) => {
     try {
+        let resu = []
         const result = await categoryRepository.returnAllCategoryThatTheirParentsNull()
-        res.json({message: "success getListOfRegisterTypes operation", result: result})
+        for (let i = 0; i < result.length; i++) {
+            const data = result[i]
+            if (data.categoryName !== "darooTajhizat") {
+                resu.push(data)
+            }
+        }
+
+        resu.push({
+            "categoryName": "darooKhane",
+            "categoryDisplayName": "داروخانه"
+        })
+
+        resu.push({
+            "categoryName": "tajhizat",
+            "categoryDisplayName": "تجهیزات پزشکی"
+        })
+
+
+        res.json({message: "success getListOfRegisterTypes operation", result: resu})
 
     } catch (e) {
         console.log("getListOfRegisterTypes ERROR: ", e)
@@ -25,13 +44,30 @@ const getListOfRegisterTypes = async (req, res) => {
 const getListOfActivityField = async (req, res) => {
     try {
         let result = []
-        const categories = await categoryRepository.findCategoryByParentName(req.query.parentName)
+        let parent = req.query.parentName
+
+        if (parent === "darooKhane" || parent === "tajhizat") {
+            parent = "darooTajhizat"
+        }
+
+        const categories = await categoryRepository.findCategoryByParentName(parent)
         for (let i = 0; i < categories.length; i++) {
             let data = {}
             const category = categories[i]
-            data.categoryName = category.name
-            data.categoryDisplayName = category.displayName
-            result.push(data)
+            if (req.query.parentName === "darooKhane") {
+                if (category.name.includes("darooKhane")) {
+                    data.categoryName = category.name
+                    data.categoryDisplayName = category.displayName
+                    result.push(data)
+                }
+            }
+            if (req.query.parentName === "tajhizat") {
+                if (category.name.includes("tajhizat")) {
+                    data.categoryName = category.name
+                    data.categoryDisplayName = category.displayName
+                    result.push(data)
+                }
+            }
         }
 
         res.json({message: "success getListOfActivityField operation", result: result})
@@ -113,7 +149,18 @@ const registerDoctor = async (req, res) => {
         let doctor;
         const categories = req.body.categoriesArray
         req.body.phoneNumber = res.locals.user.phoneNumber
-        const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(req.body.categoriesArray)
+        const index1 = categories.indexOf("darooKhane");
+        const index2 = categories.indexOf("tajhizat");
+
+        if (index1 !== -1) {
+            categories[index1] = "darooTajhizat";
+        }
+        if (index2 !== -1) {
+            categories[index2] = "darooTajhizat";
+        }
+
+
+        const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(categories)
         console.log("req.body.categoriesArray:", req.body.categoriesArray)
         req.body.categoryId = categoryId
         if (categories[0] === "darmangaran") {
