@@ -31,6 +31,7 @@ const createReservation = async (req, res) => {
             const doctorPhone = doctor.phoneNumber
             const doctorType = doctor.type
             const doctorPhoto = doctor.avatarUrl
+            const doctorCategoryId = doctor.categoryId
             const secretary = await secretaryRepository.findSecretaryId(reservation.secretaryId)
             const secretaryName = secretary.lastName
             const secretaryPhone = secretary.phoneNumber
@@ -41,6 +42,7 @@ const createReservation = async (req, res) => {
             result.officeLongitude = officeLongitude
             result.officePhone = officePhone
             result.doctorName = doctorName
+            result.doctorCategoryId = doctorCategoryId
             result.doctorPhone = doctorPhone
             result.doctorType = doctorType
             result.doctorPhoto = doctorPhoto
