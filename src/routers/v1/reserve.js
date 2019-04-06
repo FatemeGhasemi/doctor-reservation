@@ -190,7 +190,7 @@ const updateReserveData = async (req, res) => {
 
 const findUserReserveList = async (req, res) => {
     try {
-        const reserve = await reserveRepository.getListOfUserReserves(req.query.phoneNumber)
+        const reserve = await reserveRepository.getListOfUserReserves(res.locals.user)
         res.json({message: "success findUserReserveList operation", result: reserve})
 
     } catch (e) {
@@ -216,7 +216,7 @@ router.post('/', checkAccess.validateJwt, createNewReserve);
 router.put('/date', checkAccess.validateJwt, cancelReserveByUserIdAndDate);
 // router.put('/:reserveId',checkAccess.validateJwt, cancelReserveByReserveId);
 router.get('/', searchByReserveDateAndCategory);
-router.get('/userReserveList', checkAccess.validateJwt, checkAccess.checkAccess, findUserReserveList);
+router.get('/userReserveList', checkAccess.validateJwt, findUserReserveList);
 router.get('/reservesReport', reportForReserves);
 
 module.exports = router;
