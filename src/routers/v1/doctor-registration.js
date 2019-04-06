@@ -165,26 +165,37 @@ const registerDoctor = async (req, res) => {
         req.body.categoryId = categoryId
         if (categories[0] === "darmangaran") {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
-                req.body.cityName && req.body.medicalSystemNumber && categoryId)
-                doctor = await doctorRepository.createDoctorUser(req.body)
+                req.body.cityName && req.body.medicalSystemNumber && categoryId){
+                doctor = await doctorRepository.createDoctorUser(req.body)}
+            else {
+                res.json({message: "some necessary fields are empty"})
+
+            }
         }
 
         if (categories[0] === "darooTajhizat") {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
                 req.body.cityName && req.body.medicalSystemNumber && categoryId && req.body.departmanName &&
                 req.body.creditExpiredTime && req.body.operationLicenseExpiredTime) {
-                for (let i = 0; i < categories.length - 1; i++) {
+                for (let i = 1; i < categories.length ; i++) {
                     const category = categories[i]
                     if (category.includes("darooKhane")) {
                         req.body.departmanType = "داروخانه"
                         doctor = await doctorRepository.createDoctorUser(req.body)
                     }
+                    if (category.includes("tajhizat")) {
+                        if (req.body.storeName && req.body.creditExpiredTime) {
+                            doctor = await doctorRepository.createDoctorUser(req.body)
+                        }
+                    }
                 }
             }
+            else {
+                res.json({message: "some necessary fields are empty"})
 
-            if (req.body.storeName && req.body.creditExpiredTime) {
-                doctor = await doctorRepository.createDoctorUser(req.body)
             }
+
+
         }
 
 
