@@ -165,9 +165,9 @@ const registerDoctor = async (req, res) => {
         req.body.categoryId = categoryId
         if (categories[0] === "darmangaran") {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
-                req.body.cityName && req.body.medicalSystemNumber && categoryId){
-                doctor = await doctorRepository.createDoctorUser(req.body)}
-            else {
+                req.body.cityName && req.body.medicalSystemNumber && categoryId) {
+                doctor = await doctorRepository.createDoctorUser(req.body)
+            } else {
                 res.json({message: "some necessary fields are empty"})
 
             }
@@ -177,7 +177,7 @@ const registerDoctor = async (req, res) => {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
                 req.body.cityName && req.body.medicalSystemNumber && categoryId && req.body.departmanName &&
                 req.body.creditExpiredTime && req.body.operationLicenseExpiredTime) {
-                for (let i = 1; i < categories.length ; i++) {
+                for (let i = 1; i < categories.length; i++) {
                     const category = categories[i]
                     if (category.includes("darooKhane")) {
                         req.body.departmanType = "داروخانه"
@@ -189,8 +189,7 @@ const registerDoctor = async (req, res) => {
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 res.json({message: "some necessary fields are empty"})
 
             }
@@ -250,14 +249,50 @@ const registerDoctor = async (req, res) => {
 }
 
 
-const uploadDocument = async (req, res) => {
+const uploadDocumentNationalCard = async (req, res) => {
     console.log('req.files : ', req.files);
     const image = req.files.image;
     console.log('req.files.image : ', image);
     try {
 
         const phone = res.locals.user.phoneNumber
-        const result = await uploadManager.uploadToCloudinary(image)
+        const result = await uploadManager.uploadToCloudinary(image, "nationalCard")
+        await doctorRepository.addPhotoToDoctorDocument(phone, result)
+        res.json({message: `fileName uploaded`, result: {imageLink: result}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message: "Problem with uploading image", result: e.message})
+    }
+}
+
+
+const uploadDocumentActivityLicense = async (req, res) => {
+    console.log('req.files : ', req.files);
+    const image = req.files.image;
+    console.log('req.files.image : ', image);
+    try {
+
+        const phone = res.locals.user.phoneNumber
+        const result = await uploadManager.uploadToCloudinary(image, "activityLicense")
+        await doctorRepository.addPhotoToDoctorDocument(phone, result)
+        res.json({message: `fileName uploaded`, result: {imageLink: result}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message: "Problem with uploading image", result: e.message})
+    }
+}
+
+
+const uploadDocumentOperationLicense = async (req, res) => {
+    console.log('req.files : ', req.files);
+    const image = req.files.image;
+    console.log('req.files.image : ', image);
+    try {
+
+        const phone = res.locals.user.phoneNumber
+        const result = await uploadManager.uploadToCloudinary(image, "operationLicense")
         await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
@@ -273,7 +308,9 @@ router.get('/ActivityField', checkAccess.validateJwt, getListOfActivityField);
 router.get('/medicalDepartmanParts', checkAccess.validateJwt, showListOfMedicalCenterListOfDepartmanParts);
 router.get('/detectionDepartmanParts', checkAccess.validateJwt, showListOfDetectionCenterListOfDepartmanParts);
 router.post('/', checkAccess.validateJwt, registerDoctor);
-router.post('/uploadFile', checkAccess.validateJwt, uploadDocument);
+router.post('/uploadNationalCard', checkAccess.validateJwt, uploadDocumentNationalCard);
+router.post('/uploadOperationLicense', checkAccess.validateJwt, uploadDocumentOperationLicense);
+router.post('/uploadActivityLicense', checkAccess.validateJwt, uploadDocumentActivityLicense);
 
 
 module.exports = router;
