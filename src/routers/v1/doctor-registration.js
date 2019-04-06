@@ -256,7 +256,7 @@ const uploadDocumentNationalCard = async (req, res) => {
     try {
 
         const phone = res.locals.user.phoneNumber
-        const result = await uploadManager.uploadToCloudinary(image, "nationalCard")
+        const result = await uploadManager.uploadToCloudinary(image, "NationalCard")
         await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
@@ -274,7 +274,7 @@ const uploadDocumentActivityLicense = async (req, res) => {
     try {
 
         const phone = res.locals.user.phoneNumber
-        const result = await uploadManager.uploadToCloudinary(image, "activityLicense")
+        const result = await uploadManager.uploadToCloudinary(image, "ActivityLicense")
         await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
@@ -292,7 +292,7 @@ const uploadDocumentOperationLicense = async (req, res) => {
     try {
 
         const phone = res.locals.user.phoneNumber
-        const result = await uploadManager.uploadToCloudinary(image, "operationLicense")
+        const result = await uploadManager.uploadToCloudinary(image, "OperationLicense")
         await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
