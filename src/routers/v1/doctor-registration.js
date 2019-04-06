@@ -43,70 +43,68 @@ const getListOfActivityField = async (req, res) => {
 }
 
 
-const showListOfMedicalCenterListOfDepartmanParts = async (req,res)=>{
+const showListOfMedicalCenterListOfDepartmanParts = async (req, res) => {
     try {
         const data = [
-            {name:"zanan" ,displayName:"زنان"},
-            {name:"atfal" ,displayName:"اطفال"},
-            {name:"dakheli" ,displayName:"داخلی"},
-            {name:"ghalb" ,displayName:"قلب"},
-            {name:"ortopedi" ,displayName:"ارتوپدی"},
-            {name:"jarahiOmomi" ,displayName:"جراحی عمومی"},
-            {name:"jarahiAsab" ,displayName:"جراحی اعصاب"},
-            {name:"oroloji" ,displayName:"اورولوژی"},
-            {name:"ravanPezeshki" ,displayName:"روانپزشکی"},
-            {name:"gooshHalghBini" ,displayName:"گوش و حلق و بینی"},
-            {name:"maghzAsab" ,displayName:"مغز و اعصاب"},
-            {name:"poost" ,displayName:"پوست"},
-            {name:"CCU" ,displayName:"CCU"},
-            {name:"ICU" ,displayName:"ICU"},
-            {name:"NICU" ,displayName:"NICU"}
+            {name: "zanan", displayName: "زنان"},
+            {name: "atfal", displayName: "اطفال"},
+            {name: "dakheli", displayName: "داخلی"},
+            {name: "ghalb", displayName: "قلب"},
+            {name: "ortopedi", displayName: "ارتوپدی"},
+            {name: "jarahiOmomi", displayName: "جراحی عمومی"},
+            {name: "jarahiAsab", displayName: "جراحی اعصاب"},
+            {name: "oroloji", displayName: "اورولوژی"},
+            {name: "ravanPezeshki", displayName: "روانپزشکی"},
+            {name: "gooshHalghBini", displayName: "گوش و حلق و بینی"},
+            {name: "maghzAsab", displayName: "مغز و اعصاب"},
+            {name: "poost", displayName: "پوست"},
+            {name: "CCU", displayName: "CCU"},
+            {name: "ICU", displayName: "ICU"},
+            {name: "NICU", displayName: "NICU"}
         ]
         res.json({message: "success showListOfDepartmanParts operation", result: data})
 
 
-    }catch (e) {
+    } catch (e) {
         console.log("showListOfMedicalCenterListOfDepartmanParts ERROR: ", e)
         res.status(500).json({message: "showListOfMedicalCenterListOfDepartmanParts fail operation", result: e.message})
     }
 }
 
 
-
-const showListOfDetectionCenterListOfDepartmanParts = async (req,res)=>{
+const showListOfDetectionCenterListOfDepartmanParts = async (req, res) => {
     try {
         const data1 = [
-            {parent:"tasvirBardari", name:"radioLoji" ,displayName:"رادیولوژی"},
-            {parent:"tasvirBardari",name:"sonografi" ,displayName:"سونوگرافی"},
-            {parent:"tasvirBardari",name:"mamografi" ,displayName:"ماموگرافی"},
-            {parent:"tasvirBardari",name:"siti" ,displayName:"سی تی"},
-            {parent:"tasvirBardari",name:"MRI" ,displayName:"ام آر آی"}
+            {parent: "tasvirBardari", name: "radioLoji", displayName: "رادیولوژی"},
+            {parent: "tasvirBardari", name: "sonografi", displayName: "سونوگرافی"},
+            {parent: "tasvirBardari", name: "mamografi", displayName: "ماموگرافی"},
+            {parent: "tasvirBardari", name: "siti", displayName: "سی تی"},
+            {parent: "tasvirBardari", name: "MRI", displayName: "ام آر آی"}
         ];
 
         const data2 = [
-            {parent:"azmayeshgah",name:"bioshimi" ,displayName:"بیوشیمی"},
-            {parent:"azmayeshgah",name:"patoloji" ,displayName:"پاتولوژی"},
-            {parent:"azmayeshgah",name:"zhenetik" ,displayName:"ژنتیک"},
-            {parent:"azmayeshgah",name:"hormoni" ,displayName:"هورمونی"},
-            {parent:"azmayeshgah",name:"cellFree" ,displayName:"cell free"},
+            {parent: "azmayeshgah", name: "bioshimi", displayName: "بیوشیمی"},
+            {parent: "azmayeshgah", name: "patoloji", displayName: "پاتولوژی"},
+            {parent: "azmayeshgah", name: "zhenetik", displayName: "ژنتیک"},
+            {parent: "azmayeshgah", name: "hormoni", displayName: "هورمونی"},
+            {parent: "azmayeshgah", name: "cellFree", displayName: "cell free"},
         ];
 
-        if(req.query.subParts === "tasvirBardari"){
+        if (req.query.subParts === "tasvirBardari") {
             res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data1})
         }
-        if(req.query.subParts === "azmayeshgah"){
+        if (req.query.subParts === "azmayeshgah") {
             res.json({message: "success showListOfDetectionCenterListOfDepartmanParts operation", result: data2})
         }
 
-    }catch (e) {
+    } catch (e) {
         console.log("showListOfDetectionCenterListOfDepartmanParts ERROR: ", e)
-        res.status(500).json({message: "showListOfDetectionCenterListOfDepartmanParts fail operation", result: e.message})
+        res.status(500).json({
+            message: "showListOfDetectionCenterListOfDepartmanParts fail operation",
+            result: e.message
+        })
     }
 }
-
-
-
-
 
 
 const registerDoctor = async (req, res) => {
@@ -114,51 +112,77 @@ const registerDoctor = async (req, res) => {
         let departmanType;
         let doctor;
         const categories = req.body.categoriesArray
+        req.body.phoneNumber = res.locals.user.phoneNumber
         const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(req.body.categoriesArray)
         console.log("req.body.categoriesArray:", req.body.categoriesArray)
         req.body.categoryId = categoryId
         if (categories[0] === "darmangaran") {
-            doctor = await doctorRepository.createDoctorUser(req.body)
+            if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
+                req.body.cityName && req.body.medicalSystemNumber && categoryId)
+                doctor = await doctorRepository.createDoctorUser(req.body)
         }
-        if ( categories[0] === "marakezDarmani" || categories[0] === "marakezTashkhis") {
+
+        if (categories[0] === "darooTajhizat") {
+            if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
+                req.body.cityName && req.body.medicalSystemNumber && categoryId && req.body.departmanName &&
+                req.body.creditExpiredTime && req.body.operationLicenseExpiredTime) {
+                for (let i = 0; i < categories.length - 1; i++) {
+                    const category = categories[i]
+                    if (category.includes("darooKhane")) {
+                        req.body.departmanType = "داروخانه"
+                        doctor = await doctorRepository.createDoctorUser(req.body)
+                    }
+                }
+            }
+
+            if (req.body.storeName && req.body.creditExpiredTime) {
+                doctor = await doctorRepository.createDoctorUser(req.body)
+            }
+        }
+
+
+        if (categories[0] === "marakezDarmani" || categories[0] === "marakezTashkhis") {
             departmanType = categories[categories.length - 1]
             req.body.departmanType = departmanType
-            if(req.body.departmanName){
-                if (req.body.operationLicenseExpiredTime){
-                    if(categories[0] === "marakezDarmani"){
-                        if(req.body.medicalCenterListOfDepartmanParts){
-                            doctor = await doctorRepository.createDoctorUser(req.body)
-                        }
-                        else {
+            if (req.body.departmanName) {
+                if (req.body.operationLicenseExpiredTime) {
+                    if (categories[0] === "marakezDarmani") {
+                        if (req.body.medicalCenterListOfDepartmanParts) {
+                            if (req.body.departmanName) {
+                                doctor = await doctorRepository.createDoctorUser(req.body)
+                            } else {
+                                res.json({message: "medical center list of departman name  cant be empty"})
+
+                            }
+                        } else {
                             res.json({message: "medical center list of departman parts  cant be empty"})
                         }
                     }
-                    if(categories[0] === "marakezTashkhis"){
-                        if(req.body.detectionCenterListOfDepartmanParts){
-                            doctor = await doctorRepository.createDoctorUser(req.body)
-                        }
-                        else {
+                    if (categories[0] === "marakezTashkhis") {
+                        if (req.body.detectionCenterListOfDepartmanParts) {
+                            if (req.body.departmanName) {
+                                doctor = await doctorRepository.createDoctorUser(req.body)
+                            } else {
+                                res.json({message: "medical center list of departman name  cant be empty"})
+
+                            }
+                        } else {
                             res.json({message: "detection center list of departman parts  cant be empty"})
 
                         }
-
                     }
-                }
-                else {
+
+                } else {
                     res.json({message: "operation license expired time  cant be empty"})
 
                 }
-            }
-            else {
+            } else {
                 res.json({message: "departman name cant be empty"})
 
             }
         }
-        if(categories[0] === "darooTajhizat"){
-            if(req.body.storeName){
-                doctor = await doctorRepository.createDoctorUser(req.body)
-            }
-        }
+
+
         res.json({message: "success registerDoctor operation", result: doctor})
 
     } catch (e) {

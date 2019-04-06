@@ -20,7 +20,8 @@ const initDoctorSchema = () => {
         categoryId: {
             type: Sequelize.STRING,
             foreignKey: true,
-            required: true
+            required: true,
+            allowNull:false
         },
         phoneNumber: {
             type: Sequelize.STRING,
@@ -52,7 +53,8 @@ const initDoctorSchema = () => {
             type: Sequelize.STRING
         },
         cityId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull:false
         },
         avatarUrl: {
             type: Sequelize.STRING

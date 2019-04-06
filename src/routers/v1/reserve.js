@@ -88,11 +88,17 @@ const cancelReserveByReserveId = async (req, res) => {
 
 const cancelReserveByUserIdAndDate = async (req, res) => {
     try {
-        const user = await userRepository.findUserByPhoneNumber(req.query.phoneNumber)
-        const reserves = await reserveRepository.getListOfUserReserves(user.id);
+        // const user = await userRepository.findUserByPhoneNumber(res.locals.user.phoneNumber)
+        // console.log("user: ", user)
+
+        const reserves = await reserveRepository.getListOfUserReserves(res.locals.user);
+        console.log("reserves: ", reserves)
         let result = []
         for (let i = 0; i < reserves.length; i++) {
             const reserve = reserves[i]
+            console.log("reserve: ", reserve)
+
+
             if (reserve.reserveTime === req.body.date) {
                 const ifTodayIsAtLeastOneDayBefore = utils.ifTodayIsAtLeastOneDayBefore(reserve.reserveTime)
                 if (ifTodayIsAtLeastOneDayBefore) {
@@ -206,8 +212,8 @@ const reportForReserves = async (req, res) => {
 
 router.post('/', checkAccess.validateJwt, createNewReserve);
 // router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
-router.put('/:reserveId', cancelReserveByReserveId);
-router.put('/:phoneNumber/date', checkAccess.validateJwt, checkAccess.checkAccess, cancelReserveByUserIdAndDate);
+// router.put('/:reserveId', cancelReserveByReserveId);
+router.put('/date', checkAccess.validateJwt, cancelReserveByUserIdAndDate);
 router.get('/', searchByReserveDateAndCategory);
 router.get('/userReserveList', checkAccess.validateJwt, checkAccess.checkAccess, findUserReserveList);
 router.get('/reservesReport', reportForReserves);

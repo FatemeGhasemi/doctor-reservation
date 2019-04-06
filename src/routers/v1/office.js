@@ -122,7 +122,7 @@ const getListOfOfficeInCity = async (req, res) => {
 
 const getListOfOfficeWithSpecialGenderDoctor = async (req, res) => {
     try {
-        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender,req.query.categoryId)
+        const result = await officeRepository.findOfficeByDoctorGender(req.query.gender,req.query.categoryId,req.query.cityName)
         res.json({message: "success getListOfOfficeWithSpecialGenderDoctor operation", result: result})
 
     } catch (e) {
