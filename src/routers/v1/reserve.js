@@ -212,8 +212,9 @@ const reportForReserves = async (req, res) => {
 
 router.post('/', checkAccess.validateJwt, createNewReserve);
 // router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
-// router.put('/:reserveId', cancelReserveByReserveId);
+// router.put('/:reserveId',checkAccess.validateJwt, cancelReserveByReserveId);
 router.put('/date', checkAccess.validateJwt, cancelReserveByUserIdAndDate);
+// router.put('/:reserveId',checkAccess.validateJwt, cancelReserveByReserveId);
 router.get('/', searchByReserveDateAndCategory);
 router.get('/userReserveList', checkAccess.validateJwt, checkAccess.checkAccess, findUserReserveList);
 router.get('/reservesReport', reportForReserves);
