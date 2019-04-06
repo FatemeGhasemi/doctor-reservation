@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const advertiseRepository = require('../../repositories/advertise');
 const checkAccess = require('../../middlewares/authentication');
-
+const uploadManager = require('../../services/upload-manager/cloudinary')
+const utils = require('../../utils/utils')
 
 const addNewAdvertise = async (req, res) => {
     try {
+        const advertise = req.files.advertise;
+        req.body.url = await uploadManager.uploadToCloudinary(advertise, "AdvertiseLink")
         const result = await advertiseRepository.addNewAdvertise(req.body)
         res.json({message: "add new advertise success operation: ", result})
     } catch (e) {
@@ -72,6 +75,8 @@ const getDeactivateAdvertise = async (req, res) => {
 
 const updateAdvertise = async (req, res) => {
     try {
+        const advertise = req.files.advertise;
+        req.body.url = await uploadManager.uploadToCloudinary(advertise, "AdvertiseLink")
         const result = await advertiseRepository.updateAdvertise(req.body, req.params.id)
         res.json({message: "updateAdvertise success operation: ", result})
     } catch (e) {

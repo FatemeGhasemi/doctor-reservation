@@ -40,7 +40,8 @@ const deleteOneAdvertise = async (id) => {
 
 
 const updateAdvertise = async (data, id) => {
-    return advertiseSchema.update({url: data.url, label: data.label}, {
+    delete data['status']
+    return advertiseSchema.update(data, {
         returning: true,
         where: {id: id}
     })
