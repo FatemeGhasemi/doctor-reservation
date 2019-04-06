@@ -19,7 +19,7 @@ const uploadToCloudinary = (image,name) => {
                 return reject('Move image failed ', err)
             }
             if (utils.validateFileSize(path, 2000000000)) {
-                cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
+                cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER+name}, function (err, result) {
                     fs.unlink(path)
                     if (err) {
                         console.log('error uploading cloudinary ', err)
