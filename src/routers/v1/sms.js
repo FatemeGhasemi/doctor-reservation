@@ -19,15 +19,11 @@ const sendSmsToUser = async (req, res) => {
             users = await userRepository.getAllUsers()
             for (let i = 0; i < users.length; i++) {
                 let user = users[i]
+                phones.push(user.phoneNumber)
+
                 await sms.send(user.phoneNumber, req.body.message)
             }
         }
-
-        for (let i = 0; i < users.length; i++) {
-            let user = users[i]
-            phones.push(user.phoneNumber)
-        }
-
 
         res.json({message: "success operation", result: {usersPhoneNumbers:phones,message:req.body.message}})
 

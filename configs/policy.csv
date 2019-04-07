@@ -55,6 +55,7 @@ p, admin, sms, post
 p, admin, proprietary, put
 p, admin, proprietary, get
 p, doctor, proprietary, post
+p, admin, send, post
 
 
 
