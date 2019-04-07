@@ -29,7 +29,7 @@ const uploadPhotoToOfficeGallery = async (req, res) => {
     console.log('req.files.image : ', image);
     try {
 
-        const result = await uploadManager.uploadToCloudinary(image)
+        const result = await uploadManager.uploadToCloudinary(image,req.query.officeId.toString())
         await officeRepository.addPhotoToGallery(req.query.officeId,result)
         res.json({message: `fileName uploaded`, result: {officeId:req.query.officeId,imageLink: result}});
 
