@@ -92,6 +92,17 @@ const deactivateAdvertise = async (req, res) => {
 }
 
 
+const activateAdvertise = async (req, res) => {
+    try {
+        const result = await advertiseRepository.activateOneAdvertise(req.params.id)
+        res.json({message: "activateAdvertise success operation: ", result})
+    } catch (e) {
+        console.log("activateAdvertise operation failed:", e)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 const deleteAdvertise = async (req, res) => {
     try {
         const result = await advertiseRepository.deleteOneAdvertise(req.params.id)
@@ -125,6 +136,7 @@ router.get('/', checkAccess.validateJwt, checkAccess.checkRolesAccess,getAllAdve
 router.get('/id',checkAccess.validateJwt, checkAccess.checkRolesAccess, getOneAdvertiseById)
 router.put('/:id',checkAccess.validateJwt, checkAccess.checkRolesAccess, updateAdvertise)
 router.put('/:id/deactivate',checkAccess.validateJwt, checkAccess.checkRolesAccess, deactivateAdvertise)
+router.put('/:id/activate',checkAccess.validateJwt, checkAccess.checkRolesAccess, activateAdvertise)
 router.put('/:id/delete',checkAccess.validateJwt, checkAccess.checkRolesAccess, deleteAdvertise)
 
 

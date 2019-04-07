@@ -34,6 +34,10 @@ const deactivateOneAdvertise = async (id) => {
     return advertiseSchema.update({status: "deactivate"}, {returning: true, where: {id: id}})
 };
 
+const activateOneAdvertise = async (id) => {
+    return advertiseSchema.update({status: "active"}, {returning: true, where: {id: id}})
+};
+
 const deleteOneAdvertise = async (id) => {
     return advertiseSchema.update({status: "delete"}, {returning: true, where: {id: id}})
 };
@@ -100,7 +104,8 @@ module.exports = {
     findAdvertiseByStatus,
     deactivateOneAdvertise,
     deleteOneAdvertise,
-    showActiveAdvertises
+    showActiveAdvertises,
+    activateOneAdvertise
 }
 
 
