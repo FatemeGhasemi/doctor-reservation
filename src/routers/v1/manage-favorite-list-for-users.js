@@ -31,7 +31,7 @@ const removeFromFavoriteList = async (req,res)=>{
 
 const getListOfUserFavorite = async (req,res)=>{
     try {
-        const result = await userRepository.getListOfFavorite(req.query.phoneNumber)
+        const result = await userRepository.getListOfFavorite(res.locals.user.phoneNumber)
         console.log(result)
         res.json({message: "getListOfUserFavorite operation succeed",result:result})
 
