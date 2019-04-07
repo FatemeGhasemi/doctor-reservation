@@ -5,6 +5,7 @@ const initAdvertiseSchema = () => {
     Advertise = sequelize.define('advertise', {
         url: {
             type: Sequelize.STRING,
+            allowNull:false
         },
         label: {
             type: Sequelize.STRING,
