@@ -48,7 +48,8 @@ async function insertDoctors() {
             departmanName:item.departmanName,
             medicalCenterListOfDepartmanParts:item.medicalCenterListOfDepartmanParts,
             detectionCenterListOfDepartmanParts:item.detectionCenterListOfDepartmanParts,
-            storeName:item.storeName
+            storeName:item.storeName,
+            recommendedList:item.recommendedList
 
 
 

@@ -19,7 +19,8 @@
     "medicalSystemNumber": "83748379820840930928881",
     "gender": "male",
     "proprietaryAppCode": "1947555",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "recommendedList": [2,3,4]
 
   },
   {
