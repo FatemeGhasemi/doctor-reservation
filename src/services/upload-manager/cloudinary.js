@@ -8,10 +8,10 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
-const uploadToCloudinary = (image) => {
+const uploadToCloudinary = (image,name) => {
     console.log('uploadToCloudinary image ',image)
     const filesDir = "./tempFiles"
-    const path = filesDir + "/" + utils.generateRandomString(20) + ".png"
+    const path = filesDir + "/" + utils.generateRandomString(20)+name + ".png"
     console.log('uploadToCloudinary image dest path',path)
     return new Promise((resolve, reject) => {
         image.mv(path, function (err) {
@@ -19,7 +19,7 @@ const uploadToCloudinary = (image) => {
                 return reject('Move image failed ', err)
             }
             if (utils.validateFileSize(path, 2000000000)) {
-                cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER}, function (err, result) {
+                cloudinary.uploader.upload(path, {folder: process.env.CLOUDINARY_FOLDER+name}, function (err, result) {
                     fs.unlink(path)
                     if (err) {
                         console.log('error uploading cloudinary ', err)

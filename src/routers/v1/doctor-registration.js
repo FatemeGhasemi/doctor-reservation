@@ -13,8 +13,27 @@ const router = express.Router();
 
 const getListOfRegisterTypes = async (req, res) => {
     try {
+        let resu = []
         const result = await categoryRepository.returnAllCategoryThatTheirParentsNull()
-        res.json({message: "success getListOfRegisterTypes operation", result: result})
+        for (let i = 0; i < result.length; i++) {
+            const data = result[i]
+            if (data.categoryName !== "darooTajhizat") {
+                resu.push(data)
+            }
+        }
+
+        resu.push({
+            "categoryName": "darooKhane",
+            "categoryDisplayName": "داروخانه"
+        })
+
+        resu.push({
+            "categoryName": "tajhizat",
+            "categoryDisplayName": "تجهیزات پزشکی"
+        })
+
+
+        res.json({message: "success getListOfRegisterTypes operation", result: resu})
 
     } catch (e) {
         console.log("getListOfRegisterTypes ERROR: ", e)
@@ -25,13 +44,30 @@ const getListOfRegisterTypes = async (req, res) => {
 const getListOfActivityField = async (req, res) => {
     try {
         let result = []
-        const categories = await categoryRepository.findCategoryByParentName(req.query.parentName)
+        let parent = req.query.parentName
+
+        if (parent === "darooKhane" || parent === "tajhizat") {
+            parent = "darooTajhizat"
+        }
+
+        const categories = await categoryRepository.findCategoryByParentName(parent)
         for (let i = 0; i < categories.length; i++) {
             let data = {}
             const category = categories[i]
-            data.categoryName = category.name
-            data.categoryDisplayName = category.displayName
-            result.push(data)
+            if (req.query.parentName === "darooKhane") {
+                if (category.name.includes("darooKhane")) {
+                    data.categoryName = category.name
+                    data.categoryDisplayName = category.displayName
+                    result.push(data)
+                }
+            }
+            if (req.query.parentName === "tajhizat") {
+                if (category.name.includes("tajhizat")) {
+                    data.categoryName = category.name
+                    data.categoryDisplayName = category.displayName
+                    result.push(data)
+                }
+            }
         }
 
         res.json({message: "success getListOfActivityField operation", result: result})
@@ -113,31 +149,52 @@ const registerDoctor = async (req, res) => {
         let doctor;
         const categories = req.body.categoriesArray
         req.body.phoneNumber = res.locals.user.phoneNumber
-        const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(req.body.categoriesArray)
+        const index1 = categories.indexOf("darooKhane");
+        const index2 = categories.indexOf("tajhizat");
+
+        if (index1 !== -1) {
+            categories[index1] = "darooTajhizat";
+        }
+        if (index2 !== -1) {
+            categories[index2] = "darooTajhizat";
+        }
+
+
+        const categoryId = await categoryRepository.findCategoryIdByAnArrayOfCategories(categories)
         console.log("req.body.categoriesArray:", req.body.categoriesArray)
         req.body.categoryId = categoryId
         if (categories[0] === "darmangaran") {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
-                req.body.cityName && req.body.medicalSystemNumber && categoryId)
+                req.body.cityName && req.body.medicalSystemNumber && categoryId) {
                 doctor = await doctorRepository.createDoctorUser(req.body)
+            } else {
+                res.json({message: "some necessary fields are empty"})
+
+            }
         }
 
         if (categories[0] === "darooTajhizat") {
             if (req.body.gender && req.body.name && req.body.field && req.body.nationalId && req.body.grade &&
                 req.body.cityName && req.body.medicalSystemNumber && categoryId && req.body.departmanName &&
                 req.body.creditExpiredTime && req.body.operationLicenseExpiredTime) {
-                for (let i = 0; i < categories.length - 1; i++) {
+                for (let i = 1; i < categories.length; i++) {
                     const category = categories[i]
                     if (category.includes("darooKhane")) {
                         req.body.departmanType = "داروخانه"
                         doctor = await doctorRepository.createDoctorUser(req.body)
                     }
+                    if (category.includes("tajhizat")) {
+                        if (req.body.storeName && req.body.creditExpiredTime) {
+                            doctor = await doctorRepository.createDoctorUser(req.body)
+                        }
+                    }
                 }
+            } else {
+                res.json({message: "some necessary fields are empty"})
+
             }
 
-            if (req.body.storeName && req.body.creditExpiredTime) {
-                doctor = await doctorRepository.createDoctorUser(req.body)
-            }
+
         }
 
 
@@ -192,14 +249,50 @@ const registerDoctor = async (req, res) => {
 }
 
 
-const uploadDocument = async (req, res) => {
+const uploadDocumentNationalCard = async (req, res) => {
     console.log('req.files : ', req.files);
     const image = req.files.image;
     console.log('req.files.image : ', image);
     try {
 
         const phone = res.locals.user.phoneNumber
-        const result = await uploadManager.uploadToCloudinary(image)
+        const result = await uploadManager.uploadToCloudinary(image, "NationalCard")
+        await doctorRepository.addPhotoToDoctorDocument(phone, result)
+        res.json({message: `fileName uploaded`, result: {imageLink: result}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message: "Problem with uploading image", result: e.message})
+    }
+}
+
+
+const uploadDocumentActivityLicense = async (req, res) => {
+    console.log('req.files : ', req.files);
+    const image = req.files.image;
+    console.log('req.files.image : ', image);
+    try {
+
+        const phone = res.locals.user.phoneNumber
+        const result = await uploadManager.uploadToCloudinary(image, "ActivityLicense")
+        await doctorRepository.addPhotoToDoctorDocument(phone, result)
+        res.json({message: `fileName uploaded`, result: {imageLink: result}});
+
+    } catch (e) {
+        console.log('error upload image to cloudinary ', e)
+        res.status(500).json({message: "Problem with uploading image", result: e.message})
+    }
+}
+
+
+const uploadDocumentOperationLicense = async (req, res) => {
+    console.log('req.files : ', req.files);
+    const image = req.files.image;
+    console.log('req.files.image : ', image);
+    try {
+
+        const phone = res.locals.user.phoneNumber
+        const result = await uploadManager.uploadToCloudinary(image, "OperationLicense")
         await doctorRepository.addPhotoToDoctorDocument(phone, result)
         res.json({message: `fileName uploaded`, result: {imageLink: result}});
 
@@ -215,7 +308,9 @@ router.get('/ActivityField', checkAccess.validateJwt, getListOfActivityField);
 router.get('/medicalDepartmanParts', checkAccess.validateJwt, showListOfMedicalCenterListOfDepartmanParts);
 router.get('/detectionDepartmanParts', checkAccess.validateJwt, showListOfDetectionCenterListOfDepartmanParts);
 router.post('/', checkAccess.validateJwt, registerDoctor);
-router.post('/uploadFile', checkAccess.validateJwt, uploadDocument);
+router.post('/uploadNationalCard', checkAccess.validateJwt, uploadDocumentNationalCard);
+router.post('/uploadOperationLicense', checkAccess.validateJwt, uploadDocumentOperationLicense);
+router.post('/uploadActivityLicense', checkAccess.validateJwt, uploadDocumentActivityLicense);
 
 
 module.exports = router;
