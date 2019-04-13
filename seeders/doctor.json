@@ -20,7 +20,7 @@
     "gender": "male",
     "proprietaryAppCode": "1947555",
     "creditExpiredTime":"2021-03-22 15:00:00",
-    "recommendedList": [2,3,4],
+    "recommendedList": [2,3,4]
 
   },
   {
@@ -42,7 +42,7 @@
     "rate": 3,
     "medicalSystemNumber": "83748379820840930929992",
     "gender": "male",
-    "creditExpiredTime":"2021-03-22 15:00:00",
+    "creditExpiredTime":"2021-03-22 15:00:00"
 
 
 
