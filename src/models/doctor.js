@@ -110,7 +110,11 @@ const initDoctorSchema = () => {
         },
         storeName:{
             type:Sequelize.STRING
-        }
+        },
+        accessAbility:{
+        type:Sequelize.STRING,
+            defaultValue:"isShown"
+    }
 
 
     });
