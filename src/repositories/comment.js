@@ -18,15 +18,28 @@ const findCommentById = (commentId) => {
 
 const likeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
-    const likes = comment.likes
-    return commentSchema.update({likes: likes + 1}, {returning: true, where: {id: commentId}})
+    const likes = comment.likesCounter
+    if(!comment.like) {
+        return commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
+    }
+    else {
+        throw new Error("user cant give vote to a comment twice")
+    }
 };
 
 
 const dislikeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
-    const dislikes = comment.dislikes
-    return commentSchema.update({dislikes: dislikes + 1}, {returning: true, where: {id: commentId}})
+    const dislikes = comment.dislikesCounter
+    if(!comment.like) {
+        return  commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
+            returning: true,
+            where: {id: commentId}
+        })
+    }
+    else {
+        throw new Error("user cant give vote to a comment twice")
+    }
 };
 
 
