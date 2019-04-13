@@ -110,13 +110,6 @@ const makeCommentShowAfterCheck = async (req,res)=>{
 
 
 
-
-
-
-
-
-
-
 router.post('/', checkAccess.validateJwt, sendComment);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
@@ -124,6 +117,4 @@ router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
 router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
 router.put('/deactivate', checkAccess.validateJwt, deactivateCommenting);
 router.put('/makeCommentShowAfterCheck', checkAccess.validateJwt, makeCommentShowAfterCheck);
-
-
 module.exports = router;
