@@ -5,21 +5,30 @@ const initCommentSchema = () => {
     Comment = sequelize.define('comment', {
         doctorId: {
             type: Sequelize.INTEGER,
+            allowNull:false
         },
         commentText: {
             type: Sequelize.STRING,
+            allowNull: false
         },
         likes:{
             type:Sequelize.INTEGER,
+            defaultValue: 0
+
         },
         dislikes:{
             type:Sequelize.INTEGER,
-            unique:true
+            defaultValue: 0
         },
         status:{
             type:Sequelize.STRING,
-            unique:true
+            defaultValue:"isShown"
+        },
+        accessAbility:{
+            type:Sequelize.STRING,
+            allowNull:false
         }
+
 
 
     });
