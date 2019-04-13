@@ -96,9 +96,13 @@ const rejectCommentToShow = async (req, res) => {
 
 const deactivateCommenting = async (req, res) => {
     try {
+        let data = {}
         const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        const result = await commentRepository.deactivateCommenting(doctor.id)
-        res.json({message: "deactivateCommenting success operation", result: result})
+        await commentRepository.deactivateCommenting(doctor.id)
+        data.doctorName= doctor.name
+        data.doctorType= doctor.type
+        data.doctorId= doctor.id
+        res.json({message: "deactivateCommenting success operation", result: data})
     } catch (e) {
         console.log("deactivateCommenting error: ", e.message)
         res.status(500).json({"deactivateCommenting error": e.message})
@@ -109,8 +113,8 @@ const deactivateCommenting = async (req, res) => {
 const makeCommentShowAfterCheck = async (req, res) => {
     try {
         const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        const result = await commentRepository.makeCommentShowAfterCheck(doctor.id)
-        res.json({message: "makeCommentShowAfterCheck success operation", result: result})
+        await commentRepository.makeCommentShowAfterCheck(doctor.id)
+        res.json({message: "makeCommentShowAfterCheck success operation", result: doctor})
     } catch (e) {
         console.log("makeCommentShowAfterCheck error: ", e.message)
         res.status(500).json({"makeCommentShowAfterCheck error": e.message})
