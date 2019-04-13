@@ -9,12 +9,102 @@ const router = express.Router();
 
 const sendComment = async (req,res)=>{
     try {
-        await commentRepository.createComment(req.body)
-
-
+        req.body.userId = res.locals.user.id
+        const result = await commentRepository.createComment(req.body)
+        res.json({message:"sendComment success operation", result:result})
     }catch (e) {
         console.log("sendComment error: ",e.message)
         res.status(500).json({"sendComment error":e.message})
+    }
+}
+
+
+const deleteComment = async (req,res)=>{
+    try {
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        if(res.locals.user.id === comment.userId){
+            const result = await commentRepository.deleteComment(req.params.commentId)
+            res.json({message:"deleteComment success operation", result:result})
+        }
+        else {
+            res.json({message:"user cant remove the other ones comments"})
+        }
+    }catch (e) {
+        console.log("deleteComment error: ",e.message)
+        res.status(500).json({"deleteComment error":e.message})
+    }
+}
+
+
+const editComment = async (req,res)=>{
+    try {
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        if(res.locals.user.id === comment.userId){
+            const result = await commentRepository.editComment(req.params.commentId,req.body.commentText)
+            res.json({message:"editComment success operation", result:result})
+        }
+        else {
+            res.json({message:"user cant edit the other ones comments"})
+        }
+    }catch (e) {
+        console.log("editComment error: ",e.message)
+        res.status(500).json({"editComment error":e.message})
+    }
+}
+
+
+const acceptCommentToShow = async (req,res)=>{
+    try {
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        if(res.locals.user.id === comment.doctorId){
+            const result = await commentRepository.allowCommentToShow(req.params.commentId)
+            res.json({message:"acceptCommentToShow success operation", result:result})
+        }
+        else {
+            res.json({message:"just doctor can accept comments"})
+        }
+    }catch (e) {
+        console.log("acceptCommentToShow error: ",e.message)
+        res.status(500).json({"acceptCommentToShow error":e.message})
+    }
+}
+
+
+const rejectCommentToShow = async (req,res)=>{
+    try {
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        if(res.locals.user.id === comment.doctorId){
+            const result = await commentRepository.rejectCommentToShow(req.params.commentId)
+            res.json({message:"rejectCommentToShow success operation", result:result})
+        }
+        else {
+            res.json({message:"just doctor can reject comments"})
+        }
+    }catch (e) {
+        console.log("rejectCommentToShow error: ",e.message)
+        res.status(500).json({"rejectCommentToShow error":e.message})
+    }
+}
+
+
+const deactivateCommenting = async (req,res)=>{
+    try {
+            const result = await commentRepository.deactivateCommenting(res.locals.user.id)
+            res.json({message:"deactivateCommenting success operation", result:result})
+    }catch (e) {
+        console.log("deactivateCommenting error: ",e.message)
+        res.status(500).json({"deactivateCommenting error":e.message})
+    }
+}
+
+
+const deactivateCommenting = async (req,res)=>{
+    try {
+        const result = await commentRepository.deactivateCommenting(res.locals.user.id)
+        res.json({message:"deactivateCommenting success operation", result:result})
+    }catch (e) {
+        console.log("deactivateCommenting error: ",e.message)
+        res.status(500).json({"deactivateCommenting error":e.message})
     }
 }
 
@@ -26,7 +116,13 @@ const sendComment = async (req,res)=>{
 
 
 
-router.put('', checkAccess.validateJwt, );
+
+router.post('/', checkAccess.validateJwt, sendComment);
+router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
+router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
+router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
+router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
+router.put('/deactivate', checkAccess.validateJwt, deactivateCommenting);
 
 
 module.exports = router;

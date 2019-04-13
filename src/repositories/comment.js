@@ -95,5 +95,6 @@ module.exports = {
     allowCommentToShow,
     rejectCommentToShow,
     deactivateCommenting,
-    findAllShownComment
+    findAllShownComment,
+    findCommentById
 }
