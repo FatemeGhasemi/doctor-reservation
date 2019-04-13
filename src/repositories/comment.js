@@ -1,4 +1,5 @@
 const commentSchema = require('../models/comment')();
+const doctorSchema = require('../models/doctor')();
 const userRepository = require('../repositories/user');
 const doctorRepository = require('../repositories/doctor');
 const officeRepository = require('../repositories/office')
@@ -47,9 +48,14 @@ const findCommentsByDoctorId = (doctorId) => {
 const makeCommentShowAfterCheck = async (doctorId) => {
     let res = []
     const comments = await findCommentsByDoctorId(doctorId)
+    await doctorSchema.update({accessAbility: "showAfterCheck"}, {
+        returning: true,
+        where: {id: doctorId}
+    })
+
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
-        const data = commentSchema.update({accessAbility: "showAfterCheck", status: "showAfterCheck"},
+        const data = commentSchema.update({status: "showAfterCheck"},
             {returning: true, where: {id: commentId}})
         res.push(data)
     }
@@ -60,9 +66,13 @@ const makeCommentShowAfterCheck = async (doctorId) => {
 const deactivateCommenting = async (doctorId) => {
     let res = []
     const comments = await findCommentsByDoctorId(doctorId)
+    await doctorSchema.update({accessAbility: "deActiveComments"}, {
+        returning: true,
+        where: {id: doctorId}
+    })
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
-        const data = commentSchema.update({accessAbility: "deActiveComments", status: "hideComments"},
+        const data = commentSchema.update({status: "hideComments"},
             {returning: true, where: {id: commentId}})
         res.push(data)
     }
