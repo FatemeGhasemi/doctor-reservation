@@ -148,8 +148,24 @@ const findAllShownCommentOfDoctor = async (req,res)=>{
 }
 
 
+const findAllPendingCommentOfDoctor = async (req,res)=>{
+    try {
+        const result =  await commentRepository.findAllPendingCommentOfDoctor(req.query.doctorId)
+        res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
+
+    }catch (e) {
+        console.log("findAllPendingCommentOfDoctor error: ", e.message)
+        res.status(500).json({"findAllPendingCommentOfDoctor error": e.message})
+    }
+}
+
+
+
+
+
 router.post('/', checkAccess.validateJwt, sendComment);
-router.get('/', findAllShownCommentOfDoctor);
+router.get('/shown', findAllShownCommentOfDoctor);
+router.get('/pending', findAllPendingCommentOfDoctor);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);

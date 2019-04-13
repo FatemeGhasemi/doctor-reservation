@@ -120,6 +120,33 @@ const findAllShownCommentOfDoctor = async (doctorId) => {
 }
 
 
+const findAllPendingCommentOfDoctor = async (doctorId) => {
+    const comments = commentSchema.findAll({where: {doctorId: doctorId}})
+    const doctor = await doctorRepository.findDoctorById(doctorId)
+    let res = []
+
+    for (let i = 0; i < comments.length; i++) {
+        let data = {}
+        const comment = comments[i]
+        const user = userRepository.findUserById(comment.userId)
+        if (comment.status === "pendingToShow") {
+            data.commentText = comment.commentText
+            data.commentLikes = comment.likesCounter
+            data.commentDisLikes = comment.dislikesCounter
+            data.userFirstName = user.firstName
+            data.userLastName = user.lastName
+            data.userId = user.id
+            data.doctorName = doctor.name
+            data.doctorType = doctor.type
+            data.doctorRate = doctor.rate
+            data.doctorId = doctor.id
+            res.push(data)
+        }
+    }
+    return res
+}
+
+
 module.exports = {
     createComment,
     likeComment,
@@ -131,5 +158,6 @@ module.exports = {
     rejectCommentToShow,
     deactivateCommenting,
     findAllShownCommentOfDoctor,
-    findCommentById
+    findCommentById,
+    findAllPendingCommentOfDoctor
 }
