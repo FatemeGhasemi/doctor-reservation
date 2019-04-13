@@ -16,6 +16,7 @@ const db = require('../src/db/db')
 const initTables = require('../src/init-tables')
 const favorite = require('./favorite')
 const billing = require('./billing')
+const comment = require('./comment')
 
 
 async function initDbAndSeed() {
@@ -37,6 +38,7 @@ async function initDbAndSeed() {
         await advertise.insertAdvertise()
         await favorite.insertFavorite()
         await billing.insertBilling()
+        await comment.insertComment()
     } catch (e) {
         console.log('Error init db and seeds ', e)
 

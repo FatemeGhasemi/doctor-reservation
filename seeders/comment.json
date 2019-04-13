@@ -1,0 +1,23 @@
+[
+
+  {
+    "doctorId": 1,
+    "userId": 3,
+    "commentText": "خیلی راضی ام",
+    "likesCounter": 2  ,
+    "dislikesCounter": 1
+  },
+  {
+    "doctorId": 2,
+    "userId": 1,
+    "commentText": "خیلی بد بود",
+    "likesCounter": 4  ,
+    "dislikesCounter": 1
+  }
+
+
+
+
+
+
+]
