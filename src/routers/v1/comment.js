@@ -109,6 +109,28 @@ const makeCommentShowAfterCheck = async (req,res)=>{
 }
 
 
+const likeComment = async (req,res)=>{
+    try {
+        const result = await commentRepository.likeComment(req.params.commentId)
+        res.json({message:"likeComment success operation", result:result})
+    }catch (e) {
+        console.log("likeComment error: ",e.message)
+        res.status(500).json({"likeComment error":e.message})
+    }
+}
+
+
+const dislikeComment = async (req,res)=>{
+    try {
+        const result = await commentRepository.dislikeComment(req.params.commentId)
+        res.json({message:"dislikeComment success operation", result:result})
+    }catch (e) {
+        console.log("dislikeComment error: ",e.message)
+        res.status(500).json({"dislikeComment error":e.message})
+    }
+}
+
+
 
 router.post('/', checkAccess.validateJwt, sendComment);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
@@ -117,4 +139,6 @@ router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
 router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
 router.put('/deactivate', checkAccess.validateJwt, deactivateCommenting);
 router.put('/makeCommentShowAfterCheck', checkAccess.validateJwt, makeCommentShowAfterCheck);
+router.put('/likeComment/:commentId', checkAccess.validateJwt, likeComment);
+router.put('/dislikeComment/:commentId', checkAccess.validateJwt, dislikeComment);
 module.exports = router;
