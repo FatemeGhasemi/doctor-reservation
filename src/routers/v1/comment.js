@@ -10,8 +10,15 @@ const router = express.Router();
 const sendComment = async (req,res)=>{
     try {
         req.body.userId = res.locals.user.id
-        const result = await commentRepository.createComment(req.body)
-        res.json({message:"sendComment success operation", result:result})
+        const doctor = await doctorRepository.findDoctorById(req.body.doctorId)
+        if(doctor.accessAbility !== "deActiveComments"){
+            const result = await commentRepository.createComment(req.body)
+            res.json({message:"sendComment success operation", result:result})
+        }
+        else {
+            res.json({message:"cant comment on this doctor"})
+        }
+
     }catch (e) {
         console.log("sendComment error: ",e.message)
         res.status(500).json({"sendComment error":e.message})
@@ -137,7 +144,7 @@ router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
 router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
-router.put('/deactivate', checkAccess.validateJwt, deactivateCommenting);
+router.put('/deactivateComment', checkAccess.validateJwt, deactivateCommenting);
 router.put('/makeCommentShowAfterCheck', checkAccess.validateJwt, makeCommentShowAfterCheck);
 router.put('/likeComment/:commentId', checkAccess.validateJwt, likeComment);
 router.put('/dislikeComment/:commentId', checkAccess.validateJwt, dislikeComment);
