@@ -19,28 +19,18 @@ const findCommentById = (commentId) => {
 const likeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
     const likes = comment.likesCounter
-    if(!comment.like) {
-        return commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
-    }
-    else {
-        throw new Error("user cant give vote to a comment twice")
-    }
+    return commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
 };
 
 
 const dislikeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
     const dislikes = comment.dislikesCounter
-    if(!comment.like) {
-        return  commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
-            returning: true,
-            where: {id: commentId}
-        })
-    }
-    else {
-        throw new Error("user cant give vote to a comment twice")
-    }
-};
+    return commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
+        returning: true,
+        where: {id: commentId}
+    })
+}
 
 
 const editComment = (commentId, newCommentText) => {
@@ -103,8 +93,30 @@ const rejectCommentToShow = (commentId) => {
 }
 
 
-const findAllShownComment = () => {
-    return commentSchema.findAll({where: {status: "isShown"}})
+const findAllShownCommentOfDoctor = async (doctorId) => {
+    const comments = commentSchema.findAll({where: {doctorId: doctorId}})
+    const doctor = await doctorRepository.findDoctorById(doctorId)
+    let res = []
+
+    for (let i = 0; i < comments.length; i++) {
+        let data = {}
+        const comment = comments[i]
+        const user = userRepository.findUserById(comment.userId)
+        if (comment.status === "isShown") {
+            data.commentText = comment.commentText
+            data.commentLikes = comment.likesCounter
+            data.commentDisLikes = comment.dislikesCounter
+            data.userFirstName = user.firstName
+            data.userLastName = user.lastName
+            data.userId = user.id
+            data.doctorName = doctor.name
+            data.doctorType = doctor.type
+            data.doctorRate = doctor.rate
+            data.doctorId = doctor.id
+            res.push(data)
+        }
+    }
+    return res
 }
 
 
@@ -118,6 +130,6 @@ module.exports = {
     allowCommentToShow,
     rejectCommentToShow,
     deactivateCommenting,
-    findAllShownComment,
+    findAllShownCommentOfDoctor,
     findCommentById
 }

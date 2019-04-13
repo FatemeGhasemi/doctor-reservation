@@ -135,7 +135,21 @@ const dislikeComment = async (req, res) => {
 }
 
 
+
+const findAllShownCommentOfDoctor = async (req,res)=>{
+    try {
+      const result =  await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        res.json({message: "findAllShownCommentOfDoctor success operation", result: result})
+
+    }catch (e) {
+        console.log("findAllShownCommentOfDoctor error: ", e.message)
+        res.status(500).json({"findAllShownCommentOfDoctor error": e.message})
+    }
+}
+
+
 router.post('/', checkAccess.validateJwt, sendComment);
+router.get('/', findAllShownCommentOfDoctor);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
