@@ -39,6 +39,35 @@ const deleteComment = (commentId)=>{
 };
 
 
+const findCommentsByDoctorId =  (doctorId)=>{
+    return commentSchema.findAll({where:{doctorId:doctorId}})
+}
+
+
+const makeCommentShowAfterCheck = async (doctorId)=>{
+    const comments = await findCommentsByDoctorId(doctorId)
+    for (let i=0;i<comments.length;i++){
+        const commentId = comments[i].id
+        return commentSchema.update({accessAbility: "showAfterCheck",status: "showAfterCheck"},{returning:true,where:{id:doctorId}})
+
+    }
+
+
+}
+
+
+const allowCommentToShow = (commentId)=>{
+    return commentSchema.update({status: "isShown"},{returning:true,where:{id:commentId}})
+}
+
+
+const rejectCommentToShow = (commentId)=>{
+    return commentSchema.update({status: "rejectedToShow"},{returning:true,where:{id:commentId}})
+}
+
+
+
+
 
 
 
@@ -48,5 +77,8 @@ module.exports = {
     likeComment,
     dislikeComment,
     editComment,
-    deleteComment
+    deleteComment,
+    makeCommentShowAfterCheck,
+    allowCommentToShow,
+    rejectCommentToShow
 }
