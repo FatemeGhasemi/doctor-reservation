@@ -150,8 +150,14 @@ const findAllShownCommentOfDoctor = async (req,res)=>{
 
 const findAllPendingCommentOfDoctor = async (req,res)=>{
     try {
-        const result =  await commentRepository.findAllPendingCommentOfDoctor(req.query.doctorId)
-        res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
+        if(res.locals.user.id === req.query.doctorId) {
+            const result = await commentRepository.findAllPendingCommentOfDoctor(req.query.doctorId)
+            res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
+        }
+        else {
+            res.status(403).json({message: "doctor can see list of his/her own pending comments"})
+
+        }
 
     }catch (e) {
         console.log("findAllPendingCommentOfDoctor error: ", e.message)
@@ -165,7 +171,7 @@ const findAllPendingCommentOfDoctor = async (req,res)=>{
 
 router.post('/', checkAccess.validateJwt, sendComment);
 router.get('/shown', findAllShownCommentOfDoctor);
-router.get('/pending', findAllPendingCommentOfDoctor);
+router.get('/pending',checkAccess.validateJwt, findAllPendingCommentOfDoctor);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
