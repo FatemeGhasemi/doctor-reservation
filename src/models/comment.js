@@ -22,11 +22,11 @@ const initCommentSchema = () => {
         },
         status:{
             type:Sequelize.STRING,
-            defaultValue:"isShown"
         },
         accessAbility:{
             type:Sequelize.STRING,
-            allowNull:false
+            allowNull:false,
+            defaultValue:"isShown"
         }
 
 
