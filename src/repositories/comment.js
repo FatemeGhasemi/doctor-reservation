@@ -55,7 +55,7 @@ const makeCommentShowAfterCheck = async (doctorId) => {
 
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
-        const data = commentSchema.update({status: "showAfterCheck"},
+        const data = commentSchema.update({status: "pendingToShow"},
             {returning: true, where: {id: commentId}})
         res.push(data)
     }
