@@ -21,6 +21,7 @@ const defineSchemas = async (sequelize) => {
     const advertiseSchema = require('../models/advertise')(sequelize);
     const favoriteSchema = require('../models/favorit')(sequelize);
     const billingSchema = require('../models/billing')(sequelize);
+    const commentSchema = require('../models/comment')(sequelize);
 
     try {
         await userSchema.initUserSchema();
@@ -35,6 +36,7 @@ const defineSchemas = async (sequelize) => {
         await advertiseSchema.initAdvertiseSchema();
         await favoriteSchema.initFavoriteSchema();
         await billingSchema.initBillingSchema();
+        await commentSchema.initCommentSchema();
 
     }catch (e) {
         console.log("defineSchemas ERROR:",e.message)
