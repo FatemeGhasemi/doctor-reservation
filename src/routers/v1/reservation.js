@@ -80,7 +80,7 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
 
         for (let i = 0; i < reservation.length; i++) {
             const time = reservation[i]
-            if (utils.ifTodayIsAtLeastOneDayBefore(time)) {
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start,time,req.query.finish)) {
                 valid.push(reservation[i])
             }
         }
