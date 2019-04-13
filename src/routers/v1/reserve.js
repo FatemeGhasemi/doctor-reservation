@@ -20,6 +20,7 @@ const createNewReserve = async (req, res) => {
     try {
         let result = []
         let message = "کاربر محترم اپ سفید رزرو پزشک مورد نظر شما به شرح زیر انجام شده:"
+        req.body.userPhoneNumber = res.locals.user.phoneNumber
         const reserve = await reserveRepository.creatReserve(req.body)
         const doctorId = reserve.doctorId
         const doctor = await doctorRepository.findDoctorById(doctorId)
