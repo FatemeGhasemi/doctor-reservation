@@ -29,7 +29,7 @@ const sendComment = async (req,res)=>{
 const deleteComment = async (req,res)=>{
     try {
         const comment = await commentRepository.findCommentById(req.params.commentId)
-        if(res.locals.user.id === comment.userId){
+        if(res.locals.user.id === comment.userId || res.locals.user.id === comment.doctorId){
             const result = await commentRepository.deleteComment(req.params.commentId)
             res.json({message:"deleteComment success operation", result:result})
         }
