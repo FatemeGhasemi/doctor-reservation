@@ -6,7 +6,7 @@ const utils = require('../utils/utils')
 
 
 const createComment = (data) => {
-    return commentSchema.create({commentText: data.commentText, doctorId: data.doctorId})
+    return commentSchema.create({commentText: data.commentText, doctorId: data.doctorId, userId: data.userId})
 };
 
 
@@ -80,8 +80,8 @@ const rejectCommentToShow = (commentId) => {
 }
 
 
-const findAllShownComment = ()=>{
-    return commentSchema.findAll({where:{status:"isShown"}})
+const findAllShownComment = () => {
+    return commentSchema.findAll({where: {status: "isShown"}})
 }
 
 
