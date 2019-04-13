@@ -28,7 +28,9 @@ const sendComment = async (req, res) => {
 const deleteComment = async (req, res) => {
     try {
         const comment = await commentRepository.findCommentById(req.params.commentId)
-        if (res.locals.user.id === comment.userId || res.locals.user.id === comment.doctorId) {
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
+
+        if (res.locals.user.id === comment.userId || doctor.id === comment.doctorId) {
             const result = await commentRepository.deleteComment(req.params.commentId)
             res.json({message: "deleteComment success operation", result: result})
         } else {
@@ -60,7 +62,7 @@ const editComment = async (req, res) => {
 const acceptCommentToShow = async (req, res) => {
     try {
         const comment = await commentRepository.findCommentById(req.params.commentId)
-        const doctor = await doctorRepository.findDoctorById(res.locals.user.id)
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
         if (res.locals.user.id === comment.doctorId && doctor.accessAbility === "showAfterCheck"
             && comment.status === "pendingToShow") {
             const result = await commentRepository.allowCommentToShow(req.params.commentId)
@@ -78,7 +80,8 @@ const acceptCommentToShow = async (req, res) => {
 const rejectCommentToShow = async (req, res) => {
     try {
         const comment = await commentRepository.findCommentById(req.params.commentId)
-        if (res.locals.user.id === comment.doctorId) {
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        if (doctor.id === comment.doctorId) {
             const result = await commentRepository.rejectCommentToShow(req.params.commentId)
             res.json({message: "rejectCommentToShow success operation", result: result})
         } else {
@@ -93,7 +96,8 @@ const rejectCommentToShow = async (req, res) => {
 
 const deactivateCommenting = async (req, res) => {
     try {
-        const result = await commentRepository.deactivateCommenting(res.locals.user.id)
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        const result = await commentRepository.deactivateCommenting(doctor.id)
         res.json({message: "deactivateCommenting success operation", result: result})
     } catch (e) {
         console.log("deactivateCommenting error: ", e.message)
@@ -104,7 +108,8 @@ const deactivateCommenting = async (req, res) => {
 
 const makeCommentShowAfterCheck = async (req, res) => {
     try {
-        const result = await commentRepository.makeCommentShowAfterCheck(res.locals.user.id)
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        const result = await commentRepository.makeCommentShowAfterCheck(doctor.id)
         res.json({message: "makeCommentShowAfterCheck success operation", result: result})
     } catch (e) {
         console.log("makeCommentShowAfterCheck error: ", e.message)
@@ -150,7 +155,8 @@ const findAllShownCommentOfDoctor = async (req,res)=>{
 
 const findAllPendingCommentOfDoctor = async (req,res)=>{
     try {
-        if(res.locals.user.id === req.query.doctorId) {
+        const doctor=  await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        if(doctor.id === req.query.doctorId) {
             const result = await commentRepository.findAllPendingCommentOfDoctor(req.query.doctorId)
             res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
         }
