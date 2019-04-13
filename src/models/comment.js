@@ -5,10 +5,9 @@ const initCommentSchema = () => {
     Comment = sequelize.define('comment', {
         doctorId: {
             type: Sequelize.INTEGER,
-            unique: true
         },
         commentText: {
-            type: Sequelize.ARRAY(Sequelize.STRING),
+            type: Sequelize.STRING,
         },
         likes:{
             type:Sequelize.INTEGER,
