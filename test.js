@@ -28,12 +28,51 @@
 //     }
 //
 // }
-setImmediate(function y(){console.log("Immediate")})
+// setImmediate(function y(){console.log("Immediate")})
+//
+// console.log("1")
+// console.log("2")
+// setTimeout(function x(){console.log("Timeout")},0)
+// console.log("3")
+// console.log("4")
+// function pr() {
+//     var b = 3
+//     const e = 5
+//     let t = 9
+//     y = 6
+//
+//     for (let i = 0; i < 2; i++) {
+//         var g = 4
+//         const u = 5
+//         let k = 9
+//         console.log("b: ", b)
+//         console.log("e: ", e)
+//         console.log("t: ", t)
+//     }
+//     console.log("g: ", g)
+//     console.log("u: ", u)
+//     console.log("k: ", k)
+//     console.log("i: ", i)
+//
+// }
 
-console.log("1")
-console.log("2")
-setTimeout(function x(){console.log("Timeout")},0)
-console.log("3")
-console.log("4")
+// console.log("y :", y)
 
+// pr()
+
+// var x =1;
+// if(true) {
+//     const x =2;
+//     console.log(x)
+// }
+
+
+var x =1;
+function A (){
+    let x = 2;
+    console.log(x)
+}
+A()
+
+console.log("r: ",x)
 
