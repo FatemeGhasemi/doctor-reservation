@@ -7,6 +7,10 @@ const initCommentSchema = () => {
             type: Sequelize.INTEGER,
             allowNull:false
         },
+        userId:{
+            type: Sequelize.INTEGER,
+            allowNull:false
+        },
         commentText: {
             type: Sequelize.STRING,
             allowNull: false

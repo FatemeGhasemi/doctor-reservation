@@ -7,7 +7,16 @@ const jwtHelper = require('../../services/athorization/jwt');
 const router = express.Router();
 
 
+const sendComment = async (req,res)=>{
+    try {
+        await commentRepository.createComment(req.body)
 
+
+    }catch (e) {
+        console.log("sendComment error: ",e.message)
+        res.status(500).json({"sendComment error":e.message})
+    }
+}
 
 
 
