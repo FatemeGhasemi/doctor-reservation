@@ -15,17 +15,20 @@ const initCommentSchema = () => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        likes:{
+        likesCounter:{
             type:Sequelize.INTEGER,
             defaultValue: 0
-
         },
-        dislikes:{
+        dislikesCounter:{
             type:Sequelize.INTEGER,
             defaultValue: 0
         },
         status:{
             type:Sequelize.STRING,
+        },
+        like:{
+            type:Sequelize.BOOLEAN,
+            defaultValue:false
         }
 
 
