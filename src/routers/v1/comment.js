@@ -98,13 +98,13 @@ const deactivateCommenting = async (req,res)=>{
 }
 
 
-const deactivateCommenting = async (req,res)=>{
+const makeCommentShowAfterCheck = async (req,res)=>{
     try {
-        const result = await commentRepository.deactivateCommenting(res.locals.user.id)
-        res.json({message:"deactivateCommenting success operation", result:result})
+        const result = await commentRepository.makeCommentShowAfterCheck(res.locals.user.id)
+        res.json({message:"makeCommentShowAfterCheck success operation", result:result})
     }catch (e) {
-        console.log("deactivateCommenting error: ",e.message)
-        res.status(500).json({"deactivateCommenting error":e.message})
+        console.log("makeCommentShowAfterCheck error: ",e.message)
+        res.status(500).json({"makeCommentShowAfterCheck error":e.message})
     }
 }
 
@@ -123,6 +123,7 @@ router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
 router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
 router.put('/deactivate', checkAccess.validateJwt, deactivateCommenting);
+router.put('/makeCommentShowAfterCheck', checkAccess.validateJwt, makeCommentShowAfterCheck);
 
 
 module.exports = router;
