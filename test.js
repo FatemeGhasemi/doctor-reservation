@@ -28,12 +28,21 @@
 //     }
 //
 // }
-setImmediate(function y(){console.log("Immediate")})
+// setImmediate(function y(){console.log("Immediate")})
+//
+// console.log("1")
+// console.log("2")
+// setTimeout(function x(){console.log("Timeout")},0)
+// console.log("3")
+// console.log("4")
 
-console.log("1")
-console.log("2")
-setTimeout(function x(){console.log("Timeout")},0)
-console.log("3")
-console.log("4")
 
+function x() {
+  let w = 6
+  if(true){
+      console.log(w)
+      let e  = 7
+  }
+    console.log(e)
 
+}
