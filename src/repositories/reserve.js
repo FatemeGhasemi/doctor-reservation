@@ -124,6 +124,13 @@ const getListOfUserReserves = async (user) => {
         data.doctorPhoneNumber = doctor.phoneNumber
         data.doctorPhoto = doctor.photoUrl
         data.doctorSmsCounter = doctor.smsPackCounter
+        data.doctorAvatarUrl = doctor.avatarUrl
+        data.doctorType = doctor.type
+        data.doctorCode = doctor.doctorCode
+        data.medicalSystemNumber = doctor.medicalSystemNumber
+        if(doctor.proprietaryAppCode) {
+            data.proprietaryAppCode = doctor.proprietaryAppCode
+        }
         data.officeAddress = office.address
         data.officeLat = office.lat
         data.officeLong = office.long
@@ -135,6 +142,7 @@ const getListOfUserReserves = async (user) => {
         data.paymentId = reserveData.paymentId
         data.reservationId = reserveData.reservationId
         data.reserveId = reserveData.id
+
         result.push(data)
     }
     return result
