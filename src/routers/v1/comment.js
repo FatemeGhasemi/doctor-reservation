@@ -177,11 +177,36 @@ const findAllPendingCommentOfDoctor = async (req,res)=>{
 
 
 
+const showUsersListOfCommentsThatDisLike = async (req,res)=>{
+    try {
+        const result =  await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        res.json({message: "showUsersListOfCommentsThatDisLike success operation", result: result})
+
+    }catch (e) {
+        console.log("showUsersListOfCommentsThatDisLike error: ", e.message)
+        res.status(500).json({"showUsersListOfCommentsThatDisLike error": e.message})
+    }
+}
+
+const showUsersListOfCommentsThatLike = async (req,res)=>{
+    try {
+        const result =  await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        res.json({message: "showUsersListOfCommentsThatLike success operation", result: result})
+
+    }catch (e) {
+        console.log("showUsersListOfCommentsThatLike error: ", e.message)
+        res.status(500).json({"showUsersListOfCommentsThatLike error": e.message})
+    }
+}
+
+
 
 
 router.post('/', checkAccess.validateJwt, sendComment);
 router.get('/shown', findAllShownCommentOfDoctor);
 router.get('/pending',checkAccess.validateJwt, findAllPendingCommentOfDoctor);
+router.get('/likeList',checkAccess.validateJwt, showUsersListOfCommentsThatLike);
+router.get('/disLikeList',checkAccess.validateJwt, showUsersListOfCommentsThatDisLike);
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
