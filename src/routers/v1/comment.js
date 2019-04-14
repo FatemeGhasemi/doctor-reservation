@@ -179,7 +179,7 @@ const findAllPendingCommentOfDoctor = async (req,res)=>{
 
 const showUsersListOfCommentsThatDisLike = async (req,res)=>{
     try {
-        const result =  await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        const result =  await commentRepository.showUserDisLikeList(res.locals.user.id)
         res.json({message: "showUsersListOfCommentsThatDisLike success operation", result: result})
 
     }catch (e) {
@@ -190,7 +190,7 @@ const showUsersListOfCommentsThatDisLike = async (req,res)=>{
 
 const showUsersListOfCommentsThatLike = async (req,res)=>{
     try {
-        const result =  await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        const result =  await commentRepository.showUserLikeList(res.locals.user.id)
         res.json({message: "showUsersListOfCommentsThatLike success operation", result: result})
 
     }catch (e) {

@@ -20,15 +20,17 @@ const findCommentById = (commentId) => {
 const likeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
     const likes = comment.likesCounter
-    const userId =  comment.userId
+    const userId = comment.userId
     const user = await userRepository.findUserById(userId)
-    if(!user.likesCommentIdList.includes(commentId)) {
-        const comment = await commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
+    if (!user.likesCommentIdList.includes(commentId)) {
+        const comment = await commentSchema.update({likesCounter: likes + 1, like: true}, {
+            returning: true,
+            where: {id: commentId}
+        })
         let likesCommentIdList = user.likesCommentIdList.push(commentId)
-        await userSchema.update({likesCommentIdList:likesCommentIdList},{returning:true,where:{id:userId}})
+        await userSchema.update({likesCommentIdList: likesCommentIdList}, {returning: true, where: {id: userId}})
         return comment
-    }
-    else {
+    } else {
         throw new Error("user cant like a comment twice")
     }
 };
@@ -37,18 +39,17 @@ const likeComment = async (commentId) => {
 const dislikeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
     const dislikes = comment.dislikesCounter
-    const userId =  comment.userId
+    const userId = comment.userId
     const user = await userRepository.findUserById(userId)
-    if(!user.dislikesCommentIdList.includes(commentId)) {
+    if (!user.dislikesCommentIdList.includes(commentId)) {
         const comment = await commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
             returning: true,
             where: {id: commentId}
         })
         let dislikesCommentIdList = user.dislikesCommentIdList.push(commentId)
-        await userSchema.update({dislikesCommentIdList:dislikesCommentIdList},{returning:true,where:{id:userId}})
+        await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {returning: true, where: {id: userId}})
         return comment
-    }
-    else {
+    } else {
         throw new Error("user cant dislike a comment twice")
     }
 }
@@ -168,6 +169,66 @@ const findAllPendingCommentOfDoctor = async (doctorId) => {
 }
 
 
+const showUserLikeList = async (userId) => {
+    let res = []
+    const user = await userRepository.findUserById(userId)
+    const userLikeList = user.likesCommentIdList
+    for (let i=0;i<userLikeList.length;i++){
+        let data = {}
+        const commentId = userLikeList[i]
+        const comment = await findCommentById(commentId)
+        const doctor =  await doctorRepository.findDoctorById(comment.doctorId)
+        data.commentText = comment.commentText
+        data.commentId = comment.id
+        data.userFirstName = user.firstName
+        data.userLastName = user.lastName
+        data.userId = user.id
+        data.doctorId = doctor.id
+        data.doctorName = doctor.name
+        data.doctorType = doctor.type
+        data.doctorRate = doctor.rate
+        data.doctorCode = doctor.doctorCode
+        data.doctorPhoto = doctor.avatarUrl
+        if(doctor.doctorProprietaryAppCode) {
+            data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
+        }
+        data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+        res.push(data)
+    }
+    return res
+}
+
+const showUserDisLikeList = async (userId) => {
+    let res = []
+    const user = await userRepository.findUserById(userId)
+    const userDisLikeList = user.dislikesCommentIdList
+    for (let i=0;i<userDisLikeList.length;i++){
+        let data = {}
+        const commentId = userDisLikeList[i]
+        const comment = await findCommentById(commentId)
+        const doctor =  await doctorRepository.findDoctorById(comment.doctorId)
+        data.commentText = comment.commentText
+        data.commentId = comment.id
+        data.userFirstName = user.firstName
+        data.userLastName = user.lastName
+        data.userId = user.id
+        data.doctorId = doctor.id
+        data.doctorName = doctor.name
+        data.doctorType = doctor.type
+        data.doctorRate = doctor.rate
+        data.doctorCode = doctor.doctorCode
+        data.doctorPhoto = doctor.avatarUrl
+        if(doctor.doctorProprietaryAppCode) {
+            data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
+        }
+        data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+        res.push(data)
+    }
+    return res
+
+}
+
+
 module.exports = {
     createComment,
     likeComment,
@@ -180,5 +241,7 @@ module.exports = {
     deactivateCommenting,
     findAllShownCommentOfDoctor,
     findCommentById,
-    findAllPendingCommentOfDoctor
+    findAllPendingCommentOfDoctor,
+    showUserDisLikeList,
+    showUserLikeList
 }
