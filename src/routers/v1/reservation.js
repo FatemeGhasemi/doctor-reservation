@@ -96,6 +96,13 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
         data.doctorPhoto = doctor.avatarUrl
         data.cityName = cityName
         data.freeTimeData = valid
+        data.doctorType = doctor.type
+        data.doctorId = doctor.id
+        if(doctor.proprietaryAppCode) {
+            data.proprietaryAppCode = doctor.proprietaryAppCode
+        }
+        data.medicalSystemNumber=doctor.medicalSystemNumber
+
         result.push(data)
 
         res.json({message: "success getListOfAvailableReserveList operation", result: result})
