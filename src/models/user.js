@@ -39,8 +39,10 @@ const initUserSchema = () => {
          proprietaryAppList:{
             type:Sequelize.ARRAY(Sequelize.INTEGER),
              defaultValue:[]
-
-
+         },
+         likesCommentIdList:{
+            type:Sequelize.ARRAY(Sequelize.INTEGER),
+             defaultValue:[]
          }
     });
     //TODO USer.sync just needed once to create tables, so if tables created dont need call it any more
