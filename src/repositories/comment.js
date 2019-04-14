@@ -23,7 +23,7 @@ const likeComment = async (commentId) => {
     const userId = comment.userId
     const user = await userRepository.findUserById(userId)
     let likesCommentIdList = user.likesCommentIdList
-    if (!user.likesCommentIdList.includes(commentId) && !user.dislikesCommentIdList.includes(commentId)) {
+    if (!user.likesCommentIdList.includes(comment.id) && !user.dislikesCommentIdList.includes(comment.id)) {
         const comment = await commentSchema.update({likesCounter: likes + 1, like: true}, {
             returning: true,
             where: {id: commentId}
@@ -43,14 +43,14 @@ const dislikeComment = async (commentId) => {
     const userId = comment.userId
     const user = await userRepository.findUserById(userId)
     let dislikesCommentIdList = user.dislikesCommentIdList
-    if (!user.dislikesCommentIdList.includes(commentId) && !user.likesCommentIdList.includes(commentId) ) {
+    if (!dislikesCommentIdList.includes(comment.id) && !user.likesCommentIdList.includes(comment.id) ) {
         const comment = await commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
             returning: true,
             where: {id: commentId}
         })
         dislikesCommentIdList.push(commentId)
-        await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {returning: true, where: {id: userId}})
-        return comment
+        const u  =await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {returning: true, where: {id: userId}})
+        return comment[1],u[1]
     } else {
         throw new Error("user cant dislike a comment twice")
     }
