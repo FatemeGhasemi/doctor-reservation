@@ -102,6 +102,7 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
             data.proprietaryAppCode = doctor.proprietaryAppCode
         }
         data.medicalSystemNumber=doctor.medicalSystemNumber
+        data.doctorCode = doctor.doctorCode
 
         result.push(data)
 
