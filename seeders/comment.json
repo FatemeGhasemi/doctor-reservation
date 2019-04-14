@@ -13,6 +13,20 @@
     "commentText": "خیلی بد بود",
     "likesCounter": 4  ,
     "dislikesCounter": 1
+  },
+  {
+    "doctorId": 2,
+    "userId": 1,
+    "commentText": "بد اخلاق بودند",
+    "likesCounter": 4  ,
+    "dislikesCounter": 1
+  },
+  {
+    "doctorId": 2,
+    "userId": 1,
+    "commentText": "کارتخوان نداشت",
+    "likesCounter": 4  ,
+    "dislikesCounter": 1
   }
 
 
