@@ -22,12 +22,13 @@ const likeComment = async (commentId) => {
     const likes = comment.likesCounter
     const userId = comment.userId
     const user = await userRepository.findUserById(userId)
-    if (!user.likesCommentIdList.includes(commentId)) {
+    let likesCommentIdList = user.likesCommentIdList
+    if (!user.likesCommentIdList.includes(commentId) && !user.dislikesCommentIdList.includes(commentId)) {
         const comment = await commentSchema.update({likesCounter: likes + 1, like: true}, {
             returning: true,
             where: {id: commentId}
         })
-        let likesCommentIdList = user.likesCommentIdList.push(commentId)
+        likesCommentIdList.push(commentId)
         await userSchema.update({likesCommentIdList: likesCommentIdList}, {returning: true, where: {id: userId}})
         return comment
     } else {
@@ -41,12 +42,13 @@ const dislikeComment = async (commentId) => {
     const dislikes = comment.dislikesCounter
     const userId = comment.userId
     const user = await userRepository.findUserById(userId)
-    if (!user.dislikesCommentIdList.includes(commentId)) {
+    let dislikesCommentIdList = user.dislikesCommentIdList
+    if (!user.dislikesCommentIdList.includes(commentId) && !user.likesCommentIdList.includes(commentId) ) {
         const comment = await commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
             returning: true,
             where: {id: commentId}
         })
-        let dislikesCommentIdList = user.dislikesCommentIdList.push(commentId)
+        dislikesCommentIdList.push(commentId)
         await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {returning: true, where: {id: userId}})
         return comment
     } else {
