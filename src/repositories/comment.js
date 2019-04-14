@@ -1,5 +1,6 @@
 const commentSchema = require('../models/comment')();
 const doctorSchema = require('../models/doctor')();
+const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const doctorRepository = require('../repositories/doctor');
 const officeRepository = require('../repositories/office')
@@ -19,7 +20,16 @@ const findCommentById = (commentId) => {
 const likeComment = async (commentId) => {
     const comment = await findCommentById(commentId)
     const likes = comment.likesCounter
-    return commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
+    const userId =  comment.userId
+    const user = await userRepository.findUserById(userId)
+    if(!user.likesCommentIdList.includes(commentId)) {
+        await commentSchema.update({likesCounter: likes + 1, like: true}, {returning: true, where: {id: commentId}})
+        let likesCommentIdList = user.likesCommentIdList.push(commentId)
+        await userSchema.update({likesCommentIdList:likesCommentIdList},{returning:true,where:{id:userId}})
+    }
+    else {
+        throw new Error("user cant like a comment twice")
+    }
 };
 
 
