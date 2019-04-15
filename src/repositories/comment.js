@@ -8,7 +8,12 @@ const utils = require('../utils/utils')
 
 
 const createComment = (data) => {
-    return commentSchema.create({commentText: data.commentText, doctorId: data.doctorId, userId: data.userId})
+    return commentSchema.create({
+        commentText: data.commentText,
+        doctorId: data.doctorId,
+        userId: data.userId,
+        status: data.status
+    })
 };
 
 
@@ -17,7 +22,7 @@ const findCommentById = (commentId) => {
 };
 
 
-const likeComment = async (commentId,userId) => {
+const likeComment = async (commentId, userId) => {
     const comment = await findCommentById(commentId)
     const likes = comment.likesCounter
     const user = await userRepository.findUserById(userId)
@@ -28,7 +33,10 @@ const likeComment = async (commentId,userId) => {
             where: {id: comment.id}
         })
         likesCommentIdList.push(comment.id)
-        const u  =await userSchema.update({likesCommentIdList: likesCommentIdList}, {returning: true, where: {id: userId}})
+        const u = await userSchema.update({likesCommentIdList: likesCommentIdList}, {
+            returning: true,
+            where: {id: userId}
+        })
         return c[1]
     } else {
         throw new Error("user cant like a comment twice")
@@ -36,18 +44,21 @@ const likeComment = async (commentId,userId) => {
 };
 
 
-const dislikeComment = async (commentId,userId) => {
+const dislikeComment = async (commentId, userId) => {
     const comment = await findCommentById(commentId)
     const dislikes = comment.dislikesCounter
     const user = await userRepository.findUserById(userId)
     let dislikesCommentIdList = user.dislikesCommentIdList
-    if (!dislikesCommentIdList.includes(comment.id) && !user.likesCommentIdList.includes(comment.id) ) {
+    if (!dislikesCommentIdList.includes(comment.id) && !user.likesCommentIdList.includes(comment.id)) {
         const c = await commentSchema.update({dislikesCounter: dislikes + 1, like: true}, {
             returning: true,
             where: {id: comment.id}
         })
         dislikesCommentIdList.push(comment.id)
-        const u  =await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {returning: true, where: {id: userId}})
+        const u = await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {
+            returning: true,
+            where: {id: userId}
+        })
         return c[1]
     } else {
         throw new Error("user cant dislike a comment twice")
@@ -173,11 +184,11 @@ const showUserLikeList = async (userId) => {
     let res = []
     const user = await userRepository.findUserById(userId)
     const userLikeList = user.likesCommentIdList
-    for (let i=0;i<userLikeList.length;i++){
+    for (let i = 0; i < userLikeList.length; i++) {
         let data = {}
         const commentId = userLikeList[i]
         const comment = await findCommentById(commentId)
-        const doctor =  await doctorRepository.findDoctorById(comment.doctorId)
+        const doctor = await doctorRepository.findDoctorById(comment.doctorId)
         data.commentText = comment.commentText
         data.commentId = comment.id
         data.userFirstName = user.firstName
@@ -189,7 +200,7 @@ const showUserLikeList = async (userId) => {
         data.doctorRate = doctor.rate
         data.doctorCode = doctor.doctorCode
         data.doctorPhoto = doctor.avatarUrl
-        if(doctor.doctorProprietaryAppCode) {
+        if (doctor.doctorProprietaryAppCode) {
             data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
         }
         data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
@@ -202,11 +213,11 @@ const showUserDisLikeList = async (userId) => {
     let res = []
     const user = await userRepository.findUserById(userId)
     const userDisLikeList = user.dislikesCommentIdList
-    for (let i=0;i<userDisLikeList.length;i++){
+    for (let i = 0; i < userDisLikeList.length; i++) {
         let data = {}
         const commentId = userDisLikeList[i]
         const comment = await findCommentById(commentId)
-        const doctor =  await doctorRepository.findDoctorById(comment.doctorId)
+        const doctor = await doctorRepository.findDoctorById(comment.doctorId)
         data.commentText = comment.commentText
         data.commentId = comment.id
         data.userFirstName = user.firstName
@@ -218,7 +229,7 @@ const showUserDisLikeList = async (userId) => {
         data.doctorRate = doctor.rate
         data.doctorCode = doctor.doctorCode
         data.doctorPhoto = doctor.avatarUrl
-        if(doctor.doctorProprietaryAppCode) {
+        if (doctor.doctorProprietaryAppCode) {
             data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
         }
         data.doctorMedicalSystemNumber = doctor.medicalSystemNumber

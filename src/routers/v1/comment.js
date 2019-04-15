@@ -11,10 +11,18 @@ const sendComment = async (req, res) => {
     try {
         req.body.userId = res.locals.user.id
         const doctor = await doctorRepository.findDoctorById(req.body.doctorId)
-        if (doctor.accessAbility !== "deActiveComments") {
+        if (doctor.accessAbility === "showAfterCheck") {
+            req.body.status ="pendingToShow"
             const result = await commentRepository.createComment(req.body)
             res.json({message: "sendComment success operation", result: result})
-        } else {
+        }
+        else if(doctor.accessAbility === "isShown"){
+            req.body.status ="isShown"
+            const result = await commentRepository.createComment(req.body)
+            res.json({message: "sendComment success operation", result: result})
+        }
+
+        else if(doctor.accessAbility === "deActiveComments") {
             res.json({message: "cant comment on this doctor"})
         }
 
