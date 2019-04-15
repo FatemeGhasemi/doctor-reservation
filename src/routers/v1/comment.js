@@ -124,7 +124,7 @@ const makeCommentShowAfterCheck = async (req, res) => {
 
 const likeComment = async (req, res) => {
     try {
-        const result = await commentRepository.likeComment(req.params.commentId)
+        const result = await commentRepository.likeComment(req.params.commentId,res.locals.user.id)
         res.json({message: "likeComment success operation", result: result})
     } catch (e) {
         console.log("likeComment error: ", e.message)
@@ -135,7 +135,7 @@ const likeComment = async (req, res) => {
 
 const dislikeComment = async (req, res) => {
     try {
-        const result = await commentRepository.dislikeComment(req.params.commentId)
+        const result = await commentRepository.dislikeComment(req.params.commentId,res.locals.user.id)
         res.json({message: "dislikeComment success operation", result: result})
     } catch (e) {
         console.log("dislikeComment error: ", e.message)

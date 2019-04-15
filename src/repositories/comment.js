@@ -17,10 +17,9 @@ const findCommentById = (commentId) => {
 };
 
 
-const likeComment = async (commentId) => {
+const likeComment = async (commentId,userId) => {
     const comment = await findCommentById(commentId)
     const likes = comment.likesCounter
-    const userId = comment.userId
     const user = await userRepository.findUserById(userId)
     let likesCommentIdList = user.likesCommentIdList
     if (!user.likesCommentIdList.includes(comment.id) && !user.dislikesCommentIdList.includes(comment.id)) {
@@ -37,10 +36,9 @@ const likeComment = async (commentId) => {
 };
 
 
-const dislikeComment = async (commentId) => {
+const dislikeComment = async (commentId,userId) => {
     const comment = await findCommentById(commentId)
     const dislikes = comment.dislikesCounter
-    const userId = comment.userId
     const user = await userRepository.findUserById(userId)
     let dislikesCommentIdList = user.dislikesCommentIdList
     if (!dislikesCommentIdList.includes(comment.id) && !user.likesCommentIdList.includes(comment.id) ) {
