@@ -1,9 +1,6 @@
 const commentSchema = require('../models/comment')();
 const doctorSchema = require('../models/doctor')();
-<<<<<<< HEAD
-=======
 const userSchema = require('../models/user')();
->>>>>>> 438d43c7ed8bc08f9d9b55e7640bee85445fe10b
 const userRepository = require('../repositories/user');
 const doctorRepository = require('../repositories/doctor');
 const officeRepository = require('../repositories/office')
@@ -94,9 +91,7 @@ const makeCommentShowAfterCheck = async (doctorId) => {
 
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
-<<<<<<< HEAD
         await doctorSchema.update({accessAbility: "showAfterCheck",status: "showAfterCheck"},{returning:true,where:{id:doctorId}})
-=======
         const data = commentSchema.update({status: "pendingToShow"},
             {returning: true, where: {id: commentId}})
         res.push(data)
@@ -117,7 +112,6 @@ const deactivateCommenting = async (doctorId) => {
         const data = commentSchema.update({status: "hideComments"},
             {returning: true, where: {id: commentId}})
         res.push(data)
->>>>>>> 438d43c7ed8bc08f9d9b55e7640bee85445fe10b
     }
     return res
 }
