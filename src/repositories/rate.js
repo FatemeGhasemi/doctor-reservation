@@ -6,7 +6,16 @@ const doctorRepository = require('../repositories/doctor');
 
 const userRateDoctor = async (data) =>{
     await rateSchema.create(item)
-    const doctor = await doctorSchema.update({rate:data.rate},{returning:true,where:{id:data.doctorId}})
+    const doctor = await doctorRepository.findDoctorById(data.doctorId)
+    const rate2 = doctor.rate
+    const ratSum = rate2 + data.rate
+    if(ratSum <= 5){
+        await doctorSchema.update({rate:data.rate},{returning:true,where:{id:data.doctorId}})
+    }
+    if(ratSum >5){
+        const rateMid = Math.floor( ratSum/2 );
+        await doctorSchema.update({rate:rateMid},{returning:true,where:{id:data.doctorId}})
+    }
     const info = {}
     info.doctorId = data.doctorId
     info.doctorName = doctor.phoneNumber

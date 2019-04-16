@@ -1,25 +1,70 @@
 const express = require('express');
 const doctorRepository = require("../../repositories/doctor");
-const commentRepository = require("../../repositories/comment");
+const rateRepository = require("../../repositories/rate");
 const userRepository = require("../../repositories/user");
 const checkAccess = require('../../middlewares/authentication');
 const jwtHelper = require('../../services/athorization/jwt');
 const router = express.Router();
 
 
-const showUsersListOfCommentsThatLike = async (req,res)=>{
+const userRateDoctor = async (req, res) => {
     try {
-        const result =  await commentRepository.showUserLikeList(res.locals.user.id)
-        res.json({message: "showUsersListOfCommentsThatLike success operation", result: result})
+        req.body.userId = res.locals.user.id
+        const result = await rateRepository.userRateDoctor(req.body)
+        res.json({message: "userRateDoctor success operation", result: result})
 
-    }catch (e) {
-        console.log("showUsersListOfCommentsThatLike error: ", e.message)
-        res.status(500).json({"showUsersListOfCommentsThatLike error": e.message})
+    } catch (e) {
+        console.log("userRateDoctor error: ", e.message)
+        res.status(500).json({"userRateDoctor error": e.message})
     }
 }
 
 
+const adminSeeListOfUsersRateDoctor = async (req, res) => {
+    try {
+        let result
+        if (res.locals.user.role === "admin") {
+            result = await rateRepository.listOfUsersRateDoctor(req.query.doctorId)
+        } else {
+            res.status(403).json({message: "just admin can see this list"})
+        }
+        res.json({message: "userRateDoctor success operation", result: result})
+    } catch (e) {
+        console.log("userRateDoctor error: ", e.message)
+        res.status(500).json({"userRateDoctor error": e.message})
+    }
+}
 
 
-router.post('/', checkAccess.validateJwt, sendComment);
+const userSeeListOfOwnRate = async (req, res) => {
+    try {
+        const result = await rateRepository.listOfDoctorsUserRate(res.locals.user.id)
+        res.json({message: "userSeeListOfOwnRate success operation", result: result})
+    } catch (e) {
+        console.log("userSeeListOfOwnRate error: ", e.message)
+        res.status(500).json({"userSeeListOfOwnRate error": e.message})
+    }
+}
+
+
+const adminSeeListOfOwnRate = async (req, res) => {
+    try {
+        let result
+        if (res.locals.user.role === "admin") {
+            result = await rateRepository.listOfDoctorsUserRate(req.userId)
+        } else {
+            res.status(403).json({message: "just admin can see this list"})
+        }
+        res.json({message: "adminSeeListOfOwnRate success operation", result: result})
+    } catch (e) {
+        console.log("adminSeeListOfOwnRate error: ", e.message)
+        res.status(500).json({"adminSeeListOfOwnRate error": e.message})
+    }
+}
+
+
+router.post('/', checkAccess.validateJwt, userRateDoctor);
+router.get('/', checkAccess.validateJwt, adminSeeListOfUsersRateDoctor);
+router.get('/', checkAccess.validateJwt, userSeeListOfOwnRate);
+router.get('/', checkAccess.validateJwt, adminSeeListOfOwnRate);
 module.exports = router;
