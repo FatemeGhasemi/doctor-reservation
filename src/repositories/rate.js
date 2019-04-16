@@ -5,24 +5,28 @@ const doctorRepository = require('../repositories/doctor');
 
 
 const userRateDoctor = async (data) =>{
-    await rateSchema.create(item)
-    const doctor = await doctorRepository.findDoctorById(data.doctorId)
-    const rate2 = doctor.rate
-    const ratSum = rate2 + data.rate
-    if(ratSum <= 5){
-        await doctorSchema.update({rate:data.rate},{returning:true,where:{id:data.doctorId}})
+    if(1<=data.rate<=5) {
+        await rateSchema.create(data)
+        const doctor = await doctorRepository.findDoctorById(data.doctorId)
+        const rate2 = doctor.rate
+        const ratSum = rate2 + data.rate
+        if (ratSum <= 5) {
+            await doctorSchema.update({rate: data.rate}, {returning: true, where: {id: data.doctorId}})
+        }
+        if (ratSum > 5) {
+            await doctorSchema.update({rate: ratSum/2}, {returning: true, where: {id: data.doctorId}})
+        }
+        const info = {}
+        info.doctorId = data.doctorId
+        info.doctorName = doctor.phoneNumber
+        info.doctorAvatarUrl = doctor.avatarUrl
+        info.doctorType = doctor.type
+        info.rate = data.rate
+        return data
     }
-    if(ratSum >5){
-        const rateMid = Math.floor( ratSum/2 );
-        await doctorSchema.update({rate:rateMid},{returning:true,where:{id:data.doctorId}})
+    else {
+        throw new Error("rate should be in range 1 to 5")
     }
-    const info = {}
-    info.doctorId = data.doctorId
-    info.doctorName = doctor.phoneNumber
-    info.doctorAvatarUrl = doctor.avatarUrl
-    info.doctorType = doctor.type
-    info.rate = data.rate
-    return data
 }
 
 
@@ -40,7 +44,7 @@ const listOfUsersRateDoctor = async (doctorId)=>{
         data.userFirstName = user.firstName
         data.userLastName = user.lastName
         data.userPhoneNumber = user.phoneNumber
-        data.rate = rateData
+        data.rate = rate
         data.doctorId = doctor.doctorId
         data.doctorName = doctor.phoneNumber
         data.doctorAvatarUrl = doctor.avatarUrl
