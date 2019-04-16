@@ -70,7 +70,34 @@ const listOfDoctorsUserRate = async (userId)=>{
         data.userFirstName = user.firstName
         data.userLastName = user.lastName
         data.userPhoneNumber = user.phoneNumber
-        data.rate = rateData
+        data.rate = rate
+        data.doctorId = doctor.doctorId
+        data.doctorName = doctor.phoneNumber
+        data.doctorAvatarUrl = doctor.avatarUrl
+        data.doctorType = doctor.type
+        data.doctorCategoryId = doctor.categoryId
+        res.push(data)
+    }
+    return res
+}
+
+
+const listOfAllDoctorsAndRate =async ()=>{
+    const res = []
+    const rateDatas = await rateSchema.findAll({})
+    for (let i=0;i<rateDatas.length;i++){
+        const rateData = rateDatas[i]
+        const doctorId = rateData.doctorId
+        const userId = rateData.userId
+        const rate = rateData.rate
+        const doctor = await doctorRepository.findDoctorById(doctorId)
+        const user = await userRepository.findUserById(userId)
+        const data = {}
+        data.userId = user.id
+        data.userFirstName = user.firstName
+        data.userLastName = user.lastName
+        data.userPhoneNumber = user.phoneNumber
+        data.rate = rate
         data.doctorId = doctor.doctorId
         data.doctorName = doctor.phoneNumber
         data.doctorAvatarUrl = doctor.avatarUrl
@@ -85,6 +112,7 @@ const listOfDoctorsUserRate = async (userId)=>{
 module.exports = {
     listOfDoctorsUserRate,
     listOfUsersRateDoctor,
-    userRateDoctor
+    userRateDoctor,
+    listOfAllDoctorsAndRate
 
 }
