@@ -22,6 +22,7 @@ const createTables = async (sequelize, dropTables = false) => {
     const favoriteSchema = require('./models/favorit')(sequelize);
     const billingSchema = require('./models/billing')(sequelize);
     const commentSchema = require('./models/comment')(sequelize);
+    const rateSchema = require('./models/rate')(sequelize);
 
 
     try {
@@ -38,6 +39,7 @@ const createTables = async (sequelize, dropTables = false) => {
         await favoriteSchema.initFavoriteSchema().sync({force: dropTables});
         await billingSchema.initBillingSchema().sync({force: dropTables});
         await commentSchema.initCommentSchema().sync({force: dropTables});
+        await rateSchema.initRateSchema().sync({force: dropTables});
 
     } catch (e) {
         console.log("createTables ERROR:", e)
