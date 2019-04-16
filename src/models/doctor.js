@@ -3,6 +3,7 @@ let sequelize;
 let Doctor;
 const initDoctorSchema = () => {
     Doctor = sequelize.define('doctor', {
+
         userId: {
             type: Sequelize.INTEGER,
             required: true,
@@ -110,6 +111,16 @@ const initDoctorSchema = () => {
         },
         storeName:{
             type:Sequelize.STRING
+        },
+        accessAbility:{
+        type:Sequelize.STRING,
+            defaultValue:"isShown"
+    },
+        doctorCode:{
+            type:Sequelize.STRING,
+            unique:true,
+            allowNull:false
+
         }
 
 

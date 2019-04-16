@@ -7,26 +7,28 @@ const initCommentSchema = () => {
             type: Sequelize.INTEGER,
             allowNull:false
         },
+        userId:{
+            type: Sequelize.INTEGER,
+            allowNull:false
+        },
         commentText: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        likes:{
+        likesCounter:{
             type:Sequelize.INTEGER,
             defaultValue: 0
-
         },
-        dislikes:{
+        dislikesCounter:{
             type:Sequelize.INTEGER,
             defaultValue: 0
         },
         status:{
             type:Sequelize.STRING,
-            defaultValue:"isShown"
         },
-        accessAbility:{
-            type:Sequelize.STRING,
-            allowNull:false
+        like:{
+            type:Sequelize.BOOLEAN,
+            defaultValue:false
         }
 
 

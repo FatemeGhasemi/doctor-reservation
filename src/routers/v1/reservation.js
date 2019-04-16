@@ -80,7 +80,7 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
 
         for (let i = 0; i < reservation.length; i++) {
             const time = reservation[i]
-            if (utils.ifTodayIsAtLeastOneDayBefore(time)) {
+            if (utils.ifTime2IsBetweenTowOtherTime(req.query.start,time,req.query.finish)) {
                 valid.push(reservation[i])
             }
         }
@@ -96,6 +96,14 @@ const getListOfFreeTimeToReserveForAnOffice = async (req, res) => {
         data.doctorPhoto = doctor.avatarUrl
         data.cityName = cityName
         data.freeTimeData = valid
+        data.doctorType = doctor.type
+        data.doctorId = doctor.id
+        if(doctor.proprietaryAppCode) {
+            data.proprietaryAppCode = doctor.proprietaryAppCode
+        }
+        data.medicalSystemNumber=doctor.medicalSystemNumber
+        data.doctorCode = doctor.doctorCode
+
         result.push(data)
 
         res.json({message: "success getListOfAvailableReserveList operation", result: result})

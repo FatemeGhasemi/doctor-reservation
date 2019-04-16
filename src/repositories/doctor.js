@@ -15,6 +15,7 @@ const sms = require('../services/sms')
  */
 const createDoctorUser = async (data) => {
     const user = await userRepository.findUserByPhoneNumber(data.phoneNumber)
+    const doctorCode = utils.generateRandomString(4)
     if (user) {
         const userId = user.id;
         await userRepository.updateUserRole(data.phoneNumber, "doctor")
@@ -40,7 +41,9 @@ const createDoctorUser = async (data) => {
             departmanName:data.departmanName,
             medicalCenterListOfDepartmanParts:data.medicalCenterListOfDepartmanParts,
             detectionCenterListOfDepartmanParts:data.detectionCenterListOfDepartmanParts,
-            storeName:data.storeName
+            storeName:data.storeName,
+            doctorCode: doctorCode
+
 
         })
     } else {

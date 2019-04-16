@@ -20,7 +20,8 @@
     "gender": "male",
     "proprietaryAppCode": "1947555",
     "creditExpiredTime":"2021-03-22 15:00:00",
-    "recommendedList": [2,3,4]
+    "recommendedList": [2,3,4],
+    "doctorCode": "1234"
 
   },
   {
@@ -42,7 +43,11 @@
     "rate": 3,
     "medicalSystemNumber": "83748379820840930929992",
     "gender": "male",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1235"
+
+
+
 
   },
   {
@@ -65,7 +70,9 @@
     "proprietary": false,
     "medicalSystemNumber": "83748379820840930927773",
     "gender": "male",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1236"
+
 
   },
   {
@@ -88,7 +95,9 @@
     "proprietary": false,
     "medicalSystemNumber": "83748379820840930926664",
     "gender": "male",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1237123"
+
 
   },
   {
@@ -110,7 +119,9 @@
     "rate": 2,
     "medicalSystemNumber": "83748379820840930927775",
     "gender": "female",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1238123"
+
 
   },
   {
@@ -132,7 +143,9 @@
     "rate": 2,
     "medicalSystemNumber": "837483798208409309277756666",
     "gender": "female",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1238124"
+
 
   },
   {
@@ -155,7 +168,9 @@
     "proprietary": true,
     "medicalSystemNumber": "8374837982084093092888189797",
     "gender": "female",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1239123"
+
 
   },
   {
@@ -177,6 +192,8 @@
     "proprietary": true,
     "medicalSystemNumber": "83748379820840930928881897979898",
     "gender": "female",
-    "creditExpiredTime":"2021-03-22 15:00:00"
+    "creditExpiredTime":"2021-03-22 15:00:00",
+    "doctorCode": "1244123"
+
   }
 ]
