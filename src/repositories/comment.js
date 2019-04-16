@@ -1,4 +1,5 @@
 const commentSchema = require('../models/comment')();
+const doctorSchema = require('../models/doctor')();
 const userRepository = require('../repositories/user');
 const doctorRepository = require('../repositories/doctor');
 const officeRepository = require('../repositories/office')
@@ -48,8 +49,7 @@ const makeCommentShowAfterCheck = async (doctorId)=>{
     const comments = await findCommentsByDoctorId(doctorId)
     for (let i=0;i<comments.length;i++){
         const commentId = comments[i].id
-        return commentSchema.update({accessAbility: "showAfterCheck",status: "showAfterCheck"},{returning:true,where:{id:doctorId}})
-
+        await doctorSchema.update({accessAbility: "showAfterCheck",status: "showAfterCheck"},{returning:true,where:{id:doctorId}})
     }
 
 
