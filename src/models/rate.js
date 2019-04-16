@@ -5,12 +5,17 @@ const initRateSchema = () => {
     Rate = sequelize.define('rate', {
         doctorId: {
             type: Sequelize.INTEGER,
+            allowNull:false
         },
         userId: {
             type: Sequelize.INTEGER,
+            allowNull:false
+
         },
         rate:{
             type:Sequelize.INTEGER,
+            allowNull:false
+
         }
 
 
