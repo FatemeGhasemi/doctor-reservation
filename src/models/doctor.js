@@ -61,7 +61,7 @@ const initDoctorSchema = () => {
             type: Sequelize.STRING
         },
         rate: {
-            type: Sequelize.INTEGER
+            type: Sequelize.NUMERIC
         },
         proprietary: {
             type: Sequelize.BOOLEAN
