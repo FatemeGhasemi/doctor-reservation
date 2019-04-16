@@ -66,6 +66,7 @@ function addRoutes() {
     app.use('/api/v1/send', require('./routers/v1/sms'));
     app.use('/api/v1/proprietary', require('./routers/v1/proprietary-app-managment'));
     app.use('/api/v1/comments', require('./routers/v1/comment'));
+    app.use('/api/v1/rates', require('./routers/v1/rate'));
 }
 
 
