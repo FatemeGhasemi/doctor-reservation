@@ -80,8 +80,8 @@ const adminSeeListOfDoctorsRateData = async (req, res) => {
 
 
 router.post('/', checkAccess.validateJwt, userRateDoctor);
-router.get('/doctorRateData', checkAccess.validateJwt, adminSeeListOfUsersRateDoctor);
+router.get('/showAdminDoctorRateData', checkAccess.validateJwt, adminSeeListOfUsersRateDoctor);
 router.get('/userRateData', checkAccess.validateJwt, userSeeListOfOwnRate);
-router.get('/', checkAccess.validateJwt, adminSeeListOfUserRate);
-router.get('/', checkAccess.validateJwt, adminSeeListOfDoctorsRateData);
+router.get('/showAdminUserRate', checkAccess.validateJwt, adminSeeListOfUserRate);
+router.get('/showAdminAllDoctorsRateData', checkAccess.validateJwt, adminSeeListOfDoctorsRateData);
 module.exports = router;
