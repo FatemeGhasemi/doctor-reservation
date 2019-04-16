@@ -84,7 +84,7 @@ const listOfDoctorsUserRate = async (userId)=>{
 
 const listOfAllDoctorsAndRate =async ()=>{
     const res = []
-    const rateDatas = await rateSchema.findAll({})
+    const rateDatas = await rateSchema.findAll()
     for (let i=0;i<rateDatas.length;i++){
         const rateData = rateDatas[i]
         const doctorId = rateData.doctorId
