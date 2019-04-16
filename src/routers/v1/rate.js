@@ -47,7 +47,7 @@ const userSeeListOfOwnRate = async (req, res) => {
 }
 
 
-const adminSeeListOfOwnRate = async (req, res) => {
+const adminSeeListOfUserRate = async (req, res) => {
     try {
         let result
         if (res.locals.user.role === "admin") {
@@ -80,8 +80,8 @@ const adminSeeListOfDoctorsRateData = async (req, res) => {
 
 
 router.post('/', checkAccess.validateJwt, userRateDoctor);
-router.get('/', checkAccess.validateJwt, adminSeeListOfUsersRateDoctor);
-router.get('/', checkAccess.validateJwt, userSeeListOfOwnRate);
-router.get('/', checkAccess.validateJwt, adminSeeListOfOwnRate);
+router.get('/doctorRateData', checkAccess.validateJwt, adminSeeListOfUsersRateDoctor);
+router.get('/userRateData', checkAccess.validateJwt, userSeeListOfOwnRate);
+router.get('/', checkAccess.validateJwt, adminSeeListOfUserRate);
 router.get('/', checkAccess.validateJwt, adminSeeListOfDoctorsRateData);
 module.exports = router;
