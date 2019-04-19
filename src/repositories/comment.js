@@ -127,8 +127,13 @@ const rejectCommentToShow = (commentId) => {
 }
 
 
+const findCommentListByDoctorId = (doctorId)=>{
+    return commentSchema.findAll({where: {doctorId: doctorId}})
+}
+
+
 const findAllShownCommentOfDoctor = async (doctorId) => {
-    const comments = commentSchema.findAll({where: {doctorId: doctorId}})
+    const comments = await findCommentListByDoctorId(doctorId)
     const doctor = await doctorRepository.findDoctorById(doctorId)
     let res = []
 
