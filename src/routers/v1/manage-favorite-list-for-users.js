@@ -11,7 +11,7 @@ const addToFavoriteList = async (req,res)=>{
         res.json({message: "addToFavoriteList operation succeed",result:result})
 
     }catch (e) {
-        console.log("addToFavoriteList ERROR: ", e.message);
+        console.log("addToFavoriteList ERROR: ", e);
         res.status(500).json({message: "addToFavoriteList operation failed",result:e.message})
     }
 }
@@ -19,11 +19,11 @@ const addToFavoriteList = async (req,res)=>{
 
 const removeFromFavoriteList = async (req,res)=>{
     try {
-        const result = await userRepository.removeFavorite(req.params.phoneNumber,req.body.doctorId)
+        const result = await userRepository.removeFavorite(res.locals.user.phoneNumber,req.body.doctorId)
         res.json({message: "removeFromFavoriteList operation succeed",result:result})
 
     }catch (e) {
-        console.log("removeFromFavoriteList ERROR: ", e.message);
+        console.log("removeFromFavoriteList ERROR: ", e);
         res.status(500).json({message: "removeFromFavoriteList operation failed",result:e.message})
     }
 }
@@ -45,8 +45,8 @@ const getListOfUserFavorite = async (req,res)=>{
 
 
 
-router.put('/',checkAccess.validateJwt,checkAccess.checkAccess ,addToFavoriteList);
-router.delete('/:phoneNumber',checkAccess.validateJwt,checkAccess.checkAccess ,removeFromFavoriteList);
+router.put('/',checkAccess.validateJwt ,addToFavoriteList);
+router.delete('/',checkAccess.validateJwt,removeFromFavoriteList);
 router.get('/',checkAccess.validateJwt,getListOfUserFavorite);
 
 module.exports = router;

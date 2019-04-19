@@ -123,23 +123,29 @@ const getUsersInCity = async (city) => {
 
 
 const addFavorite = async (phoneNumber, doctorId) => {
+    let valid = []
     const user = await findUserByPhoneNumber(phoneNumber)
-    const newFavorList = user.favoriteList.push(doctorId)
-    return userSchema.update({favoriteList: newFavorList}, {returning: true, where: {phoneNumber: phoneNumber}})
+    for (let i = 0; i < user.favoriteList.length; i++) {
+        const favorite = user.favoriteList[i]
+        if (favorite !== doctorId) {
+            valid.push(favorite)
+        }
+    }
+    valid.push(doctorId)
+
+    return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
 };
 
 
 const removeFavorite = async (phoneNumber, doctorId) => {
     let valid = []
     const user = await findUserByPhoneNumber(phoneNumber)
-    if (user.role === "user") {
         for (let i = 0; i < user.favoriteList.length; i++) {
             const favorite = user.favoriteList[i]
             if (favorite !== doctorId) {
                 valid.push(favorite)
             }
         }
-    }
     return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
 };
 
