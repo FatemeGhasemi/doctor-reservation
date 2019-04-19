@@ -89,36 +89,22 @@ const cancelReserveByReserveId = async (req, res) => {
 
 const cancelReserveByUserIdAndDate = async (req, res) => {
     try {
-        // const user = await userRepository.findUserByPhoneNumber(res.locals.user.phoneNumber)
-        // console.log("user: ", user)
-
-        const reserves = await reserveRepository.getListOfUserReserves(res.locals.user);
-        console.log("reserves: ", reserves)
-        let result = []
-        for (let i = 0; i < reserves.length; i++) {
-            const reserve = reserves[i]
-            console.log("reserve: ", reserve)
-
-
-            if (reserve.reserveTime === req.body.date) {
-                const ifTodayIsAtLeastOneDayBefore = utils.ifTodayIsAtLeastOneDayBefore(reserve.reserveTime)
-                if (ifTodayIsAtLeastOneDayBefore) {
-                    await reserveRepository.cancelReserve(reserve.reserveId)
-                    result.push(reserve)
-                    if (reserve.smsPackCounter >= 1) {
-                        const message = "کاربر گرامی اپ سفید نوبت شما با اطلاعات زیر لغو شد"
-                        let data = {}
-                        data.reservaTime = reserve.reserveTime
-                        data.reserveId = req.params.id
-                        data.doctorName = reserve.doctorName
-                        await sms.send(user.phoneNumber, {message: message, data: data})
-                    }
-                } else if (!ifTodayIsAtLeastOneDayBefore) {
-                    res.json({message: "too late to cancel yor reserve"})
-                }
+        const reserve = await reserveRepository.findReserveById(req.params.reserveId)
+        const ifTodayIsAtLeastOneDayBefore = utils.ifTodayIsAtLeastOneDayBefore(reserve.reserveTime)
+        if (ifTodayIsAtLeastOneDayBefore) {
+            const result = await reserveRepository.cancelReserve(req.params.reserveId)
+            if (reserve.smsPackCounter >= 1) {
+                const message = "کاربر گرامی اپ سفید نوبت شما با اطلاعات زیر لغو شد"
+                let data = {}
+                data.reservaTime = reserve.reserveTime
+                data.reserveId =req.params.reserveId
+                data.doctorName = reserve.doctorName
+                await sms.send(user.phoneNumber, {message: message, data: data})
             }
+            res.json({message: "success cancelReserve operation", result: result[1]})
+        } else if (!ifTodayIsAtLeastOneDayBefore) {
+            res.json({message: "too late to cancel yor reserve"})
         }
-        res.json({message: "success cancelReserve operation", result: result})
 
 
     } catch (e) {
@@ -214,7 +200,7 @@ const reportForReserves = async (req, res) => {
 router.post('/', checkAccess.validateJwt, createNewReserve);
 // router.put('/:id', checkAccess.validateJwt, checkAccess.checkAccessWihPhoneNumberReserveRouter, cancelReserve);
 // router.put('/:reserveId',checkAccess.validateJwt, cancelReserveByReserveId);
-router.put('/date', checkAccess.validateJwt, cancelReserveByUserIdAndDate);
+router.put('/:reserveId', checkAccess.validateJwt, cancelReserveByUserIdAndDate);
 // router.put('/:reserveId',checkAccess.validateJwt, cancelReserveByReserveId);
 router.get('/', searchByReserveDateAndCategory);
 router.get('/userReserveList', checkAccess.validateJwt, findUserReserveList);
