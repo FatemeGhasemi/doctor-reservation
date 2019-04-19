@@ -124,10 +124,8 @@ const getUsersInCity = async (city) => {
 
 const addFavorite = async (phoneNumber, doctorId) => {
     const user = await findUserByPhoneNumber(phoneNumber)
-    if (user.role === "user") {
-        user.favoriteList.push(doctorId)
-    }
-    return userSchema.update({favoriteList: user.favoriteList}, {returning: true, where: {phoneNumber: phoneNumber}})
+    const newFavorList = user.favoriteList.push(doctorId)
+    return userSchema.update({favoriteList: newFavorList}, {returning: true, where: {phoneNumber: phoneNumber}})
 };
 
 
@@ -188,7 +186,7 @@ const findDoctorById = (id) => {
 }
 
 
-const findDoctorByUserId = (userId)=>{
+const findDoctorByUserId = (userId) => {
     return doctorSchema.findOne({where: {userId: userId}})
 }
 
@@ -198,7 +196,7 @@ const addDoctorToProprietaryAppList = async (proprietaryCode, ownPhoneNumber) =>
     const user = await findUserByPhoneNumber(ownPhoneNumber)
     let userProprietaryAppList = user.proprietaryAppList
     if (doctor.proprietary === true) {
-        if(!user.proprietaryAppList.includes(doctor.id)) {
+        if (!user.proprietaryAppList.includes(doctor.id)) {
             if (doctor.status === "approved") {
                 userProprietaryAppList.push(doctor.id)
             }
@@ -216,8 +214,8 @@ const removeDoctorFromProprietaryAppList = async (proprietaryCode, ownPhoneNumbe
     const doctor = await findDoctorByProprietaryCode(proprietaryCode)
     const user = await findUserByPhoneNumber(ownPhoneNumber)
     let userProprietaryAppList = user.proprietaryAppList
-    userProprietaryAppList.forEach(item=>{
-        if(item !== doctor.id){
+    userProprietaryAppList.forEach(item => {
+        if (item !== doctor.id) {
             res.push(item)
         }
     })
@@ -263,12 +261,11 @@ const getDoctorRecommandList = async (phoneNumber) => {
 };
 
 
-
 const getListOfUserProprietaryAppList = async (phoneNumber) => {
     const user = await findUserByPhoneNumber(phoneNumber)
     let result = []
     let userProprietaryAppList = user.proprietaryAppList
-    if(user.role === "doctor"){
+    if (user.role === "doctor") {
         const self = await findDoctorByUserId(user.id)
         userProprietaryAppList.push(self.id)
     }
@@ -276,10 +273,10 @@ const getListOfUserProprietaryAppList = async (phoneNumber) => {
         let data = {}
         const doctorId = userProprietaryAppList[i]
         const doctor = await findDoctorById(doctorId)
-        const  recommendList = await getDoctorRecommandList(doctor.phoneNumber)
+        const recommendList = await getDoctorRecommandList(doctor.phoneNumber)
         data.doctorId = doctorId
         data.doctorName = doctor.name
-        data.doctorType=doctor.type
+        data.doctorType = doctor.type
         data.doctorCategoryId = doctor.categoryId
         data.getDoctorRecommandList = recommendList
         data.doctorAvatarUrl = doctor.avatarUrl

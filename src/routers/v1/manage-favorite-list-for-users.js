@@ -7,7 +7,7 @@ const router = express.Router();
 
 const addToFavoriteList = async (req,res)=>{
     try {
-       const result = await userRepository.addFavorite(req.params.phoneNumber,req.body.doctorId)
+       const result = await userRepository.addFavorite(res.locals.user.phoneNumber,req.body.doctorId)
         res.json({message: "addToFavoriteList operation succeed",result:result})
 
     }catch (e) {
@@ -45,7 +45,7 @@ const getListOfUserFavorite = async (req,res)=>{
 
 
 
-router.put('/:phoneNumber',checkAccess.validateJwt,checkAccess.checkAccess ,addToFavoriteList);
+router.put('/',checkAccess.validateJwt,checkAccess.checkAccess ,addToFavoriteList);
 router.delete('/:phoneNumber',checkAccess.validateJwt,checkAccess.checkAccess ,removeFromFavoriteList);
 router.get('/',checkAccess.validateJwt,getListOfUserFavorite);
 
