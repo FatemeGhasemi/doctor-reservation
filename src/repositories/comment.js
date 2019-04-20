@@ -10,7 +10,7 @@ const utils = require('../utils/utils')
 const createComment = (data) => {
     return commentSchema.create({
         commentText: data.commentText,
-        doctorId: data.doctorId,
+        officeId: data.officeId,
         userId: data.userId,
         status: data.status
     })

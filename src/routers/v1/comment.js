@@ -10,7 +10,7 @@ const router = express.Router();
 const sendComment = async (req, res) => {
     try {
         req.body.userId = res.locals.user.id
-        const doctor = await doctorRepository.findDoctorById(req.body.doctorId)
+        const doctor = await doctorRepository.findDoctorByOfficeId(req.body.officeId)
         if (doctor.accessAbility === "showAfterCheck") {
             req.body.status ="pendingToShow"
             const result = await commentRepository.createComment(req.body)
