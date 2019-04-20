@@ -1,28 +1,28 @@
 [
 
   {
-    "doctorId": 1,
+    "officeId": 1,
     "userId": 3,
     "commentText": "خیلی راضی ام",
     "likesCounter": 2  ,
     "dislikesCounter": 1
   },
   {
-    "doctorId": 2,
+    "officeId": 2,
     "userId": 1,
     "commentText": "خیلی بد بود",
     "likesCounter": 4  ,
     "dislikesCounter": 1
   },
   {
-    "doctorId": 2,
+    "officeId": 2,
     "userId": 1,
     "commentText": "بد اخلاق بودند",
     "likesCounter": 4  ,
     "dislikesCounter": 1
   },
   {
-    "doctorId": 2,
+    "officeId": 2,
     "userId": 1,
     "commentText": "کارتخوان نداشت",
     "likesCounter": 4  ,

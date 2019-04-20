@@ -3,7 +3,7 @@ let sequelize;
 let Comment;
 const initCommentSchema = () => {
     Comment = sequelize.define('comment', {
-        doctorId: {
+        officeId: {
             type: Sequelize.INTEGER,
             allowNull:false
         },
