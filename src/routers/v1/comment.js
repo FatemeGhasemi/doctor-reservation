@@ -67,6 +67,40 @@ const deleteComment = async (req, res) => {
 }
 
 
+const acceptCommentToShow = async (req, res) => {
+    try {
+        let result
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        const user = await userRepository.findUserById(res.locals.user.id)
+        const office = await officeRepository.findOfficeById(comment.officeId)
+        if (user.role === "secretary") {
+            const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+            if (office.secretaryId === secretary.id&& doctor.accessAbility === "showAfterCheck"
+                && comment.status === "pendingToShow") {
+                 result = await commentRepository.allowCommentToShow(req.params.commentId)
+            }
+        }
+        if (user.role === "doctor") {
+            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+            if (doctor.id === office.doctorId && doctor.accessAbility === "showAfterCheck"
+                && comment.status === "pendingToShow") {
+                result = await commentRepository.allowCommentToShow(req.params.commentId)
+            }
+        }
+        else {
+            res.json({message: "just doctor or his/her secretary can accept comments"})
+        }
+        res.json({message: "acceptCommentToShow success operation", result: result})
+
+    } catch (e) {
+        console.log("acceptCommentToShow error: ", e.message)
+        res.status(500).json({"acceptCommentToShow error": e.message})
+    }
+}
+
+
+
+
 const editComment = async (req, res) => {
     try {
         const comment = await commentRepository.findCommentById(req.params.commentId)
@@ -83,22 +117,6 @@ const editComment = async (req, res) => {
 }
 
 
-const acceptCommentToShow = async (req, res) => {
-    try {
-        const comment = await commentRepository.findCommentById(req.params.commentId)
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        if (res.locals.user.id === comment.doctorId && doctor.accessAbility === "showAfterCheck"
-            && comment.status === "pendingToShow") {
-            const result = await commentRepository.allowCommentToShow(req.params.commentId)
-            res.json({message: "acceptCommentToShow success operation", result: result})
-        } else {
-            res.json({message: "just doctor can accept comments"})
-        }
-    } catch (e) {
-        console.log("acceptCommentToShow error: ", e.message)
-        res.status(500).json({"acceptCommentToShow error": e.message})
-    }
-}
 
 
 const rejectCommentToShow = async (req, res) => {
