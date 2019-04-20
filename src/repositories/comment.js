@@ -1,5 +1,6 @@
 const commentSchema = require('../models/comment')();
 const doctorSchema = require('../models/doctor')();
+const officeSchema = require('../models/office')();
 const userSchema = require('../models/user')();
 const userRepository = require('../repositories/user');
 const doctorRepository = require('../repositories/doctor');
@@ -76,7 +77,7 @@ const deleteComment = (commentId) => {
 };
 
 
-const findCommentsByOfficeId = (doctorId) => {
+const findCommentsByOfficeId = (officeId) => {
     return commentSchema.findAll({where: {officeId: officeId}})
 }
 
@@ -84,14 +85,13 @@ const findCommentsByOfficeId = (doctorId) => {
 const makeCommentShowAfterCheck = async (officeId) => {
     let res = []
     const comments = await findCommentsByOfficeId(officeId)
-    await doctorSchema.update({accessAbility: "showAfterCheck"}, {
+    await officeSchema.update({accessAbility: "showAfterCheck"}, {
         returning: true,
-        where: {id: doctorId}
+        where: {id: officeId}
     })
 
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
-        await doctorSchema.update({accessAbility: "showAfterCheck",status: "showAfterCheck"},{returning:true,where:{id:doctorId}})
         const data = commentSchema.update({status: "pendingToShow"},
             {returning: true, where: {id: commentId}})
         res.push(data)
@@ -100,12 +100,12 @@ const makeCommentShowAfterCheck = async (officeId) => {
 }
 
 
-const deactivateCommenting = async (doctorId) => {
+const deactivateCommenting = async (officeId) => {
     let res = []
-    const comments = await findCommentsByDoctorId(doctorId)
-    await doctorSchema.update({accessAbility: "deActiveComments"}, {
+    const comments = await findCommentsByOfficeId(officeId)
+    await officeSchema.update({accessAbility: "deActiveComments"}, {
         returning: true,
-        where: {id: doctorId}
+        where: {id: officeId}
     })
     for (let i = 0; i < comments.length; i++) {
         const commentId = comments[i].id
@@ -127,16 +127,16 @@ const rejectCommentToShow = (commentId) => {
 }
 
 
-const findCommentListByDoctorId = (doctorId)=>{
-    return commentSchema.findAll({where: {doctorId: doctorId}})
+const findCommentListByOfficeId = (officeId)=>{
+    return commentSchema.findAll({where: {officeId: officeId}})
 }
 
 
-const findAllShownCommentOfDoctor = async (doctorId) => {
-    const comments = await findCommentListByDoctorId(doctorId)
-    const doctor = await doctorRepository.findDoctorById(doctorId)
+const findAllShownCommentOfDoctor = async (officeId) => {
+    const comments = await findCommentListByOfficeId(officeId)
+    const office = await officeRepository.findOfficeById(officeId
+    const doctor = doctorRepository.findDoctorByOfficeId(officeId)
     let res = []
-
     for (let i = 0; i < comments.length; i++) {
         let data = {}
         const comment = comments[i]
@@ -152,6 +152,10 @@ const findAllShownCommentOfDoctor = async (doctorId) => {
             data.doctorType = doctor.type
             data.doctorRate = doctor.rate
             data.doctorId = doctor.id
+            data.officeId = officeId
+            data.officeAddress = office.address
+            data.officeLat = office.lat
+            data.officeLong = office.long
             res.push(data)
         }
     }

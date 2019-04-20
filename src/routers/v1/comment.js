@@ -12,16 +12,17 @@ const router = express.Router();
 const sendComment = async (req, res) => {
     try {
         req.body.userId = res.locals.user.id
-        const doctor = await doctorRepository.findDoctorByOfficeId(req.body.officeId)
-        if (doctor.accessAbility === "showAfterCheck") {
+        // const doctor = await doctorRepository.findDoctorByOfficeId(req.body.officeId)
+        const office = officeRepository.findOfficeById(req.body.officeId)
+        if (office.accessAbility === "showAfterCheck") {
             req.body.status = "pendingToShow"
             const result = await commentRepository.createComment(req.body)
             res.json({message: "sendComment success operation", result: result})
-        } else if (doctor.accessAbility === "isShown") {
+        } else if (office.accessAbility === "isShown") {
             req.body.status = "isShown"
             const result = await commentRepository.createComment(req.body)
             res.json({message: "sendComment success operation", result: result})
-        } else if (doctor.accessAbility === "deActiveComments") {
+        } else if (office.accessAbility === "deActiveComments") {
             res.json({message: "cant comment on this doctor"})
         }
 
@@ -49,11 +50,11 @@ const deleteComment = async (req, res) => {
             if (doctor.id === office.doctorId) {
                 result = await commentRepository.deleteComment(req.params.commentId)
             }
-        if(user.role === "user"){
-            if(res.locals.user.id === comment.userId){
-                result = await commentRepository.deleteComment(req.params.commentId)
+            if (user.role === "user") {
+                if (res.locals.user.id === comment.userId) {
+                    result = await commentRepository.deleteComment(req.params.commentId)
+                }
             }
-        }
         } else {
             res.json({message: "user cant remove the other ones comments"})
         }
@@ -75,19 +76,18 @@ const acceptCommentToShow = async (req, res) => {
         const office = await officeRepository.findOfficeById(comment.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
-            if (office.secretaryId === secretary.id&& doctor.accessAbility === "showAfterCheck"
-                && comment.status === "pendingToShow") {
-                 result = await commentRepository.allowCommentToShow(req.params.commentId)
-            }
-        }
-        if (user.role === "doctor") {
-            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-            if (doctor.id === office.doctorId && doctor.accessAbility === "showAfterCheck"
+            if (office.secretaryId === secretary.id && office.accessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.allowCommentToShow(req.params.commentId)
             }
         }
-        else {
+        if (user.role === "doctor") {
+            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+            if (doctor.id === office.doctorId && office.accessAbility === "showAfterCheck"
+                && comment.status === "pendingToShow") {
+                result = await commentRepository.allowCommentToShow(req.params.commentId)
+            }
+        } else {
             res.json({message: "just doctor or his/her secretary can accept comments"})
         }
         res.json({message: "acceptCommentToShow success operation", result: result})
@@ -107,20 +107,19 @@ const rejectCommentToShow = async (req, res) => {
         const office = await officeRepository.findOfficeById(comment.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
-            if (office.secretaryId === secretary.id&& doctor.accessAbility === "showAfterCheck"
+            if (office.secretaryId === secretary.id && office.accessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.rejectCommentToShow(req.params.commentId)
             }
         }
         if (user.role === "doctor") {
             const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-            if (doctor.id === office.doctorId && doctor.accessAbility === "showAfterCheck"
+            if (doctor.id === office.doctorId && office.accessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.rejectCommentToShow(req.params.commentId)
             }
-        }
-        else {
-            res.json({message: "just doctor can reject comments"})
+        } else {
+            res.json({message: "just doctor and his/her secretary can reject comments"})
         }
         res.json({message: "rejectCommentToShow success operation", result: result})
     } catch (e) {
@@ -132,18 +131,25 @@ const rejectCommentToShow = async (req, res) => {
 
 const makeCommentShowAfterCheck = async (req, res) => {
     try {
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        const secretary = await secretaryRepository.findSecretaryByUserId(res.locals.user.id)
-
-        if(doctor){
-            await commentRepository.makeCommentShowAfterCheck(doctor.id)
-
+        let result
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        const user = await userRepository.findUserById(res.locals.user.id)
+        const office = await officeRepository.findOfficeById(comment.officeId)
+        if (user.role === "secretary") {
+            const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+            if (office.secretaryId === secretary.id) {
+                result = await commentRepository.makeCommentShowAfterCheck(office.id)
+            }
         }
-        if(secretary){
-            await commentRepository.makeCommentShowAfterCheck(secretary.id)
-
+        if (user.role === "doctor") {
+            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+            if (doctor.id === office.doctorId) {
+                result = await commentRepository.makeCommentShowAfterCheck(office.id)
+            }
+        } else {
+            res.json({message: "user cant have access"})
         }
-        res.json({message: "makeCommentShowAfterCheck success operation", result: doctor})
+        res.json({message: "makeCommentShowAfterCheck success operation", result: result})
     } catch (e) {
         console.log("makeCommentShowAfterCheck error: ", e.message)
         res.status(500).json({"makeCommentShowAfterCheck error": e.message})
@@ -151,6 +157,32 @@ const makeCommentShowAfterCheck = async (req, res) => {
 }
 
 
+const deactivateCommenting = async (req, res) => {
+    try {
+        let result
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        const user = await userRepository.findUserById(res.locals.user.id)
+        const office = await officeRepository.findOfficeById(comment.officeId)
+        if (user.role === "secretary") {
+            const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+            if (office.secretaryId === secretary.id) {
+                result = await commentRepository.deactivateCommenting(office.id)
+            }
+        }
+        if (user.role === "doctor") {
+            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+            if (doctor.id === office.doctorId) {
+                result = await commentRepository.deactivateCommenting(office.id)
+            }
+        } else {
+            res.json({message: "user cant have access"})
+        }
+        res.json({message: "deactivateCommenting success operation", result: result})
+    } catch (e) {
+        console.log("deactivateCommenting error: ", e.message)
+        res.status(500).json({"deactivateCommenting error": e.message})
+    }
+}
 
 
 const editComment = async (req, res) => {
@@ -167,30 +199,6 @@ const editComment = async (req, res) => {
         res.status(500).json({"editComment error": e.message})
     }
 }
-
-
-
-
-
-
-
-const deactivateCommenting = async (req, res) => {
-    try {
-        let data = {}
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        await commentRepository.deactivateCommenting(doctor.id)
-        data.doctorName = doctor.name
-        data.doctorType = doctor.type
-        data.doctorId = doctor.id
-        res.json({message: "deactivateCommenting success operation", result: data})
-    } catch (e) {
-        console.log("deactivateCommenting error: ", e.message)
-        res.status(500).json({"deactivateCommenting error": e.message})
-    }
-}
-
-
-
 
 
 const likeComment = async (req, res) => {
@@ -217,7 +225,7 @@ const dislikeComment = async (req, res) => {
 
 const findAllShownCommentOfDoctor = async (req, res) => {
     try {
-        const result = await commentRepository.findAllShownCommentOfDoctor(req.query.doctorId)
+        const result = await commentRepository.findAllShownCommentOfDoctor(req.query.officeId)
         res.json({message: "findAllShownCommentOfDoctor success operation", result: result})
 
     } catch (e) {
