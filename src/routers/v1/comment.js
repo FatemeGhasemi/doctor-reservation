@@ -130,6 +130,27 @@ const rejectCommentToShow = async (req, res) => {
 }
 
 
+const makeCommentShowAfterCheck = async (req, res) => {
+    try {
+        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        const secretary = await secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+
+        if(doctor){
+            await commentRepository.makeCommentShowAfterCheck(doctor.id)
+
+        }
+        if(secretary){
+            await commentRepository.makeCommentShowAfterCheck(secretary.id)
+
+        }
+        res.json({message: "makeCommentShowAfterCheck success operation", result: doctor})
+    } catch (e) {
+        console.log("makeCommentShowAfterCheck error: ", e.message)
+        res.status(500).json({"makeCommentShowAfterCheck error": e.message})
+    }
+}
+
+
 
 
 const editComment = async (req, res) => {
@@ -169,16 +190,7 @@ const deactivateCommenting = async (req, res) => {
 }
 
 
-const makeCommentShowAfterCheck = async (req, res) => {
-    try {
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        await commentRepository.makeCommentShowAfterCheck(doctor.id)
-        res.json({message: "makeCommentShowAfterCheck success operation", result: doctor})
-    } catch (e) {
-        console.log("makeCommentShowAfterCheck error: ", e.message)
-        res.status(500).json({"makeCommentShowAfterCheck error": e.message})
-    }
-}
+
 
 
 const likeComment = async (req, res) => {

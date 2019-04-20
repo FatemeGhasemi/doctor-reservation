@@ -41,12 +41,16 @@ const initOfficeSchema = () => {
         },
         insuranceId: {
             type: Sequelize.ARRAY(Sequelize.INTEGER),
-            defaultValue:[]
+            defaultValue: []
         },
 
         photoUrl: {
             type: Sequelize.ARRAY(Sequelize.STRING),
             defaultValue: []
+        },
+        commentAccessAbility: {
+            type:Sequelize.STRING,
+            defaultValue:"isShown"
         }
 
     });

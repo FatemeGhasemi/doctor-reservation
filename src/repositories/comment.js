@@ -76,14 +76,14 @@ const deleteComment = (commentId) => {
 };
 
 
-const findCommentsByDoctorId = (doctorId) => {
-    return commentSchema.findAll({where: {doctorId: doctorId}})
+const findCommentsByOfficeId = (doctorId) => {
+    return commentSchema.findAll({where: {officeId: officeId}})
 }
 
 
-const makeCommentShowAfterCheck = async (doctorId) => {
+const makeCommentShowAfterCheck = async (officeId) => {
     let res = []
-    const comments = await findCommentsByDoctorId(doctorId)
+    const comments = await findCommentsByOfficeId(officeId)
     await doctorSchema.update({accessAbility: "showAfterCheck"}, {
         returning: true,
         where: {id: doctorId}

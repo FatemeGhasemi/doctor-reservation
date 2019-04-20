@@ -50,7 +50,6 @@ async function insertDoctors() {
             detectionCenterListOfDepartmanParts:item.detectionCenterListOfDepartmanParts,
             storeName:item.storeName,
             recommendedList:item.recommendedList,
-            accessAbility:item.accessAbility,
             doctorCode:item.doctorCode
 
         })
