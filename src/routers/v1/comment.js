@@ -99,6 +99,37 @@ const acceptCommentToShow = async (req, res) => {
 }
 
 
+const rejectCommentToShow = async (req, res) => {
+    try {
+        let result
+        const comment = await commentRepository.findCommentById(req.params.commentId)
+        const user = await userRepository.findUserById(res.locals.user.id)
+        const office = await officeRepository.findOfficeById(comment.officeId)
+        if (user.role === "secretary") {
+            const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+            if (office.secretaryId === secretary.id&& doctor.accessAbility === "showAfterCheck"
+                && comment.status === "pendingToShow") {
+                result = await commentRepository.rejectCommentToShow(req.params.commentId)
+            }
+        }
+        if (user.role === "doctor") {
+            const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+            if (doctor.id === office.doctorId && doctor.accessAbility === "showAfterCheck"
+                && comment.status === "pendingToShow") {
+                result = await commentRepository.rejectCommentToShow(req.params.commentId)
+            }
+        }
+        else {
+            res.json({message: "just doctor can reject comments"})
+        }
+        res.json({message: "rejectCommentToShow success operation", result: result})
+    } catch (e) {
+        console.log("rejectCommentToShow error: ", e.message)
+        res.status(500).json({"rejectCommentToShow error": e.message})
+    }
+}
+
+
 
 
 const editComment = async (req, res) => {
@@ -119,21 +150,7 @@ const editComment = async (req, res) => {
 
 
 
-const rejectCommentToShow = async (req, res) => {
-    try {
-        const comment = await commentRepository.findCommentById(req.params.commentId)
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        if (doctor.id === comment.doctorId) {
-            const result = await commentRepository.rejectCommentToShow(req.params.commentId)
-            res.json({message: "rejectCommentToShow success operation", result: result})
-        } else {
-            res.json({message: "just doctor can reject comments"})
-        }
-    } catch (e) {
-        console.log("rejectCommentToShow error: ", e.message)
-        res.status(500).json({"rejectCommentToShow error": e.message})
-    }
-}
+
 
 
 const deactivateCommenting = async (req, res) => {
