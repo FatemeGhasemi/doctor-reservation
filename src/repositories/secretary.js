@@ -47,6 +47,11 @@ const createSecretaryForSeeder = async (data) => {
 }
 
 
+const findSecretaryByUserId = async (userId)=>{
+    return secretarySchema.findOne({where:{userId:userId}})
+}
+
+
 /**
  *
  * @param phoneNumber
@@ -152,5 +157,6 @@ module.exports = {
     approveAsSecretary,
     findSecretaryId,
     activateSecretary,
-    createSecretaryForSeeder
+    createSecretaryForSeeder,
+    findSecretaryByUserId
 }
