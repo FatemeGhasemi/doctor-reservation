@@ -134,7 +134,7 @@ const findCommentListByOfficeId = (officeId)=>{
 
 const findAllShownCommentOfDoctor = async (officeId) => {
     const comments = await findCommentListByOfficeId(officeId)
-    const office = await officeRepository.findOfficeById(officeId
+    const office = await officeRepository.findOfficeById(officeId)
     const doctor = doctorRepository.findDoctorByOfficeId(officeId)
     let res = []
     for (let i = 0; i < comments.length; i++) {
