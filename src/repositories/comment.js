@@ -163,9 +163,9 @@ const findAllShownCommentOfDoctor = async (officeId) => {
 }
 
 
-const findAllPendingCommentOfDoctor = async (doctorId) => {
-    const comments = commentSchema.findAll({where: {doctorId: doctorId}})
-    const doctor = await doctorRepository.findDoctorById(doctorId)
+const findAllPendingCommentOfDoctor = async (officeId) => {
+    const comments = commentSchema.findAll({where: {officeId: officeId}})
+    const doctor = await doctorRepository.findDoctorByOfficeId(officeId)
     let res = []
 
     for (let i = 0; i < comments.length; i++) {

@@ -237,11 +237,15 @@ const findAllShownCommentOfDoctor = async (req, res) => {
 
 const findAllPendingCommentOfDoctor = async (req, res) => {
     try {
-        const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-        if (doctor.id === req.query.doctorId) {
-            const result = await commentRepository.findAllPendingCommentOfDoctor(req.query.doctorId)
-            res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
-        } else {
+        const doctor1 = await doctorRepository.findDoctorByUserId(res.locals.user.id)
+        const doctor2 = await officeRepository.findDoctorByOfficeId(req.query.officeId)
+        if(doctor1){
+            if (doctor2.id === doctor1.id) {
+                const result = await commentRepository.findAllPendingCommentOfDoctor(req.query.officeId)
+                res.json({message: "findAllPendingCommentOfDoctor success operation", result: result})
+            }
+        }
+        else {
             res.status(403).json({message: "doctor can see list of his/her own pending comments"})
 
         }
