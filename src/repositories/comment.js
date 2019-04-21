@@ -85,7 +85,7 @@ const findCommentsByOfficeId = (officeId) => {
 const makeCommentShowAfterCheck = async (officeId) => {
     let res = []
     const comments = await findCommentsByOfficeId(officeId)
-    await officeSchema.update({accessAbility: "showAfterCheck"}, {
+    await officeSchema.update({commentAccessAbility: "showAfterCheck"}, {
         returning: true,
         where: {id: officeId}
     })
@@ -103,7 +103,7 @@ const makeCommentShowAfterCheck = async (officeId) => {
 const deactivateCommenting = async (officeId) => {
     let res = []
     const comments = await findCommentsByOfficeId(officeId)
-    await officeSchema.update({accessAbility: "deActiveComments"}, {
+    await officeSchema.update({commentAccessAbility: "deActiveComments"}, {
         returning: true,
         where: {id: officeId}
     })

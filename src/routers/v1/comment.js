@@ -13,16 +13,16 @@ const sendComment = async (req, res) => {
     try {
         req.body.userId = res.locals.user.id
         // const doctor = await doctorRepository.findDoctorByOfficeId(req.body.officeId)
-        const office = officeRepository.findOfficeById(req.body.officeId)
-        if (office.accessAbility === "showAfterCheck") {
+        const office = await officeRepository.findOfficeById(req.body.officeId)
+        if (office.commentAccessAbility === "showAfterCheck") {
             req.body.status = "pendingToShow"
             const result = await commentRepository.createComment(req.body)
             res.json({message: "sendComment success operation", result: result})
-        } else if (office.accessAbility === "isShown") {
+        } else if (office.commentAccessAbility === "isShown") {
             req.body.status = "isShown"
             const result = await commentRepository.createComment(req.body)
             res.json({message: "sendComment success operation", result: result})
-        } else if (office.accessAbility === "deActiveComments") {
+        } else if (office.commentAccessAbility === "deActiveComments") {
             res.json({message: "cant comment on this doctor"})
         }
 
@@ -76,14 +76,14 @@ const acceptCommentToShow = async (req, res) => {
         const office = await officeRepository.findOfficeById(comment.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
-            if (office.secretaryId === secretary.id && office.accessAbility === "showAfterCheck"
+            if (office.secretaryId === secretary.id && office.commentAccessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.allowCommentToShow(req.params.commentId)
             }
         }
         if (user.role === "doctor") {
             const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-            if (doctor.id === office.doctorId && office.accessAbility === "showAfterCheck"
+            if (doctor.id === office.doctorId && office.commentAccessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.allowCommentToShow(req.params.commentId)
             }
@@ -107,14 +107,14 @@ const rejectCommentToShow = async (req, res) => {
         const office = await officeRepository.findOfficeById(comment.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
-            if (office.secretaryId === secretary.id && office.accessAbility === "showAfterCheck"
+            if (office.secretaryId === secretary.id && office.commentAccessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.rejectCommentToShow(req.params.commentId)
             }
         }
         if (user.role === "doctor") {
             const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
-            if (doctor.id === office.doctorId && office.accessAbility === "showAfterCheck"
+            if (doctor.id === office.doctorId && office.commentAccessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 result = await commentRepository.rejectCommentToShow(req.params.commentId)
             }
