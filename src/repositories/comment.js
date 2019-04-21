@@ -83,20 +83,20 @@ const findCommentsByOfficeId = (officeId) => {
 
 
 const makeCommentShowAfterCheck = async (officeId) => {
-    let res = []
+    // let res = []
     const comments = await findCommentsByOfficeId(officeId)
-    await officeSchema.update({commentAccessAbility: "showAfterCheck"}, {
+    return await officeSchema.update({commentAccessAbility: "showAfterCheck"}, {
         returning: true,
         where: {id: officeId}
     })
 
-    for (let i = 0; i < comments.length; i++) {
-        const commentId = comments[i].id
-        const data = commentSchema.update({status: "pendingToShow"},
-            {returning: true, where: {id: commentId}})
-        res.push(data)
-    }
-    return res
+    // for (let i = 0; i < comments.length; i++) {
+    //     const commentId = comments[i].id
+    //     const data = commentSchema.update({status: "pendingToShow"},
+    //         {returning: true, where: {id: commentId}})
+    //     res.push(data)
+    // }
+    // return res
 }
 
 

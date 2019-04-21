@@ -131,24 +131,25 @@ const rejectCommentToShow = async (req, res) => {
 
 const makeCommentShowAfterCheck = async (req, res) => {
     try {
-        let result
         const user = await userRepository.findUserById(res.locals.user.id)
         const office = await officeRepository.findOfficeById(req.params.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
             if (office.secretaryId === secretary.id) {
-                result = await commentRepository.makeCommentShowAfterCheck(office.id)
+                const result = await commentRepository.makeCommentShowAfterCheck(office.id)
+                res.json({message: "makeCommentShowAfterCheck success operation", result: result[1]})
             }
         }
         if (user.role === "doctor") {
             const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
             if (doctor.id === office.doctorId) {
-                result = await commentRepository.makeCommentShowAfterCheck(office.id)
+                const result = await commentRepository.makeCommentShowAfterCheck(office.id)
+                res.json({message: "makeCommentShowAfterCheck success operation", result: result[1]})
+
             }
         } else {
             res.json({message: "user cant have access"})
         }
-        res.json({message: "makeCommentShowAfterCheck success operation", result: result})
     } catch (e) {
         console.log("makeCommentShowAfterCheck error: ", e.message)
         res.status(500).json({"makeCommentShowAfterCheck error": e.message})
