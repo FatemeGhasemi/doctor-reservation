@@ -132,9 +132,8 @@ const rejectCommentToShow = async (req, res) => {
 const makeCommentShowAfterCheck = async (req, res) => {
     try {
         let result
-        const comment = await commentRepository.findCommentById(req.params.commentId)
         const user = await userRepository.findUserById(res.locals.user.id)
-        const office = await officeRepository.findOfficeById(comment.officeId)
+        const office = await officeRepository.findOfficeById(req.params.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
             if (office.secretaryId === secretary.id) {
@@ -160,9 +159,8 @@ const makeCommentShowAfterCheck = async (req, res) => {
 const deactivateCommenting = async (req, res) => {
     try {
         let result
-        const comment = await commentRepository.findCommentById(req.params.commentId)
         const user = await userRepository.findUserById(res.locals.user.id)
-        const office = await officeRepository.findOfficeById(comment.officeId)
+        const office = await officeRepository.findOfficeById(req.params.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
             if (office.secretaryId === secretary.id) {
@@ -297,8 +295,8 @@ router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
 router.put('/reject/:commentId', checkAccess.validateJwt, rejectCommentToShow);
-router.put('/deactivateComment', checkAccess.validateJwt, deactivateCommenting);
-router.put('/makeCommentShowAfterCheck', checkAccess.validateJwt, makeCommentShowAfterCheck);
+router.put('/deactivateComment/:officeId', checkAccess.validateJwt, deactivateCommenting);
+router.put('/makeCommentShowAfterCheck/:officeId', checkAccess.validateJwt, makeCommentShowAfterCheck);
 router.put('/likeComment/:commentId', checkAccess.validateJwt, likeComment);
 router.put('/dislikeComment/:commentId', checkAccess.validateJwt, dislikeComment);
 module.exports = router;
