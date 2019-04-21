@@ -103,17 +103,17 @@ const makeCommentShowAfterCheck = async (officeId) => {
 const deactivateCommenting = async (officeId) => {
     let res = []
     const comments = await findCommentsByOfficeId(officeId)
-    await officeSchema.update({commentAccessAbility: "deActiveComments"}, {
+    return await officeSchema.update({commentAccessAbility: "deActiveComments"}, {
         returning: true,
         where: {id: officeId}
     })
-    for (let i = 0; i < comments.length; i++) {
-        const commentId = comments[i].id
-        const data = commentSchema.update({status: "hideComments"},
-            {returning: true, where: {id: commentId}})
-        res.push(data)
-    }
-    return res
+    // for (let i = 0; i < comments.length; i++) {
+    //     const commentId = comments[i].id
+    //     const data = commentSchema.update({status: "hideComments"},
+    //         {returning: true, where: {id: commentId}})
+    //     res.push(data)
+    // }
+    // return res
 }
 
 

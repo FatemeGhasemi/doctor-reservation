@@ -159,24 +159,26 @@ const makeCommentShowAfterCheck = async (req, res) => {
 
 const deactivateCommenting = async (req, res) => {
     try {
-        let result
         const user = await userRepository.findUserById(res.locals.user.id)
         const office = await officeRepository.findOfficeById(req.params.officeId)
         if (user.role === "secretary") {
             const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
             if (office.secretaryId === secretary.id) {
-                result = await commentRepository.deactivateCommenting(office.id)
+                const result = await commentRepository.deactivateCommenting(office.id)
+                res.json({message: "deactivateCommenting success operation", result: result[1]})
+
             }
         }
         if (user.role === "doctor") {
             const doctor = await doctorRepository.findDoctorByUserId(res.locals.user.id)
             if (doctor.id === office.doctorId) {
-                result = await commentRepository.deactivateCommenting(office.id)
+                const result = await commentRepository.deactivateCommenting(office.id)
+                res.json({message: "deactivateCommenting success operation", result: result[1]})
+
             }
         } else {
             res.json({message: "user cant have access"})
         }
-        res.json({message: "deactivateCommenting success operation", result: result})
     } catch (e) {
         console.log("deactivateCommenting error: ", e.message)
         res.status(500).json({"deactivateCommenting error": e.message})
