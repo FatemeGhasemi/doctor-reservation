@@ -74,12 +74,15 @@ const acceptCommentToShow = async (req, res) => {
         const user = await userRepository.findUserById(res.locals.user.id)
         const office = await officeRepository.findOfficeById(comment.officeId)
         if (user.role === "secretary") {
-            const secretary = secretaryRepository.findSecretaryByUserId(res.locals.user.id)
+            const secretary = await secretaryRepository.findSecretaryByUserId(res.locals.user.id)
             if (office.secretaryId === secretary.id && office.commentAccessAbility === "showAfterCheck"
                 && comment.status === "pendingToShow") {
                 const result = await commentRepository.allowCommentToShow(req.params.commentId)
                 res.json({message: "acceptCommentToShow success operation", result: result[1]})
 
+            }
+            else {
+                res.json({message: "just doctor or his/her secretary can accept comments"})
             }
         }
         if (user.role === "doctor") {
@@ -88,7 +91,9 @@ const acceptCommentToShow = async (req, res) => {
                 && comment.status === "pendingToShow") {
                 const result = await commentRepository.allowCommentToShow(req.params.commentId)
                 res.json({message: "acceptCommentToShow success operation", result: result[1]})
-
+            }
+            else {
+                res.json({message: "just doctor or his/her secretary can accept comments"})
             }
         } else {
             res.json({message: "just doctor or his/her secretary can accept comments"})
