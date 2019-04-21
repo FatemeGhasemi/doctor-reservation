@@ -292,6 +292,7 @@ router.get('/shown', findAllShownCommentOfDoctor);
 router.get('/pending', checkAccess.validateJwt, findAllPendingCommentOfDoctor);
 router.get('/likeList', checkAccess.validateJwt, showUsersListOfCommentsThatLike);
 router.get('/disLikeList', checkAccess.validateJwt, showUsersListOfCommentsThatDisLike);
+
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);
 router.put('/accept/:commentId', checkAccess.validateJwt, acceptCommentToShow);
