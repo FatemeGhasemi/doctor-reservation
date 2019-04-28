@@ -140,12 +140,12 @@ const addFavorite = async (phoneNumber, doctorId) => {
 const removeFavorite = async (phoneNumber, doctorId) => {
     let valid = []
     const user = await findUserByPhoneNumber(phoneNumber)
-        for (let i = 0; i < user.favoriteList.length; i++) {
-            const favorite = user.favoriteList[i]
-            if (favorite !== doctorId) {
-                valid.push(favorite)
-            }
+    for (let i = 0; i < user.favoriteList.length; i++) {
+        const favorite = user.favoriteList[i]
+        if (favorite !== doctorId) {
+            valid.push(favorite)
         }
+    }
     return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
 };
 
@@ -158,20 +158,22 @@ const getListOfFavorite = async (phoneNumber) => {
         let data = {}
         const doctorId = favoriteList[i]
         const doctor = await doctorSchema.findOne({where: {id: doctorId}})
-        const officeIds = doctor.officeId
-        for (let j = 0; j < officeIds.length; j++) {
-            const officId = officeIds[j]
-            const office = await officeRepository.findOfficeById(officId)
-            data.doctorName = doctor.name
-            data.doctorPhoneNumber = doctor.phoneNumber
-            data.doctorPhoto = doctor.photoUrl
-            data.officeAddress = office.address
-            data.officeLat = office.lat
-            data.officeLong = office.long
-            data.officePhone = office.phoneNumber
-            data.officePhotoes = office.photoUrl
-            result.push(data)
-        }
+        // const officeIds = doctor.officeId
+        // for (let j = 0; j < officeIds.length; j++) {
+        //     const officId = officeIds[j]
+        // const office = await officeRepository.findOfficeById(officId)
+        data.doctorName = doctor.name
+        data.doctorPhoneNumber = doctor.phoneNumber
+        data.doctorPhoto = doctor.photoUrl
+        data.doctorId = doctor.id
+        data.doctorType = doctor.type
+        // data.officeAddress = office.address
+        // data.officeLat = office.lat
+        // data.officeLong = office.long
+        // data.officePhone = office.phoneNumber
+        // data.officePhotoes = office.photoUrl
+        result.push(data)
+        // }
     }
     return result
 };
