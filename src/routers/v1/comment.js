@@ -295,6 +295,18 @@ const showUsersListOfCommentsThatLike = async (req, res) => {
 }
 
 
+const showCommentsInPage = async (req,res)=>{
+    try {
+        const result = await commentRepository.showCommentsInPage(res.locals.user.id)
+        res.json({message: "showCommentsInPage success operation", result: result})
+
+    } catch (e) {
+        console.log("showCommentsInPage error: ", e.message)
+        res.status(500).json({"showCommentsInPage error": e.message})
+    }
+}
+
+
 router.post('/', checkAccess.validateJwt, sendComment);
 router.get('/shown', findAllShownCommentOfDoctor);
 router.get('/pending', checkAccess.validateJwt, findAllPendingCommentOfDoctor);
