@@ -297,7 +297,7 @@ const showUsersListOfCommentsThatLike = async (req, res) => {
 
 const showCommentsInPage = async (req,res)=>{
     try {
-        const result = await commentRepository.showCommentsInPage(res.locals.user.id)
+        const result = await commentRepository.showCommentsInPage(res.locals.user.id,req.query.officeId)
         res.json({message: "showCommentsInPage success operation", result: result})
 
     } catch (e) {
@@ -308,10 +308,12 @@ const showCommentsInPage = async (req,res)=>{
 
 
 router.post('/', checkAccess.validateJwt, sendComment);
-router.get('/shown', findAllShownCommentOfDoctor);
+router.get('/shownCommentForEveryOne', findAllShownCommentOfDoctor);
+router.get('/shownCommentForUsers',checkAccess.validateJwt, showCommentsInPage);
 router.get('/pending', checkAccess.validateJwt, findAllPendingCommentOfDoctor);
-router.get('/likeList', checkAccess.validateJwt, showUsersListOfCommentsThatLike);
-router.get('/disLikeList', checkAccess.validateJwt, showUsersListOfCommentsThatDisLike);
+
+// router.get('/likeList', checkAccess.validateJwt, showUsersListOfCommentsThatLike);
+// router.get('/disLikeList', checkAccess.validateJwt, showUsersListOfCommentsThatDisLike);
 
 router.put('/delete/:commentId', checkAccess.validateJwt, deleteComment);
 router.put('/edit/:commentId', checkAccess.validateJwt, editComment);

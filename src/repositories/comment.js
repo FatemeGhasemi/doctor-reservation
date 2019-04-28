@@ -210,48 +210,19 @@ const findAllPendingCommentOfDoctor = async (officeId) => {
 }
 
 
-const showUserLikeList = async (userId) => {
+const showUserLikeList = async (userId, officeId) => {
     let res = []
     const user = await userRepository.findUserById(userId)
     const userLikeList = user.likesCommentIdList
     for (let i = 0; i < userLikeList.length; i++) {
-        let data = {}
         const commentId = userLikeList[i]
         const comment = await findCommentById(commentId)
-        const office = await officeRepository.findOfficeById(comment.officeId)
+        // const office = await officeRepository.findOfficeById(comment.officeId)
         // data.commentText = comment.commentText
-        data.commentId = comment.id
-        // data.userFirstName = user.firstName
-        // data.userLastName = user.lastName
-        // data.userId = user.id
-        // data.doctorId = doctor.id
-        // data.doctorName = doctor.name
-        // data.doctorType = doctor.type
-        // data.doctorRate = doctor.rate
-        // data.doctorCode = doctor.doctorCode
-        // data.doctorPhoto = doctor.avatarUrl
-        // if (doctor.doctorProprietaryAppCode) {
-        //     data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
-        // }
-        // data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
-        res.push(data)
-    }
-    return res
-}
-
-
-const showUserDisLikeList = async (userId,officeId) => {
-    let res = []
-    const user = await userRepository.findUserById(userId)
-    const userDisLikeList = user.dislikesCommentIdList
-    for (let i = 0; i < userDisLikeList.length; i++) {
-        let data = {}
-        const commentId = userDisLikeList[i]
-        const comment = await findCommentById(commentId)
-        const office = await officeRepository.findOfficeById(comment.officeId)
-        // data.commentText = comment.commentText
-        if(office.id == officeId){
+        if (comment.officeId == officeId) {
+            let data = {}
             data.commentId = comment.id
+            res.push(data)
         }
         // data.userFirstName = user.firstName
         // data.userLastName = user.lastName
@@ -266,17 +237,48 @@ const showUserDisLikeList = async (userId,officeId) => {
         //     data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
         // }
         // data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
-        res.push(data)
     }
     return res
 }
 
 
-const showCommentsInPage = async (userId,officeId) => {
+const showUserDisLikeList = async (userId, officeId) => {
+    let res = []
+    const user = await userRepository.findUserById(userId)
+    const userDisLikeList = user.dislikesCommentIdList
+    for (let i = 0; i < userDisLikeList.length; i++) {
+        const commentId = userDisLikeList[i]
+        const comment = await findCommentById(commentId)
+        // const office = await officeRepository.findOfficeById(comment.officeId)
+        // data.commentText = comment.commentText
+        if (comment.officeId == officeId) {
+            let data = {}
+            data.commentId = comment.id
+            res.push(data)
+        }
+        // data.userFirstName = user.firstName
+        // data.userLastName = user.lastName
+        // data.userId = user.id
+        // data.doctorId = doctor.id
+        // data.doctorName = doctor.name
+        // data.doctorType = doctor.type
+        // data.doctorRate = doctor.rate
+        // data.doctorCode = doctor.doctorCode
+        // data.doctorPhoto = doctor.avatarUrl
+        // if (doctor.doctorProprietaryAppCode) {
+        //     data.doctorProprietaryAppCode = doctor.doctorProprietaryAppCode
+        // }
+        // data.doctorMedicalSystemNumber = doctor.medicalSystemNumber
+    }
+    return res
+}
+
+
+const showCommentsInPage = async (userId, officeId) => {
     const allOfficeComment = await findAllShownCommentOfDoctor(officeId)
-    const listOfLike = await showUserLikeList(userId)
-    const listOfDisLike = await showUserDisLikeList(userId)
-    return {"listOfLike":listOfLike,"listOfDisLike":listOfDisLike}
+    const listOfLike = await showUserLikeList(userId, officeId)
+    const listOfDisLike = await showUserDisLikeList(userId, officeId)
+    return {"listOfLike": listOfLike, "listOfDisLike": listOfDisLike, "allOfOfficeCommentsData": allOfficeComment}
 }
 
 
@@ -294,5 +296,6 @@ module.exports = {
     findCommentById,
     findAllPendingCommentOfDoctor,
     showUserDisLikeList,
-    showUserLikeList
+    showUserLikeList,
+    showCommentsInPage
 }
