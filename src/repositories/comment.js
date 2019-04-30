@@ -162,6 +162,7 @@ const findAllShownCommentOfDoctor = async (officeId) => {
         const comment = comments[i]
         const user = userRepository.findUserById(comment.userId)
         if (comment.status === "isShown") {
+            data.commentId = comment.id
             data.commentText = comment.commentText
             data.commentLikes = comment.likesCounter
             data.commentDisLikes = comment.dislikesCounter
@@ -193,6 +194,7 @@ const findAllPendingCommentOfDoctor = async (officeId) => {
         const comment = comments[i]
         const user = userRepository.findUserById(comment.userId)
         if (comment.status === "pendingToShow") {
+            data.commentId = comment.id
             data.commentText = comment.commentText
             data.commentLikes = comment.likesCounter
             data.commentDisLikes = comment.dislikesCounter
