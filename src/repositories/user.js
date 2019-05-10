@@ -167,6 +167,7 @@ const getListOfFavorite = async (phoneNumber) => {
         data.doctorPhoto = doctor.photoUrl
         data.doctorId = doctor.id
         data.doctorType = doctor.type
+        data.doctorAvatarUrl = doctor.avatarUrl
         // data.officeAddress = office.address
         // data.officeLat = office.lat
         // data.officeLong = office.long
