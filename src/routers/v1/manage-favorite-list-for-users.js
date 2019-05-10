@@ -20,7 +20,7 @@ const addToFavoriteList = async (req,res)=>{
 const removeFromFavoriteList = async (req,res)=>{
     try {
         const result = await userRepository.removeFavorite(res.locals.user.phoneNumber,req.body.doctorId)
-        res.json({message: "removeFromFavoriteList operation succeed",result:result})
+        res.json({message: "removeFromFavoriteList operation succeed",result:result[1]})
 
     }catch (e) {
         console.log("removeFromFavoriteList ERROR: ", e);
