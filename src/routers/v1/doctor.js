@@ -159,6 +159,43 @@ const getDoctorDataById = async (req, res) => {
     }
 }
 
+const getDoctorDataIfUserWant = async (req,res)=>{
+    try {
+        let result = []
+        const doctor = await doctorRepository.findDoctorById(req.query.id)
+        let isFav = false;
+        const user = await userRepository.findUserById(res.locals.user.id)
+        const favList = user.favoriteList
+        favList.forEach(item=>{
+            if(item == doctor.id){
+                isFav = true
+            }
+        })
+        const officeIds = doctor.officeId
+        for (let i = 0; i < officeIds.length; i++) {
+            let doctorData = {officeData:{}};
+            doctorData.name = doctor.name
+            doctorData.phoneNumber = doctor.phoneNumber
+            doctorData.type = doctor.type
+            doctorData.doctorAvatarUrl = doctor.avatarUrl
+            const item = officeIds[i]
+            const office = await officeRepository.findOfficeById(item);
+            doctorData.officeData.officeAddress = office.address
+            doctorData.officeData.officelat = office.lat
+            doctorData.officeData.officeLong = office.long
+            doctorData.officeData.officePhone = office.phoneNumber
+            doctorData.officeData.officePictures = office.photoUrl
+            doctorData.isDoctorInUserFavList = isFav
+            result.push(doctorData);
+        }
+        res.json({message: "success operation getDoctorDataIfUserWant", result: result})
+    } catch (e) {
+        console.log("getDoctorDataIfUserWant ERROR: ", e.message)
+        res.status(500).json({message: e.message})
+    }
+}
+
+
 
 const userGiveRateToDoctor = async (req, res) => {
     try {
@@ -212,6 +249,7 @@ const rejectDoctor = async (req, res) => {
 
 router.get('/', getDoctorListController);
 router.get('/id', getDoctorDataById);
+router.get('/id/getDoctorDataIfUserWant',checkAccess.validateJwt, getDoctorDataIfUserWant);
 router.get('/pending', checkAccess.validateJwt, showListOfDoctorsNotApproved);
 router.get('/cities/offices', getOfficesInOrderOfCategoryAndCity);
 router.post('/', checkAccess.validateJwt, checkAccess.checkRolesAccess, createUserAsDoctor);

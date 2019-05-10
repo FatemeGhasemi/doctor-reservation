@@ -18,16 +18,7 @@ const router = express.Router();
 const getOwnProfile = async (req, res) => {
     try {
         let result = [];
-        let isFav = false;
         const doctor = await doctorRepository.findDoctorById(req.query.id)
-        const user = await userRepository.findUserById(res.locals.user.id)
-        const favList = user.favoriteList
-        favList.forEach(item=>{
-            if(item == doctor.id){
-                isFav = true
-            }
-        })
-
         const officeIds = doctor.officeId
         for (let i = 0; i < officeIds.length; i++) {
             let doctorData = {officeData:{}};
@@ -42,7 +33,6 @@ const getOwnProfile = async (req, res) => {
              doctorData.officeData.officeLong = office.long
             doctorData.officeData.officePhone = office.phoneNumber
             doctorData.officeData.officePictures = office.photoUrl
-            doctorData.isDoctorInUserFavList = isFav
             result.push(doctorData);
         }
         res.json({message: "success operation", result: result})
@@ -55,7 +45,9 @@ const getOwnProfile = async (req, res) => {
 
 
 
+
+
 // router.get('/', checkAccess.validateJwt, checkAccess.checkAccess,getOwnProfile);
-router.get('/',checkAccess.validateJwt,getOwnProfile);
+router.get('/',getOwnProfile);
 
 module.exports = router;
