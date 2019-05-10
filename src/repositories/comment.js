@@ -154,7 +154,7 @@ const findCommentListByOfficeId = (officeId) => {
 
 const findAllShownCommentOfDoctor = async (officeId) => {
     const comments = await findCommentListByOfficeId(officeId)
-    const office = await officeRepository.findOfficeById(officeId)
+    // const office = await officeRepository.findOfficeById(officeId)
     const doctor = doctorRepository.findDoctorByOfficeId(officeId)
     let res = []
     for (let i = 0; i < comments.length; i++) {
@@ -169,14 +169,15 @@ const findAllShownCommentOfDoctor = async (officeId) => {
             data.userFirstName = user.firstName
             data.userLastName = user.lastName
             data.userId = user.id
-            data.doctorName = doctor.name
-            data.doctorType = doctor.type
-            data.doctorRate = doctor.rate
+            data.userProfileUrl = user.avatarUrl
+            // data.doctorName = doctor.name
+            // data.doctorType = doctor.type
+            // data.doctorRate = doctor.rate
             data.doctorId = doctor.id
-            data.officeId = officeId
-            data.officeAddress = office.address
-            data.officeLat = office.lat
-            data.officeLong = office.long
+            // data.officeId = officeId
+            // data.officeAddress = office.address
+            // data.officeLat = office.lat
+            // data.officeLong = office.long
             res.push(data)
         }
     }
@@ -201,9 +202,9 @@ const findAllPendingCommentOfDoctor = async (officeId) => {
             data.userFirstName = user.firstName
             data.userLastName = user.lastName
             data.userId = user.id
-            data.doctorName = doctor.name
-            data.doctorType = doctor.type
-            data.doctorRate = doctor.rate
+            // data.doctorName = doctor.name
+            // data.doctorType = doctor.type
+            // data.doctorRate = doctor.rate
             data.doctorId = doctor.id
             res.push(data)
         }
