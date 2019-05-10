@@ -41,12 +41,20 @@ const likeComment = async (commentId, userId) => {
         return c[1]
     }
     if (user.likesCommentIdList.includes(comment.id)) {
-        const c = await commentSchema.update({likesCounter: likes - 1, like: true}, {
+        let dislike = []
+        const c = await commentSchema.update({likesCounter: likes - 1, like: false}, {
             returning: true,
             where: {id: comment.id}
         })
-        likesCommentIdList.push(comment.id)
-        const u = await userSchema.update({likesCommentIdList: likesCommentIdList}, {
+
+        likesCommentIdList.forEach(like=>{
+            if(like !== comment.id){
+                dislike.push(comment.id)
+            }
+        })
+
+
+        const u = await userSchema.update({likesCommentIdList: dislike}, {
             returning: true,
             where: {id: userId}
         })
