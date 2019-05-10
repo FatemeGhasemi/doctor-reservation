@@ -85,8 +85,13 @@ const dislikeComment = async (commentId, userId) => {
             returning: true,
             where: {id: comment.id}
         })
-        dislikesCommentIdList.push(comment.id)
-        const u = await userSchema.update({dislikesCommentIdList: dislikesCommentIdList}, {
+        let dislike = []
+        dislikesCommentIdList.forEach(dislik=>{
+            if(dislik !== comment.id ){
+                dislike.push(dislik)
+            }
+        })
+        const u = await userSchema.update({dislikesCommentIdList: dislike}, {
             returning: true,
             where: {id: userId}
         })
