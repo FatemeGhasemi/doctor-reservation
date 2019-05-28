@@ -135,8 +135,6 @@ const addFavorite = async (phoneNumber, doctorId) => {
 
     return userSchema.update({favoriteList: valid}, {returning: true, where: {phoneNumber: phoneNumber}})
 };
-
-
 const removeFavorite = async (phoneNumber, doctorId) => {
     let valid = []
     const user = await findUserByPhoneNumber(phoneNumber)
